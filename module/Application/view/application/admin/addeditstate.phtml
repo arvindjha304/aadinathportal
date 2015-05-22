@@ -1,0 +1,40 @@
+<?php $baseUrl = $this->basePath(); ?>
+<div class="contant">
+<div class="heading"><?php echo $this->heading?></div>
+<div class="contant1">
+	<form method="post" action="" name="">
+		
+    <?php if($this->msg!=''){?>
+	<div ><?php echo $this->msg?></div>
+	<?php }?>
+	<div class="content2">
+		<div class="content3">State:</div>
+        <div class="content4"><input name="state" type="text" style="width:200px"; id="stateName"/></div>
+    </div>
+	<div class="content5">
+	
+	<input type="submit" value="Submit" style="width:100px; height:30px; background-color:#CC0000; color:#FFFFFF; border:none;" />
+	<input type="button" value="Cancel" style="width:100px; height:30px; background-color:#CC0000; color:#FFFFFF; border:none;" />
+	
+	</div>
+	
+	</form>
+    
+</div>
+</div>
+
+<script>
+
+$("#stateName").blur(function(){
+	var name = $(this).val();
+	SITEROOT = '<?php echo $baseUrl?>';
+	
+	$.post(SITEROOT+'/admin/checkname', {name:name,field:'state'},function(response){
+// 		if(response == '1')
+			mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/statelistdata',callBack,"json");
+	
+	});
+});
+
+
+</script>
