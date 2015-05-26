@@ -22,6 +22,9 @@ use Zend\Db\Sql\Sql;
      }
 	 
 	 public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {
+		 
+		 
+		 
 		$this->serviceLocator = $serviceLocator;
 	 }
 
