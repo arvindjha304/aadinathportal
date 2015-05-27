@@ -71,6 +71,44 @@ use Zend\Db\Sql\Expression;
 	
 	}
 	
+	public function getAllLocation(){
+		/* $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$sql = new Sql($db);
+		$select = $sql->select()
+		->from(array('lc'=>'locations'))
+		->columns(array('lc.location_name','ct.city_name','st.state_name'))
+		->join(array('ct'=>'cities'),'ct.id=lc.city_id')
+		->join(array('st'=>'states'),'st.id=ct.state_id');
+		$result = $sql->prepareStatementForSqlObject($select)->execute();
+		foreach ($result as $res){
+			
+			echo '<pre>';print_r($res);
+			
+		}
+		
+		exit; */
+		
+		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$sql="select lc.id,lc.location_name,lc.is_active,ct.city_name,st.state_name 
+		from locations lc
+		join cities ct on ct.id=lc.city_id 
+		join states st on st.id=lc.state_id ";
+		$result =$db->query($sql)->execute();
+		return $result;
+	
+	}
+
+	public function getPropertyTypes(){
+	
+		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$sql="select pt.id,pt.property_type,pt.is_active,pc.category_name 
+		from property_type pt
+		join property_category pc on pc.id=pt.property_category_id";
+		$result =$db->query($sql)->execute();
+		return $result;
+	
+	}
+	
 	public function checkName($name,$field){
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		if($field == 'states'){

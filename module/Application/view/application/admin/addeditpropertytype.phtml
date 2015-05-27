@@ -1,0 +1,57 @@
+<?php $baseUrl = $this->basePath(); 
+
+// 	echo '<pre>';print_r($this->cityDetail);exit; 
+
+?>
+<div class="contant">
+<div class="heading"><?php echo $this->heading?></div>
+<div class="contant1">
+	<form method="post" action="" name="">
+		
+    <?php if($this->msg!=''){?>
+	<div ><?php echo $this->msg?></div>
+	<?php }?>
+	<div class="content2">
+		<div class="content3">Property Category:</div>
+        <div class="content4">
+        
+        <select id="propertyCategory" name="propertyCategory" style="width:200px"; >
+        	<?php foreach ($this->propertyCategoryList as $property){?>
+        		<option <?php if($this->propertyTypeDetail[0]['property_category_id']== $property['id']) echo "selected"?> value=<?php echo $property['id']?>><?php echo $property['category_name']?></option>
+        	
+        	<?php }?>
+        </select>
+        
+        </div>
+    </div>
+    <div class="content2">
+		<div class="content3">Title:</div>
+        <div class="content4"><input name="propertyType" type="text" style="width:200px"; id="propertyType" value="<?php echo $this->propertyTypeDetail[0]['property_type']?>"/></div>
+    </div>
+	<div class="content5">
+	
+	<input type="submit" value="Submit" style="width:100px; height:30px; background-color:#CC0000; color:#FFFFFF; border:none;" />
+	<input type="button" value="Cancel" style="width:100px; height:30px; background-color:#CC0000; color:#FFFFFF; border:none;" />
+	
+	</div>
+	
+	</form>
+    
+</div>
+</div>
+
+<script>
+
+$("#cityName").blur(function(){
+	var name = $(this).val();
+	SITEROOT = '<?php echo $baseUrl?>';
+	if(name!=''){
+		$.post(SITEROOT+'/admin/checkname', {name:name,field:'cities'},function(response){
+			if(response == '1'){
+				alert('Name entered already exists');
+				return false;
+			}
+		});
+	}
+});
+</script>

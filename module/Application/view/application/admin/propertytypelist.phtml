@@ -11,8 +11,8 @@
 <script type="text/javascript"  src="<?php echo $baseUrl;?>/dhtmlxgrid/codebase/ext/dhtmlxgrid_filter.js" ></script>
 <script type="text/javascript"  src="<?php echo $baseUrl;?>/dhtmlxgrid/codebase/ext/dhtmlxgrid_pgn.js"></script>
 <div class="contant">
-<div class="heading">Manage Location
-<a href="" style="text-align:center; font-size:24px; color:#333333; margin-left:600px;">Add location</a></div>
+<div class="heading">Manage Property Type
+<a href="" style="text-align:center; font-size:24px; color:#333333; margin-left:600px;">Add Property Type</a></div>
 <!----img area----->
 <div class="contant1">
 	
@@ -23,11 +23,17 @@
 			
 		<div id='preloader' style="display:none;" >
 		<img class=""src='images/animatedEllipse2.gif' border='0' style="width:50px;  left: 560px;position: absolute; top: 450px;z-index:2000"  ></div>	
+		
+		
 		<div id="manageuser" class="gridbox" style="width:90% !important; background-color:white; margin-left: 0px;"></div>
+		
+		
 		<div class="pagingWrap">
 			<div style="width:100%;float:left;" id="recinfoArea"></div>
 			<div id="pagingArea"></div>
 		</div>
+
+
 </div>
 
 	<div class="bulk-action1 wp60 fl">
@@ -48,18 +54,18 @@
 </div>
 <script>
 
-	var strgridURL='<?php echo $baseUrl;?>/admin/locationlistdata';
+	var strgridURL='<?php echo $baseUrl;?>/admin/propertytypelistdata';
 	var mygrid = new dhtmlXGridObject('manageuser');
 	mygrid.setSkin("dhx_skyblue");
 	mygrid.setImagePath("<?php echo $baseUrl;?>/dhtmlxgrid/codebase/imgs/");
-	mygrid.setHeader(",<b>Location</b>,<b>City</b>,<b>State</b>,<b>Status</b>,<b>Action</b>");							
-	mygrid.attachHeader("#master_checkbox,#text_filter,#text_filter,#select_filter,,");	
-	mygrid.setInitWidths(" 30, 200, 200, 140, 80, 200");
-	mygrid.enableTooltips("false,false,false,false,false,false");
+	mygrid.setHeader(",<b>Property Type</b>,<b>Property Category</b>,<b>Status</b>,<b>Action</b>");							
+	mygrid.attachHeader("#master_checkbox,#text_filter,#select_filter,,");	
+	mygrid.setInitWidths(" 30, 200, 170, 150, 300");
+	mygrid.enableTooltips("false,false,false,false,false");
 	mygrid.enableAutoHeight(true);   
-	mygrid.setColAlign("center,left,left,left,left,left");
-	mygrid.setColTypes("ch,ro,ro,ro,ro,ro");
-	mygrid.setColSorting("na,str,str,str,str,str");
+	mygrid.setColAlign("center,left,left,left,left");
+	mygrid.setColTypes("ch,ro,ro,ro,ro");
+	mygrid.setColSorting("na,str,str,str,str");
 	mygrid.enablePaging(true, 10, null, "pagingArea", true, "recinfoArea");
 	mygrid.setPagingSkin("bricks");
 	// mygrid.attachEvent("onXLS", function() { $("#preloader").show() });
@@ -75,10 +81,10 @@
 	
 	function deleteRow(id){
 		SITEROOT = '<?php echo $baseUrl?>';
-		$.post(SITEROOT+'/admin/updatelocationstatus', {id:id,action:'delete'},function(response){
+		$.post(SITEROOT+'/admin/updatepropertypestatus', {id:id,action:'delete'},function(response){
 			if(response == '1')
 			{
-				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/locationlistdata',callBack,"json");
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/propertytypelistdata',callBack,"json");
 			}
 		
 		}) ;
@@ -86,10 +92,10 @@
 	
 	function activeStatus(id){
 		SITEROOT = '<?php echo $baseUrl?>';
-		$.post(SITEROOT+'/admin/updatelocationstatus', {id:id,action:'active'},function(response){
+		$.post(SITEROOT+'/admin/updatepropertypestatus', {id:id,action:'active'},function(response){
 			if(response == '1')
 			{
-				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/locationlistdata',callBack,"json");
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/propertytypelistdata',callBack,"json");
 			}
 		
 		}) ;
@@ -98,11 +104,13 @@
 	
 	function inActiveStatus(id){
 		SITEROOT = '<?php echo $baseUrl?>';
-		$.post(SITEROOT+'/admin/updatelocationstatus', {id:id,action:'inactive'},function(response){
+		$.post(SITEROOT+'/admin/updatepropertypestatus', {id:id,action:'inactive'},function(response){
+			// alert(response);
 			if(response == '1')
 			{
-				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/locationlistdata',callBack,"json");
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/propertytypelistdata',callBack,"json");
 			}
+		
 		}) ;
 	}
 	
@@ -124,10 +132,10 @@
 			if(action!=''){
 				var selectedIds = getSelectedIds();
 				SITEROOT = '<?php echo $baseUrl?>';
-				$.post(SITEROOT+'/admin/updatelocationstatus', {selectedIds:selectedIds,action:action},function(response){
+				$.post(SITEROOT+'/admin/updatepropertypestatus', {selectedIds:selectedIds,action:action},function(response){
 					if(response == '1')
 					{
-						mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/locationlistdata',callBack,"json");
+						mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/propertytypelistdata',callBack,"json");
 					}
 				}) ;		
 			}

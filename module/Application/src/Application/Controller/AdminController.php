@@ -89,10 +89,6 @@ class AdminController extends AbstractActionController
     		$status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
     		$action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
     		$delete 		=	'<a href="'.$baseUrl.'/admin/addeditstate?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
-    		
-    		
-    		
-    		
     		$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$state_name,$status,$delete.$action));
     	}
     	$json = json_encode($dataArray);
@@ -243,12 +239,10 @@ class AdminController extends AbstractActionController
     	$selectedIds 	= $this->params()->fromPost('selectedIds');
     	 
     	if(isset($selectedIds)){
-    
     		$idArr = explode(',',$selectedIds);
     		foreach($idArr as $id)
     			$this->statusUpdate('cities',$action,$id);
     	}else{
-    		
     		$this->statusUpdate('cities',$action,$id);
     	}
     	exit('1');
@@ -288,8 +282,8 @@ class AdminController extends AbstractActionController
     	$stateTable = new TableGateway('states', $adapter);
     	 
     	 
-    	$rowset = $stateTable->select()->toArray();
-    	$view->setVariable('stateList', $rowset);
+    	$stateList = $stateTable->select()->toArray();
+    	$view->setVariable('stateList', $stateList);
     	 
     	 
     	//     	echo '<pre>';print_r($rowset);exit;
@@ -300,35 +294,47 @@ class AdminController extends AbstractActionController
     	$request = $this->getRequest();
     	if ($request->isPost()) {
     
-    		$state = $this->params()->fromPost('state');
-    		$city  = $this->params()->fromPost('city');
+    		$state 		= $this->params()->fromPost('state');
+    		$city_id  	= $this->params()->fromPost('city');
+    		$location  	= $this->params()->fromPost('location');
+    		
+//     echo $location;exit;		
+    		
+    		
     		if(isset($id)){
     
     			$data = array(
-    					'city_name'	=> 	$city,
-    					'state_id'	=> 	$state,
+    				'location_name'	=> 	$location,
+    				'city_id'		=> 	$city_id,
+    				'state_id'		=> 	$state,
     			);
     			$where = array(
     					'id'	=> 	$id,
     			);
-    			$adminModel->updateanywhere('cities',$data,$where);
-    			$msg = 'City Edited Successfully.';
+    			$adminModel->updateanywhere('locations',$data,$where);
+    			$msg = 'Location Edited Successfully.';
     		}else{
     
     			$data = array(
-    					'city_name'		=> 	$city,
-    					'state_id'		=> 	$state,
-    					'date_created'	=> 	date('Y-m-d H:i:s'),
+    				'location_name'	=> 	$location,
+    				'city_id'		=> 	$city_id,
+    				'state_id'		=> 	$state,
+    				'date_created'	=>	date('Y-m-d H:i:s'),
     			);
-    			$adminModel->insertanywhere('cities',$data);
-    			$msg = 'City Added Successfully.';
+    			$adminModel->insertanywhere('locations',$data);
+    			$msg = 'Location Added Successfully.';
     		}
     	}
     	if(isset($id)){
     		 
-    		$stateTable = new TableGateway('cities', $adapter);
-    		$rowset = $stateTable->select(array('id' => $id))->toArray();
-    		$view->setVariable('cityDetail', $rowset);
+    		$stateTable = new TableGateway('locations', $adapter);
+    		$locationDetail = $stateTable->select(array('id' => $id))->toArray();
+    		$city_id 	= $locationDetail[0]['city_id'];
+    		$state_id 	= $locationDetail[0]['state_id'];  
+    		$citiesTable = new TableGateway('cities', $adapter);
+    		$cityOptions = $citiesTable->select(array('state_id' => $state_id))->toArray();
+    		$view->setVariable('cityOptions', $cityOptions);
+    		$view->setVariable('locationDetail', $locationDetail);
     	}
     	$view->setVariable('msg', $msg);
     	return $view;
@@ -349,6 +355,158 @@ class AdminController extends AbstractActionController
     		}
     		exit($str);
     	}
+    }
+    
+    public function locationlistAction()
+    {
+    	$view = new ViewModel();
+    	$this->layout('layout/layoutadmin');
+    	return $view;
+    }
+
+    public function locationlistdataAction()
+    {
+    	
+    	$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
+    	 
+    	 
+    	//     	echo '<pre>';print_r($rowset);exit;
+    	
+    	 
+    	$locationList = $adminModel->getAllLocation();
+    	$dataArray = array();
+    	$baseUrl = $this->getRequest()->getbaseUrl();
+    	foreach($locationList as $val1)
+    	{
+    		$temp_arr = array();
+    		$location_name	=	$val1['location_name'];
+    		$city_name		=	$val1['city_name'];
+    		$state_name		=	$val1['state_name'];
+    		$status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
+    		$action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
+    		$delete 		=	'<a href="'.$baseUrl.'/admin/addeditlocation?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+    		$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$location_name,$city_name,$state_name,$status,$delete.$action));
+    	}
+    	
+    	$json = json_encode($dataArray);
+    	$jsonData = '{rows:'.$json.'}';
+    	exit('{rows:'.$json.'}');
+    }
+    
+
+    public function updatelocationstatusAction()
+    {
+    	$action 		= $this->params()->fromPost('action');
+    	$id 			= $this->params()->fromPost('id');
+    	$selectedIds 	= $this->params()->fromPost('selectedIds');
+    
+    	if(isset($selectedIds)){
+    
+    		$idArr = explode(',',$selectedIds);
+    		foreach($idArr as $id)
+    			$this->statusUpdate('locations',$action,$id);
+    	}else{
+    
+    		$this->statusUpdate('locations',$action,$id);
+    	}
+    	exit('1');
+    }
+    
+    
+    public function addeditpropertytypeAction()
+    {
+    	$view = new ViewModel();
+    	$this->layout('layout/layoutadmin');
+    	$id = $this->params()->fromQuery('id');
+    	$view->setVariable('heading',(isset($id)) ? 'Edit Property Type' : 'Add Property Type');
+    	
+    	$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
+    	$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+    	$stateTable = new TableGateway('property_category', $adapter);
+    	$propertyCategoryList = $stateTable->select()->toArray();
+    	$view->setVariable('propertyCategoryList', $propertyCategoryList);
+    
+    	//     	echo '<pre>';print_r($rowset);exit;
+    	$msg = '';
+    	$request = $this->getRequest();
+    	if ($request->isPost()) {
+    
+    		$propertyCategory		= $this->params()->fromPost('propertyCategory');
+    		$propertyType  			= $this->params()->fromPost('propertyType');
+    
+    		if(isset($id)){
+    
+    			$data = array(
+    				'property_type'			=> 	$propertyType,
+    				'property_category_id'	=> 	$propertyCategory,
+    			);
+    			$where = array(
+    					'id'	=> 	$id,
+    			);
+    			$adminModel->updateanywhere('property_type',$data,$where);
+    			$msg = 'Property Type Edited Successfully.';
+    		}else{
+    			$data = array(
+    				'property_type'			=> 	$propertyType,
+    				'property_category_id'	=> 	$propertyCategory,
+    			);
+    			$adminModel->insertanywhere('property_type',$data);
+    			$msg = 'Property Type Added Successfully.';
+    		}
+    	}
+    	if(isset($id)){
+    		 
+    		$stateTable = new TableGateway('property_type', $adapter);
+    		$propertyTypeDetail = $stateTable->select(array('id' => $id))->toArray();
+    		$view->setVariable('propertyTypeDetail', $propertyTypeDetail);
+    	}
+    	$view->setVariable('msg', $msg);
+    	return $view;
+    }
+    
+
+    public function propertytypelistAction()
+    {
+    	$view = new ViewModel();
+    	$this->layout('layout/layoutadmin');
+    	return $view;
+    }
+
+    public function propertytypelistdataAction()
+    {
+    	$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
+    	$statelist = $adminModel->getPropertyTypes();
+    	$dataArray = array();
+    	$baseUrl = $this->getRequest()->getbaseUrl();
+    	foreach($statelist as $val1)
+    	{
+    		$temp_arr = array();
+    		$property_type		=	$val1['property_type'];
+    		$category_name		=	$val1['category_name'];
+    		$status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
+    		$action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
+    		$delete 		=	'<a href="'.$baseUrl.'/admin/addeditpropertytype?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+    		$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$property_type,$category_name,$status,$delete.$action));
+    	}
+    	$json = json_encode($dataArray);
+    	$jsonData = '{rows:'.$json.'}';
+    	exit('{rows:'.$json.'}');
+    }
+    
+    public function updatepropertypestatusAction()
+    {
+    	$action 		= $this->params()->fromPost('action');
+    	$id 			= $this->params()->fromPost('id');
+    	$selectedIds 	= $this->params()->fromPost('selectedIds');
+    
+    	if(isset($selectedIds)){
+    		$idArr = explode(',',$selectedIds);
+    		foreach($idArr as $id)
+    			$this->statusUpdate('property_type',$action,$id);
+    	}else{
+    		$this->statusUpdate('property_type',$action,$id);
+    	}
+    	exit('1');
     }
     
 }
