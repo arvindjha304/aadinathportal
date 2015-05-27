@@ -9,7 +9,7 @@
 	<?php }?>
 	<div class="content2">
 		<div class="content3">State:</div>
-        <div class="content4"><input name="state" type="text" style="width:200px"; id="stateName"/></div>
+        <div class="content4"><input name="state" type="text" style="width:200px"; id="stateName" value="<?php echo $this->stateDetail[0]['state_name']?>"/></div>
     </div>
 	<div class="content5">
 	
@@ -28,13 +28,13 @@
 $("#stateName").blur(function(){
 	var name = $(this).val();
 	SITEROOT = '<?php echo $baseUrl?>';
-	
-	$.post(SITEROOT+'/admin/checkname', {name:name,field:'state'},function(response){
-// 		if(response == '1')
-			mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/statelistdata',callBack,"json");
-	
-	});
+	if(name!=''){
+		$.post(SITEROOT+'/admin/checkname', {name:name,field:'states'},function(response){
+			if(response == '1'){
+				alert('Name entered already exists');
+				return false;
+			}
+		});
+	}
 });
-
-
 </script>

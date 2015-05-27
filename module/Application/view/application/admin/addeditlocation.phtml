@@ -1,0 +1,80 @@
+<?php $baseUrl = $this->basePath(); 
+
+// 	echo '<pre>';print_r($this->cityDetail);exit; 
+
+?>
+<div class="contant">
+<div class="heading"><?php echo $this->heading?></div>
+<div class="contant1">
+	<form method="post" action="" name="">
+		
+    <?php if($this->msg!=''){?>
+	<div ><?php echo $this->msg?></div>
+	<?php }?>
+	<div class="content2">
+		<div class="content3">State:</div>
+        <div class="content4">
+        
+        <select id="stateName" name="state" style="width:200px"; >
+        	<option value="">Select</option>
+        	<?php foreach ($this->stateList as $state){?>
+        		<option <?php if($this->cityDetail[0]['state_id']== $state['id']) echo "selected"?> value=<?php echo $state['id']?>><?php echo $state['state_name']?></option>
+        	
+        	<?php }?>
+        </select>
+        </div>
+    </div>
+    <div class="content2">
+		<div class="content3">City:</div>
+        <div class="content4">
+        
+        <select id="cityName" name="city" style="width:200px"; >
+        	
+        </select>
+        </div>
+    </div>
+    <div class="content2">
+		<div class="content3">Location:</div>
+        <div class="content4"><input name="location" type="text" style="width:200px"; id="locationName" value="<?php echo $this->cityDetail[0]['city_name']?>"/></div>
+    </div>
+	<div class="content5">
+	
+	<input type="submit" value="Submit" style="width:100px; height:30px; background-color:#CC0000; color:#FFFFFF; border:none;" />
+	<input type="button" value="Cancel" style="width:100px; height:30px; background-color:#CC0000; color:#FFFFFF; border:none;" />
+	
+	</div>
+	
+	</form>
+    
+</div>
+</div>
+
+<script>
+
+$("#stateName").change(function(){
+	var stateId = $(this).val();
+	SITEROOT = '<?php echo $baseUrl?>';
+	
+		$.post(SITEROOT+'/admin/getcities', {stateId:stateId},function(response){
+			if(response!=''){
+				$('#cityName').html(response);
+				return false;
+			}
+		});
+	
+});
+
+
+$("#locationName").blur(function(){
+	var name = $(this).val();
+	SITEROOT = '<?php echo $baseUrl?>';
+	if(name!=''){
+		$.post(SITEROOT+'/admin/checkname', {name:name,field:'locations'},function(response){
+			if(response == '1'){
+				alert('Name entered already exists');
+				return false;
+			}
+		});
+	}
+});
+</script>

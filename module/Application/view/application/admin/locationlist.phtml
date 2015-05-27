@@ -11,18 +11,10 @@
 <script type="text/javascript"  src="<?php echo $baseUrl;?>/dhtmlxgrid/codebase/ext/dhtmlxgrid_filter.js" ></script>
 <script type="text/javascript"  src="<?php echo $baseUrl;?>/dhtmlxgrid/codebase/ext/dhtmlxgrid_pgn.js"></script>
 <div class="contant">
-<div class="heading">Manage States
-<a href="" style="text-align:center; font-size:24px; color:#333333; margin-left:600px;">Add state</a></div>
+<div class="heading">Manage City
+<a href="" style="text-align:center; font-size:24px; color:#333333; margin-left:600px;">Add city</a></div>
 <!----img area----->
 <div class="contant1">
-	<!--<table cellspacing="0" style="width:100%; text-align:center; border:1px #333333 solid;">
-    <tr style="background:#999999;"><td>abc</td>
-    <td>abc</td>
-    <td >abc</td>
-    <td >abc</td>
-    <td >abc</td>
-    </tr>
-    </table>-->
 	
 	<div id="loadingDiv" class="" style="display: none">
 			<img src="images/350.gif"  border="0" />
@@ -62,19 +54,18 @@
 </div>
 <script>
 
-	var strgridURL='<?php echo $baseUrl;?>/admin/statelistdata';
+	var strgridURL='<?php echo $baseUrl;?>/admin/citylistdata';
 	var mygrid = new dhtmlXGridObject('manageuser');
 	mygrid.setSkin("dhx_skyblue");
 	mygrid.setImagePath("<?php echo $baseUrl;?>/dhtmlxgrid/codebase/imgs/");
-	//mygrid.setHeader("<div class='' style='height:21px;'><div class=''><b>Users Status</b><select class='ml10 form-control' style='display: inline;height: 25px;padding: 1px;width: 130px;'  id='setcat'><option value='' id='active' selected='selected'>Active</option><option value='' id='inactive'>Inactive</option></select></div></div>,#cspan,#cspan,#cspan");
-	mygrid.setHeader(",<b>State</b>,<b>Status</b>,<b>Action</b>");							
-	mygrid.attachHeader("#master_checkbox,#text_filter,,");	
-	mygrid.setInitWidths(" 30, 200, 150, 467");
-	mygrid.enableTooltips("false,false,false,false");
+	mygrid.setHeader(",<b>City</b>,<b>State</b>,<b>Status</b>,<b>Action</b>");							
+	mygrid.attachHeader("#master_checkbox,#text_filter,#select_filter,,");	
+	mygrid.setInitWidths(" 30, 200, 170, 150, 300");
+	mygrid.enableTooltips("false,false,false,false,false");
 	mygrid.enableAutoHeight(true);   
-	mygrid.setColAlign("center,left,left,left");
-	mygrid.setColTypes("ch,ro,ro,ro");
-	mygrid.setColSorting("na,str,str,str");
+	mygrid.setColAlign("center,left,left,left,left");
+	mygrid.setColTypes("ch,ro,ro,ro,ro");
+	mygrid.setColSorting("na,str,str,str,str");
 	mygrid.enablePaging(true, 10, null, "pagingArea", true, "recinfoArea");
 	mygrid.setPagingSkin("bricks");
 	// mygrid.attachEvent("onXLS", function() { $("#preloader").show() });
@@ -113,11 +104,11 @@
 	
 	function inActiveStatus(id){
 		SITEROOT = '<?php echo $baseUrl?>';
-		$.post(SITEROOT+'/admin/updatestatus', {id:id,action:'inactive'},function(response){
+		$.post(SITEROOT+'/admin/updatecitystatus', {id:id,action:'inactive'},function(response){
 			// alert(response);
 			if(response == '1')
 			{
-				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/statelistdata',callBack,"json");
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/citylistdata',callBack,"json");
 			}
 		
 		}) ;

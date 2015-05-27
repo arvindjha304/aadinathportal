@@ -7,6 +7,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Sql\Sql;
+use Zend\Db\Sql\Expression;
  class Admin extends AbstractTableGateway implements ServiceLocatorAwareInterface {
 
 	protected $serviceLocator;
@@ -42,20 +43,47 @@ use Zend\Db\Sql\Sql;
 
 	public function getAllStates(){
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
-// 		$sql="select * from about_us";
-// 		$result =$db->query($sql)->execute()->current();
-	
-		
-		
 		$sql = new Sql($db);
 		$select = $sql->select()
 		->from(array('st'=>'states'));
-		
 		$result = $sql->prepareStatementForSqlObject($select)->execute();
+		return $result;
+	
+	}
+
+	public function getAllCities(){
+		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$sql = new Sql($db);
+		$select = $sql->select()
+		->from(array('ct'=>'cities'))
+		->join(array('st'=>'states'),'ct.state_id=st.id');
+		$result = $sql->prepareStatementForSqlObject($select)->execute();
+		return $result;
 		
-		
-		
-// 				echo '<pre>';print_r($result);exit;
+	}
+	public function getStateNameById($id){
+		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$sql = new Sql($db);
+		$select = $sql->select()
+		->from(array('st'=>'states'));
+		$result = $sql->prepareStatementForSqlObject($select)->execute();
+		return $result;
+	
+	}
+	
+	public function checkName($name,$field){
+		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		if($field == 'states'){
+			$name = trim(strtolower($name));
+			$sql="select state_name from $field st where TRIM(LOWER(st.state_name))='$name'";
+		}elseif($field == 'cities'){
+			$name = trim(strtolower($name));
+			$sql="select city_name from $field st where TRIM(LOWER(st.city_name))='$name'";
+		}elseif($field == 'locations'){
+			$name = trim(strtolower($name));
+			$sql="select location_name from $field st where TRIM(LOWER(st.location_name))='$name'";
+		}
+		$result =$db->query($sql)->execute()->current();
 		return $result;
 	
 	}
