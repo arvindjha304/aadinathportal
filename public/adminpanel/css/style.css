@@ -11,7 +11,16 @@ font-family:calibri;
 .header
 {
 width:100%;
-height:100px;
+height:75px;
+background-color:#000;
+}
+
+.header-inner
+{
+width:1280px;
+height:75px;
+
+margin:auto;
 
 }
 
@@ -19,25 +28,53 @@ height:100px;
 {
 width:100%;
 height:50px;
+
+color:#FFFFFF;
+}
+
+.welcom-left
+{
+width:19%;
+height:50px;
 background-color:#CC0000;
 color:#FFFFFF;
+float:left;
+border-right:1px solid #CC0000;
+
+}
+
+.welcom-right
+{
+width:80.92%;
+height:50px;
+background-color:#333;
+color:#FFFFFF;
+float:right;
+text-align:right;
+}
+
+.welcom-right a
+{
+color:#fff;
+text-align:right;
+text-decoration:none;
+
+
 }
 
 .container
 {
 width:100%;
-height:450px;
+height:501px;
 
 }
 
 .menu
 {
-width:18%;
-height:auto;
-margin-top:20px;
+width:19%;
+height:501px;
 float:left;
-border:#CCCCCC 1px solid;
-margin-left:20px;
+border-right:1px solid #ccc;
 }
 
 .menu1 ul
@@ -71,24 +108,31 @@ text-decoration:none;
 
 .contant
 {
-width:70%;
-height:auto;
+width:80.92%;
+height:501px;
 float:right;
-margin-top:20px;
+margin-top:0px;
 }
 
 .contant1
 {
 width:90%;
-border:#CCCCCC 1px solid;
+
+margin:auto;
+margin-top:50px;
 }
 
 .heading
 {
 font-size:30px;
+font-weight:bold;
 color:#333333;
 text-align:left;
-padding-left:30px;
+padding-top:20px;
+padding-bottom:10px;
+border-bottom:1px solid #ccc;
+margin:auto;
+width:90%;
 }
 
 .img 
@@ -121,9 +165,9 @@ margin-bottom:10px;
 
 .content3
 {
-width:32%;
+width:10%;
 height:30px;
-text-align:right;
+text-align:left;
 font-size:18px;
 float:left;
 }
@@ -134,7 +178,7 @@ width:64%;
 height:30px;
 text-align:left;
 
-float:right;
+
 
 
 }
@@ -144,8 +188,9 @@ float:right;
 width:46%;
 height:50px;
 text-align:left;
-margin-left:330px;
 
+padding-left: 115px;
+  padding-top: 20px;
 }
 
 .txt1 a
@@ -159,6 +204,160 @@ padding-right:20px;
 .footer
 {
 width:100%;
-height:60px;
-background:#CC0000;
+height:40px;
+background:#000;
+}
+
+
+#cssmenu,
+#cssmenu ul,
+#cssmenu ul li,
+#cssmenu ul li a {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  list-style: none;
+  line-height: 1;
+  display: block;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#cssmenu {
+  width: 200px;
+  font-family: Helvetica, Arial, sans-serif;
+  color: #ffffff;
+}
+#cssmenu ul ul {
+  display: none;
+}
+.align-right {
+  float: right;
+}
+#cssmenu > ul > li > a {
+  padding: 15px 20px;
+ 
+  border-top: 1px dashed  #ccc;
+  cursor: pointer;
+  z-index: 2;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+  
+  
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+#cssmenu > ul > li > a:hover,
+#cssmenu > ul > li.active > a,
+#cssmenu > ul > li.open > a {
+  color: #333;
+  
+}
+#cssmenu > ul > li.open > a {
+ 
+  border-bottom: 1px dashed  #ccc;
+}
+#cssmenu > ul > li:last-child > a,
+#cssmenu > ul > li.last > a {
+  border-bottom: 1px dashed  #ccc;
+}
+.holder {
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.holder::after,
+.holder::before {
+  display: block;
+  position: absolute;
+  content: "";
+  width: 6px;
+  height: 6px;
+  right: 20px;
+  z-index: 10;
+  -webkit-transform: rotate(-135deg);
+  -moz-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+}
+.holder::after {
+  top: 17px;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+}
+#cssmenu > ul > li > a:hover > span::after,
+#cssmenu > ul > li.active > a > span::after,
+#cssmenu > ul > li.open > a > span::after {
+  border-color: #eeeeee;
+}
+.holder::before {
+  top: 18px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+  border-top-color: inherit;
+  border-left-color: inherit;
+}
+#cssmenu ul ul li a {
+  cursor: pointer;
+  border-bottom: 1px dashed  #ccc;
+  
+  padding: 10px 20px;
+  z-index: 1;
+  text-decoration: none;
+  font-size: 13px;
+  color: #666;
+ }
+#cssmenu ul ul li:hover > a,
+#cssmenu ul ul li.open > a,
+#cssmenu ul ul li.active > a {
+  
+  color: #666;
+}
+#cssmenu ul ul li:first-child > a {
+  box-shadow: none;
+}
+#cssmenu ul ul ul li:first-child > a {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+#cssmenu ul ul ul li a {
+  padding-left: 75px;
+}
+#cssmenu > ul > li > ul > li:last-child > a,
+#cssmenu > ul > li > ul > li.last > a {
+  border-bottom: 0;
+}
+#cssmenu > ul > li > ul > li.open:last-child > a,
+#cssmenu > ul > li > ul > li.last.open > a {
+ border-bottom: 1px dashed  #ccc;
+  
+}
+#cssmenu > ul > li > ul > li.open:last-child > ul > li:last-child > a {
+  border-bottom: 0;
+}
+#cssmenu ul ul li.has-sub > a::after {
+  display: block;
+  position: absolute;
+  content: "";
+  width: 5px;
+  height: 5px;
+  right: 20px;
+  z-index: 10;
+  top: 11.5px;
+  border-top: 2px solid #ccc;
+  border-left: 2px solid #ccc;
+  -webkit-transform: rotate(-135deg);
+  -moz-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+}
+#cssmenu ul ul li.active > a::after,
+#cssmenu ul ul li.open > a::after,
+#cssmenu ul ul li > a:hover::after {
+  border-color: #ffffff;
 }

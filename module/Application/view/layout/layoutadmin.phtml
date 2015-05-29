@@ -8,18 +8,21 @@
 <title>Untitled Document</title>
 <link href="<?php echo $baseUrl;?>/adminpanel/css/style.css" rel="stylesheet" />
 <script type="text/javascript" src="<?php echo $baseUrl;?>/adminpanel/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>/adminpanel/script.js"></script>
 </head>
 
 <body>
 <div class="header">
-<div class="logo" style="padding:15px;"><a href=""><img src="<?php echo $baseUrl;?>/adminpanel/img/logo.png" /></a></div>
+<div class="header-inner">
+<div class="logo" style="padding:15px; padding-left:15px;"><a href=""><img src="<?php echo $baseUrl;?>/adminpanel/img/aadinath_logo.png" /></a></div>
+</div>
 </div>
 
 <div class="welcom">
-<div class="txt1" style="float:left; padding:10px;">Welcome Administrator</div>
-<div class="txt1" style="float:right; padding:10px;"><a href="">Launch Website</a> 
-<a href="">Change Password</a>
-<a href="">Log Out</a>
+<div class="welcom-left"><span style="padding-left:50px; line-height:50px;">Welcome Administrator</span></div>
+<div class="welcom-right"><span style="padding-right:50px; line-height:50px;"><a href="">Launch Website</a> &nbsp; | &nbsp;
+<a href="">Change Password</a>&nbsp; | &nbsp;
+<a href="">Log Out</a></span>
 </div>
 </div>
 <!----maincontainer---->
@@ -28,12 +31,30 @@
 <!----menu----->
 
 <div class="menu">
-	<div class="menu1">
-    <ul>
-    <li><a href="index.html">Dashboard</a> </li>
-    <li><a href="index.html">Manage Locations</a> </li>
-    </ul>
-    </div>
+	<div id='cssmenu' style="margin-top:30px;margin-left:30px;">
+<ul>
+   <li><a href='#'>Dashboard</a></li>
+   <li class='active has-sub'><a href='#'>Nav1</a>
+      <ul>
+         <li class='has-sub'><a href='#' style="padding-left:45px;">Nav-1-1</a>
+            <ul>
+               <li><a href='#'>Nav-1-1-1</a></li>
+               <li class='last'><a href='#'>Nav-1-1-2</a></li>
+            </ul>
+         </li>
+         <li class='has-sub'><a href='#' style="padding-left:45px;">Nav-1-2</a>
+            <ul>
+               <li><a href='#'>Nav-1-2-1</a></li>
+               <li class='last'><a href='#'>Nav-1-2-2</a></li>
+            </ul>
+         </li>
+      </ul>
+   </li>
+   <li><a href='#'>Nav3</a></li>
+   <li class='last'><a href='#'>Nav4</a></li>
+</ul>
+</div>
+
 </div>
 
 <!----body---->
@@ -41,8 +62,8 @@
 
 </div><!----footer------->
 <div class="footer">
-	<div class="txt1" style="float:left; padding:15px; color:#FFFFFF;">All trademarks, logos and names are properties of their respective owners. All Right Reserved. ©2015 </div>
-    <div class="txt1" style="float:right; padding:10px;"><a href=""><img src="<?php echo $baseUrl;?>/adminpanel/img/discovery-logo.png" /></a></div>
+	<div class="txt1" style="float:left; padding-top:10px; color:#FFFFFF;">All trademarks, logos and names are properties of their respective owners. All Right Reserved. ©2015 </div>
+    <div class="txt1" style="float:right; padding-top:4px;"><a href=""><img src="<?php echo $baseUrl;?>/adminpanel/img/discovery-logo.png" /></a></div>
     
 </div>
 </body>
