@@ -509,4 +509,75 @@ class AdminController extends AbstractActionController
     	exit('1');
     }
     
+  
+
+    public function addeditamentiesAction()
+    {
+    	$view = new ViewModel();
+    	$this->layout('layout/layoutadmin');
+    	$id = $this->params()->fromQuery('id');
+    	$view->setVariable('heading',(isset($id)) ? 'Edit Amenities' : 'Add Amenities');
+    	 
+    	$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
+    	
+    	
+    	$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+    	$amenityTypeTable = new TableGateway('amenity_type_list', $adapter);
+    	$amenityTypeList = $amenityTypeTable->select()->toArray();
+    	$view->setVariable('amenityTypeList', $amenityTypeList);
+    
+    	//     	echo '<pre>';print_r($rowset);exit;
+    	$msg = '';
+    	$request = $this->getRequest();
+    	if ($request->isPost()) {
+    
+    		$amenityType		= $this->params()->fromPost('amenityType');
+    		$imagename  			= $this->params()->fromPost('imagename');
+    		$amenityName  			= $this->params()->fromPost('amenityName');
+    
+    		if(isset($id)){
+    
+    			$data = array(
+    				'amenity_type_id'		=> 	$amenityType,
+    				'amenity_name'			=> 	$amenityName,
+    				'amenity_image'			=> 	$imagename,
+    			);
+    			$where = array(
+    					'id'	=> 	$id,
+    			);
+    			$adminModel->updateanywhere('amenities',$data,$where);
+    			$msg = 'Amenitiy Edited Successfully.';
+    		}else{
+    			$data = array(
+    				'amenity_type_id'		=> 	$amenityType,
+    				'amenity_name'			=> 	$amenityName,
+    				'amenity_image'			=> 	$imagename,
+    			);
+    			$adminModel->insertanywhere('amenities',$data);
+    			$msg = 'Amenitiy Added Successfully.';
+    		}
+    	}
+    	if(isset($id)){
+    		 
+    		$stateTable = new TableGateway('amenities', $adapter);
+    		$amenityDetail = $stateTable->select(array('id' => $id))->toArray();
+    		$view->setVariable('amenityDetail', $amenityDetail);
+    	}
+    	$view->setVariable('msg', $msg);
+    	return $view;
+    }
+    
+	public function uploadAction() {
+		$baseurl = $this->getRequest()->getbaseUrl();
+		$random  = rand(101,999);
+		$uploaddir = $_SERVER['DOCUMENT_ROOT'].$baseurl.'/uploadfiles/';
+		$file = $uploaddir.$random.'_'.basename($_FILES['uploadfile']['name']);
+		$realfilename = $random.'_'.basename($_FILES['uploadfile']['name']);
+		if (move_uploaded_file($_FILES['uploadfile']['tmp_name'], $file)) {
+			echo $realfilename;
+		} else {
+			echo "";
+		}
+		exit;
+	}
 }
