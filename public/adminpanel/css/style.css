@@ -11,16 +11,18 @@ font-family:calibri;
 .header
 {
 width:100%;
-height:75px;
+height:125px;
 background-color:#000;
+position:fixed;
+z-index:10;
 }
 
 .header-inner
 {
-width:1280px;
+width:100%;
 height:75px;
-
 margin:auto;
+padding-left:3%;
 
 }
 
@@ -28,7 +30,6 @@ margin:auto;
 {
 width:100%;
 height:50px;
-
 color:#FFFFFF;
 }
 
@@ -65,16 +66,21 @@ text-decoration:none;
 .container
 {
 width:100%;
-height:501px;
-
+min-height:501px;
+max-height:5000px;
+position:absolute;
+margin-top:125px;
 }
 
 .menu
 {
 width:19%;
-height:501px;
+height:490px;
 float:left;
 border-right:1px solid #ccc;
+overflow-y:scroll;
+position:fixed;
+
 }
 
 .menu1 ul
@@ -109,9 +115,12 @@ text-decoration:none;
 .contant
 {
 width:80.92%;
-height:501px;
+min-height:500px;
 float:right;
 margin-top:0px;
+margin-bottom:100px;
+max-height: 5000px;
+
 }
 
 .contant1
@@ -156,7 +165,7 @@ margin-left:0px;
 .content2
 {
 width:96%;
-height:40px;
+height:60px;
 
 margin:auto;
 margin-top:10px;
@@ -165,18 +174,22 @@ margin-bottom:10px;
 
 .content3
 {
-width:10%;
+width:25%;
 height:30px;
 text-align:left;
 font-size:18px;
 float:left;
+font-family:inherit;
+font-weight:bold;
+line-height:22px;
 }
 
 .content4
 {
-width:64%;
+width:68%;
 height:30px;
 text-align:left;
+float:left;
 
 
 
@@ -189,8 +202,8 @@ width:46%;
 height:50px;
 text-align:left;
 
-padding-left: 115px;
-  padding-top: 20px;
+padding-left: 252px;
+  padding-top: 0px;
 }
 
 .txt1 a
@@ -205,9 +218,38 @@ padding-right:20px;
 {
 width:100%;
 height:40px;
-background:#000;
+background-color:#000;
+z-index:1;
+position:fixed;
+bottom:0;
+font-size:13px;
+
 }
 
+.footer-left
+{
+width:46%;
+height:28px;
+padding-top:12px;
+color:#fff;
+float:left;
+padding-left:4%;
+
+}
+
+.footer-right
+{
+width:45%;
+height:35px;
+float:right;
+padding-top:5px;
+padding-right:5%;
+
+}
+.footer-right img
+{
+float:right;
+}
 
 #cssmenu,
 #cssmenu ul,
@@ -236,12 +278,12 @@ background:#000;
   float: right;
 }
 #cssmenu > ul > li > a {
-  padding: 15px 20px;
+  padding: 12px 20px;
  
   border-top: 1px dashed  #ccc;
   cursor: pointer;
   z-index: 2;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
   text-decoration: none;
   color: #333;
@@ -361,3 +403,78 @@ background:#000;
 #cssmenu ul ul li > a:hover::after {
   border-color: #ffffff;
 }
+
+
+
+/* dashbord */
+
+.dashboard-contant1
+{
+width:90%;
+
+margin:auto;
+margin-top:50px;
+
+height:300px;
+}
+
+.dashboard-img 
+{
+width:100%;
+height:100px;
+margin:auto;
+margin-top:0px;
+
+
+
+}
+
+.dashboard-img1
+{
+width:24.90%;
+height:130px;
+float:left;
+margin-left:0px;
+padding-top:20px;
+text-align:center;
+}
+
+/*.dashboard-img1 img
+{
+padding-left:33%;
+}
+*/
+
+
+.dashboard-text
+{
+font-size:14px;
+font-family:Arial, Helvetica, sans-serif;
+line-height:40px;
+
+}
+
+.dashboard-text a
+{
+color:#000;
+text-decoration:none;
+
+}
+
+button{width:75px;
+cursor:pointer;}
+
+.am {
+width:100px;
+height:auto;
+
+text-align:center;
+margin-bottom:0px;
+float:right;
+
+}
+
+
+
+
+

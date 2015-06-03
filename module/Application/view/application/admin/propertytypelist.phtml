@@ -12,7 +12,9 @@
 <script type="text/javascript"  src="<?php echo $baseUrl;?>/dhtmlxgrid/codebase/ext/dhtmlxgrid_pgn.js"></script>
 <div class="contant">
 <div class="heading">Manage Property Type
-<a href="" style="text-align:center; font-size:24px; color:#333333; margin-left:600px;">Add Property Type</a></div>
+
+<a href='<?php echo $baseUrl;?>/admin/addeditpropertytype'><input type="submit" value="+ Add Property Type" style="width:auto; height:28px; background-color:#333; color:#FFFFFF; border:none; border-radius: 16px;cursor: pointer;padding:5px; float:right; padding-left:10px; padding-right:10px;"  /></a>
+</div>
 <!----img area----->
 <div class="contant1">
 	
@@ -38,15 +40,17 @@
 
 	<div class="bulk-action1 wp60 fl">
 		<div class="all-categories1 wp50 mt12 fs13 fta fc03 fl">
-			<select class="form-control" name="operationvalue" id="operationvalue" onchange="this.value" >
+			<select class="form-control" name="operationvalue" id="operationvalue" onchange="this.value" style="width:250px; height:30px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9; margin-top:25px;" >
 				<option value=''>Bulk Option</option>
 				<option value='delete'>Delete</option>
 				<option value='inactive'>Inactivate</option>
 				<option value='active' id='activated'>Activate</option>
 			</select>
+			
+			<input type="submit" value="Apply" onclick="bulkaction()" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px 10px;margin-left:10px;"  />
 		</div>
 		<div class="dashboard-daily-button mt17 ml05 fl">
-			<a class="button_lblue_r4" onclick="bulkaction()">Apply</a>
+		
 		</div>
 	</div>
 	

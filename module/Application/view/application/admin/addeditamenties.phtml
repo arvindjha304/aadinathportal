@@ -46,7 +46,7 @@ $(function(){
 
          if(response != ""){
              document.getElementById("imagename").value = response;
-             $('<div></div>').appendTo('#files').html('<img class="" height="100" width="100" src="'+filepath+'" alt="" /><br />').addClass('success');
+             $('<div></div>').appendTo('#files').html('<img height="50" width="50"  src="'+filepath+'" alt="" /><br />').addClass('success');
          } else{
              $('<div></div>').appendTo('#files').text(response).addClass('error');
          }
@@ -68,10 +68,10 @@ $(function(){
 	<div ><?php echo $this->msg?></div>
 	<?php }?>
 	<div class="content2">
-		<div class="content3">Type:</div>
+		<div class="content3"><span style="color:red">*</span> Type:</div>
         <div class="content4">
         
-        <select id="amenityType" name="amenityType" style="width:200px"; >
+        <select id="amenityType" name="amenityType" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
         	<?php foreach ($this->amenityTypeList as $amenityType){?>
         		<option <?php if($this->amenityDetail[0]['amenity_type_id']== $amenityType['id']) echo "selected"?> value=<?php echo $amenityType['id']?>><?php echo $amenityType['amenity_type']?></option>
         	
@@ -82,25 +82,28 @@ $(function(){
     </div>
     <div class="content2">
     	 <input type='hidden' name='imagename' id='imagename' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
-		<div class="content3">Image:</div>
-        <div class="content4"><button class="" style="" id="upload">Upload</button>
-		</div>
-		
-		
+		<div class="content3"><span style="color:red">*</span> Title / Image:</div>
+        <div class="content4"> <input name="amenityName" type="text" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="amenityName" value="<?php echo $this->amenityDetail[0]['amenity_name']; ?>"/>
+		<button class="" style="height:28px;margin-left:10px;" id="upload">Browse</button>
+		<button class="" style="height:28px;margin-left:10px; background-color:#333; color:#fff; border" id="upload">Preview</button>
+		<button class="" style="height:28px;margin-left:10px; background-color:#333; color:#fff; border" id="upload">+ Next</button>
+		<div class="am" >
         <div class="" id="files">
         <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
-			<img height="100" width="100" src="<?php echo $baseUrl; ?>/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
 		<?php }?>
 		</div>
     </div>
-    <div class="content2">
-		<div class="content3">Title:</div>
-        <div class="content4"><input name="amenityName" type="text" style="width:200px"; id="amenityName" value="<?php echo $this->amenityDetail[0]['amenity_name']; ?>"/></div>
-    </div>
-	<div class="content5">
+		
+		</div>
+		</div>
+		
 	
-	<input type="submit" value="Submit" style="width:100px; height:30px; background-color:#CC0000; color:#FFFFFF; border:none;" />
-	<input type="button" value="Cancel" style="width:100px; height:30px; background-color:#CC0000; color:#FFFFFF; border:none;" />
+   </div>
+	<div class="content5" style="padding-left:311px">
+	
+	<input type="submit" value="Add Amenities" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer; padding:5px;" />
+	<input type="button" value="Cancel" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer; padding:5px;" />
 	
 	</div>
 	

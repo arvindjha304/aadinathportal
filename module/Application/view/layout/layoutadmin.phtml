@@ -16,8 +16,6 @@
 <div class="header-inner">
 <div class="logo" style="padding:15px; padding-left:15px;"><a href=""><img src="<?php echo $baseUrl;?>/adminpanel/img/aadinath_logo.png" /></a></div>
 </div>
-</div>
-
 <div class="welcom">
 <div class="welcom-left"><span style="padding-left:50px; line-height:50px;">Welcome Administrator</span></div>
 <div class="welcom-right"><span style="padding-right:50px; line-height:50px;"><a href="">Launch Website</a> &nbsp; | &nbsp;
@@ -25,6 +23,9 @@
 <a href="">Log Out</a></span>
 </div>
 </div>
+</div>
+
+
 <!----maincontainer---->
 <div class="container">
 
@@ -33,8 +34,24 @@
 <div class="menu">
 	<div id='cssmenu' style="margin-top:30px;margin-left:30px;">
 <ul>
-   <li><a href='#'>Dashboard</a></li>
-   <li class='active has-sub'><a href='#'>Nav1</a>
+   <li><a href='<?php echo $baseUrl;?>/admin/index'>Dashboard</a></li>
+   
+   <li class='active has-sub'><a href='<?php echo $baseUrl;?>/admin/location'>Manage Location</a>
+      <ul>
+         <li ><a href='<?php echo $baseUrl;?>/admin/statelist' style="padding-left:45px;">Manage State</a> </li>
+         <li ><a href='<?php echo $baseUrl;?>/admin/citylist' style="padding-left:45px;">Manage City</a> </li>
+		 <li><a href='<?php echo $baseUrl;?>/admin/locationlist' style="padding-left:45px;">Manage Location</a> </li>
+      </ul>
+   </li>
+   <li class='last'><a href='<?php echo $baseUrl;?>/admin/propertytypelist'>Manage Property Type</a></li>
+   <li class='last'><a href='#'>Manage Amenities</a></li>
+   <li class='last'><a href='#'>Manage Builders</a></li>
+   <li class='last'><a href='#'>Manage Projects</a></li>
+   <li class='last'><a href='#'>Manage CMS</a></li>
+   <li class='last'><a href='#'>Manage LOGO</a></li>
+   <li class='last'><a href='#'>Manage News</a></li>
+   
+    <li class='active has-sub'><a href='#'>Nav1</a>
       <ul>
          <li class='has-sub'><a href='#' style="padding-left:45px;">Nav-1-1</a>
             <ul>
@@ -50,8 +67,6 @@
          </li>
       </ul>
    </li>
-   <li><a href='#'>Nav3</a></li>
-   <li class='last'><a href='#'>Nav4</a></li>
 </ul>
 </div>
 
@@ -62,8 +77,8 @@
 
 </div><!----footer------->
 <div class="footer">
-	<div class="txt1" style="float:left; padding-top:10px; color:#FFFFFF;">All trademarks, logos and names are properties of their respective owners. All Right Reserved. ©2015 </div>
-    <div class="txt1" style="float:right; padding-top:4px;"><a href=""><img src="<?php echo $baseUrl;?>/adminpanel/img/discovery-logo.png" /></a></div>
+	<div class="footer-left" >All trademarks, logos and names are properties of their respective owners. All Right Reserved. ©2015 </div>
+    <div class="footer-right" ><a href=""><img src="<?php echo $baseUrl;?>/adminpanel/img/discovery-logo.png" /></a></div>
     
 </div>
 </body>

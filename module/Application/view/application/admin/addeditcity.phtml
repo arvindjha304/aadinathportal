@@ -1,6 +1,5 @@
-<?php $baseUrl = $this->basePath(); 
-
-// 	echo '<pre>';print_r($this->cityDetail);exit; 
+<?php $baseUrl = $this->basePath();
+//	echo '<pre>';print_r($this->cityDetail);exit; 
 
 ?>
 <div class="contant">
@@ -9,15 +8,15 @@
 	<form method="post" action="" name="">
 		
     <?php if($this->msg!=''){?>
-	<div ><?php echo $this->msg?></div>
+	<div><?php echo $this->msg?></div>
 	<?php }?>
 	<div class="content2">
-		<div class="content3">State:</div>
+		<div class="content3"><span style="color:red">*</span> State:</div>
         <div class="content4">
         
-        <select id="stateName" name="state" style="width:200px"; >
+        <select id="stateName" name="state" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
         	<?php foreach ($this->stateList as $state){?>
-        		<option <?php if($this->cityDetail[0]['state_id']== $state['id']) echo "selected"?> value=<?php echo $state['id']?>><?php echo $state['state_name']?></option>
+        		<option style="color:red;" <?php if($this->cityDetail[0]['state_id']== $state['id']) echo "selected"?> value=<?php echo $state['id']?>><?php echo $state['state_name']?></option>
         	
         	<?php }?>
         </select>
@@ -25,13 +24,13 @@
         </div>
     </div>
     <div class="content2">
-		<div class="content3">City:</div>
-        <div class="content4"><input name="city" type="text" style="width:200px"; id="cityName" value="<?php echo $this->cityDetail[0]['city_name']?>"/></div>
+		<div class="content3"><span style="color:red">*</span> City:</div>
+        <div class="content4"><input name="city" type="text" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="cityName" value="<?php echo $this->cityDetail[0]['city_name']?>" /></div>
     </div>
 	<div class="content5">
 	
-	<input type="submit" value="Submit" style="width:100px; height:30px; background-color:#CC0000; color:#FFFFFF; border:none;" />
-	<input type="button" value="Cancel" style="width:100px; height:30px; background-color:#CC0000; color:#FFFFFF; border:none;" />
+	<input type="submit" value="Add City" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;" />
+	<input type="button" value="Cancel" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;" />
 	
 	</div>
 	
