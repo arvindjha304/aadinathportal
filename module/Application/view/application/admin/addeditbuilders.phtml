@@ -46,7 +46,7 @@ $(function(){
 
          if(response != ""){
              document.getElementById("imagename").value = response;
-             $('<div></div>').appendTo('#files').html('<img class="" height="100" width="100" src="'+filepath+'" alt="" /><br />').addClass('success');
+             $('<div></div>').appendTo('#files').html('<img class="" height="60" width="70" style="border:1px solid #ccc;" src="'+filepath+'" alt="" /><br />').addClass('success');
          } else{
              $('<div></div>').appendTo('#files').text(response).addClass('error');
          }
@@ -68,64 +68,67 @@ $(function(){
 	<div ><?php echo $this->msg?></div>
 	<?php }?>
 	<div class="content2">
-		<div class="content3">Builder:</div>
+		<div class="content3"><span style="color:red">*</span> Builder:</div>
         <div class="content4">
-        <input type="text" name="builder_name" id="builder_name" value="<?php if(isset($this->builderDetail[0]['builder_name'])) echo $this->builderDetail[0]['builder_name']; ?>"/>
+        <input type="text" name="builder_name" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if(isset($this->builderDetail[0]['builder_name'])) echo $this->builderDetail[0]['builder_name']; ?>"/>
         </div>
     </div>
     <div class="content2">
-		<div class="content3">About Builder:</div>
-        <div class="content4">
-        <textarea name="about_builder" id="about_builder"><?php if(isset($this->builderDetail[0]['builder_name'])) echo $this->builderDetail[0]['builder_name']; ?></textarea>
+		<div class="content3"><span style="color:red">*</span> About Builder:</div>
+        <div class="content4-builder">
+        <textarea name="about_builder" style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="about_builder"><?php if(isset($this->builderDetail[0]['builder_name'])) echo $this->builderDetail[0]['builder_name']; ?></textarea>
         </div>
     </div>
     <div class="content2">
     	 <input type='hidden' name='imagename' id='imagename' value='<?php if(isset($this->builderDetail[0]['builder_image'])) echo $this->builderDetail[0]['builder_image']; ?>'>
-		<div class="content3">Builder Image:</div>
-        <div class="content4"><button class="" style="" id="upload">Upload</button>
-		</div>
-		
-		
+		<div class="content3"><span style="color:red">*</span> Builder Image:</div>
+        <div class="content4-builder"><button class="" style="" id="upload">Browse</button>
+		<div class="am2" >
         <div class="" id="files">
-        <?php if(isset($this->builderDetail[0]['builder_image'])) {?>
-			<img height="100" width="100" src="<?php echo $baseUrl; ?>/uploadfiles/<?php echo $this->builderDetail[0]['builder_image']; ?>"/> 
+        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
+			<img height="60" width="70" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
 		<?php }?>
 		</div>
     </div>
+		</div>
+		
+		
+       
+    </div>
     
     <div class="content2">
-		<div class="content3">Meta Tag:</div>
-        <div class="content4">
-        <textarea name="meta_tag" id="meta_tag"><?php if(isset($this->builderDetail[0]['builder_image'])) echo $this->builderDetail[0]['meta_tag']; ?></textarea>
+		<div class="content3"><span style="color:red">*</span> Meta Tag:</div>
+        <div class="content4-builder">
+        <textarea name="meta_tag"  style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="meta_tag"><?php if(isset($this->builderDetail[0]['builder_image'])) echo $this->builderDetail[0]['meta_tag']; ?></textarea>
         </div>
     </div>
     
     <div class="content2">
-		<div class="content3">Keyword:</div>
-        <div class="content4">
-        <textarea name="keyword" id="keyword"><?php if(isset($this->builderDetail[0]['builder_image'])) echo $this->builderDetail[0]['keyword']; ?></textarea>
+		<div class="content3"> <span style="color:red">*</span> Keyword:</div>
+        <div class="content4-builder">
+        <textarea name="keyword" style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;"  id="keyword"><?php if(isset($this->builderDetail[0]['builder_image'])) echo $this->builderDetail[0]['keyword']; ?></textarea>
         </div>
     </div>
     
     <div class="content2">
-		<div class="content3">Description:</div>
+		<div class="content3"><span style="color:red">*</span>Description:</div>
         <div class="content4">
-        <textarea name="description" id="description"><?php if(isset($this->builderDetail[0]['builder_image'])) echo $this->builderDetail[0]['description']; ?></textarea>
+        <textarea name="description"  style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;"  id="description"><?php if(isset($this->builderDetail[0]['builder_image'])) echo $this->builderDetail[0]['description']; ?></textarea>
         </div>
     </div>
     
-    <div class="content2">
-		<div class="content3">Priority:</div>
-        <div class="content4">
-         <input type='text' name='priority' id='priority' value='<?php if(isset($this->builderDetail[0]['priority'])) echo $this->builderDetail[0]['priority']; ?>'>
+    <div class="content2" style="margin-top:120px;">
+		<div class="content3"> <span style="color:red">*</span> Priority:</div>
+        <div class="content4-builder">
+         <input type='text' style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" name='priority' id='priority' value='<?php if(isset($this->builderDetail[0]['priority'])) echo $this->builderDetail[0]['priority']; ?>'>
         </div>
     </div>
     
   
 	<div class="content5">
 	
-	<input type="submit" value="Submit" style="width:100px; height:30px; background-color:#CC0000; color:#FFFFFF; border:none;" />
-	<input type="button" value="Cancel" style="width:100px; height:30px; background-color:#CC0000; color:#FFFFFF; border:none;" />
+	<input type="submit" value="Add Builder" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer; padding:5px;" />
+	<input type="button" value="Cancel" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer; padding:5px;" />
 	
 	</div>
 	

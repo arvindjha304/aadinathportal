@@ -190,10 +190,6 @@ width:68%;
 height:30px;
 text-align:left;
 float:left;
-
-
-
-
 }
 
 .content5
@@ -474,6 +470,25 @@ float:right;
 
 }
 
+.am2 {
+width:100px;
+height:auto;
+
+text-align:center;
+margin-bottom:0px;
+float:right;
+padding-right:374px;
+border:1px soli #ccc;
+
+}
+.content4-builder
+{
+width:68%;
+height:60px;
+text-align:left;
+float:left;
+margin-bottom:30px;
+}
 
 
 
