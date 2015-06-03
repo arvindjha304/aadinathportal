@@ -1,0 +1,151 @@
+<?php $baseUrl = $this->basePath(); 
+
+// 	echo '<pre>';print_r($this->cityDetail);exit; 
+
+?>
+<script src="<?php echo $baseUrl;?>/js/ajaxupload.3.5.js"></script>
+<script type="text/javascript">
+
+$(function(){
+ var btnUpload=$('#upload');
+
+
+//  alert('dddd');return false;
+
+
+
+ var status=$('#status');
+ var url='<?php echo $baseUrl ?>';
+ var SITEROOT=url+"/admin/upload";
+	
+ 
+ new AjaxUpload(btnUpload,
+ {
+
+// 	 alert('dddd');return false;
+	 
+     action: SITEROOT,
+     name:'uploadfile' ,
+     onSubmit: function(file, ext){
+
+         if (! (ext && /^(jpg|png|jpeg|gif)$/.test(ext))){
+             // extension is not allowed
+             status.text('Only JPG, PNG or GIF files are allowed');
+             return false;
+         }
+         status.text('Uploading...');
+     },
+     onComplete: function(file, response){
+         //On completion clear the status
+         status.text('');
+         var filepath = url+'/uploadfiles/'+response;
+         var xp = document.getElementById('files');
+         while(xp.hasChildNodes()){
+             document.getElementById('files').removeChild(xp.firstChild);
+         }
+
+         if(response != ""){
+             document.getElementById("imagename").value = response;
+             $('<div></div>').appendTo('#files').html('<img class="" height="100" width="100" src="'+filepath+'" alt="" /><br />').addClass('success');
+         } else{
+             $('<div></div>').appendTo('#files').text(response).addClass('error');
+         }
+     }
+ });
+
+});
+
+</script>
+
+
+
+<div class="contant">
+<div class="heading"><?php echo $this->heading?></div>
+<div class="contant1">
+	<form method="post" action="" name="">
+		
+    <?php if($this->msg!=''){?>
+	<div ><?php echo $this->msg?></div>
+	<?php }?>
+	<div class="content2">
+		<div class="content3">Builder:</div>
+        <div class="content4">
+        <input type="text" name="builder_name" id="builder_name" value="<?php if(isset($this->builderDetail[0]['builder_name'])) echo $this->builderDetail[0]['builder_name']; ?>"/>
+        </div>
+    </div>
+    <div class="content2">
+		<div class="content3">About Builder:</div>
+        <div class="content4">
+        <textarea name="about_builder" id="about_builder"><?php if(isset($this->builderDetail[0]['builder_name'])) echo $this->builderDetail[0]['builder_name']; ?></textarea>
+        </div>
+    </div>
+    <div class="content2">
+    	 <input type='hidden' name='imagename' id='imagename' value='<?php if(isset($this->builderDetail[0]['builder_image'])) echo $this->builderDetail[0]['builder_image']; ?>'>
+		<div class="content3">Builder Image:</div>
+        <div class="content4"><button class="" style="" id="upload">Upload</button>
+		</div>
+		
+		
+        <div class="" id="files">
+        <?php if(isset($this->builderDetail[0]['builder_image'])) {?>
+			<img height="100" width="100" src="<?php echo $baseUrl; ?>/uploadfiles/<?php echo $this->builderDetail[0]['builder_image']; ?>"/> 
+		<?php }?>
+		</div>
+    </div>
+    
+    <div class="content2">
+		<div class="content3">Meta Tag:</div>
+        <div class="content4">
+        <textarea name="meta_tag" id="meta_tag"><?php if(isset($this->builderDetail[0]['builder_image'])) echo $this->builderDetail[0]['meta_tag']; ?></textarea>
+        </div>
+    </div>
+    
+    <div class="content2">
+		<div class="content3">Keyword:</div>
+        <div class="content4">
+        <textarea name="keyword" id="keyword"><?php if(isset($this->builderDetail[0]['builder_image'])) echo $this->builderDetail[0]['keyword']; ?></textarea>
+        </div>
+    </div>
+    
+    <div class="content2">
+		<div class="content3">Description:</div>
+        <div class="content4">
+        <textarea name="description" id="description"><?php if(isset($this->builderDetail[0]['builder_image'])) echo $this->builderDetail[0]['description']; ?></textarea>
+        </div>
+    </div>
+    
+    <div class="content2">
+		<div class="content3">Priority:</div>
+        <div class="content4">
+         <input type='text' name='priority' id='priority' value='<?php if(isset($this->builderDetail[0]['priority'])) echo $this->builderDetail[0]['priority']; ?>'>
+        </div>
+    </div>
+    
+  
+	<div class="content5">
+	
+	<input type="submit" value="Submit" style="width:100px; height:30px; background-color:#CC0000; color:#FFFFFF; border:none;" />
+	<input type="button" value="Cancel" style="width:100px; height:30px; background-color:#CC0000; color:#FFFFFF; border:none;" />
+	
+	</div>
+	
+	</form>
+    
+</div>
+</div>
+
+<script>
+
+$("#cityName").blur(function(){
+	var name = $(this).val();
+	SITEROOT = '<?php echo $baseUrl?>';
+	if(name!=''){
+		$.post(SITEROOT+'/admin/checkname', {name:name,field:'cities'},function(response){
+			if(response == '1'){
+				alert('Name entered already exists');
+				return false;
+			}
+		});
+	}
+});
+</script>

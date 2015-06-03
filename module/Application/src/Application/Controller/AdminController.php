@@ -580,4 +580,100 @@ class AdminController extends AbstractActionController
 		}
 		exit;
 	}
+	
+	
+	public function addeditbuildersAction()
+	{
+		$view = new ViewModel();
+		$this->layout('layout/layoutadmin');
+		$id = $this->params()->fromQuery('id');
+		$view->setVariable('heading',(isset($id)) ? 'Edit Builder' : 'Add Builder');
+		$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
+		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+
+		//     	echo '<pre>';print_r($rowset);exit;
+		$msg = '';
+		$request = $this->getRequest();
+		if ($request->isPost()) {
+	
+			$data = array(
+				'builder_name'		=> 	$this->params()->fromPost('builder_name'),
+				'about_builder'		=> 	$this->params()->fromPost('about_builder'),
+				'meta_tag'			=> 	$this->params()->fromPost('meta_tag'),
+				'keyword'			=> 	$this->params()->fromPost('keyword'),
+				'description'		=> 	$this->params()->fromPost('description'),
+				'priority'			=> 	$this->params()->fromPost('priority'),
+				'builder_image'		=> 	$this->params()->fromPost('imagename'),
+			);
+			
+			if(isset($id)){
+				$where = array(
+					'id'	=> 	$id,
+				);
+				$adminModel->updateanywhere('builders',$data,$where);
+				$msg = 'Builder Edited Successfully.';
+			}else{
+				$data['date_created'] = date('Y-m-d H:i:s');
+				$adminModel->insertanywhere('builders',$data);
+				$msg = 'Builder Added Successfully.';
+			}
+		}
+		if(isset($id)){
+			 
+			$stateTable = new TableGateway('builders', $adapter);
+			$builderDetail = $stateTable->select(array('id' => $id))->toArray();
+			$view->setVariable('builderDetail', $builderDetail);
+		}
+		$view->setVariable('msg', $msg);
+		return $view;
+	}
+	
+	public function builderlistAction()
+	{
+		$view = new ViewModel();
+		$this->layout('layout/layoutadmin');
+		return $view;
+	}
+	
+	public function builderlistdataAction()
+	{
+		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$artistTable = new TableGateway('builders', $adapter);
+		
+		$select = $artistTable->select(function($select){
+			$select->order('priority ASC');
+		})->toArray();
+		
+		$dataArray = array();
+		$baseUrl = $this->getRequest()->getbaseUrl();
+		foreach($select as $val1)
+		{
+			$temp_arr = array();
+			$builder_name	=	$val1['builder_name'];
+			$priority		=	$val1['priority'];
+			$status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
+			$action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
+			$delete 		=	'<a href="'.$baseUrl.'/admin/addeditbuilders?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+			$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$builder_name,$priority,$status,$delete.$action));
+		}
+		$json = json_encode($dataArray);
+		//$jsonData = '{rows:'.$json.'}';
+		exit('{rows:'.$json.'}');
+	}
+	
+	public function updatebuilderstatusAction()
+	{
+		$action 		= $this->params()->fromPost('action');
+		$id 			= $this->params()->fromPost('id');
+		$selectedIds 	= $this->params()->fromPost('selectedIds');
+	
+		if(isset($selectedIds)){
+			$idArr = explode(',',$selectedIds);
+			foreach($idArr as $id)
+				$this->statusUpdate('builders',$action,$id);
+		}else{
+			$this->statusUpdate('builders',$action,$id);
+		}
+		exit('1');
+	}
 }
