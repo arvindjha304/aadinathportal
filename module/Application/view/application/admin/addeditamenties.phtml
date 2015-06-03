@@ -7,53 +7,73 @@
 <script type="text/javascript">
 
 $(function(){
- var btnUpload=$('#upload');
-
-
-//  alert('dddd');return false;
-
-
-
- var status=$('#status');
- var url='<?php echo $baseUrl ?>';
- var SITEROOT=url+"/admin/upload";
-	
- 
- new AjaxUpload(btnUpload,
- {
-
-// 	 alert('dddd');return false;
-	 
-     action: SITEROOT,
-     name:'uploadfile' ,
-     onSubmit: function(file, ext){
-
-         if (! (ext && /^(jpg|png|jpeg|gif)$/.test(ext))){
-             // extension is not allowed
-             status.text('Only JPG, PNG or GIF files are allowed');
-             return false;
-         }
-         status.text('Uploading...');
-     },
-     onComplete: function(file, response){
-         //On completion clear the status
-         status.text('');
-         var filepath = url+'/uploadfiles/'+response;
-         var xp = document.getElementById('files');
-         while(xp.hasChildNodes()){
-             document.getElementById('files').removeChild(xp.firstChild);
-         }
-
-         if(response != ""){
-             document.getElementById("imagename").value = response;
-             $('<div></div>').appendTo('#files').html('<img height="50" width="50"  src="'+filepath+'" alt="" /><br />').addClass('success');
-         } else{
-             $('<div></div>').appendTo('#files').text(response).addClass('error');
-         }
-     }
- });
-
+	 var btnUpload=$('#upload_1');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status);
 });
+
+$(function(){
+	 var btnUpload=$('#upload_2');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status);
+});
+$(function(){
+	 var btnUpload=$('#upload_3');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status);
+});
+$(function(){
+	 var btnUpload=$('#upload_4');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status);
+});
+$(function(){
+	 var btnUpload=$('#upload_5');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status);
+});
+	
+function ajaxUpload(btnUpload,status){
+	 var url='<?php echo $baseUrl ?>';
+	 var SITEROOT=url+"/admin/upload";
+	 new AjaxUpload(btnUpload,
+		 {
+		     action: SITEROOT,
+		     name:'uploadfile' ,
+		     onSubmit: function(file, ext){
+		         if (! (ext && /^(jpg|png|jpeg|gif)$/.test(ext))){
+		             // extension is not allowed
+		             status.text('Only JPG, PNG or GIF files are allowed');
+		             return false;
+		         }
+		         status.text('Uploading...');
+		     },
+		     onComplete: function(file, response){
+		         //On completion clear the status
+		         status.text('');
+		         var filepath = url+'/uploadfiles/'+response;
+		         var xp = document.getElementById('files');
+		         while(xp.hasChildNodes()){
+		             document.getElementById('files').removeChild(xp.firstChild);
+		         }
+		         if(response != ""){
+			         var id = $('#lastImageId').val();
+		             document.getElementById("imagename_"+id).value = response;
+		             $('#preview_'+id).show();
+		             $('<div></div>').appendTo('#files_'+id).html('<img height="50" width="50"  src="'+filepath+'" alt="" /><br />').addClass('success');
+		             $('#lastImageId').val();
+		         } else{
+		            // $('<div></div>').appendTo('#files').text(response).addClass('error');
+		         }
+		         
+		     }
+		 });
+}
+
+function previewImage(id){
+	$('#files_'+id).show();
+	return false;
+}
 
 </script>
 
@@ -80,23 +100,92 @@ $(function(){
         
         </div>
     </div>
+    
+    <input type='text' name='lastImageId' id='lastImageId' value='1'>
+    
     <div class="content2">
-    	 <input type='hidden' name='imagename' id='imagename' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
+    	<input type='hidden' name='imagename_1' id='imagename_1' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
 		<div class="content3"><span style="color:red">*</span> Title / Image:</div>
         <div class="content4"> <input name="amenityName" type="text" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="amenityName" value="<?php echo $this->amenityDetail[0]['amenity_name']; ?>"/>
-		<button class="" style="height:28px;margin-left:10px;" id="upload">Browse</button>
+			<button class="" style="height:28px;margin-left:10px;" id="upload_1">Browse</button>
+			<button class="" style="width:auto;height:28px;margin-left:10px; background-color:#333; color:#fff; border" id="upload">+ Add More</button>
+			<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_1" onclick="return previewImage('1')">Preview</button>
+			<div class="am" >
+		        <div class="" id="files_1" style="display: none;">
+		        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
+					<img height="60" width="70"  src="<?php echo $baseUrl; ?>/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+				<?php }?>
+				</div>
+	    	</div>
+		</div>
+		
+	</div>
+		
+	<div class="content2">
+    	<input type='hidden' name='imagename_2' id='imagename_2' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
+		<div class="content3"><span style="color:red"></span></div>
+        <div class="content4"> <input name="amenityName" type="text" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="amenityName" value="<?php echo $this->amenityDetail[0]['amenity_name']; ?>"/>
+		<button class="" style="height:28px;margin-left:10px;"  id="upload_2">Browse</button>
 		<button class="" style="height:28px;margin-left:10px; background-color:#333; color:#fff; border" id="upload">Preview</button>
-		<button class="" style="height:28px;margin-left:10px; background-color:#333; color:#fff; border" id="upload">+ Next</button>
+		<div class="am" >
+	        <div class="" id="files">
+	        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
+				<img height="60" width="70"  src="<?php echo $baseUrl; ?>/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+			<?php }?>
+			</div>
+	    </div>
+		
+		</div>
+	</div>
+		
+	<div class="content2">
+    	<input type='hidden' name='imagename_3' id='imagename_3' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
+		<div class="content3"><span style="color:red"></span></div>
+        <div class="content4"> <input name="amenityName" type="text" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="amenityName" value="<?php echo $this->amenityDetail[0]['amenity_name']; ?>"/>
+		<button class="" style="height:28px;margin-left:10px;" id="upload_3">Browse</button>
+		<button class="" style="height:28px;margin-left:10px; background-color:#333; color:#fff; border" id="upload">Preview</button>
 		<div class="am" >
         <div class="" id="files">
         <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
 			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
 		<?php }?>
 		</div>
-    </div>
+    	</div>
+		</div>
+	</div>
 		
+	<div class="content2">
+    	<input type='hidden' name='imagename_4' id='imagename_4' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
+		<div class="content3"><span style="color:red"></span></div>
+        <div class="content4"> <input name="amenityName" type="text" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="amenityName" value="<?php echo $this->amenityDetail[0]['amenity_name']; ?>"/>
+		<button class="" style="height:28px;margin-left:10px;" id="upload_4">Browse</button>
+		<button class="" style="height:28px;margin-left:10px; background-color:#333; color:#fff; border" id="upload">Preview</button>
+		<div class="am" >
+        <div class="" id="files">
+        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
+			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+		<?php }?>
 		</div>
+    	</div>
 		</div>
+	</div>
+		
+	<div class="content2">
+    	<input type='hidden' name='imagename_5' id='imagename_5' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
+		<div class="content3"><span style="color:red"></span></div>
+        <div class="content4"> <input name="amenityName" type="text" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="amenityName" value="<?php echo $this->amenityDetail[0]['amenity_name']; ?>"/>
+		<button class="" style="height:28px;margin-left:10px;" id="upload_5">Browse</button>
+		<button class="" style="height:28px;margin-left:10px; background-color:#333; color:#fff; border" id="upload">Preview</button>
+		<div class="am" >
+        <div class="" id="files">
+        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
+			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+		<?php }?>
+		</div>
+    	</div>
+		</div>
+		
+	</div>
 		
 	
    </div>

@@ -532,33 +532,32 @@ class AdminController extends AbstractActionController
     	if ($request->isPost()) {
     
     		$amenityType		= $this->params()->fromPost('amenityType');
-    		$imagename  			= $this->params()->fromPost('imagename');
-    		$amenityName  			= $this->params()->fromPost('amenityName');
-    
-    		if(isset($id)){
-    
-    			$data = array(
-    				'amenity_type_id'		=> 	$amenityType,
-    				'amenity_name'			=> 	$amenityName,
-    				'amenity_image'			=> 	$imagename,
-    			);
-    			$where = array(
-    					'id'	=> 	$id,
-    			);
-    			$adminModel->updateanywhere('amenities',$data,$where);
-    			$msg = 'Amenitiy Edited Successfully.';
-    		}else{
-    			$data = array(
-    				'amenity_type_id'		=> 	$amenityType,
-    				'amenity_name'			=> 	$amenityName,
-    				'amenity_image'			=> 	$imagename,
-    			);
-    			$adminModel->insertanywhere('amenities',$data);
-    			$msg = 'Amenitiy Added Successfully.';
+    		$imagename  		= $this->params()->fromPost('imagename');
+    		$amenityName  		= $this->params()->fromPost('amenityName');
+    		if($amenityName!='') {
+	    		if(isset($id)){
+	    			$data = array(
+	    				'amenity_type_id'		=> 	$amenityType,
+	    				'amenity_name'			=> 	$amenityName,
+	    				'amenity_image'			=> 	$imagename,
+	    			);
+	    			$where = array(
+	    					'id'	=> 	$id,
+	    			);
+	    			$adminModel->updateanywhere('amenities',$data,$where);
+	    			$msg = 'Amenitiy Edited Successfully.';
+	    		}else{
+	    			$data = array(
+	    				'amenity_type_id'		=> 	$amenityType,
+	    				'amenity_name'			=> 	$amenityName,
+	    				'amenity_image'			=> 	$imagename,
+	    			);
+	    			$adminModel->insertanywhere('amenities',$data);
+	    			$msg = 'Amenitiy Added Successfully.';
+	    		}
     		}
     	}
     	if(isset($id)){
-    		 
     		$stateTable = new TableGateway('amenities', $adapter);
     		$amenityDetail = $stateTable->select(array('id' => $id))->toArray();
     		$view->setVariable('amenityDetail', $amenityDetail);
