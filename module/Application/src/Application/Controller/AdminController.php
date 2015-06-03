@@ -567,6 +567,51 @@ class AdminController extends AbstractActionController
     	return $view;
     }
     
+    public function amentieslistAction()
+    {
+    	$view = new ViewModel();
+    	$this->layout('layout/layoutadmin');
+    	return $view;
+    }
+    
+    public function amentieslistdataAction()
+    {
+    	$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+    	$stateTable = new TableGateway('amenities', $adapter);
+    	$arrList = $stateTable->select()->toArray();
+    	
+    	$dataArray = array();
+    	$baseUrl = $this->getRequest()->getbaseUrl();
+    	foreach($arrList as $val1)
+    	{
+    		$temp_arr = array();
+    		$amenity_name		=	$val1['amenity_name'];
+    		$status				=	($val1['is_active']==1) ? 'Active' :	'Inactive';
+    		$action				=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
+    		$delete 			=	'<a href="'.$baseUrl.'/admin/addeditamenties?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+    		$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$amenity_name,$status,$delete.$action));
+    	}
+    	$json = json_encode($dataArray);
+    	$jsonData = '{rows:'.$json.'}';
+    	exit('{rows:'.$json.'}');
+    }
+    
+    public function amentiesstatusAction()
+    {
+    	$action 		= $this->params()->fromPost('action');
+    	$id 			= $this->params()->fromPost('id');
+    	$selectedIds 	= $this->params()->fromPost('selectedIds');
+    
+    	if(isset($selectedIds)){
+    		$idArr = explode(',',$selectedIds);
+    		foreach($idArr as $id)
+    			$this->statusUpdate('amenities',$action,$id);
+    	}else{
+    		$this->statusUpdate('amenities',$action,$id);
+    	}
+    	exit('1');
+    }
+    
 	public function uploadAction() {
 		$baseurl = $this->getRequest()->getbaseUrl();
 		$random  = rand(101,999);

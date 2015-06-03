@@ -11,8 +11,8 @@
 <script type="text/javascript"  src="<?php echo $baseUrl;?>/dhtmlxgrid/codebase/ext/dhtmlxgrid_filter.js" ></script>
 <script type="text/javascript"  src="<?php echo $baseUrl;?>/dhtmlxgrid/codebase/ext/dhtmlxgrid_pgn.js"></script>
 <div class="contant">
-<div class="heading">Manage City
-<a href="" style="text-align:center; font-size:24px; color:#333333; margin-left:600px;">Add city</a></div>
+<div class="heading">Manage Amenities
+<a href='<?php echo $baseUrl;?>/admin/addeditamenties'><input type="submit" value="+ Add Amenities" style="width:auto; height:28px; background-color:#333; color:#FFFFFF; border:none; border-radius: 16px;cursor: pointer;padding:5px; float:right; padding-left:10px; padding-right:10px;"  /> </a></div>
 <!----img area----->
 <div class="contant1">
 	
@@ -38,15 +38,16 @@
 
 	<div class="bulk-action1 wp60 fl">
 		<div class="all-categories1 wp50 mt12 fs13 fta fc03 fl">
-			<select class="form-control" name="operationvalue" id="operationvalue" onchange="this.value" >
+			<select class="form-control" name="operationvalue" id="operationvalue" onchange="this.value" style="width:250px; height:30px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9; margin-top:25px;">
 				<option value=''>Bulk Option</option>
 				<option value='delete'>Delete</option>
 				<option value='inactive'>Inactivate</option>
 				<option value='active' id='activated'>Activate</option>
 			</select>
+			<input type="submit" value="Apply" onclick="bulkaction()" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px 10px;margin-left:10px;"  />
 		</div>
 		<div class="dashboard-daily-button mt17 ml05 fl">
-			<a class="button_lblue_r4" onclick="bulkaction()">Apply</a>
+			
 		</div>
 	</div>
 	
@@ -54,18 +55,18 @@
 </div>
 <script>
 
-	var strgridURL='<?php echo $baseUrl;?>/admin/citylistdata';
+	var strgridURL='<?php echo $baseUrl;?>/admin/amentieslistdata';
 	var mygrid = new dhtmlXGridObject('manageuser');
 	mygrid.setSkin("dhx_skyblue");
 	mygrid.setImagePath("<?php echo $baseUrl;?>/dhtmlxgrid/codebase/imgs/");
-	mygrid.setHeader(",<b>City</b>,<b>State</b>,<b>Status</b>,<b>Action</b>");							
-	mygrid.attachHeader("#master_checkbox,#text_filter,#select_filter,,");	
-	mygrid.setInitWidths(" 30, 200, 170, 150, 300");
-	mygrid.enableTooltips("false,false,false,false,false");
+	mygrid.setHeader(",<b>Title</b>,<b>Status</b>,<b>Action</b>");							
+	mygrid.attachHeader("#master_checkbox,#text_filter,,");	
+	mygrid.setInitWidths(" 30, 490, 150, 300");
+	mygrid.enableTooltips("false,false,false,false");
 	mygrid.enableAutoHeight(true);   
-	mygrid.setColAlign("center,left,left,left,left");
-	mygrid.setColTypes("ch,ro,ro,ro,ro");
-	mygrid.setColSorting("na,str,str,str,str");
+	mygrid.setColAlign("center,left,left,left");
+	mygrid.setColTypes("ch,ro,ro,ro");
+	mygrid.setColSorting("na,str,str,str");
 	mygrid.enablePaging(true, 10, null, "pagingArea", true, "recinfoArea");
 	mygrid.setPagingSkin("bricks");
 	// mygrid.attachEvent("onXLS", function() { $("#preloader").show() });
@@ -81,10 +82,10 @@
 	
 	function deleteRow(id){
 		SITEROOT = '<?php echo $baseUrl?>';
-		$.post(SITEROOT+'/admin/updatestatus', {id:id,action:'delete'},function(response){
+		$.post(SITEROOT+'/admin/amentiesstatus', {id:id,action:'delete'},function(response){
 			if(response == '1')
 			{
-				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/statelistdata',callBack,"json");
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/amentieslistdata',callBack,"json");
 			}
 		
 		}) ;
@@ -92,10 +93,10 @@
 	
 	function activeStatus(id){
 		SITEROOT = '<?php echo $baseUrl?>';
-		$.post(SITEROOT+'/admin/updatestatus', {id:id,action:'active'},function(response){
+		$.post(SITEROOT+'/admin/amentiesstatus', {id:id,action:'active'},function(response){
 			if(response == '1')
 			{
-				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/statelistdata',callBack,"json");
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/amentieslistdata',callBack,"json");
 			}
 		
 		}) ;
@@ -104,11 +105,11 @@
 	
 	function inActiveStatus(id){
 		SITEROOT = '<?php echo $baseUrl?>';
-		$.post(SITEROOT+'/admin/updatecitystatus', {id:id,action:'inactive'},function(response){
+		$.post(SITEROOT+'/admin/amentiesstatus', {id:id,action:'inactive'},function(response){
 			// alert(response);
 			if(response == '1')
 			{
-				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/citylistdata',callBack,"json");
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/amentieslistdata',callBack,"json");
 			}
 		
 		}) ;
@@ -132,10 +133,10 @@
 			if(action!=''){
 				var selectedIds = getSelectedIds();
 				SITEROOT = '<?php echo $baseUrl?>';
-				$.post(SITEROOT+'/admin/updatestatus', {selectedIds:selectedIds,action:action},function(response){
+				$.post(SITEROOT+'/admin/amentiesstatus', {selectedIds:selectedIds,action:action},function(response){
 					if(response == '1')
 					{
-						mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/statelistdata',callBack,"json");
+						mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/amentieslistdata',callBack,"json");
 					}
 				}) ;		
 			}
