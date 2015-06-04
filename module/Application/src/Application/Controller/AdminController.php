@@ -525,37 +525,43 @@ class AdminController extends AbstractActionController
     	$amenityTypeTable = new TableGateway('amenity_type_list', $adapter);
     	$amenityTypeList = $amenityTypeTable->select()->toArray();
     	$view->setVariable('amenityTypeList', $amenityTypeList);
-    
-    	//     	echo '<pre>';print_r($rowset);exit;
     	$msg = '';
     	$request = $this->getRequest();
     	if ($request->isPost()) {
     
     		$amenityType		= $this->params()->fromPost('amenityType');
-    		$imagename  		= $this->params()->fromPost('imagename');
-    		$amenityName  		= $this->params()->fromPost('amenityName');
-    		if($amenityName!='') {
+    		$lastDivId			= $this->params()->fromPost('lastDivId');
 	    		if(isset($id)){
-	    			$data = array(
-	    				'amenity_type_id'		=> 	$amenityType,
-	    				'amenity_name'			=> 	$amenityName,
-	    				'amenity_image'			=> 	$imagename,
-	    			);
-	    			$where = array(
-	    					'id'	=> 	$id,
-	    			);
-	    			$adminModel->updateanywhere('amenities',$data,$where);
-	    			$msg = 'Amenitiy Edited Successfully.';
+		    			$imagename  		= $this->params()->fromPost('imagename_1');
+		    			$amenityName  		= $this->params()->fromPost('amenityName_1');
+		    			if($amenityName!='') {	
+			    			$data = array(
+			    				'amenity_type_id'		=> 	$amenityType,
+			    				'amenity_name'			=> 	$amenityName,
+			    				'amenity_image'			=> 	$imagename,
+			    			);
+			    			$where = array(
+			    					'id'	=> 	$id,
+			    			);
+			    			$adminModel->updateanywhere('amenities',$data,$where);
+			    			$msg = 'Amenitiy Edited Successfully.';
+		    			}
 	    		}else{
-	    			$data = array(
-	    				'amenity_type_id'		=> 	$amenityType,
-	    				'amenity_name'			=> 	$amenityName,
-	    				'amenity_image'			=> 	$imagename,
-	    			);
-	    			$adminModel->insertanywhere('amenities',$data);
+	    			for($i=1;$i<$lastDivId+1;$i++)
+	    			{
+	    				$imagename  	= $this->params()->fromPost('imagename_'.$i);
+	    				$amenityName  	= $this->params()->fromPost('amenityName_'.$i);
+	    				if($amenityName!='') {	
+			    			$data = array(
+			    				'amenity_type_id'		=> 	$amenityType,
+			    				'amenity_name'			=> 	$amenityName,
+			    				'amenity_image'			=> 	$imagename,
+			    			);
+			    			$adminModel->insertanywhere('amenities',$data);
+		    			}
+		    		}
 	    			$msg = 'Amenitiy Added Successfully.';
 	    		}
-    		}
     	}
     	if(isset($id)){
     		$stateTable = new TableGateway('amenities', $adapter);
