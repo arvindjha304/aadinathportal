@@ -25,7 +25,7 @@
 		<img class=""src='images/animatedEllipse2.gif' border='0' style="width:50px;  left: 560px;position: absolute; top: 450px;z-index:2000"  ></div>	
 		
 		
-		<div id="manageuser" class="gridbox" style="width:90% !important; background-color:white; margin-left: 0px;"></div>
+		<div id="manageuser" class="gridbox" style="width:100% !important; background-color:white; margin-left: 0px;"></div>
 		
 		
 		<div class="pagingWrap">
@@ -61,7 +61,7 @@
 	mygrid.setImagePath("<?php echo $baseUrl;?>/dhtmlxgrid/codebase/imgs/");
 	mygrid.setHeader(",<b>Title</b>,<b>Status</b>,<b>Action</b>");							
 	mygrid.attachHeader("#master_checkbox,#text_filter,,");	
-	mygrid.setInitWidths(" 30, 490, 150, 300");
+	mygrid.setInitWidths(" 30, 490, 150, *");
 	mygrid.enableTooltips("false,false,false,false");
 	mygrid.enableAutoHeight(true);   
 	mygrid.setColAlign("center,left,left,left");

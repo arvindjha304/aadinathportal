@@ -38,25 +38,27 @@ class AdminController extends AbstractActionController
     	if ($request->isPost()) {
     		
     		$state = $this->params()->fromPost('state');
-    		if(isset($id)){
-    			
-    			$data = array(
-    				'state_name'	=> 	$state,
-    			);
-    			$where = array(
-    				'id'	=> 	$id,
-    			);
-    			$adminModel->updateanywhere('states',$data,$where);
-    			$msg = 'State Edited Successfully.';
-    		}else{
-    			
-	    		$data = array(
-		    		'state_name'	=> 	$state,
-		    		'date_created'	=> 	date('Y-m-d H:i:s'),
-	    		);
-	    		$adminModel->insertanywhere('states',$data);
-	    		$msg = 'State Added Successfully.';
-    		}
+	    		if($state!=''){
+		    		if(isset($id)){
+		    			
+		    			$data = array(
+		    				'state_name'	=> 	$state,
+		    			);
+		    			$where = array(
+		    				'id'	=> 	$id,
+		    			);
+		    			$adminModel->updateanywhere('states',$data,$where);
+		    			$msg = 'State Edited Successfully.';
+		    		}else{
+		    			
+			    		$data = array(
+				    		'state_name'	=> 	ucfirst($state),
+				    		'date_created'	=> 	date('Y-m-d H:i:s'),
+			    		);
+			    		$adminModel->insertanywhere('states',$data);
+			    		$msg = 'State Added Successfully.';
+		    		}
+	    		}	
     	}
     	if(isset($id)){
     	

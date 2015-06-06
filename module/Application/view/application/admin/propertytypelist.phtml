@@ -86,8 +86,7 @@
 	function deleteRow(id){
 		SITEROOT = '<?php echo $baseUrl?>';
 		$.post(SITEROOT+'/admin/updatepropertypestatus', {id:id,action:'delete'},function(response){
-			if(response == '1')
-			{
+			if(response == '1'){
 				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/propertytypelistdata',callBack,"json");
 			}
 		

@@ -61,7 +61,7 @@
 	mygrid.setImagePath("<?php echo $baseUrl;?>/dhtmlxgrid/codebase/imgs/");
 	mygrid.setHeader(",<b>City</b>,<b>State</b>,<b>Status</b>,<b>Action</b>");							
 	mygrid.attachHeader("#master_checkbox,#text_filter,#select_filter,,");	
-	mygrid.setInitWidths(" 30, 320, 170, 150, 300");
+	mygrid.setInitWidths(" 30, 320, 170, 150, *");
 	mygrid.enableTooltips("false,false,false,false,false");
 	mygrid.enableAutoHeight(true);   
 	mygrid.setColAlign("center,left,left,left,left");
@@ -85,7 +85,7 @@
 		$.post(SITEROOT+'/admin/updatestatus', {id:id,action:'delete'},function(response){
 			if(response == '1')
 			{
-				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/statelistdata',callBack,"json");
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/citylistdata',callBack,"json");
 			}
 		
 		}) ;
@@ -96,7 +96,7 @@
 		$.post(SITEROOT+'/admin/updatestatus', {id:id,action:'active'},function(response){
 			if(response == '1')
 			{
-				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/statelistdata',callBack,"json");
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/citylistdata',callBack,"json");
 			}
 		
 		}) ;
@@ -136,7 +136,7 @@
 				$.post(SITEROOT+'/admin/updatestatus', {selectedIds:selectedIds,action:action},function(response){
 					if(response == '1')
 					{
-						mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/statelistdata',callBack,"json");
+						mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/citylistdata',callBack,"json");
 					}
 				}) ;		
 			}

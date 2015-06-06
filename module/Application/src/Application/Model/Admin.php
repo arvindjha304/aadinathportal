@@ -120,7 +120,11 @@ use Zend\Db\Sql\Expression;
 		}elseif($field == 'locations'){
 			$name = trim(strtolower($name));
 			$sql="select location_name from $field st where TRIM(LOWER(st.location_name))='$name'";
+		}elseif($field == 'property_type'){
+			$name = trim(strtolower($name));
+			$sql="select property_type from $field st where TRIM(LOWER(st.property_type))='$name'";
 		}
+		
 		$result =$db->query($sql)->execute()->current();
 		return $result;
 	

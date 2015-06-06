@@ -1,20 +1,16 @@
-<?php $baseUrl = $this->basePath(); 
-
-// 	echo '<pre>';print_r($this->cityDetail);exit; 
-
-?>
+<?php $baseUrl = $this->basePath(); ?>
 <div class="contant">
 <div class="heading"><?php echo $this->heading?></div>
 <div class="contant1">
-	<form method="post" action="" name="">
+	<form method="post" action="" name="" id="locationForm">
 		
     <?php if($this->msg!=''){?>
 	<div ><?php echo $this->msg?></div>
 	<?php }?>
+	<span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"></span>
 	<div class="content2">
 		<div class="content3"><span style="color:red">*</span> State:</div>
         <div class="content4">
-        
         <select id="stateName" name="state"  style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;"  >
         	<option value="">Select</option>
         	<?php foreach ($this->stateList as $state){?>
@@ -42,10 +38,8 @@
         <div class="content4"><input name="location" type="text" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="locationName" value="<?php if(isset($this->locationDetail[0]['location_name']))echo $this->locationDetail[0]['location_name']?>"/></div>
     </div>
 	<div class="content5">
-	
-	<input type="submit" value="<?php echo $this->heading?>"  style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer; padding:5px;" />
-	<input type="button" value="Cancel" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer; padding:5px;" />
-	
+	<button onclick="return submitForm()" value="<?php echo $this->heading?>" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;">Submit</button>
+	<a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl;?>/admin/locationlist" >Cancel</a>
 	</div>
 	
 	</form>
@@ -65,29 +59,83 @@ $("#stateName").change(function(){
 			if(response!=''){
 				$('#cityName').html(response);
 				return false;
+			}else{
+				$('#cityName').html('');
+				return false;
 			}
 		});
+	}else{
+		$('#cityName').html('');
+		return false;
 	}
-	
 });
-
-
 
 $('#cityName').change(function(){
 	$('#locationName').val('');
 });
 
+var error = 0;
+function hasNumbers(t){
+	return /\d/.test(t);
+}
 
-$("#locationName").blur(function(){
-	var name = $(this).val();
+function submitForm(){
+
+	var locationName = $("#locationName").val();
+	var cityName = $("#cityName").val();
+	var stateName = $("#stateName").val();
+	if(locationName == ''){
+		$("#nameExist").text('Location Name cannot be empty.').show();
+		return false;
+	}
+	if(cityName == ''){
+		$("#nameExist").text('City Name cannot be empty.').show();
+		return false;
+	}
+	if(stateName == ''){
+		$("#nameExist").text('State Name cannot be empty.').show();
+		return false;
+	}
 	SITEROOT = '<?php echo $baseUrl?>';
-	if(name!=''){
-		$.post(SITEROOT+'/admin/checkname', {name:name,field:'locations'},function(response){
+	if(locationName!=''){
+		$.post(SITEROOT+'/admin/checkname', {name:locationName,field:'locations'},function(response){
 			if(response == '1'){
-				alert('Name entered already exists');
+				$("#nameExist").text('Name entered already exists.').show();
+				error = 1;
 				return false;
+			}else{
+				var chknumber = hasNumbers($('#locationName').val());
+				if(chknumber==true){
+					$("#nameExist").text('Location Name cannot have numbers.').show();
+					error = 1;
+					return false;
+				}else{
+					$("#nameExist").hide();
+					error = 0;
+				}
+				if(error==0){
+					$('#locationForm').submit();
+				}
 			}
 		});
 	}
-});
+return false;
+}
+
+// $("#locationName").blur(function(){
+// 	var name = $(this).val();
+//	SITEROOT = '<?php echo $baseUrl?>';
+// 	if(name!=''){
+// 		$.post(SITEROOT+'/admin/checkname', {name:name,field:'locations'},function(response){
+// 			if(response == '1'){
+// 				alert('Name entered already exists');
+// 				return false;
+// 			}
+// 		});
+// 	}
+// });
+
+
+
+
 </script>

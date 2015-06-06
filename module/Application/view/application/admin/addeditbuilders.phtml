@@ -8,12 +8,6 @@
 
 $(function(){
  var btnUpload=$('#upload');
-
-
-//  alert('dddd');return false;
-
-
-
  var status=$('#status');
  var url='<?php echo $baseUrl ?>';
  var SITEROOT=url+"/admin/upload";
@@ -21,9 +15,6 @@ $(function(){
  
  new AjaxUpload(btnUpload,
  {
-
-// 	 alert('dddd');return false;
-	 
      action: SITEROOT,
      name:'uploadfile' ,
      onSubmit: function(file, ext){
@@ -62,11 +53,12 @@ $(function(){
 <div class="contant">
 <div class="heading"><?php echo $this->heading?></div>
 <div class="contant1">
-	<form method="post" action="" name="">
+	<form method="post" action="" name="" id="builderform">
 		
     <?php if($this->msg!=''){?>
 	<div ><?php echo $this->msg?></div>
 	<?php }?>
+	<span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"></span>
 	<div class="content2">
 		<div class="content3"><span style="color:red">*</span> Builder:</div>
         <div class="content4">
@@ -85,8 +77,8 @@ $(function(){
         <div class="content4-builder"><button class="" style="" id="upload">Browse</button>
 		<div class="am2" >
         <div class="" id="files">
-        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
-			<img height="60" width="70" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+        <?php if(isset($this->builderDetail[0]['builder_image'])) {?>
+			<img height="60" width="70" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/uploadfiles/<?php echo $this->builderDetail[0]['builder_image']; ?>"/> 
 		<?php }?>
 		</div>
     </div>
@@ -127,8 +119,8 @@ $(function(){
   
 	<div class="content5">
 	
-	<input type="submit" value="<?php echo $this->heading?>" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer; padding:5px;" />
-	<input type="button" value="Cancel" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer; padding:5px;" />
+	<button onclick="return submitForm()" value="<?php echo $this->heading?>" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;"><?php echo $this->heading?></button>
+	<a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl;?>/admin/builderlist" >Cancel</a>
 	
 	</div>
 	
@@ -139,16 +131,62 @@ $(function(){
 
 <script>
 
-$("#cityName").blur(function(){
-	var name = $(this).val();
-	SITEROOT = '<?php echo $baseUrl?>';
-	if(name!=''){
-		$.post(SITEROOT+'/admin/checkname', {name:name,field:'cities'},function(response){
-			if(response == '1'){
-				alert('Name entered already exists');
-				return false;
-			}
-		});
+var error = 0;
+function hasNumbers(t){
+	return /\d/.test(t);
+}
+
+function submitForm(){
+	var builder_name 	= $('#builder_name').val();
+	var about_builder 	= $('#about_builder').val();
+	var imagename 		= $('#imagename').val();
+	var meta_tag 		= $('#meta_tag').val();
+	var keyword 		= $('#keyword').val();
+	var description 	= $('#description').val();
+	var priority 		= $('#priority').val();
+	var error = 0;
+	var msg = '';
+	if(builder_name =='' ){
+		var msg = 'Builder Name cannot be empty.';
+		error = 1;
+	}else if(about_builder =='' ){
+		var msg = 'About Builder cannot be empty.';
+		error = 1;
+	}else if(imagename =='' ){
+		var msg = 'Builder Image cannot be empty.';
+		error = 1;
+	}else if(meta_tag =='' ){
+		var msg = 'Meta Tag cannot be empty.';
+		error = 1;
+	}else if(keyword =='' ){
+		var msg = 'Keyword cannot be empty.';
+		error = 1;
+	}else if(description =='' ){
+		var msg = 'Description cannot be empty.';
+		error = 1;
+	}else if(priority =='' ){
+		var msg = 'Priority cannot be empty.';
+		error = 1;
 	}
-});
+
+	if(msg!=''){
+		$("#nameExist").text(msg).show();
+		return false;
+	}else{
+		$('#builderform').submit();
+	}	
+}
+
+// $("#cityName").blur(function(){
+// 	var name = $(this).val();
+//	SITEROOT = '<?php echo $baseUrl?>';
+// 	if(name!=''){
+// 		$.post(SITEROOT+'/admin/checkname', {name:name,field:'cities'},function(response){
+// 			if(response == '1'){
+// 				alert('Name entered already exists');
+// 				return false;
+// 			}
+// 		});
+// 	}
+// });
 </script>

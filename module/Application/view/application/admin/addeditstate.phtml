@@ -2,19 +2,18 @@
 <div class="contant">
 <div class="heading"><?php echo $this->heading?></div>
 <div class="contant1">
-	<form method="post" action="" name="">
-		
+	<form method="post" action="" id="states">
     <?php if($this->msg!=''){?>
-	<div ><?php echo $this->msg?></div>
+	<div><?php echo $this->msg?></div>
 	<?php }?>
 	<div class="content2">
 		<div class="content3"><span style="color:red">*</span> State:</div>
-        <div class="content4"><input name="state" type="text" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="stateName" value="<?php echo $this->stateDetail[0]['state_name']?>"/></div>
+        <div class="content4"><input name="state" type="text" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="stateName" value="<?php echo $this->stateDetail[0]['state_name']?>"/><span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"></span></div>
     </div>
 	<div class="content5">
 	
-	<input type="submit" value="<?php echo $this->heading?>" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;"  />
-	<input type="button" value="Cancel" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;" />
+	<button onclick="return submitForm()" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;"><?php echo $this->heading?></button>
+	<a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl;?>/admin/statelist" >Cancel</a>
 	
 	</div>
 	
@@ -24,17 +23,43 @@
 </div>
 
 <script>
+var error = 0;
+function hasNumbers(t){
+	return /\d/.test(t);
+}
 
-$("#stateName").blur(function(){
-	var name = $(this).val();
+function submitForm(){
+
+	var name = $("#stateName").val();
+	if(name == ''){
+		$("#nameExist").text('State Name cannot be empty.').show();
+		return false;
+	}
 	SITEROOT = '<?php echo $baseUrl?>';
 	if(name!=''){
 		$.post(SITEROOT+'/admin/checkname', {name:name,field:'states'},function(response){
 			if(response == '1'){
-				alert('Name entered already exists');
+				$("#nameExist").text('Name entered already exists.').show();
+				error = 1;
 				return false;
+			}else{
+				var chknumber = hasNumbers($('#stateName').val());
+				if(chknumber==true){
+					$("#nameExist").text('State Name cannot have numbers.').show();
+					error = 1;
+					return false;
+				}else{
+					$("#nameExist").hide();
+					error = 0;
+				}
+				if(error==0){
+					$('#states').submit();
+				}
 			}
 		});
 	}
-});
+return false;
+}
+// });
+
 </script>

@@ -158,17 +158,17 @@ return array(
 
 		'controller_plugins' => array(
 				'invokables' => array(
-						/* 'HelperAuth' 					=> 'Application\Controller\Plugin\HelperAuth',
+						/* 'HelperAuth' 				=> 'Application\Controller\Plugin\HelperAuth',
 						'CommonFunctions' 				=> 'Application\Controller\Plugin\CommonFunctions',
 						'Acl2' 							=> 'Application\Controller\Plugin\Acl2',
-						'csvUserExport' 					=> 'Application\Controller\Plugin\csvUserExport',
+						'csvUserExport' 				=> 'Application\Controller\Plugin\csvUserExport',
 						'Trainingcatelogallplace'		=> 'Application\Controller\Plugin\Trainingcatelogallplace',
-						'ElearningMedia'					=> 'Application\Controller\Plugin\ElearningMedia',
+						'ElearningMedia'				=> 'Application\Controller\Plugin\ElearningMedia',
 						'Enrolleduserfromallplace' 		=> 'Application\Controller\Plugin\Enrolleduserfromallplace',
 						'Mailnotification'				=> 'Application\Controller\Plugin\Mailnotification',
 						'Mylearningfunctions'			=> 'Application\Controller\Plugin\Mylearningfunctions',
 						'Coursecreditfunctions'			=> 'Application\Controller\Plugin\Coursecreditfunctions',
-						'TrainingItemsFunctions'			=> 'Application\Controller\Plugin\TrainingItemsFunctions',
+						'TrainingItemsFunctions'		=> 'Application\Controller\Plugin\TrainingItemsFunctions',
 						'Assignmentfunctions'			=> 'Application\Controller\Plugin\Assignmentfunctions', */
 				)
 		),
