@@ -1,4 +1,4 @@
-<?php //echo '<pre>';print_r($this->aboutUsDate);exit;?>
+<?php $baseUrl = $this->basePath(); ?>
 
 <!-- Slider
 ======================================================================================= -->
@@ -7,7 +7,7 @@
     <div class="master-slider ms-skin-default" id="masterslider">
       <div class="ms-slide slide-1" data-delay="9">       
        <div class="slide-pattern"></div>
-       <img src="js/masterslider/blank.gif" data-src="images/sliders/master/15.jpg" alt=""/> 
+       <img src="js/masterslider/blank.gif" data-src="<?php echo $baseUrl;?>/public/images/sliders/master/15.jpg" alt=""/> 
         <h3 class="ms-layer text7 center"
         	style="top: 235px;"
             data-type="text"
@@ -28,7 +28,7 @@
             data-delay="1600"
 			data-ease="easeOutExpo"
 			data-duration="1200"
-			data-effect="scale(1.2,1.3)"> <a href="#"><img src="images/icon/buy-icon.png"><br>
+			data-effect="scale(1.2,1.3)"> <a href="#"><img src="<?php echo $baseUrl;?>/public/images/icon/buy-icon.png"><br>
           <strong>BUY</strong></a> </div>
         <!-- end box -->
         <div class="ms-layer sbox2"
@@ -36,7 +36,7 @@
             data-delay="1700"
 			data-ease="easeOutExpo"
 			data-duration="1200"
-			data-effect="scale(1.2,1.3)"> <a href="#"><img src="images/icon/sell-icon.png"><br>
+			data-effect="scale(1.2,1.3)"> <a href="#"><img src="<?php echo $baseUrl;?>/public/images/icon/sell-icon.png"><br>
           <strong>SELL</strong></a> </div>
         <!-- end box -->
         <div class="ms-layer sbox3"
@@ -45,7 +45,7 @@
 			data-ease="easeOutExpo"
 			data-duration="1200"
 			data-effect="scale(1.2,1.3)"
-        > <a href="#"><img src="images/icon/rent-icon.png"><br>
+        > <a href="#"><img src="<?php echo $baseUrl;?>/public/images/icon/rent-icon.png"><br>
           <strong>RENT</strong></a> </div>
         <!-- end box -->
         <div class="ms-layer arrowicon"
@@ -66,31 +66,31 @@
   <!-- featured section 40 Intro -->
   <div class="featured_section40">
     <div class="container">
-      <div class="onecol_forty animate" data-anim-type="fadeInLeft" data-anim-delay="300"> <img src="images/logo/intro-logo.png" alt="" class="rimg" /> </div>
+      <div class="onecol_forty animate" data-anim-type="fadeInLeft" data-anim-delay="300"> <img src="<?php echo $baseUrl;?>/public/images/logo/intro-logo.png" alt="" class="rimg" /> </div>
       <div class="onecol_sixty last">
         <h2 class="roboto">About Aadinath ( your homes india )</h2>
         <h4 class="gray"><?php echo $this->aboutUsData['description']?>.</h4>
         <div class="clearfix margin_top5"></div>
-        <div class="one_half"> <a href="#"><i class="fa"><img src="images/icon/intro-icon.jpg"></i>
+        <div class="one_half"> <a href="#"><i class="fa"><img src="<?php echo $baseUrl;?>/public/images/icon/intro-icon.jpg"></i>
           <h4 class="roboto">Overview</h4>
           </a>
           <p><?php echo $this->aboutUsData['overview']?></p>
         </div>
         <!-- end section -->
-        <div class="one_half last"> <a href="#"><i class="fa"><img src="images/icon/intro-icon.jpg"></i>
+        <div class="one_half last"> <a href="#"><i class="fa"><img src="<?php echo $baseUrl;?>/public/images/icon/intro-icon.jpg"></i>
           <h4 class="roboto">Core Values</h4>
           </a>
           <p><?php echo $this->aboutUsData['core_value']?></p>
         </div>
         <!-- end section -->
         <div class="clearfix margin_top5"></div>
-        <div class="one_half"> <a href="#"><i class="fa"><img src="images/icon/intro-icon.jpg"></i>
+        <div class="one_half"> <a href="#"><i class="fa"><img src="<?php echo $baseUrl;?>/public/images/icon/intro-icon.jpg"></i>
           <h4 class="roboto">Mission & Vision</h4>
           </a>
           <p><?php echo $this->aboutUsData['mission_n_vision']?></p>
         </div>
         <!-- end section -->
-        <div class="one_half last"> <a href="#"><i class="fa"><img src="images/icon/intro-icon.jpg"></i>
+        <div class="one_half last"> <a href="#"><i class="fa"><img src="<?php echo $baseUrl;?>/public/images/icon/intro-icon.jpg"></i>
           <h4 class="roboto">Leadership</h4>
           </a>
           <p><?php echo $this->aboutUsData['leadership']?></p>
@@ -113,7 +113,7 @@
           <div class="bgDescription"></div>
           <div class="description">
             <h2>Residential</h2>
-            <a href="projects.html"><img src="images/latest-Project/lp41.jpg" class="nav-project-img-border"></a> <a href="projects.html"><img src="images/latest-Project/lp41.jpg" class="nav-project-img-border" style="margin-left:180px;"></a> </div>
+            <a href="projects.html"><img src="<?php echo $baseUrl;?>/public/images/latest-Project/lp41.jpg" class="nav-project-img-border"></a> <a href="projects.html"><img src="<?php echo $baseUrl;?>/public/images/latest-Project/lp41.jpg" class="nav-project-img-border" style="margin-left:180px;"></a> </div>
         </li>
       </ul>
       <ul class="haccordion" id="haccordion">
@@ -140,9 +140,9 @@
   <div class="clearfix margin_top12"></div>
   <div class="featured_section39">
     <div class="container">
-      <div class="one_half animate" data-anim-type="fadeInUp" data-anim-delay="100"> <img src="images/icon/new-projects.png" alt="" /> </div>
+      <div class="one_half animate" data-anim-type="fadeInUp" data-anim-delay="100"> <img src="<?php echo $baseUrl;?>/public/images/icon/new-projects.png" alt="" /> </div>
       <!-- end section --->
-      <div class="one_half last animate" data-anim-type="fadeInUp" data-anim-delay="200"> <img src="images/icon/resale-projects.png" alt="" /> </div>
+      <div class="one_half last animate" data-anim-type="fadeInUp" data-anim-delay="200"> <img src="<?php echo $baseUrl;?>/public/images/icon/resale-projects.png" alt="" /> </div>
       <!-- end section -->
     </div>
   </div>
@@ -164,14 +164,14 @@
           What terminologies should I be familiar with? How can Aadinath help me...</p>
         <br>
         <br>
-        <a href="#"><img src="images/icon/read-more-btn.jpg"></a> </div>
+        <a href="#"><img src="<?php echo $baseUrl;?>/public/images/icon/read-more-btn.jpg"></a> </div>
       <!-- end section -->
       <div class="one_third two animate" data-anim-type="fadeInLeft" data-anim-delay="300"> <span class="resource-head-text">NEWS</span>
         <p class="bigtfont" align="center"><b>Featured news and videos on Real Estate</b> <br>
           <br>
           Videos with smart advice from experts at Aadinath. Featured news & events on Real Estate market in India...</p>
         <br>
-        <a href="#"><img src="images/icon/read-more-btn.jpg"></a> </div>
+        <a href="#"><img src="<?php echo $baseUrl;?>/public/images/icon/read-more-btn.jpg"></a> </div>
       <!-- end section -->
       <div class="one_third third animate" data-anim-type="fadeInLeft" data-anim-delay="100"> <span class="resource-head-text">BLOG</span>
         <p class="bigtfont" align="center"><b>Articles on property market in India</b> <br>
@@ -179,7 +179,7 @@
           <br>
           Get your daily dose of key updates and insights about property markets in India...</p>
         <br>
-        <a href="#"><img src="images/icon/read-more-btn.jpg"></a> </div>
+        <a href="#"><img src="<?php echo $baseUrl;?>/public/images/icon/read-more-btn.jpg"></a> </div>
       <!-- end section -->
     </div>
   </div>
@@ -196,14 +196,14 @@
       </h2>
       <div class="clearfix margin_top1"></div>
       <div class="one_half animate" data-anim-type="fadeInLeft" data-anim-delay="200">
-        <div class="bubble"> <img src="images/testimonial/people-img-1.jpg" alt="" />
+        <div class="bubble"> <img src="<?php echo $baseUrl;?>/public/images/testimonial/people-img-1.jpg" alt="" />
           <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
           <div class="clearfix"></div>
         </div>
         <strong>Anupam Sinha <em>&nbsp;</em></strong> </div>
       <!-- end section -->
       <div class="one_half last animate" data-anim-type="fadeInRight" data-anim-delay="200">
-        <div class="bubble"> <img src="images/testimonial/people-img-2.jpg" alt="" />
+        <div class="bubble"> <img src="<?php echo $baseUrl;?>/public/images/testimonial/people-img-2.jpg" alt="" />
           <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
           <div class="clearfix"></div>
         </div>

@@ -82,18 +82,19 @@ function hasNumbers(t){
 function submitForm(){
 
 	var locationName = $("#locationName").val();
-	var cityName = $("#cityName").val();
+	// var cityName = $("#cityName").val();
 	var stateName = $("#stateName").val();
-	if(locationName == ''){
-		$("#nameExist").text('Location Name cannot be empty.').show();
+	
+	if(stateName == ''){
+		$("#nameExist").text('State Name cannot be empty.').show();
 		return false;
 	}
-	if(cityName == ''){
+	if($('#cityName').html() == ''){
 		$("#nameExist").text('City Name cannot be empty.').show();
 		return false;
 	}
-	if(stateName == ''){
-		$("#nameExist").text('State Name cannot be empty.').show();
+	if(locationName == ''){
+		$("#nameExist").text('Location Name cannot be empty.').show();
 		return false;
 	}
 	SITEROOT = '<?php echo $baseUrl?>';

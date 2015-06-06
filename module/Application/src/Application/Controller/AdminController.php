@@ -15,6 +15,10 @@ use Zend\Db\TableGateway\TableGateway;
 
 class AdminController extends AbstractActionController
 {
+	public function getbaseUrl(){
+		$baseUrl = $this->getRequest()->getbaseUrl();
+		
+	}
     public function indexAction()
     {
          $view = new ViewModel();
@@ -586,9 +590,8 @@ class AdminController extends AbstractActionController
     	$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
     	$stateTable = new TableGateway('amenities', $adapter);
     	$arrList = $stateTable->select()->toArray();
-    	
     	$dataArray = array();
-    	$baseUrl = $this->getRequest()->getbaseUrl();
+    	$baseUrl = $this->getbaseUrl();
     	foreach($arrList as $val1)
     	{
     		$temp_arr = array();
@@ -622,7 +625,7 @@ class AdminController extends AbstractActionController
 	public function uploadAction() {
 		$baseurl = $this->getRequest()->getbaseUrl();
 		$random  = rand(101,999);
-		$uploaddir = $_SERVER['DOCUMENT_ROOT'].$baseurl.'/uploadfiles/';
+		$uploaddir = $_SERVER['DOCUMENT_ROOT'].$baseurl.'/public/uploadfiles/';
 		$file = $uploaddir.$random.'_'.basename($_FILES['uploadfile']['name']);
 		$realfilename = $random.'_'.basename($_FILES['uploadfile']['name']);
 		if (move_uploaded_file($_FILES['uploadfile']['tmp_name'], $file)) {
@@ -728,4 +731,7 @@ class AdminController extends AbstractActionController
 		}
 		exit('1');
 	}
+	
+	
+	
 }

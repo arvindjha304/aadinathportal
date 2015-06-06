@@ -1,15 +1,15 @@
 <?php $baseUrl = $this->basePath(); ?>
-<link rel="STYLESHEET" type="text/css" href="<?php echo $baseUrl;?>/dhtmlxgrid/codebase/dhtmlxgrid.css">
-<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl;?>/dhtmlxgrid/codebase/skins/dhtmlxgrid_dhx_skyblue.css">
-<link rel="STYLESHEET" type="text/css" href="<?php echo $baseUrl;?>/dhtmlxgrid/codebase/ext/dhtmlxgrid_pgn_bricks.css">
-<link rel="STYLESHEET" type="text/css" href="<?php echo $baseUrl;?>/dhtmlxgrid/codebase/dhtmlxcombo.css">
+<link rel="STYLESHEET" type="text/css" href="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/dhtmlxgrid.css">
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+<link rel="STYLESHEET" type="text/css" href="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/ext/dhtmlxgrid_pgn_bricks.css">
+<link rel="STYLESHEET" type="text/css" href="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/dhtmlxcombo.css">
 
-<script type="text/javascript"  src="<?php echo $baseUrl;?>/dhtmlxgrid/codebase/dhtmlxcommon.js"></script>
-<script type="text/javascript"  src="<?php echo $baseUrl;?>/dhtmlxgrid/codebase/dhtmlxgrid.js"></script>
-<script type="text/javascript" src="<?php echo $baseUrl;?>/dhtmlxgrid/codebase/dhtmlxcombo.js"></script>
-<script type="text/javascript"  src="<?php echo $baseUrl;?>/dhtmlxgrid/codebase/dhtmlxgridcell.js" ></script>
-<script type="text/javascript"  src="<?php echo $baseUrl;?>/dhtmlxgrid/codebase/ext/dhtmlxgrid_filter.js" ></script>
-<script type="text/javascript"  src="<?php echo $baseUrl;?>/dhtmlxgrid/codebase/ext/dhtmlxgrid_pgn.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/dhtmlxcommon.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/dhtmlxgrid.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/dhtmlxcombo.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/dhtmlxgridcell.js" ></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/ext/dhtmlxgrid_filter.js" ></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/ext/dhtmlxgrid_pgn.js"></script>
 <div class="contant">
 <div class="heading">Manage States
 <a href='<?php echo $baseUrl;?>/admin/addeditstate'><input type="submit" value="+ Add State" style="width:auto; height:28px; background-color:#333; color:#FFFFFF; border:none; border-radius: 16px;cursor: pointer;padding:5px; float:right; padding-left:10px; padding-right:10px;"  /> </a></div>
@@ -68,7 +68,7 @@
 	var strgridURL='<?php echo $baseUrl;?>/admin/statelistdata';
 	var mygrid = new dhtmlXGridObject('manageuser');
 	mygrid.setSkin("dhx_skyblue");
-	mygrid.setImagePath("<?php echo $baseUrl;?>/dhtmlxgrid/codebase/imgs/");
+	mygrid.setImagePath("<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/imgs/");
 	//mygrid.setHeader("<div class='' style='height:21px;'><div class=''><b>Users Status</b><select class='ml10 form-control' style='display: inline;height: 25px;padding: 1px;width: 130px;'  id='setcat'><option value='' id='active' selected='selected'>Active</option><option value='' id='inactive'>Inactive</option></select></div></div>,#cspan,#cspan,#cspan");
 	mygrid.setHeader(",<b>State</b>,<b>Status</b>,<b>Action</b>");							
 	mygrid.attachHeader("#master_checkbox,#text_filter,,");	

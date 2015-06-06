@@ -1,9 +1,5 @@
-<?php $baseUrl = $this->basePath(); 
-
-// 	echo '<pre>';print_r($this->cityDetail);exit; 
-
-?>
-<script src="<?php echo $baseUrl;?>/js/ajaxupload.3.5.js"></script>
+<?php $baseUrl = $this->basePath(); ?>
+<script src="<?php echo $baseUrl;?>/public/js/ajaxupload.3.5.js"></script>
 <script type="text/javascript">
 var deletedDivArray = [];
 $(function(){
@@ -51,7 +47,7 @@ function ajaxUpload(btnUpload,status,id){
 		     onComplete: function(file, response){
 		         //On completion clear the status
 		         status.text('');
-		         var filepath = url+'/uploadfiles/'+response;
+		         var filepath = url+'/public/uploadfiles/'+response;
 		    	 id = parseInt(id);
 				$('#files_'+id).html('');
 		         if(response != ""){
@@ -147,7 +143,7 @@ function delDiv(id){
 			<div class="am" >
 		        <div class="" id="files_1" style="display: none">
 		        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
-					<img height="60" width="70"  src="<?php echo $baseUrl; ?>/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+					<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
 				<?php }?>
 				</div>
 	    	</div>
@@ -165,7 +161,7 @@ function delDiv(id){
 		<div class="am" >
 	        <div class="" id="files_2" style="display: none">
 	        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
-				<img height="60" width="70"  src="<?php echo $baseUrl; ?>/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+				<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
 			<?php }?>
 			</div>
 	    </div>
@@ -183,7 +179,7 @@ function delDiv(id){
 		<div class="am" >
         <div class="" id="files_3" style="display: none">
         <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
-			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
 		<?php }?>
 		</div>
     	</div>
@@ -200,7 +196,7 @@ function delDiv(id){
 		<div class="am" >
         <div class="" id="files_4" style="display: none">
         <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
-			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
 		<?php }?>
 		</div>
     	</div>
@@ -217,7 +213,7 @@ function delDiv(id){
 		<div class="am" >
         <div class="" id="files_5" style="display: none">
         <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
-			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
 		<?php }?>
 		</div>
     	</div>
