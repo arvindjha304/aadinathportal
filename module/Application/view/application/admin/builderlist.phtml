@@ -54,7 +54,7 @@
 </div>
 </div>
 <script>
-
+	SITEROOT = '<?php echo $baseUrl?>';
 	var strgridURL='<?php echo $baseUrl;?>/admin/builderlistdata';
 	var mygrid = new dhtmlXGridObject('manageuser');
 	mygrid.setSkin("dhx_skyblue");
@@ -65,10 +65,11 @@
 	mygrid.enableTooltips("false,false,false,false,false");
 	mygrid.enableAutoHeight(true);   
 	mygrid.setColAlign("center,left,left,left,left");
-	mygrid.setColTypes("ch,ro,ro,ro,ro");
+	mygrid.setColTypes("ch,ro,ed,ro,ro");
 	mygrid.setColSorting("na,str,str,str,str");
 	mygrid.enablePaging(true, 10, null, "pagingArea", true, "recinfoArea");
 	mygrid.setPagingSkin("bricks");
+	mygrid.attachEvent("onEditCell",doOnCellEdit);
 	// mygrid.attachEvent("onXLS", function() { $("#preloader").show() });
 	// mygrid.attachEvent("onXLE", function() { $("#preloader").hide() });		
 	mygrid.attachEvent("onFilterEnd", callBack);													
@@ -77,9 +78,14 @@
 	mygrid.clearAndLoad(strgridURL,callBack,"json");
 	function callBack(){
 		
-		
 	}
-	
+	function doOnCellEdit(stage,rowId,cellInd,newValue,oldValue){
+		if(stage==2){
+			SITEROOT = '<?php echo $baseUrl?>';
+			$.post(SITEROOT+'/admin/updatebuilderpriority', {id:rowId,value:newValue},function(response){}) ;
+		}
+		return true;
+	}
 	function deleteRow(id){
 		SITEROOT = '<?php echo $baseUrl?>';
 		$.post(SITEROOT+'/admin/updatebuilderstatus', {id:id,action:'delete'},function(response){

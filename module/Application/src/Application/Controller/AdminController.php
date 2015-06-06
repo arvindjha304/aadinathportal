@@ -23,8 +23,8 @@ class AdminController extends AbstractActionController
     {
          $view = new ViewModel();
          $this->layout('layout/layoutadmin');
-         $indexModel = $this->getServiceLocator()->get('Application\Model\Index');
-         $view->setVariable('aboutUsData', $indexModel->getAboutUs());
+         // $indexModel = $this->getServiceLocator()->get('Application\Model\Index');
+         // $view->setVariable('aboutUsData', $indexModel->getAboutUs());
          return $view;
     }
     
@@ -731,7 +731,16 @@ class AdminController extends AbstractActionController
 		}
 		exit('1');
 	}
-	
+	public function updatebuilderpriorityAction()
+    {
+        if($this->getRequest()->isXmlHttpRequest()){
+    		$admin = $this->getServiceLocator()->get('Application\Model\Admin');
+    		$id 	= $this->params()->fromPost('id');
+    		$value 	= $this->params()->fromPost('value');
+			$admin->updateanywhere('builders', array('priority'=>$value), array('id'=>$id));
+    		exit(1);
+    	}
+    }
 	
 	
 }
