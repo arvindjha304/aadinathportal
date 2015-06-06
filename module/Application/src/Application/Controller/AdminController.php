@@ -591,7 +591,7 @@ class AdminController extends AbstractActionController
     	$stateTable = new TableGateway('amenities', $adapter);
     	$arrList = $stateTable->select()->toArray();
     	$dataArray = array();
-    	$baseUrl = $this->getbaseUrl();
+    	$baseUrl = $this->getRequest()->getbaseUrl();
     	foreach($arrList as $val1)
     	{
     		$temp_arr = array();
