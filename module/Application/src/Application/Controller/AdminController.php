@@ -588,18 +588,26 @@ class AdminController extends AbstractActionController
     public function amentieslistdataAction()
     {
     	$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
-    	$stateTable = new TableGateway('amenities', $adapter);
-    	$arrList = $stateTable->select()->toArray();
+//     	$stateTable = new TableGateway('amenities', $adapter);
+//     	$arrList = $stateTable->select()->toArray();
+    	
+    	$adminModel = $this->getModel();
+    	$arrList = $adminModel->getAminityList();
+    	
     	$dataArray = array();
     	$baseUrl = $this->getRequest()->getbaseUrl();
     	foreach($arrList as $val1)
     	{
+    	    
+//     	    echo '<pre>';print_r($val1);exit;
+    	    
     		$temp_arr = array();
     		$amenity_name		=	$val1['amenity_name'];
+    		$amenity_type		=	$val1['amenity_type'];
     		$status				=	($val1['is_active']==1) ? 'Active' :	'Inactive';
     		$action				=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
     		$delete 			=	'<a href="'.$baseUrl.'/admin/addeditamenties?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
-    		$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$amenity_name,$status,$delete.$action));
+    		$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$amenity_name,$amenity_type,$status,$delete.$action));
     	}
     	$json = json_encode($dataArray);
     	$jsonData = '{rows:'.$json.'}';
@@ -742,5 +750,131 @@ class AdminController extends AbstractActionController
     	}
     }
 	
+	public function addeditprojectsAction()
+	{
+		$view = new ViewModel();
+		$this->layout('layout/layoutadmin');
+		$id = $this->params()->fromQuery('id');
+		$view->setVariable('heading',(isset($id)) ? 'Edit Project' : 'Add Project');
+		$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
+		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$property_types = $adminModel->getPropertyTypes('active');
+		$view->setVariable('property_types', $property_types);
+		
+		$artistTable = new TableGateway('builders', $adapter);
+		
+		$builderList = $artistTable->select(function($select){
+			$select->order('priority ASC');
+			$select->where('is_active', '1');
+		})->toArray();
+	
+		$view->setVariable('builderList', $builderList);
+		
+		$artistTable = new TableGateway('cities', $adapter);
+		
+		$cityList = $artistTable->select(array('is_active'=> '1'))->toArray();
+	
+		$view->setVariable('cityList', $cityList);
+		
+		
+		$adminModel = $this->getModel();
+		$aminityList = $adminModel->getAminityList();
+		$view->setVariable('aminityList', $aminityList);
+		
+		$aminityList = $adminModel->getAminityList();
+		$view->setVariable('aminityListtt', $aminityList);
+		
+// 		echo '<pre>';print_r($cityList);exit;
+		$msg = '';
+		$request = $this->getRequest();
+		if ($request->isPost()) {
+            $amenities = $this->params()->fromPost('aminities');
+			$data = array(
+				'property_type_id'		=> 	$this->params()->fromPost('property_type_id'),
+				'transaction_type_id'	=> 	$this->params()->fromPost('transaction_type_id'),
+				'project_title'         => 	$this->params()->fromPost('project_title'),
+				'project_plan'          => 	$this->params()->fromPost('project_plan'),
+				'address'               => 	$this->params()->fromPost('address'),
+				'builtup_area'          => 	$this->params()->fromPost('builtup_area'),
+				'starting_price'		=> 	$this->params()->fromPost('starting_price'),
+				'buildings'             => 	$this->params()->fromPost('buildings'),
+				'configurations'		=> 	$this->params()->fromPost('configurations'),
+				'builder'               => 	$this->params()->fromPost('builder'),
+				'possession'            => 	$this->params()->fromPost('possession'),
+				'project_desc'          => 	$this->params()->fromPost('project_desc'),
+				'city'                  => 	$this->params()->fromPost('city'),
+				'contact'               => 	$this->params()->fromPost('contact'),
+				'display_size'          => 	$this->params()->fromPost('starting_price'),
+				'display_price'         => 	$this->params()->fromPost('display_price'),
+				'completion_date'		=> 	$this->params()->fromPost('completion_date'),
+				'search_min_price'		=> 	$this->params()->fromPost('search_min_price'),
+				'search_max_price'		=> 	$this->params()->fromPost('search_max_price'),
+				'search_min_size'		=> 	$this->params()->fromPost('search_min_size'),
+				'search_max_size'		=> 	$this->params()->fromPost('search_max_size'),
+				'amenities'             => 	(is_array($amenities)) ? implode(',', $amenities) : '',
+				'slide_image_1'         => 	$this->params()->fromPost('slide_image_1'),
+				'slide_image_2'         => 	$this->params()->fromPost('slide_image_2'),
+				'slide_image_3'         => 	$this->params()->fromPost('slide_image_3'),
+				'slide_image_4'         => 	$this->params()->fromPost('slide_image_4'),
+				'slide_image_5'         => 	$this->params()->fromPost('slide_image_5'),
+				'slide_image_6'         => 	$this->params()->fromPost('slide_image_6'),
+				'slide_image_7'         => 	$this->params()->fromPost('slide_image_7'),
+				'slide_image_8'         => 	$this->params()->fromPost('slide_image_8'),
+				'slide_image_9'         => 	$this->params()->fromPost('slide_image_9'),
+				'slide_image_10'		=> 	$this->params()->fromPost('slide_image_10'),
+				'project_image'         => 	$this->params()->fromPost('project_image'),
+				'brochure'              => 	$this->params()->fromPost('brochure'),
+				'location_map'          => 	$this->params()->fromPost('location_map'),
+				'site_plan'             => 	$this->params()->fromPost('site_plan'),
+				'application_form'		=> 	$this->params()->fromPost('application_form'),
+				'latitude'              => 	$this->params()->fromPost('latitude'),
+				'longitude'             => 	$this->params()->fromPost('longitude'),
+				'location_advantages'	=> 	$this->params()->fromPost('location_advantages'),
+			);
+//	echo '<pre>';print_r($data);exit;		
+			if(isset($id)){
+				$where = array(
+					'id'	=> 	$id,
+				);
+				$adminModel->updateanywhere('projects',$data,$where);
+				$msg = 'Project Edited Successfully.';
+			}else{
+				$data['created_date'] = date('Y-m-d H:i:s');
+				$adminModel->insertanywhere('projects',$data);
+				$msg = 'Project Added Successfully.';
+			}
+		}
+		if(isset($id)){
+			 
+			$stateTable = new TableGateway('projects', $adapter);
+			$projectsDetail = $stateTable->select(array('id' => $id))->toArray();
+			$view->setVariable('projectsDetail', $projectsDetail);
+		}
+		$view->setVariable('msg', $msg);
+		return $view;
+	}
+	
+
+	public function getlocationsAction()
+	{
+	    if($this->getRequest()->isXmlHttpRequest()){
+	        $adapter = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+	        $cityId = $this->params()->fromPost('cityId');
+	        $stateTable = new TableGateway('locations', $adapter);
+	        $rowset = $stateTable->select(array('city_id' => $cityId))->toArray();
+	        $str = '';
+	        if(count($rowset)){
+	            foreach ($rowset as $row) {
+	                $str .= '<option value='.$row["id"].' >'.$row["location_name"].'</option>';
+	            }
+	        }
+	        exit($str);
+	    }
+	}
+	
+	public function getModel(){
+	    
+	   return $adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
+	}
 	
 }

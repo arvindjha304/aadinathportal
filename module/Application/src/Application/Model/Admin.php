@@ -67,10 +67,23 @@ use Zend\Db\Sql\Expression;
 		$select = $sql->select()
 		->from(array('st'=>'states'));
 		$result = $sql->prepareStatementForSqlObject($select)->execute();
-		return $result;
-	
+		return $result;	
 	}
-	
+	public function getAminityList(){
+	   $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$sql="select amt.id,amt.amenity_name,amt.is_active,amtl.amenity_type,amtl.id as aminity_type_id from amenities amt 
+        join amenity_type_list amtl on amt.amenity_type_id=amtl.id";
+// 		if($propertype=='active'){
+			//$sql.=" where pc.is_active=1 and pt.is_active=1";
+// 		}
+		$result =$db->query($sql)->execute();
+		
+		
+		return $result;
+	    
+	    
+	    
+	}
 	public function getAllLocation(){
 		/* $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$sql = new Sql($db);
@@ -85,7 +98,6 @@ use Zend\Db\Sql\Expression;
 			echo '<pre>';print_r($res);
 			
 		}
-		
 		exit; */
 		
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
@@ -98,15 +110,17 @@ use Zend\Db\Sql\Expression;
 	
 	}
 
-	public function getPropertyTypes(){
+	public function getPropertyTypes($propertype=''){
 	
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$sql="select pt.id,pt.property_type,pt.is_active,pc.category_name 
 		from property_type pt
 		join property_category pc on pc.id=pt.property_category_id";
+		if($propertype=='active'){
+			$sql.=" where pc.is_active=1 and pt.is_active=1";
+		}
 		$result =$db->query($sql)->execute();
 		return $result;
-	
 	}
 	
 	public function checkName($name,$field){
@@ -140,7 +154,12 @@ use Zend\Db\Sql\Expression;
 	public function deleteanywhere($mytable, $where) {
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$table = new TableGateway($mytable, $db);
-		$table->delete($where); 
+		$data = array(
+		    'is_delete'	=> 	 1 ,
+		);
+		$results = $table->update($data, $where);
+		//$table->delete($where); 
+		return 1;
 	}
 
 		

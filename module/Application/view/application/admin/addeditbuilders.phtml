@@ -1,5 +1,5 @@
 <?php $baseUrl = $this->basePath(); ?>
-<script src="<?php echo $baseUrl;?>/js/ajaxupload.3.5.js"></script>
+<script src="<?php echo $baseUrl;?>/public/js/ajaxupload.3.5.js"></script>
 <script type="text/javascript">
 
 $(function(){
@@ -7,8 +7,6 @@ $(function(){
  var status=$('#status');
  var url='<?php echo $baseUrl ?>';
  var SITEROOT=url+"/admin/upload";
-	
- 
  new AjaxUpload(btnUpload,
  {
      action: SITEROOT,
@@ -74,14 +72,11 @@ $(function(){
 		<div class="am2" >
         <div class="" id="files">
         <?php if(isset($this->builderDetail[0]['builder_image'])) {?>
-			<img height="60" width="70" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/uploadfiles/<?php echo $this->builderDetail[0]['builder_image']; ?>"/> 
+			<img height="60" width="70" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->builderDetail[0]['builder_image']; ?>"/> 
 		<?php }?>
 		</div>
-    </div>
+    	</div>
 		</div>
-		
-		
-       
     </div>
     
     <div class="content2">
