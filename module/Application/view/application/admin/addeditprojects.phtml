@@ -1,0 +1,757 @@
+<?php $baseUrl = $this->basePath(); 
+
+//echo '<pre>';print_r($this->projectsDetail);exit;
+
+$amenityArr = explode(',',$this->projectsDetail[0]['amenities']);
+
+
+?>
+<script src="<?php echo $baseUrl; ?>/public/js/ajaxupload.3.5.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl; ?>/public/tinmca/jscripts/tiny_mce/tiny_mce.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript">
+$(function(){
+     var btnUpload=$('#upload_1');
+     var status=$('#status');
+     ajaxUpload(btnUpload,status,1);
+});
+$(function(){
+    var btnUpload=$('#upload_2');
+    var status=$('#status');
+    ajaxUpload(btnUpload,status,2);
+});
+ $(function(){
+      var btnUpload=$('#upload_3');
+      var status=$('#status');
+      ajaxUpload(btnUpload,status,3);
+ });
+$(function(){
+	 var btnUpload=$('#upload_4');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,4);
+});
+$(function(){
+	 var btnUpload=$('#upload_5');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,5);
+});
+$(function(){
+	 var btnUpload=$('#upload_6');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,6);
+});
+$(function(){
+	 var btnUpload=$('#upload_7');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,7);
+});
+$(function(){
+	 var btnUpload=$('#upload_8');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,8);
+});
+$(function(){
+	 var btnUpload=$('#upload_9');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,9);
+});
+$(function(){
+	 var btnUpload=$('#upload_10');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,10);
+});
+$(function(){
+	 var btnUpload=$('#project_image_upload');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,11);
+});
+$(function(){
+	 var btnUpload=$('#brochure_upload');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,12);
+});
+$(function(){
+	 var btnUpload=$('#location_map_upload');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,13);
+});
+$(function(){
+	 var btnUpload=$('#site_plan_upload');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,14);
+});
+$(function(){
+	 var btnUpload=$('#application_form_upload');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,15);
+});
+	
+function ajaxUpload(btnUpload,status,id){
+	 var url='<?php echo $baseUrl ?>';
+	 var SITEROOT=url+"/admin/upload";
+	 new AjaxUpload(btnUpload,
+		 {
+		     action: SITEROOT,
+		     name:'uploadfile' ,
+		     onSubmit: function(file, ext){
+		         if (! (ext && /^(jpg|png|jpeg|gif)$/.test(ext))){
+		             // extension is not allowed
+		             status.text('Only JPG, PNG or GIF files are allowed');
+		             return false;
+		         }
+		         status.text('Uploading...');
+		     },
+		     onComplete: function(file, response){
+		         //On completion clear the status
+		         status.text('');
+		         var filepath = url+'/public/uploadfiles/'+response;
+		    	 id = parseInt(id);
+				$('#files_'+id).html('');
+		         if(response != ""){
+
+// 		        	 alert(id);
+// 		        	 return false;		         
+			         
+		             document.getElementById("imagename_"+id).value = response;
+		             $('#preview_'+id).show();
+		             $('<div></div>').appendTo('#files_'+id).html('<img height="50" width="50" src="'+filepath+'" alt="" /><br />').addClass('success');
+		           //  $('#lastImageId').val(id+1);
+		         } else{
+		            // $('<div></div>').appendTo('#files').text(response).addClass('error');
+		         }
+		         
+		     }
+		 });
+}
+
+function previewImage(id){
+	$('#files_'+id).toggle();
+	return false;
+}
+ $(function() {
+    $( "#possession_date" ).datepicker();
+    
+    $( "#completed_on" ).datepicker();
+  });
+</script>
+<script type="text/javascript">
+    tinyMCE.init({
+        // General options
+        mode: "exact",
+        elements: "desc,preq",
+        theme: "advanced",
+        width: "100%",
+        height: 310,
+        plugins: "jbimages,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount,advlist,autosave",
+        // Theme options
+        theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,code,",
+        theme_advanced_buttons2: "",
+        theme_advanced_buttons3: "",
+        //theme_advanced_buttons3 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,pagebreak,restoredraft",
+        //theme_advanced_buttons4 : "",
+        theme_advanced_toolbar_location: "top",
+        theme_advanced_toolbar_align: "left",
+        theme_advanced_statusbar_location: "bottom",
+        theme_advanced_resizing: true,
+        // Example content CSS (should be your site CSS)
+        content_css: "<?php echo $baseUrl; ?>/js/tinmca/css/content.css",
+        // Drop lists for link/image/media/template dialogs
+        template_external_list_url: "<?php echo $baseUrl; ?>/js/tinmca/lists/template_list.js",
+        external_link_list_url: "<?php echo $baseUrl; ?>/js/tinmca/lists/link_list.js",
+        external_image_list_url: "<?php echo $baseUrl; ?>/js/tinmca/lists/image_list.js",
+        media_external_list_url: "<?php echo $baseUrl; ?>/js/tinmca/lists/media_list.js",
+        // Style formats
+        style_formats: [
+            {title: 'Bold text', inline: 'b'},
+            {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
+            {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+            {title: 'Example 1', inline: 'span', classes: 'example1'},
+            {title: 'Example 2', inline: 'span', classes: 'example2'},
+            {title: 'Table styles'},
+            {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
+        ],
+        relative_urls: false,
+        // Replace values for the template plugin
+        template_replace_values: {
+            username: "Some User",
+            staffid: "991234"
+        },
+        autosave_ask_before_unload: false
+    });
+</script>
+
+<div class="contant">
+    <div class="heading"><?php echo $this->heading ?></div>
+    <div class="contant1">
+        <form method="post" action="" name="" id="projectform">
+
+            <?php if ($this->msg != '') { ?>
+                <div ><?php echo $this->msg ?></div>
+            <?php } ?>
+            <span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"></span>
+            <div class="content2-1">
+                <div class="content3-1"><span style="color:red">*</span> Property Type:</div>
+                <div class="content4-1">
+                    <select id="property_type_id" name="property_type_id" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
+                        <?php
+                        foreach ($this->property_types as $property_type) {
+                            $tempArr = array();
+                            if (!in_array($property_type['category_name'], $tempArr)) {
+                                ?>
+                                <optgroup label="<?php echo $property_type['category_name'] ?>">
+                                <?php } ?>
+                                <option <?php if($this->projectsDetail[0]['property_type_id']==$property_type['id'])  { echo 'selected';}?> value="<?php echo $property_type['id'] ?>"><?php echo ucfirst($property_type['property_type']) ?></option>
+                                <?php if (!in_array($property_type['category_name'], $tempArr)) { ?>	
+                                </optgroup>
+                                <?php
+                            }
+                            $tempArr[] = $property_type['category_name'];
+                        }
+                        ?>
+
+                    </select>
+                </div>
+            </div>
+            <div class="content2-1">
+                <div class="content3-1"><span style="color:red">*</span> Transaction Type:</div>
+                <div class="content4-1">
+                    <select id="transaction_type_id" name="transaction_type_id" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
+                        <option <?php if($this->projectsDetail[0]['transaction_type_id']==1)  { echo 'selected';}?> value=1>Fresh</option>
+                        <option <?php if($this->projectsDetail[0]['transaction_type_id']==2)  { echo 'selected';}?> value=2>Resale</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="content2-1">
+                <div class="content3-1"><span style="color:red">*</span> Project Title:</div>
+                <div class="content4-1">
+                    <input type="text" name="project_title" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;"  value="<?php if($this->projectsDetail[0]['project_title']!='')  { echo $this->projectsDetail[0]['project_title'];}?> "/> (e.g. 3C Sports Village Noida.)
+                </div>
+            </div>
+
+            <div class="content2-1">
+                <div class="content3-1"> <span style="color:red">*</span> Project Plan:</div>
+                <div class="content4-1">
+                    <input type="text" name="project_plan" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;"  value="<?php if($this->projectsDetail[0]['project_plan']!='')  { echo $this->projectsDetail[0]['project_plan'];}?>"/> (e.g. 4 BHK-3 BHK.)
+                </div>
+            </div>
+
+             <div class="content2">
+                <div class="content3" Style="font-weight: normal;"><span style="color:red">*</span> Address: </div>
+                <div class="content4-builder">
+                    <textarea name="address"  style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" > <?php if($this->projectsDetail[0]['address']!='')  { echo $this->projectsDetail[0]['address'];}?></textarea>
+                </div>
+            </div>
+            
+            <div class="content2-1">
+                <div class="content3-1"> <span style="color:red">*</span> Super Built-up Area:</div>
+                <div class="content4-1">
+                    <input type="text" name="builtup_area" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" value="<?php if($this->projectsDetail[0]['builtup_area']!='')  { echo $this->projectsDetail[0]['builtup_area'];}?>"/> (e.g. 1690 - 3965 sq.ft.)
+                </div>
+            </div>
+
+            <div class="content2-1">
+                <div class="content3-1"> <span style="color:red">*</span> Starting Price:</div>
+                <div class="content4-1">
+                    <input type="text" name="starting_price" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" value="<?php if($this->projectsDetail[0]['starting_price']!='')  { echo $this->projectsDetail[0]['starting_price'];}?>"/> (e.g. 3.04 Crs.)
+                </div>
+            </div>
+
+            <div class="content2-1">
+                <div class="content3-1"> <span style="color:red">*</span> Buildings:</div>
+                <div class="content4-1">
+                    <input type="text" name="buildings" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" value="<?php if($this->projectsDetail[0]['buildings']!='')  { echo $this->projectsDetail[0]['buildings'];}?>"/> (e.g. 5.)
+                </div>
+            </div>
+
+             <div class="content2">
+                <div class="content3" Style="font-weight: normal;"><span style="color:red">*</span> Configurations: </div>
+                <div class="content4-builder">
+                    <textarea name="configurations"  style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;"><?php if($this->projectsDetail[0]['configurations']!='')  { echo $this->projectsDetail[0]['configurations'];}?></textarea>
+                </div>
+            </div>
+            <div class="content2-1">
+                <div class="content3-1"><span style="color:red;margin-top:30px;">*</span>Builder:</div>
+                <div class="content4-1">
+                    <select id="builder" name="builder" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
+                        <?php foreach ($this->builderList as $builder) { ?>
+                            <option  <?php if($this->projectsDetail[0]['builder']== $builder['id']) echo "selected"   ?> value=<?php echo $builder['id'] ?>><?php echo $builder['builder_name'] ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="content2-1">
+                <div class="content3-1"> <span style="color:red">*</span> Possession: </div>
+                <div class="content4-1">
+                    <input type="text" name="possession" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="possession_date" value="<?php if($this->projectsDetail[0]['possession']!='')  { echo $this->projectsDetail[0]['possession'];}?>"/>
+                </div>
+            </div>
+
+
+
+            <div class="content2-1-2">
+                <div class="content3-1-2" style="font-weight: normal";><span style="color:red">*</span>Project Description:</div>
+                <div class="content4-1-2">
+                    <textarea name="project_desc" id="desc"  value=""><?php if($this->projectsDetail[0]['project_desc']!='')  { echo $this->projectsDetail[0]['project_desc'];}?></textarea>
+                </div>
+            </div>
+
+            <div class="heading-1">Location</div>
+            <div class="content2-1">
+                <div class="content3-1"><span style="color:red">*</span>City:</div>
+                <div class="content4-1">
+                    <select id="cityName" name="city" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
+                        <option value=''>Select</option>
+                        <?php foreach ($this->cityList as $city) { ?>
+                            <option  <?php if($this->projectsDetail[0]['city']== $city['id']) echo "selected";?> value=<?php echo $city['id'] ?>><?php echo $city['city_name'] ?></option>
+
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="content2-1">
+                <div class="content3-1"><span style="color:red">*</span>Location:</div>
+                <div class="content4-1">
+                    <select id="locationName" name="location" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
+
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="content2-1">
+                <div class="content3-1"> <span style="color:red">*</span> Contact No:  </div>
+                <div class="content4-1">
+                    <input type="text" name="contact" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if($this->projectsDetail[0]['contact']!='')  { echo $this->projectsDetail[0]['contact'];}?>"/>
+                </div>
+            </div>
+
+
+            <div class="heading-1"> Display Price & Size</div>
+            <div class="content2-1">
+                <div class="content3-1"> <span style="color:red">*</span> Size:  </div>
+                <div class="content4-1">
+                    <input type="text" name="display_size" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if($this->projectsDetail[0]['display_size']!='')  { echo $this->projectsDetail[0]['display_size'];}?>"/>
+                </div>
+            </div>
+
+            <div class="content2-1">
+                <div class="content3-1"> <span style="color:red">*</span> Price:  </div>
+                <div class="content4-1">
+                    <input type="text" name="display_price" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if($this->projectsDetail[0]['display_price']!='')  { echo $this->projectsDetail[0]['display_price'];}?>"/>
+                </div>
+            </div>
+
+
+            <div class="content2-1">
+                <div class="content3-1"> <span style="color:red">*</span> Completed On: </div>
+                <div class="content4-1">
+                    <input type="text" name="completion_date" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="completed_on" value="<?php if($this->projectsDetail[0]['completion_date']!='')  { echo $this->projectsDetail[0]['completion_date'];}?>"/>
+                </div>
+            </div>
+            <div class="heading-1"> Search Price & Size (e.g. only 0-9 digits.) </div>
+            <div class="content2-1">
+                <div class="content3-1"> <span style="color:red">*</span> Price:  </div>
+                <div class="content4-1">
+
+                    <input type="text" placeholder="Min" name="search_min_price" style="width:140px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if($this->projectsDetail[0]['search_min_price']!='')  { echo $this->projectsDetail[0]['search_min_price'];}?>"/>
+
+                    <input type="text" placeholder="Max" name="search_max_price" style="width:140px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if($this->projectsDetail[0]['search_max_price']!='')  { echo $this->projectsDetail[0]['search_max_price'];}?>"/>
+                </div>
+            </div>
+
+            <div class="content2-1">
+                <div class="content3-1"> <span style="color:red">*</span> Size: </div>
+                <div class="content4-1">
+
+                    <input type="text" placeholder="Min" name="search_min_size" style="width:140px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if($this->projectsDetail[0]['search_max_price']!='')  { echo $this->projectsDetail[0]['search_min_size'];}?>"/>
+
+                    <input type="text" placeholder="Max" name="search_max_size" style="width:140px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if($this->projectsDetail[0]['search_max_price']!='')  { echo $this->projectsDetail[0]['search_max_size'];}?>"/>
+                </div>
+            </div>
+
+            <div class="heading-1"> Focused Project </div>
+
+            <div class="content2-1">
+                <div class="content3-1"><span style="color:red">*</span>Mark as focused project:</div>
+                <div class="content4-1">
+                    <input type="checkbox" name="is_focused" value="" style="width:50px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;"/>
+                </div>
+            </div>
+
+            <div class="heading-1">Amenities </div>
+            <div style="width:100%;height:30px;">Internal Amenities:</div>
+
+
+            <div class="content2-6">
+                <?php
+                foreach ($this->aminityList as $aminity) {
+                    if ($aminity['aminity_type_id'] == 1) {
+                        ?>
+                        <div class="content2-5-amn"><input type="checkbox" name="aminities[]" style="width:20px; height:8px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" <?php if(in_array($aminity['id'],$amenityArr)) echo "checked";?> value="<?php echo $aminity['id'] ?>"/>
+                            <?php echo $aminity['amenity_name'] ?></div>
+                    <?php
+                    }
+                }
+                ?>	
+            </div>
+
+            <div class="clear"></div>
+
+            <div style="width:100%;height:30px;">External Amenities:</div>
+
+            <div class="content2-6">
+                <?php
+                foreach ($this->aminityListtt as $aminity) {
+                    if ($aminity['aminity_type_id'] == 2) {
+                        ?>
+                        <div class="content2-5-amn"><input type="checkbox" name="aminities[]" style="width:20px; height:8px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" <?php if(in_array($aminity['id'],$amenityArr)) echo "checked";?> value="<?php echo $aminity['id'] ?>"/>
+                        <?php echo $aminity['amenity_name'] ?></div>
+                    <?php
+                    }
+                }
+                ?>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="heading-1" style="margin-top:20px !important;"> Project Snapshot </div>
+
+            <div class="content2-1">
+                <input type='hidden' name='slide_image_1' id='imagename_1' value='<?php if ($this->projectsDetail[0]['slide_image_1']!='') echo $this->projectsDetail[0]['slide_image_1']; ?>'>
+                <div class="content3-1"><span style="color:red">*</span> Slide Image 1:</div>
+                <div class="content4-1"><button class="" style="" id="upload_1">Browse</button>
+                <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_1" onclick="return previewImage('1')">Preview</button>
+                    <div class="am2" >
+                        <div class="" id="files_1" style="display: none">
+                        </div>
+                        <?php if ($this->projectsDetail[0]['slide_image_1']!='') { ?>
+                            <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_1']; ?>"/> 
+                        <?php } ?>
+                    </div>
+                </div>  
+            </div>
+            <div class="content2-1">
+                <input type='hidden' name='slide_image_2' id='imagename_2' value='<?php if ($this->projectsDetail[0]['slide_image_2']!='') echo $this->projectsDetail[0]['slide_image_2']; ?>'>
+                <div class="content3-1"><span style="color:red">*</span> Slide Image 2:</div>
+                <div class="content4-1"><button class="" style="" id="upload_2">Browse</button>
+                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_2" onclick="return previewImage('2')">Preview</button>
+                    <div class="am2" >
+                        <div class="" id="files_2" style="display: none">
+                        </div>
+                        <?php if ($this->projectsDetail[0]['slide_image_2']!='') { ?>
+                            <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_2']; ?>"/> 
+                        <?php } ?>
+                    </div>
+                </div>  
+            </div>
+            <div class="content2-1">
+                <input type='hidden' name='slide_image_3' id='imagename_3' value='<?php if ($this->projectsDetail[0]['slide_image_3']!='') echo $this->projectsDetail[0]['slide_image_3']; ?>'>
+                <div class="content3-1"><span style="color:red">*</span> Slide Image 3:</div>
+                <div class="content4-1"><button class="" style="" id="upload_3">Browse</button>
+                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_3" onclick="return previewImage('3')">Preview</button>
+                    <div class="am2" >
+                        <div class="" id="files_3" style="display: none"> </div>
+                        <?php if ($this->projectsDetail[0]['slide_image_3']!='') { ?>
+                            <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_3']; ?>"/> 
+                        <?php } ?>
+                    </div>
+                </div>  
+            </div>
+            <div class="content2-1">
+                <input type='hidden' name='slide_image_4' id='imagename_4' value='<?php if ($this->projectsDetail[0]['slide_image_4']!='') echo $this->projectsDetail[0]['slide_image_4']; ?>'>
+                <div class="content3-1"><span style="color:red">*</span> Slide Image 4:</div>
+                <div class="content4-1"><button class="" style="" id="upload_4">Browse</button>
+                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_4" onclick="return previewImage('4')">Preview</button>
+                    <div class="am2" >
+                        <div class="" id="files_4" style="display: none"> </div>
+                        <?php if ($this->projectsDetail[0]['slide_image_4']!='') { ?>
+                            <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_4']; ?>"/> 
+                        <?php } ?>
+                    </div>
+                </div>  
+            </div>
+
+            <div class="content2-1">
+                <input type='hidden' name='slide_image_5' id='imagename_5' value='<?php if ($this->projectsDetail[0]['slide_image_5']!='') echo $this->projectsDetail[0]['slide_image_5']; ?>'>
+                <div class="content3-1"><span style="color:red">*</span> Slide Image 5:</div>
+                <div class="content4-1"><button class="" style="" id="upload_5">Browse</button>
+                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_5" onclick="return previewImage('5')">Preview</button>
+                    <div class="am2" >
+                        <div class="" id="files_5" style="display: none"> </div>
+                        <?php if ($this->projectsDetail[0]['slide_image_5']!='') { ?>
+                            <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_5']; ?>"/> 
+                        <?php } ?>
+                    </div>
+                </div>  
+            </div>
+            <div class="content2-1">
+                <input type='hidden' name='slide_image_6' id='imagename_6' value='<?php if ($this->projectsDetail[0]['slide_image_6']!='') echo $this->projectsDetail[0]['slide_image_6']; ?>'>
+                <div class="content3-1"><span style="color:red">*</span> Slide Image 6:</div>
+                <div class="content4-1"><button class="" style="" id="upload_6">Browse</button>
+                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_6" onclick="return previewImage('6')">Preview</button>
+                    <div class="am2" >
+                        <div class="" id="files_6" style="display: none"></div>
+                        <?php if ($this->projectsDetail[0]['slide_image_6']!='') { ?>
+                            <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_6']; ?>"/> 
+                        <?php } ?>
+                    </div>
+                </div>  
+            </div>
+            <div class="content2-1">
+                <input type='hidden' name='slide_image_7' id='imagename_7' value='<?php if ($this->projectsDetail[0]['slide_image_7']!='') echo $this->projectsDetail[0]['slide_image_7']; ?>'>
+                <div class="content3-1"><span style="color:red">*</span> Slide Image 7:</div>
+                <div class="content4-1"><button class="" style="" id="upload_7">Browse</button>
+                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_7" onclick="return previewImage('7')">Preview</button>
+                    <div class="am2" >
+                        <div class="" id="files_7" style="display: none"></div>
+                        <?php if ($this->projectsDetail[0]['slide_image_7']!='') { ?>
+                            <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_7']; ?>"/> 
+                        <?php } ?>
+                    </div>
+                </div>  
+            </div>
+            <div class="content2-1">
+                <input type='hidden' name='slide_image_8' id='imagename_8' value='<?php if ($this->projectsDetail[0]['slide_image_8']!='') echo $this->projectsDetail[0]['slide_image_8']; ?>'>
+                <div class="content3-1"><span style="color:red">*</span> Slide Image 8:</div>
+                <div class="content4-1"><button class="" style="" id="upload_8">Browse</button>
+                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_8" onclick="return previewImage('8')">Preview</button>
+                    <div class="am2" >
+                        <div class="" id="files_8" style="display: none"></div>
+                        <?php if ($this->projectsDetail[0]['slide_image_8']!='') { ?>
+                            <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_8']; ?>"/> 
+                        <?php } ?>
+                    </div>
+                </div>  
+            </div>
+            <div class="content2-1">
+                <input type='hidden' name='slide_image_9' id='imagename_9' value='<?php if ($this->projectsDetail[0]['slide_image_9']!='') echo $this->projectsDetail[0]['slide_image_9']; ?>'>
+                <div class="content3-1"><span style="color:red">*</span> Slide Image 9:</div>
+                <div class="content4-1"><button class="" style="" id="upload_9">Browse</button>
+                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_9" onclick="return previewImage('9')">Preview</button>
+                    <div class="am2" >
+                        <div class="" id="files_9" style="display: none"></div>
+                        <?php if ($this->projectsDetail[0]['slide_image_9']!='') { ?>
+                            <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_9']; ?>"/> 
+                        <?php } ?>
+                    </div>
+                </div>  
+            </div>
+            <div class="content2-1">
+                <input type='hidden' name='slide_image_10' id='imagename_10' value='<?php if ($this->projectsDetail[0]['slide_image_10']!='') echo $this->projectsDetail[0]['slide_image_10']; ?>'>
+                <div class="content3-1"><span style="color:red">*</span> Slide Image 10:</div>
+                <div class="content4-1"><button class="" style="" id="upload_10">Browse</button>
+                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_10" onclick="return previewImage('10')">Preview</button>
+                    <div class="am2" >
+                        <div class="" id="files_10" style="display: none"></div>
+                        <?php if ($this->projectsDetail[0]['slide_image_10']!='') { ?>
+                            <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_10']; ?>"/> 
+                        <?php } ?>
+                    </div>
+                </div>  
+            </div>
+            <div class="content2-1">
+                <input type='hidden' name='project_image' id='imagename_11' value='<?php if ($this->projectsDetail[0]['project_image']!='') echo $this->projectsDetail[0]['project_image']; ?>'>
+                <div class="content3-1"><span style="color:red">*</span> Project Image:</div>
+                <div class="content4-1"><button class="" style="" id="project_image_upload">Browse</button>
+                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_11" onclick="return previewImage('11')">Preview</button>
+                    <div class="am2" >
+                        <div class="" id="files_11" style="display: none"></div>
+                        <?php if ($this->projectsDetail[0]['project_image']!='') { ?>
+                            <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['project_image']; ?>"/> 
+                        <?php } ?>
+                    </div>
+                </div>  
+            </div>
+            <div class="content2-1">
+                <input type='hidden' name='brochure' id='imagename_12' value='<?php if ($this->projectsDetail[0]['brochure']!='') echo $this->projectsDetail[0]['brochure']; ?>'>
+                <div class="content3-1"><span style="color:red">*</span> E-brochure:</div>
+                <div class="content4-1"><button class="" style="" id="brochure_upload">Browse</button>
+                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_12" onclick="return previewImage('12')">Preview</button>
+                    <div class="am2" >
+                        <div class="" id="files_12" style="display: none"></div>
+                        <?php if ($this->projectsDetail[0]['brochure']!='') { ?>
+                            <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['brochure']; ?>"/> 
+                        <?php } ?>
+                    </div>
+                </div>  
+            </div>
+            <div class="content2-1">
+                <input type='hidden' name='location_map' id='imagename_13' value='<?php if ($this->projectsDetail[0]['location_map']!='') echo $this->projectsDetail[0]['location_map']; ?>'>
+                <div class="content3-1"><span style="color:red">*</span> Location Map:</div>
+                <div class="content4-1"><button class="" style="" id="location_map_upload">Browse</button>
+                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_13" onclick="return previewImage('13')">Preview</button>
+                    <div class="am2" >
+                        <div class="" id="files_13" style="display: none"></div>
+                        <?php if ($this->projectsDetail[0]['location_map']!='') { ?>
+                            <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['location_map']; ?>"/> 
+                        <?php } ?>
+                    </div>
+                </div>  
+            </div>
+            <div class="content2-1">
+                <input type='hidden' name='site_plan' id='imagename_14' value='<?php if ($this->projectsDetail[0]['site_plan']!='') echo $this->projectsDetail[0]['site_plan']; ?>'>
+                <div class="content3-1"><span style="color:red">*</span> Site Plan:</div>
+                <div class="content4-1"><button class="" style="" id="site_plan_upload">Browse</button>
+                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_14" onclick="return previewImage('14')">Preview</button>
+                    <div class="am2" >
+                        <div class="" id="files_14" style="display: none"></div>
+                        <?php if ($this->projectsDetail[0]['site_plan']!='') { ?>
+                            <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['site_plan']; ?>"/> 
+                        <?php } ?>
+                    </div>
+                </div>  
+            </div>
+            <div class="content2-1">
+                <input type='hidden' name='application_form' id='imagename_15' value='<?php if ($this->projectsDetail[0]['application_form']!='') echo $this->projectsDetail[0]['application_form']; ?>'>
+                <div class="content3-1"><span style="color:red">*</span> Application Form:</div>
+                <div class="content4-1"><button class="" style="" id="application_form_upload">Browse</button>
+                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_15" onclick="return previewImage('15')">Preview</button>
+                    <div class="am2" >
+                        <div class="" id="files_15" style="display: none"></div>
+                        <?php if ($this->projectsDetail[0]['application_form']!='') { ?>
+                            <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['application_form']; ?>"/> 
+                        <?php } ?>
+                    </div>
+                </div>  
+            </div>
+
+
+
+            <div class="content2-1">
+                <div class="content3-1"><span style="color:red">*</span>Recommendation:</div>
+                <div class="content4-1">
+                    <select id="recommendation" name="recommendation" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
+                        <?php foreach ($this->stateList as $state) { ?>
+                            <option  <?php if ($this->cityDetail[0]['state_id'] == $state['id']) echo "selected" ?> value=<?php echo $state['id'] ?>><?php echo $state['state_name'] ?></option>
+
+<?php } ?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="heading-1">Google Map Latitude & Longitude </div>
+            <div class="content2-1">
+                <div class="content3-1"><span style="color:red">*</span>Latitude:</div>
+                <div class="content4-1">
+                    <input type="text" name="latitude" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if (isset($this->builderDetail[0]['builder_name'])) echo $this->builderDetail[0]['builder_name']; ?>"/>
+                </div>
+            </div>
+
+
+
+            <div class="content2-1">
+                <div class="content3-1"><span style="color:red">*</span>Longitude: 	
+                </div>
+                <div class="content4-1">
+                    <input type="text" name="longitude" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if (isset($this->builderDetail[0]['builder_name'])) echo $this->builderDetail[0]['builder_name']; ?>"/>
+                </div>
+            </div>
+            <div class="content2">
+                <div class="content3" Style="font-weight: normal;"><span style="color:red">*</span> Location Advantages: </div>
+                <div class="content4-builder">
+                    <textarea name="location_advantages"  style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="meta_tag"><?php if (isset($this->builderDetail[0]['builder_image'])) echo $this->builderDetail[0]['meta_tag']; ?></textarea>
+                </div>
+            </div>
+
+
+            <div class="content5">
+
+                <button onclick="return submitForm()" value="<?php echo $this->heading ?>" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;"><?php echo $this->heading ?></button>
+                <a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl; ?>/admin/builderlist" >Cancel</a>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<script>
+    $("#cityName").change(function () {
+        var cityId = $(this).val();
+        SITEROOT = '<?php echo $baseUrl ?>';
+        if (cityId != '')
+        {
+            $.post(SITEROOT + '/admin/getlocations', {cityId: cityId}, function (response) {
+                if (response != '') {
+                    $('#locationName').html(response);
+                    return false;
+                } else {
+                    $('#locationName').html('');
+                    return false;
+                }
+            });
+        } else {
+            $('#locationName').html('');
+            return false;
+        }
+    });
+
+
+    var error = 0;
+    function hasNumbers(t) {
+        return /\d/.test(t);
+    }
+
+    function submitForm() {
+         $('#projectform').submit();
+//        var builder_name = $('#builder_name').val();
+//        var about_builder = $('#about_builder').val();
+//        var imagename = $('#imagename').val();
+//        var meta_tag = $('#meta_tag').val();
+//        var keyword = $('#keyword').val();
+//        var description = $('#description').val();
+//        var priority = $('#priority').val();
+//        var error = 0;
+//        var msg = '';
+//        if (builder_name == '') {
+//            var msg = 'Builder Name cannot be empty.';
+//            error = 1;
+//        } else if (about_builder == '') {
+//            var msg = 'About Builder cannot be empty.';
+//            error = 1;
+//        } else if (imagename == '') {
+//            var msg = 'Builder Image cannot be empty.';
+//            error = 1;
+//        } else if (meta_tag == '') {
+//            var msg = 'Meta Tag cannot be empty.';
+//            error = 1;
+//        } else if (keyword == '') {
+//            var msg = 'Keyword cannot be empty.';
+//            error = 1;
+//        } else if (description == '') {
+//            var msg = 'Description cannot be empty.';
+//            error = 1;
+//        } else if (priority == '') {
+//            var msg = 'Priority cannot be empty.';
+//            error = 1;
+//        }
+//
+//        if (msg != '') {
+//            $("#nameExist").text(msg).show();
+//            return false;
+//        } else {
+//            $('#builderform').submit();
+//        }
+    }
+
+// $("#cityName").blur(function(){
+// 	var name = $(this).val();
+//	SITEROOT = '<?php echo $baseUrl ?>';
+// 	if(name!=''){
+// 		$.post(SITEROOT+'/admin/checkname', {name:name,field:'cities'},function(response){
+// 			if(response == '1'){
+// 				alert('Name entered already exists');
+// 				return false;
+// 			}
+// 		});
+// 	}
+// });
+</script>
