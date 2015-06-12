@@ -22,4 +22,34 @@ class IndexController extends AbstractActionController
          $view->setVariable('aboutUsData', $indexModel->getAboutUs());
          return $view;
     }
+    public function buyAction()
+    {
+        
+//        echo '11111';exit;
+         $view = new ViewModel();
+         $this->layout('layout/innerlayout');
+//         $indexModel = $this->getServiceLocator()->get('Application\Model\Index');
+//         $view->setVariable('aboutUsData', $indexModel->getAboutUs());
+         return $view;
+    }
+    public function projectListAction()
+    {
+        
+//        echo '11111';exit;
+         $view = new ViewModel();
+         $this->layout('layout/innersearchlayout');
+//         $indexModel = $this->getServiceLocator()->get('Application\Model\Index');
+//         $view->setVariable('aboutUsData', $indexModel->getAboutUs());
+         return $view;
+    }
+    public function projectGridAction()
+    {
+        
+//        echo '11111';exit;
+         $view = new ViewModel();
+         $this->layout('layout/innersearchlayout');
+//         $indexModel = $this->getServiceLocator()->get('Application\Model\Index');
+//         $view->setVariable('aboutUsData', $indexModel->getAboutUs());
+         return $view;
+    }
 }

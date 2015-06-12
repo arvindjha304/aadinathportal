@@ -1,5 +1,4 @@
 <?php $baseUrl = $this->basePath(); ?>
-
 <!doctype html>
 <html lang="en-gb" class="no-js">
 <head>
@@ -36,7 +35,7 @@
 <link rel="stylesheet" href="<?php echo $baseUrl;?>/public/js/masterslider/style/masterslider.css" />
 <link rel="stylesheet" href="<?php echo $baseUrl;?>/public/js/masterslider/skins/default/style.css" />
 <!-- cubeportfolio -->
-<link rel="stylesheet" type="text/css" href="js/cubeportfolio/cubeportfolio.min.css">
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl;?>/public/js/cubeportfolio/cubeportfolio.min.css">
 <!-- owl carousel -->
 <link href="<?php echo $baseUrl;?>/public/js/carouselowl/owl.transitions.css" rel="stylesheet">
 <link href="<?php echo $baseUrl;?>/public/js/carouselowl/owl.carousel.css" rel="stylesheet">
@@ -47,51 +46,15 @@
 
 
 
-
-
 </head>
 <body>
 <div class="site_wrapper">
-  <div class="top_section">
-    <div class="container">
-      <div class="left">
-        <!-- Logo -->
-        <div><a href="index.html" id="logo"></a></div>
-      </div>
-      <div class="right"> <i class="fa fa-envelope"></i>&nbsp; info@aadinath.com <i class="fa fa-phone-square"></i>&nbsp; +91 987 654 1234
-        <ul class="topsocial">
-          <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-          <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-          <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <!-- end top navigation links -->
-  <div class="clearfix"></div>
-  <header class="header">
-    <div class="container">
-      <!-- Navigation Menu -->
-      <div class="menu_main_full">
-        <div class="navbar yamm navbar-default-index">
-          <div class="navbar-header">
-            <div class="navbar-toggle .navbar-collapse .pull-right " data-toggle="collapse" data-target="#navbar-collapse-1"  > <span>Menu</span>
-              <button type="button" > <i class="fa fa-bars"></i></button>
-            </div>
-          </div>
-		  
-		  
-    <?php echo $this->layout()->content; ?>     
-  
+<!---------Magic Search----------->
+
+
+
+  <?php echo $this->layout()->content; ?>
 
  <?php echo $this->partial("footer"); ?>
-
-
-
-
-
-
-
-  
 </body>
 </html>

@@ -1,0 +1,430 @@
+ <?php $baseUrl = $this->basePath(); ?>
+
+	
+<div class="magicsearch">
+<div class="container">
+<nav class="navbar navbar-default">  
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <!--<a href="#"><img src="images/logo/logo-inside.png" width="80%" style="padding-top:5px;"></a>-->
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">        
+      <li><a href="index.html" style="padding-top:0px; height:50px;"><img src="<?php echo $baseUrl;?>/public/images/logo/logo-inside.png"  class="img-responsive"></a></li>        
+      </ul>
+      <ul class="nav navbar-nav">
+      <div class="input-group search-width">
+    <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+    <input type="text" class="form-control" id="inputGroupSuccess1" aria-describedby="inputGroupSuccess1Status">
+  </div></ul>
+      <ul class="nav navbar-nav navbar-right">
+       <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-unchecked"></span> COMPARE <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">           
+            <li class="divider"></li>
+            <li><a href="#">1</a></li>
+            <li class="divider"></li>
+            <li><a href="#">2</a></li>
+          </ul>
+        </li>       
+        <li><a href="#" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-user"></span> LOG IN</a></li>             
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  <!-- /.container-fluid -->
+</nav>
+</div>
+</div>
+
+
+<!---------Filteration bar----------->
+<div class="filteration">
+<div class="container">
+  <div class="container-fluid bg-white">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><div style="color:#777; padding-top:15px; margin-right:30px;">Refine Results :</div></li>               
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Possession <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#"><input type="checkbox"> Ready to move</a></li>
+            <li><a href="#"><input type="checkbox"> Upto 3 Months</a></li>
+            <li><a href="#"><input type="checkbox"> Upto 6 Months</a></li>
+            <li><a href="#"><input type="checkbox"> Upto 9 Months</a></li>            
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Property Type <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#"><input type="checkbox"> Apartment</a></li>
+            <li><a href="#"><input type="checkbox"> Villa</a></li>
+            <li><a href="#"><input type="checkbox"> Builder Floor</a></li>  
+            <li><a href="#"><input type="checkbox"> Plot</a></li>           
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Budget <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">0</a></li>
+            <li><a href="#">0</a></li>
+            <li><a href="#">0</a></li>           
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Bedrooms <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#"><input type="checkbox"> 1 Bedroom</a></li>
+            <li><a href="#"><input type="checkbox"> 2 Bedrooms</a></li>
+            <li><a href="#"><input type="checkbox"> 3 Bedrooms</a></li>
+            <li><a href="#"><input type="checkbox"> 4 Bedrooms</a></li>
+            <li><a href="#"><input type="checkbox"> 4+ Bedrooms</a></li>           
+          </ul>
+        </li>
+        <li><a href="#"><span class="glyphicon glyphicon-refresh"></span> Reset </a></li> 
+      </ul>
+     <!--right---> 
+      <ul class="nav navbar-nav navbar-right"> 
+      	<li><a href="projects.html"><span class="glyphicon glyphicon-th-list"></span> LIST</a></li>       
+        <li><a href="projects-grid.html"><span class="glyphicon glyphicon-th-large"></span> GRID</a></li>
+             
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+
+</div>
+</div>
+  
+  <div class="clearfix margin_top12"></div>
+ 
+  <!---------Heading----------->
+  
+  <div class="insidepg-heading">
+  <div class="container">
+  <div class="page-header">
+  <div class="clearfix margin_top4"></div>  
+  <h3>New Residential Projects in Delhi<br> <small>Found a total of 102 projects.</small></h3> </div>
+  </div>  
+  </div>
+
+
+<div class="clearfix"></div>
+<div class="content_fullwidth">
+<div class="featured_section102">
+<div class="container insidepg-proj-grid-row">
+   
+    <div class="one_fourth_less">    
+		<a href="projects-detail.html"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img1.jpg" alt="" /></a>
+    	<h5><a href="projects-detail.html">Parsvnath Paramount</a> <em>Subhash Nagar , Delhi</em></h5>
+        <div class="grid_type">
+        4, 2 & 3 BHK ( 930 - 2385 sq ft )<br>
+		<span class="grid_type_left_smltxt">Possession Date: Dec `17</span>
+        </div>
+        <div class="grid_button">
+        <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> 3.04 Crs
+</div>
+        <div class="grid_button_right">
+        
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1">GET CALL BACK</button></div>
+        </div>
+        
+    </div><!-- end section -->
+    
+    <div class="one_fourth_less">    
+		<a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img2.jpg" alt="" /></a>
+    	<h5><a href="#">Eden Heights</a> <em>Sector 6, Dwarka , Delhi</em></h5>    
+         <div class="grid_type">
+        2, 3 & 4 BHK ( undefined sq ft )<br>
+		<span class="grid_type_left_smltxt">Possession Date: Dec `18</span>
+        </div>
+        <div class="grid_button">
+        <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> 44.63 L
+</div>
+        <div class="grid_button_right">
+        
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1">GET CALL BACK</button></div>
+        </div>
+    </div><!-- end section -->
+    
+    <div class="one_fourth_less">    
+		<a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img3.jpg" alt="" /></a>
+    	<h5><a href="#">Supertech Golf Village</a> <em>Sec 22D Yamuna Exp.</em></h5>     
+        <div class="grid_type">
+         1, 2 & 3 BHK ( 480 - 1440 sq ft )<br>
+		<span class="grid_type_left_smltxt">Possession Date: Dec `17</span>
+        </div>
+        <div class="grid_button">
+        <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> 16.1 L
+</div>
+        <div class="grid_button_right">
+        
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1">GET CALL BACK</button></div>
+        </div>
+    </div><!-- end section -->
+    
+    <div class="one_fourth_less last">    
+		<a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img4.jpg" alt="" /></a>
+    	<h5><a href="#">Jaypee Greens Pavilion Heights</a> <em>Sector 128, Noida </em></h5>    
+        <div class="grid_type">
+        2, 3 & 4 BHK ( 1240 - 2500 sq ft )<br>
+		<span class="grid_type_left_smltxt">Completed: Apr `15</span>
+        </div>
+        <div class="grid_button">
+        <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> Price on req.
+</div>
+        <div class="grid_button_right">
+        
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1">GET CALL BACK</button></div>
+        </div>
+    </div><!-- end section -->
+	
+    </div>
+    <div class="clearfix"></div> 
+    <div class="container insidepg-proj-grid-row">      
+    <div class="one_fourth_less">    
+		<a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img3.jpg" alt="" /></a>
+    	<h5><a href="#">Supertech Golf Village</a> <em>Sec 22D Yamuna Exp.</em></h5>     
+        <div class="grid_type">
+         1, 2 & 3 BHK ( 480 - 1440 sq ft )<br>
+		<span class="grid_type_left_smltxt">Possession Date: Dec `17</span>
+        </div>
+        <div class="grid_button">
+        <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> 16.1 L
+</div>
+        <div class="grid_button_right">
+        
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1">GET CALL BACK</button></div>
+        </div>
+    </div><!-- end section -->
+    
+    <div class="one_fourth_less">    
+		<a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img4.jpg" alt="" /></a>
+    	<h5><a href="#">Jaypee Greens Pavilion Heights</a> <em>Sector 128, Noida </em></h5>    
+        <div class="grid_type">
+        2, 3 & 4 BHK ( 1240 - 2500 sq ft )<br>
+		<span class="grid_type_left_smltxt">Completed: Apr `15</span>
+        </div>
+        <div class="grid_button">
+        <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> Price on req.
+</div>
+        <div class="grid_button_right">
+        
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1">GET CALL BACK</button></div>
+        </div>
+    </div><!-- end section -->
+    
+    <div class="one_fourth_less">    
+		<a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img1.jpg" alt="" /></a>
+    	<h5><a href="#">Parsvnath Paramount</a> <em>Subhash Nagar , Delhi</em></h5>
+        <div class="grid_type">
+        4, 2 & 3 BHK ( 930 - 2385 sq ft )<br>
+		<span class="grid_type_left_smltxt">Possession Date: Dec `17</span>
+        </div>
+        <div class="grid_button">
+        <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> 3.04 Crs
+</div>
+        <div class="grid_button_right">
+        
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1">GET CALL BACK</button></div>
+        </div>
+    </div><!-- end section -->
+    
+    <div class="one_fourth_less last">    
+		<a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img2.jpg" alt="" /></a>
+    	<h5><a href="#">Eden Heights</a> <em>Sector 6, Dwarka , Delhi</em></h5>    
+         <div class="grid_type">
+        2, 3 & 4 BHK ( undefined sq ft )<br>
+		<span class="grid_type_left_smltxt">Possession Date: Dec `18</span>
+        </div>
+        <div class="grid_button">
+        <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> 44.63 L
+</div>
+        <div class="grid_button_right">
+        
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1">GET CALL BACK</button></div>
+        </div>
+    </div><!-- end section -->
+    
+</div>
+</div><!-- end featured section 102 -->
+
+
+
+
+
+</div>
+
+ <!---Add-Banner--->  
+ <div class="container insidepg-proj-row">
+ <div class="clearfix margin_top5"></div> 
+ 	 <div class="row"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/add-banner1.jpg"></a></div>
+ <div class="clearfix margin_top3"></div> 
+ </div>
+   
+<div class="clearfix"></div>
+   
+<div class="content_fullwidth">
+<div class="featured_section102">
+<div class="container insidepg-proj-grid-row">
+   
+    <div class="one_fourth_less">    
+		<a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img1.jpg" alt="" /></a>
+    	<h5><a href="#">Parsvnath Paramount</a> <em>Subhash Nagar , Delhi</em></h5>
+        <div class="grid_type">
+        4, 2 & 3 BHK ( 930 - 2385 sq ft )<br>
+		<span class="grid_type_left_smltxt">Possession Date: Dec `17</span>
+        </div>
+        <div class="grid_button">
+        <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> 3.04 Crs
+</div>
+        <div class="grid_button_right">
+        
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1">GET CALL BACK</button></div>
+        </div>
+        
+    </div><!-- end section -->
+    
+    <div class="one_fourth_less">    
+		<a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img2.jpg" alt="" /></a>
+    	<h5><a href="#">Eden Heights</a> <em>Sector 6, Dwarka , Delhi</em></h5>    
+         <div class="grid_type">
+        2, 3 & 4 BHK ( undefined sq ft )<br>
+		<span class="grid_type_left_smltxt">Possession Date: Dec `18</span>
+        </div>
+        <div class="grid_button">
+        <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> 44.63 L
+</div>
+        <div class="grid_button_right">
+        
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1">GET CALL BACK</button></div>
+        </div>
+    </div><!-- end section -->
+    
+    <div class="one_fourth_less">    
+		<a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img3.jpg" alt="" /></a>
+    	<h5><a href="#">Supertech Golf Village</a> <em>Sec 22D Yamuna Exp.</em></h5>     
+        <div class="grid_type">
+         1, 2 & 3 BHK ( 480 - 1440 sq ft )<br>
+		<span class="grid_type_left_smltxt">Possession Date: Dec `17</span>
+        </div>
+        <div class="grid_button">
+        <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> 16.1 L
+</div>
+        <div class="grid_button_right">
+        
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1">GET CALL BACK</button></div>
+        </div>
+    </div><!-- end section -->
+    
+    <div class="one_fourth_less last">    
+		<a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img4.jpg" alt="" /></a>
+    	<h5><a href="#">Jaypee Greens Pavilion Heights</a> <em>Sector 128, Noida </em></h5>    
+        <div class="grid_type">
+        2, 3 & 4 BHK ( 1240 - 2500 sq ft )<br>
+		<span class="grid_type_left_smltxt">Completed: Apr `15</span>
+        </div>
+        <div class="grid_button">
+        <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> Price on req.
+</div>
+        <div class="grid_button_right">
+        
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1">GET CALL BACK</button></div>
+        </div>
+    </div><!-- end section -->
+	
+    </div>
+    <div class="clearfix"></div> 
+    <div class="container insidepg-proj-grid-row">      
+    <div class="one_fourth_less">    
+		<a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img3.jpg" alt="" /></a>
+    	<h5><a href="#">Supertech Golf Village</a> <em>Sec 22D Yamuna Exp.</em></h5>     
+        <div class="grid_type">
+         1, 2 & 3 BHK ( 480 - 1440 sq ft )<br>
+		<span class="grid_type_left_smltxt">Possession Date: Dec `17</span>
+        </div>
+        <div class="grid_button">
+        <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> 16.1 L
+</div>
+        <div class="grid_button_right">
+        
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1">GET CALL BACK</button></div>
+        </div>
+    </div><!-- end section -->
+    
+    <div class="one_fourth_less">    
+		<a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img4.jpg" alt="" /></a>
+    	<h5><a href="#">Jaypee Greens Pavilion Heights</a> <em>Sector 128, Noida </em></h5>    
+        <div class="grid_type">
+        2, 3 & 4 BHK ( 1240 - 2500 sq ft )<br>
+		<span class="grid_type_left_smltxt">Completed: Apr `15</span>
+        </div>
+        <div class="grid_button">
+        <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> Price on req.
+</div>
+        <div class="grid_button_right">
+        
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1">GET CALL BACK</button></div>
+        </div>
+    </div><!-- end section -->
+    
+    <div class="one_fourth_less">    
+		<a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img1.jpg" alt="" /></a>
+    	<h5><a href="#">Parsvnath Paramount</a> <em>Subhash Nagar , Delhi</em></h5>
+        <div class="grid_type">
+        4, 2 & 3 BHK ( 930 - 2385 sq ft )<br>
+		<span class="grid_type_left_smltxt">Possession Date: Dec `17</span>
+        </div>
+        <div class="grid_button">
+        <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> 3.04 Crs
+</div>
+        <div class="grid_button_right">
+        
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1">GET CALL BACK</button></div>
+        </div>
+    </div><!-- end section -->
+    
+    <div class="one_fourth_less last">    
+		<a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img2.jpg" alt="" /></a>
+    	<h5><a href="#">Eden Heights</a> <em>Sector 6, Dwarka , Delhi</em></h5>    
+         <div class="grid_type">
+        2, 3 & 4 BHK ( undefined sq ft )<br>
+		<span class="grid_type_left_smltxt">Possession Date: Dec `18</span>
+        </div>
+        <div class="grid_button">
+        <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> 44.63 L
+</div>
+        <div class="grid_button_right">
+        
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1">GET CALL BACK</button></div>
+        </div>
+    </div><!-- end section -->
+    
+</div>
+</div><!-- end featured section 102 -->
+
+
+
+
+
+</div> 
+
+
+  
+  
