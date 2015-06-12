@@ -133,7 +133,7 @@
 	height:50px;
 	background-color: #f8f8f8;
 	position:fixed;
-	z-index: 100000;
+	z-index: 100;
 }
 .magicsearch1 {
 	width: 100%;
@@ -141,7 +141,7 @@
 	height:55px;
 	background-color: #f8f8f8;
 	position:fixed;
-	z-index: 100000;
+	z-index: 1000;
 	box-shadow: 0px 2px 10px;
 }
 .filteration {
@@ -149,7 +149,7 @@
 	float: left;
 	height:50px;
 	position:fixed;
-	z-index: 1000;
+	z-index: 10;
 	margin-top: 50px;
 	box-shadow: 0px 2px 10px;
 	background-color: #fff;
@@ -307,6 +307,10 @@
 	background-color:#ddd;
 	border-right: 1px solid #333;
 }
+.pritable .pacdetails .top1 img{	
+	height: 178px;
+	padding: 5px;
+	}
 .popup-form{
 	color: #393939;
     font-family: "Raleway",sans-serif;
@@ -320,4 +324,85 @@
 }
 .popup-heading{
 margin-bottom:30px; color:#333; font-family: "Raleway",sans-serif;
+}
+.buy-form-bg{
+	width: 72%;
+	height: 76px;
+	background: rgba(247, 247, 247, 0.5) none repeat scroll 0 0;
+	border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	border: 0px solid #000000;	
+	margin: auto;
+	margin-top:300px;
+}
+.buy-form-inside{
+	width: 98%;
+	height: 60px;
+	float:left;
+	margin: 1%;
+	background: #fff;	
+	border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	border: 0px solid #ccc;
+}
+.buy-bg-img16{
+	width:100%;
+	height:600px;
+	background-image:url(../images/sliders/master/16.jpg);
+	background-repeat:no-repeat;
+	background-size:100%;
+	margin-top: 55px;
+}
+.buy-bg-img17{
+	width:100%;
+	height:600px;
+	background-image:url(../images/sliders/master/17.jpg);
+	background-repeat:no-repeat;
+	background-size:100%;
+	margin-top: 55px;
+}
+.buy-bg-img18{
+	width:100%;
+	height:600px;
+	background-image:url(../images/sliders/master/18.jpg);
+	background-repeat:no-repeat;
+	background-size:100%;
+	margin-top: 55px;
+}
+.newlaunch-proj1{
+	width:100%;
+	height:385px;
+	background-color:#eee;
+}
+.newlaunch-proj1 img{
+	width:400px;
+	height:385px !important;
+}
+.newlaunch-proj2{
+	width:100%;
+	height:580px;
+	background-color:#eee;
+}
+.newlaunch-proj2 img{
+	width:400px;
+	height:580px !important;
+}
+.featured-proj {
+    background: #fff none repeat scroll 0 0 !important;
+    float: left;
+    padding: 0px 0 0px !important;
+    width: 100%;
+	height: 300px;
+}
+.featured-proj-text{
+	color: #fff;
+	font-weight: bold;
+	font-size: 18px;
+	text-transform:uppercase;
+	text-align: center;
+}
+.sell-form-input{
+	height:60px;
 }

@@ -1,6 +1,6 @@
 ﻿.popup {
   position:fixed; z-index:100000000; top:190px; left:51%;
-  width:400px; height:465px;
+  width:400px; height:auto;
   background:#f3f3f3;
   font-family: 'Lato', sans-serif;
   color: #fff;

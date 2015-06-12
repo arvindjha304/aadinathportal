@@ -1,12 +1,4 @@
-/*!
- * Cube Portfolio - Responsive jQuery Grid Plugin
- *
- * version: 2.0.1 (21 January, 2015)
- * require: jQuery v1.7+
- *
- * Copyright (c) 2015, Mihai Buricea (http://scriptpie.com)
- * Released under CodeCanyon License http://codecanyon.net/licenses
- *
+
  */.cbp, .cbp *, .cbp :after, .cbp :before, .cbp-l-filters-alignCenter, .cbp-l-filters-alignCenter *, .cbp-l-filters-alignLeft, .cbp-l-filters-alignLeft *, .cbp-l-filters-alignRight, .cbp-l-filters-alignRight *, .cbp-l-filters-big, .cbp-l-filters-big *, .cbp-l-filters-button, .cbp-l-filters-button *, .cbp-l-filters-buttonCenter, .cbp-l-filters-buttonCenter *, .cbp-l-filters-dropdown, .cbp-l-filters-dropdown *, .cbp-l-filters-list, .cbp-l-filters-list *, .cbp-l-filters-text, .cbp-l-filters-text *, .cbp-l-filters-work, .cbp-l-filters-work *, .cbp-popup-singlePage, .cbp-popup-singlePage *, .cbp-popup-wrap, .cbp-popup-wrap * {
 	-webkit-box-sizing:border-box;
 	-moz-box-sizing:border-box;
@@ -3232,7 +3224,7 @@ transition:background .5s
 }
 .cbp-l-grid-masonry-projects-title {
 	font:500 15px/22px Roboto, sans-serif;
-	color:#9eca45;
+	color:#ed3237;
 	text-align:center;
 	display:block
 }
@@ -3241,14 +3233,14 @@ transition:background .5s
 }
 .cbp-l-grid-masonry-projects-desc {
 	font:400 12px/16px Roboto, sans-serif;
-	color:#b2b2b2;
+	color:#333;
 	text-align:center
 }
 .cbp-l-grid-masonry-projects .cbp-caption {
 	margin-bottom:11px
 }
 .cbp-l-grid-masonry-projects .cbp-caption-activeWrap {
-	background-color:#9eca45;
+	background-color:#ed3237;
 	background-color:rgba(89, 163, 182, .95)
 }
 .cbp-l-grid-masonry-projects .cbp-l-caption-buttonLeft, .cbp-l-grid-masonry-projects .cbp-l-caption-buttonRight {

@@ -2311,6 +2311,13 @@ a.but_woman:hover {
 	margin-top: 20px;
 	/*border-top: 1px solid #eee;*/
 }
+.pritable .pacdetails .bottom1 {
+	float: left;
+	width: 100%;
+	margin: 20px 0px;
+	height: 32px;
+	/*border-top: 1px solid #eee;*/
+}
 .pritable .pacdetails .bottom a {
 	color: #393939;
 	font-size: 16px;

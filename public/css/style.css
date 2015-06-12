@@ -94,8 +94,7 @@
 }
 
 .one_fifth {
-	/*width: 16.800%;*/
-	width: 28.800%;
+	width: 16.800%;
 }
 
 .two_third {
@@ -374,16 +373,16 @@
 .top_section {
 	float: left;
 	width: 100%;
-	height: 138px;
+	height: 133px;
 	background: #000;
 }
 .top_section .left {
 	float: left;
-	width: 12%;
+	width: 13%;
 }
 .top_section .right {
 	float: left;
-	width: 88%;
+	width: 87%;
 	margin-top: 27px;
 	text-align: right;
 	color: #fff;
@@ -514,7 +513,7 @@
 	float: right;
 	color: #ccc;
 	margin-left: 0px;
-	padding: 18px 22px 17px 22px;
+	padding: 16px 22px 16px 22px;
 	border-right: 1px solid #707070;
 	border-left: 1px solid #707070;
 	transition: all 0.3s ease;
@@ -2355,7 +2354,7 @@
 	
 	float: left;
 	width: 40%;
-	padding: 10% 15% 0% 0%;
+	padding: 9% 15% 0% 0%;
 	text-align:right;
 	color: #fff;
 }
@@ -3416,9 +3415,9 @@
 	width: 100%;
 	padding: 40px 0px 40px 0px;
 	/*background: #393939;*/
-	border-top: 10px solid #272727;
-	border-bottom: 1px solid #272727;
-	background: #181818;
+	border-top: 10px solid #313131;
+	border-bottom: 1px solid #313131;
+	background: #222;
 	/*border-top: 1px solid #ccc;*/
 }
 
@@ -6515,7 +6514,7 @@ ul.footer_social_links5 {
 	float: left;
 	width: 100%;
 	padding: 0px 0px 0px 0px;
-	background: #181818;
+	background: #222;
 	color: #999;
 	border-top: none;
 	padding-top: 55px;
@@ -7095,7 +7094,7 @@ ul.footer_social_links5 {
 	width: 100%;
 	color: #fff;
 	text-align: left;
-	margin-top: 100px;
+	/*margin-top: 100px;*/
 	padding: 100px 0px 60px 0px;
 	background: #999 url(../images/page-title-bg1.jpg) no-repeat center top;
 }
@@ -7130,7 +7129,10 @@ ul.footer_social_links5 {
 	background: #999 url(../images/page-title-bg7.jpg) no-repeat center top;
 }
 .page_title1.sty7 {
-	background: #999 url(../images/page-title-bg8.jpg) no-repeat center top;
+	background: #999 url(../images/contact-bg.jpg) no-repeat center top;
+}
+.page_title1.sty7-i {
+	background: #999 url(../images/careers-bg.jpg) no-repeat center top;
 }
 .page_title1.sty8 {
 	background: #999 url(../images/page-title-bg9.jpg) no-repeat center top;
@@ -7224,11 +7226,11 @@ ul.footer_social_links5 {
 	margin-top: -10px;
 }
 .sidebar_widget ul.arrows_list1 li a {
-	color: #9eca45;
+	color: #428bca;
 	line-height: 30px;
 }
 .sidebar_widget ul.arrows_list1 li a:hover {
-	color: #272727;
+	color: #ed3237;
 }
 .sidebar_widget ul.arrows_list1 i {
 	margin-right: 4px;
@@ -7999,8 +8001,9 @@ ul.adsbanner-list {
 
 /* contact form */
 .cforms label {
-	float: left;
+	/*float: left;*/
 	width: 100%;
+	font-size:14px;
 	color: #454545;
 	font-weight: normal;
 }
@@ -8023,6 +8026,7 @@ ul.adsbanner-list {
 	-moz-box-shadow: inset 1px 0px 2px 0px rgba(238,238,238,1);
 	box-shadow: inset 0px 1px 2px 0px rgba(238,238,238,1);
 }
+
 
 .cforms textarea {
 	color: #454545;
