@@ -1,0 +1,229 @@
+<?php $baseUrl = $this->basePath();
+// echo $this->projectsDetail[0]['floor_plan_image'];exit;
+ ?>
+
+<script src="<?php echo $baseUrl;?>/public/js/ajaxupload.3.5.js"></script>
+<script type="text/javascript">
+var deletedDivArray = [];
+$(function(){
+	 var btnUpload=$('#upload_1');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,1);
+});
+
+
+	
+function ajaxUpload(btnUpload,status,id){
+	 var url='<?php echo $baseUrl ?>';
+	 var SITEROOT=url+"/admin/upload";
+	 new AjaxUpload(btnUpload,
+		 {
+		     action: SITEROOT,
+		     name:'uploadfile' ,
+		     onSubmit: function(file, ext){
+		         if (! (ext && /^(jpg|png|jpeg|gif)$/.test(ext))){
+		             // extension is not allowed
+		             status.text('Only JPG, PNG or GIF files are allowed');
+		             return false;
+		         }
+		         status.text('Uploading...');
+		     },
+		     onComplete: function(file, response){
+		         //On completion clear the status
+		         status.text('');
+		         var filepath = url+'/public/uploadfiles/'+response;
+		    	 id = parseInt(id);
+				$('#files_'+id).html('');
+		         if(response != ""){
+
+// 		        	 alert(id);
+// 		        	 return false;		         
+			         
+		             document.getElementById("imagename_"+id).value = response;
+		             $('#preview_'+id).show();
+		             $('<div></div>').appendTo('#files_'+id).html('<img height="50" width="50"  src="'+filepath+'" alt="" /><br />').addClass('success');
+		           //  $('#lastImageId').val(id+1);
+		         } else{
+		            // $('<div></div>').appendTo('#files').text(response).addClass('error');
+		         }
+		         
+		     }
+		 });
+}
+
+function previewImage(id){
+	$('#files_'+id).toggle();
+	return false;
+}
+
+function addMore(){
+	if(deletedDivArray.length > 0){
+		for(var i=0;i<deletedDivArray.length;i++){
+			if(deletedDivArray[i]!=''){
+				var id = deletedDivArray[i];
+			}
+		}
+		deletedDivArray.pop(id);
+	}else{
+		var id = $('#lastDivId').val();
+		id = parseInt(id)+1;
+		if(id<6) $('#lastDivId').val(id);
+	}
+		$('#div_'+id).show();
+	return false;
+}
+
+function delDiv(id){
+	deletedDivArray.push(id);
+	$('#imagename_'+id).val('');
+	$('#amenityName_'+id).val('');
+	$('#preview_'+id).hide();
+	$('#files_'+id).html('');
+	$('#div_'+id).hide();
+	return false;
+}
+
+
+
+</script>
+
+
+<div class="contant">
+<div class="heading"><?php echo $this->heading?></div>
+<div class="contant1">
+	<form method="post" action="" name="" id="floorform">
+		
+    <?php if($this->msg!=''){?>
+	<div ><?php echo $this->msg?></div>
+	<?php }?>
+	<span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"></span>
+	<div class="content2">
+		<div class="content3"><span style="color:red">*</span> Projects Title:</div>
+        <div class="content4">
+        <select id="property_id" name="prty_type_id" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
+		<option value = "">Select Project</option>
+                        <?php
+                        foreach ($this->property_types as $property_type) {
+                            $tempArr = array();
+                            if (!in_array($property_type['category_name'], $tempArr)) {
+                                ?>
+                                <optgroup label="<?php echo $property_type['category_name'] ?>">
+                                <?php } ?>
+                                <option <?php if($this->projectsDetail[0]['project_id']==$property_type['id'])  { echo 'selected';}?> value="<?php echo $property_type['id'] ?>"><?php echo ucfirst($property_type['property_type']) ?></option>
+                                <?php if (!in_array($property_type['category_name'], $tempArr)) { ?>	
+                                </optgroup>
+                                <?php
+                            }
+                            $tempArr[] = $property_type['category_name'];
+                        }
+                        ?>
+
+                    </select>
+        </div>
+    </div>
+    <div class="content2">
+		<div class="content3"><span style="color:red">*</span> Plan Type:</div>
+        <div class="content4-builder">
+       <input type="text" name="plan" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="florplan" value="<?php echo $this->projectsDetail[0]['plan_type']?>"/>
+        </div>
+    </div>
+   
+       
+    
+    
+    <div class="content2">
+		<div class="content3"><span style="color:red">*</span> Size:</div>
+        <div class="content4-builder">
+        <input type="text" name="size" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="floorsize" value="<?php echo $this->projectsDetail[0]['size']?>"/><select style="height:30px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9; margin-left:20px;" name="flrsize" id="flrsize"><option value ="">Select</option>
+		<option <?php if($this->projectsDetail[0]['unit']=='sqft')  { echo 'selected';}?> ><?php echo 'Sqft';?></option>
+		<option <?php if($this->projectsDetail[0]['unit']=='Sqm')  { echo 'selected';}?> ><?php echo 'Sqm' ;?></option>
+		<option <?php if($this->projectsDetail[0]['unit']=='Sqyard')  { echo 'selected';}?> ><?php echo 'Sqyard' ;?></option>
+		</select>
+        </div>
+    </div>
+    
+    <div class="content2">
+		<div class="content3"> <span style="color:red">*</span> Price:</div>
+        <div class="content4-builder">
+        <input type="text" name="price" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="floorprice" value="<?php echo $this->projectsDetail[0]['price']?>"/>
+        </div>
+    </div>
+    
+	  <div class="content2">
+    	<input type='hidden' name='imagename_1' id='imagename_1' value='<?php if ($this->projectsDetail[0]['floor_plan_image']!='') echo $this->projectsDetail[0]['floor_plan_image']; ?>'>
+		<div class="content3"><span style="color:red">*</span> Image:</div>
+        <div class="content4-builder">
+			<button class="" style="height:28px;margin-left:10px;" id="upload_1">Browse</button>
+			
+			<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_1" onclick="return previewImage('1')">Preview</button>
+			<div class="am" >
+		        <div class="" id="files_1" style="display: none"></div>
+				<?php if($this->projectsDetail[0]['floor_plan_image']!='') {?>
+					<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['floor_plan_image']; ?>"/> 
+				<?php }?>
+	    	</div>
+		</div>
+		
+	</div>
+	
+   
+  
+	<div class="content5">
+	
+	<button onclick="return submitForm()" value="<?php echo $this->heading?>" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;"><?php echo $this->heading?></button>
+	<a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl;?>/admin/builderlist" >Cancel</a>
+	
+	</div>
+	
+	</form>
+    
+</div>
+</div>
+
+<script>
+
+var error = 0;
+function hasNumbers(t){
+	return /\d/.test(t);
+}
+
+function submitForm(){
+	var property_id 	= $('#property_id').val();
+	var florplan 	= $('#florplan').val();
+	var flrsize 	= $('#flrsize').val();
+	var floorsize 	= $('#floorsize').val();
+	var floorprice 	= $('#floorprice').val();
+	var imagename_1 = $('#imagename_1').val();
+	
+	var error = 0;
+	var msg = '';
+	if(property_id =='' ){
+		var msg = 'Property Titel cannot be empty.';
+		error = 1;
+	}else if(florplan =='' ){
+		var msg = 'Floor Plan cannot be empty.';
+		error = 1;
+	}else if(flrsize =='' ){
+		var msg = 'Unit cannot be empty.';
+		error = 1;
+	}else if(floorsize =='' ){
+		var msg = 'Floor Size cannot be empty.';
+		error = 1;
+	}else if(floorprice =='' ){
+		var msg = 'Floor Price cannot be empty.';
+		error = 1;
+	}
+	}else if(imagename_1 =='' ){
+		var msg = 'Floor Image cannot be empty.';
+		error = 1;
+	}
+
+	if(msg!=''){
+		$("#nameExist").text(msg).show();
+		return false;
+	}else{
+		$('#floorform').submit();
+	}	
+}
+
+</script>

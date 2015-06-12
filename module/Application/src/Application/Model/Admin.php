@@ -61,6 +61,17 @@ use Zend\Db\Sql\Expression;
 		return $result;
 		
 	}
+	public function getAllProjects(){
+		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$sql = new Sql($db);
+		$select = $sql->select()
+		->from(array('proj'=>'projects'))
+		->join(array('pfp'=>'project_floor_plan'),'pfp.project_id=proj.id')
+		->where('pfp.is_delete= 0');
+		$result = $sql->prepareStatementForSqlObject($select)->execute();
+		return $result;
+		
+	}
 	public function getStateNameById($id){
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$sql = new Sql($db);

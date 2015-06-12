@@ -2,7 +2,7 @@
 
 //echo '<pre>';print_r($this->projectsDetail);exit;
 
-$amenityArr = explode(',',$this->projectsDetail[0]['amenities']);
+$amenityArr = count($this->projectsDetail) ? explode(',',$this->projectsDetail[0]['amenities']) : array();
 
 
 ?>
@@ -246,19 +246,20 @@ function previewImage(id){
                 </div>
             </div>
             
-            <div class="content2-1">
+            <div class="content2-1" >
                 <div class="content3-1"> <span style="color:red">*</span> Super Built-up Area:</div>
                 <div class="content4-1">
                     <input type="text" name="builtup_area" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" value="<?php if($this->projectsDetail[0]['builtup_area']!='')  { echo $this->projectsDetail[0]['builtup_area'];}?>"/> (e.g. 1690 - 3965 sq.ft.)
                 </div>
             </div>
-
-            <div class="content2-1">
-                <div class="content3-1"> <span style="color:red">*</span> Starting Price:</div>
-                <div class="content4-1">
-                    <input type="text" name="starting_price" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" value="<?php if($this->projectsDetail[0]['starting_price']!='')  { echo $this->projectsDetail[0]['starting_price'];}?>"/> (e.g. 3.04 Crs.)
+<div class="content2">
+                <div class="content3" Style="font-weight: normal;"> <span style="color:red">*</span> Starting Price:</div>
+                <div class="content4">
+                   <input type="text" name="starting_price" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" value="<?php if($this->projectsDetail[0]['starting_price']!='')  { echo $this->projectsDetail[0]['starting_price'];}?>"/> (e.g. 3.04 Crs.)
                 </div>
             </div>
+
+           
 
             <div class="content2-1">
                 <div class="content3-1"> <span style="color:red">*</span> Buildings:</div>
@@ -640,7 +641,7 @@ function previewImage(id){
             <div class="content2-1">
                 <div class="content3-1"><span style="color:red">*</span>Latitude:</div>
                 <div class="content4-1">
-                    <input type="text" name="latitude" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if (isset($this->builderDetail[0]['builder_name'])) echo $this->builderDetail[0]['builder_name']; ?>"/>
+                    <input type="text" name="latitude" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="latitudeid" value="<?php if (isset($this->builderDetail[0]['builder_name'])) echo $this->builderDetail[0]['builder_name']; ?>"/>
                 </div>
             </div>
 
@@ -650,7 +651,7 @@ function previewImage(id){
                 <div class="content3-1"><span style="color:red">*</span>Longitude: 	
                 </div>
                 <div class="content4-1">
-                    <input type="text" name="longitude" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if (isset($this->builderDetail[0]['builder_name'])) echo $this->builderDetail[0]['builder_name']; ?>"/>
+                    <input type="text" name="longitude" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="longitudeid" value="<?php if (isset($this->builderDetail[0]['builder_name'])) echo $this->builderDetail[0]['builder_name']; ?>"/>
                 </div>
             </div>
             <div class="content2">
@@ -700,58 +701,79 @@ function previewImage(id){
         return /\d/.test(t);
     }
 
-    function submitForm() {
-         $('#projectform').submit();
-//        var builder_name = $('#builder_name').val();
-//        var about_builder = $('#about_builder').val();
-//        var imagename = $('#imagename').val();
-//        var meta_tag = $('#meta_tag').val();
-//        var keyword = $('#keyword').val();
-//        var description = $('#description').val();
-//        var priority = $('#priority').val();
-//        var error = 0;
-//        var msg = '';
-//        if (builder_name == '') {
-//            var msg = 'Builder Name cannot be empty.';
-//            error = 1;
-//        } else if (about_builder == '') {
-//            var msg = 'About Builder cannot be empty.';
-//            error = 1;
-//        } else if (imagename == '') {
-//            var msg = 'Builder Image cannot be empty.';
-//            error = 1;
-//        } else if (meta_tag == '') {
-//            var msg = 'Meta Tag cannot be empty.';
-//            error = 1;
-//        } else if (keyword == '') {
-//            var msg = 'Keyword cannot be empty.';
-//            error = 1;
-//        } else if (description == '') {
-//            var msg = 'Description cannot be empty.';
-//            error = 1;
-//        } else if (priority == '') {
-//            var msg = 'Priority cannot be empty.';
-//            error = 1;
-//        }
-//
-//        if (msg != '') {
-//            $("#nameExist").text(msg).show();
-//            return false;
-//        } else {
-//            $('#builderform').submit();
-//        }
-    }
+    function submitForm(){
+	var property_type_id 	= $('#property_type_id').val();
+	var about_builder 	= $('#about_builder').val();
+	var imagename 		= $('#imagename').val();
+	var meta_tag 		= $('#meta_tag').val();
+	var keyword 		= $('#keyword').val();
+	var description 	= $('#description').val();
+	var priority 		= $('#priority').val();
+	var priority 		= $('#priority').val();
+	var priority 		= $('#priority').val();
+	var priority 		= $('#priority').val();
+	var builder_name 	= $('#builder_name').val();
+	var about_builder 	= $('#about_builder').val();
+	var imagename 		= $('#imagename').val();
+	var meta_tag 		= $('#meta_tag').val();
+	var keyword 		= $('#keyword').val();
+	var builder_name 	= $('#builder_name').val();
+	var about_builder 	= $('#about_builder').val();
+	var imagename 		= $('#imagename').val();
+	var meta_tag 		= $('#meta_tag').val();
+	var keyword 		= $('#keyword').val();
+	var description 	= $('#description').val();
+	var priority 		= $('#priority').val();
+	var priority 		= $('#priority').val();
+	var priority 		= $('#priority').val();
+	var priority 		= $('#priority').val();
+	var builder_name 	= $('#builder_name').val();
+	var about_builder 	= $('#about_builder').val();
+	var imagename 		= $('#imagename').val();
+	var meta_tag 		= $('#meta_tag').val();
+	var keyword 		= $('#keyword').val();
+	var description 	= $('#description').val();
+	var priority 		= $('#priority').val();
+	var priority 		= $('#priority').val();
+	var priority 		= $('#priority').val();
+	var priority 		= $('#priority').val();
+	var imagename_15 	= $('#imagename_15').val();
+	var recommendation 		= $('#recommendation').val();
+	var latitudeid 		= $('#latitudeid').val();
+	var longitudeid 		= $('#longitudeid').val();
+	var meta_tag 		= $('#meta_tag').val();
+	var error = 0;
+	var msg = '';
+	if(builder_name =='' ){
+		var msg = 'Builder Name cannot be empty.';
+		error = 1;
+	}else if(about_builder =='' ){
+		var msg = 'About Builder cannot be empty.';
+		error = 1;
+	}else if(imagename =='' ){
+		var msg = 'Builder Image cannot be empty.';
+		error = 1;
+	}else if(meta_tag =='' ){
+		var msg = 'Meta Tag cannot be empty.';
+		error = 1;
+	}else if(keyword =='' ){
+		var msg = 'Keyword cannot be empty.';
+		error = 1;
+	}else if(description =='' ){
+		var msg = 'Description cannot be empty.';
+		error = 1;
+	}else if(priority =='' ){
+		var msg = 'Priority cannot be empty.';
+		error = 1;
+	}
 
-// $("#cityName").blur(function(){
-// 	var name = $(this).val();
-//	SITEROOT = '<?php echo $baseUrl ?>';
-// 	if(name!=''){
-// 		$.post(SITEROOT+'/admin/checkname', {name:name,field:'cities'},function(response){
-// 			if(response == '1'){
-// 				alert('Name entered already exists');
-// 				return false;
-// 			}
-// 		});
-// 	}
-// });
+	if(msg!=''){
+		$("#nameExist").text(msg).show();
+		return false;
+	}else{
+		$('#builderform').submit();
+	}	
+}
+
+
 </script>

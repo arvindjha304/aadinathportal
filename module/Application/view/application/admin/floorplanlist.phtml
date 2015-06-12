@@ -1,0 +1,147 @@
+<?php $baseUrl = $this->basePath(); ?>
+<link rel="STYLESHEET" type="text/css" href="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/dhtmlxgrid.css">
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+<link rel="STYLESHEET" type="text/css" href="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/ext/dhtmlxgrid_pgn_bricks.css">
+<link rel="STYLESHEET" type="text/css" href="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/dhtmlxcombo.css">
+
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/dhtmlxcommon.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/dhtmlxgrid.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/dhtmlxcombo.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/dhtmlxgridcell.js" ></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/ext/dhtmlxgrid_filter.js" ></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/ext/dhtmlxgrid_pgn.js"></script>
+<div class="contant">
+<div class="heading">Manage Floor Plan
+<a href='<?php echo $baseUrl;?>/admin/addeditfloorplan'><input type="submit" value="+ Add Floor Plan" style="width:auto; height:28px; background-color:#333; color:#FFFFFF; border:none; border-radius: 16px;cursor: pointer;padding:5px; float:right; padding-left:10px; padding-right:10px;"  /></a></div>
+<!----img area----->
+<div class="contant1">
+	
+	<div id="loadingDiv" class="" style="display: none">
+			<img src="images/350.gif"  border="0" />
+		</div>
+		<div class="" id="user_list">
+			
+		<div id='preloader' style="display:none;" >
+		<img class=""src='images/animatedEllipse2.gif' border='0' style="width:50px;  left: 560px;position: absolute; top: 450px;z-index:2000"  ></div>	
+		
+		
+		<div id="manageuser" class="gridbox" style="width:90% !important; background-color:white; margin-left: 0px;"></div>
+		
+		
+		<div class="pagingWrap">
+			<div style="width:100%;float:left;" id="recinfoArea"></div>
+			<div id="pagingArea"></div>
+		</div>
+
+
+</div>
+
+	<div class="bulk-action1 wp60 fl">
+		<div class="all-categories1 wp50 mt12 fs13 fta fc03 fl">
+			<select class="form-control" name="operationvalue" id="operationvalue" onchange="this.value" style="width:250px; height:30px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9; margin-top:25px;">
+				<option value=''>Bulk Option</option>
+				<option value='delete'>Delete</option>
+				<option value='inactive'>Inactivate</option>
+				<option value='active' id='activated'>Activate</option>
+			</select>
+			<input type="submit" value="Apply" onclick="bulkaction()" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px 10px;margin-left:10px;"  />
+		</div>
+		<div class="dashboard-daily-button mt17 ml05 fl">
+			
+		</div>
+	</div>
+	
+</div>
+</div>
+
+<script>
+
+	var strgridURL='<?php echo $baseUrl;?>/admin/floorplanlistdata';
+	var mygrid = new dhtmlXGridObject('manageuser');
+	mygrid.setSkin("dhx_skyblue");
+	mygrid.setImagePath("<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/imgs/");
+	mygrid.setHeader(",<b>Project</b>,<b>Plan</b>,<b>Size</b>,<b>Price</b>,<b>Status</b>,<b>Action</b>");							
+	mygrid.attachHeader("#master_checkbox,#text_filter,,");	
+	mygrid.setInitWidths(" 30, 150,150,150, 150, 100, *");
+	mygrid.enableTooltips("false,false,false,false,false,false,false");
+	mygrid.enableAutoHeight(true);   
+	mygrid.setColAlign("center,left,left,left,left,left,left");
+	mygrid.setColTypes("ch,ro,ed,ro,ro,ro,ro");
+	mygrid.setColSorting("na,str,str,str,str,str,str");
+	mygrid.enablePaging(true, 10, null, "pagingArea", true, "recinfoArea");
+	mygrid.setPagingSkin("bricks");
+	// mygrid.attachEvent("onXLS", function() { $("#preloader").show() });
+	// mygrid.attachEvent("onXLE", function() { $("#preloader").hide() });		
+	mygrid.attachEvent("onFilterEnd", callBack);													
+	mygrid.init();							
+	// mygrid.parse(<?php echo $this->jsonData?>,callBack,"json");
+	mygrid.clearAndLoad(strgridURL,callBack,"json");
+	function callBack(){
+		
+		
+	}
+	
+	function deleteRow(id){
+		SITEROOT = '<?php echo $baseUrl?>';
+		$.post(SITEROOT+'/admin/floorplanstatus', {id:id,action:'delete'},function(response){
+			if(response == '1')
+			{
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/floorplanlistdata',callBack,"json");
+			}
+		
+		}) ;
+	}
+	
+	function activeStatus(id){
+		SITEROOT = '<?php echo $baseUrl?>';
+		$.post(SITEROOT+'/admin/floorplanstatus', {id:id,action:'active'},function(response){
+			if(response == '1')
+			{
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/floorplanlistdata',callBack,"json");
+			}
+		
+		}) ;
+		
+	}
+	
+	function inActiveStatus(id){
+		SITEROOT = '<?php echo $baseUrl?>';
+		$.post(SITEROOT+'/admin/floorplanstatus', {id:id,action:'inactive'},function(response){
+			// alert(response);
+			if(response == '1')
+			{
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/floorplanlistdata',callBack,"json");
+			}
+		
+		}) ;
+	}
+	
+	
+	function getSelectedIds(){
+		var selected_rows = new Array();
+		mygrid.forEachRow(function(id) {
+			if(mygrid.cells(id, 0).getValue()==1){
+				selected_rows.push(id);
+			}
+		});		
+		return selected_rows.join(",");
+	}
+
+
+	function bulkaction(){
+
+		var action = $('#operationvalue').val();
+			if(action!=''){
+				var selectedIds = getSelectedIds();
+				SITEROOT = '<?php echo $baseUrl?>';
+				$.post(SITEROOT+'/admin/floorplanstatus', {selectedIds:selectedIds,action:action},function(response){
+					if(response == '1')
+					{
+						mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/floorplanlistdata',callBack,"json");
+					}
+				}) ;		
+			}
+		}
+
+	
+</script>
