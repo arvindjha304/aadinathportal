@@ -10,46 +10,56 @@
    <div class="buy-form-inside">
    
    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+       <form action="" method="post">
       <ul class="nav navbar-nav">
-        <li><div style="color:#777; padding-top:18px; margin-right:30px; margin-left:30px;">FIND YOUR PROPERTY :</div></li>  
-        <li class="dropdown buy-box-last">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Select City <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">All Cities</a></li>
-            <li><a href="#">Noida</a></li>
-            <li><a href="#">Greater Noida</a></li>
-            <li><a href="#">Delhi</a></li>            
-          </ul>
-        </li>        
-        <li class="dropdown buy-box-last">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Select Type <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Residential Properties</a></li>
-            <li><a href="#">Commercial Properties</a></li>
-            <li><a href="#">Plots Properties</a></li>  
-            <li><a href="#">Studio Apartments</a></li>           
-          </ul>
-        </li>
-        <li class="dropdown buy-box-last">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Min <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">5 Lacs</a></li>
-            <li><a href="#">10 Lacs</a></li>
-            <li><a href="#">15 Lacs</a></li>           
-          </ul>
-        </li>
-        <li class="dropdown buy-box-last">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Max <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">10 Lacs</a></li>
-            <li><a href="#">15 Lacs</a></li>
-            <li><a href="#">20 Lacs</a></li>          
-          </ul>
-        </li>
-        <li class="buy-box-last" style="padding-top:14px; padding-left:20px;"><button type="button" class="btn btn-danger">Search</button></li> 
+        <li><div style="color:#777; padding-top:18px; margin-right:5px; margin-left:0px;">FIND YOUR PROPERTY :</div></li>  
+        <li class="buy-box-last" style="padding-top:14px; width:16%; margin-left:2%;">
+          <select name="cities" id="cities" class="form-control">
+            <option value="">All Cities</option>
+            <?php foreach($this->cities as $city){?>
+                <option value="<?php echo $city['id'] ?>"><?php echo $city['city_name'] ?></option>
+            <?php } ?>
+          </select>
+          
+        </li>   
+        <li class="dropdown buy-box-last" style="padding-top:14px; width:16%; margin-left:2%;">
+          <select name="propcategory" id="propcategory" class="form-control"> 
+              <option value="">Property Type</option>
+              <?php foreach($this->propertyCategory as $propertyCategory){?>
+                <option value="<?php echo $propertyCategory['id'] ?>"><?php echo $propertyCategory['category_name'] ?></option>
+            <?php } ?>
+          </select>          
+        </li>   
+        
+        <li class="dropdown buy-box-last" style="padding-top:14px; width:12%; margin-left:2%;">
+          <select name="minprice" id="minprice" class="form-control">
+            <option>0</option>
+            <option value="2500000">25.0Lacs +</option>
+            <option value="5000000">50.0Lacs +</option> 
+            <option value="10000000">1.0Cr +</option> 
+            <option value="15000000">1.5Cr +</option> 
+            <option value="2000000">2.0Cr +</option> 
+            <option value="3000000">3.0Cr +</option> 
+          </select>
+          
+        </li>   
+        
+       
+        <li class="dropdown buy-box-last" style="padding-top:14px; width:12%; margin-left:2%;">
+          <select name="maxprice" id="maxprice" class="form-control">
+            <option value="35000000">3.5Cr +</option>
+            <option value="40000000">4.0Cr +</option> 
+            <option value="45000000">4.5Cr +</option> 
+            <option value="50000000">5.0Cr +</option> 
+            <option value="60000000">6.0Cr +</option> 
+            <option value="70000000">7.0Cr +</option> 
+        </select>
+          
+        </li>   
+        <li class="buy-box-last" style="padding-top:14px; padding-left:5px; margin-left:2%;"><input type="submit" class="btn btn-danger" value="Search"/></li> 
       </ul>
      <!--right---> 
-      
+      </form>
     </div>
    </div>
    </div>
@@ -130,5 +140,25 @@
 </div>
 
 
-  
+<script>
+function submitSearchForm(){
+   
+   var cities       = $('#cities').val();
+   var propcategory = $('#propcategory').val();
+   var minprice     = $('#minprice').val();
+   var maxprice     = $('#maxprice').val();
+   
+   
+    <?php
+        $container = new \Zend\Session\Container('searchSessionFields');
+        $container->cities          = '<script>cities</script>';
+        $container->propcategory    = '<script>propcategory</script>';
+        $container->minprice        = '<script>minprice</script>';
+        $container->maxprice        = '<script>maxprice</script>';
+    ?>
+            
+    
+}
+
+</script>
   
