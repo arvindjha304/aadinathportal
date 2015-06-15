@@ -131,7 +131,7 @@ function previewImage(id){
 	return false;
 }
  $(function() {
-    $( "#possession_date" ).datepicker();
+    $( "#possessiondate" ).datepicker();
     
     $( "#completed_on" ).datepicker();
   });
@@ -190,7 +190,7 @@ function previewImage(id){
             <?php if ($this->msg != '') { ?>
                 <div ><?php echo $this->msg ?></div>
             <?php } ?>
-            <span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"></span>
+           <span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"></span>
             <div class="content2-1">
                 <div class="content3-1"><span style="color:red">*</span> Property Type:</div>
                 <div class="content4-1">
@@ -228,34 +228,34 @@ function previewImage(id){
             <div class="content2-1">
                 <div class="content3-1"><span style="color:red">*</span> Project Title:</div>
                 <div class="content4-1">
-                    <input type="text" name="project_title" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;"  value="<?php if($this->projectsDetail[0]['project_title']!='')  { echo $this->projectsDetail[0]['project_title'];}?> "/> (e.g. 3C Sports Village Noida.)
+                    <input type="text" name="project_title" id="projecttitle" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;"  value="<?php if($this->projectsDetail[0]['project_title']!='')  { echo $this->projectsDetail[0]['project_title'];}?>"/> (e.g. 3C Sports Village Noida.)
                 </div>
             </div>
 
             <div class="content2-1">
                 <div class="content3-1"> <span style="color:red">*</span> Project Plan:</div>
                 <div class="content4-1">
-                    <input type="text" name="project_plan" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;"  value="<?php if($this->projectsDetail[0]['project_plan']!='')  { echo $this->projectsDetail[0]['project_plan'];}?>"/> (e.g. 4 BHK-3 BHK.)
+                    <input type="text" name="project_plan" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="project_plan"  value="<?php if($this->projectsDetail[0]['project_plan']!='')  { echo $this->projectsDetail[0]['project_plan'];}?>"/> (e.g. 4 BHK-3 BHK.)
                 </div>
             </div>
 
              <div class="content2">
                 <div class="content3" Style="font-weight: normal;"><span style="color:red">*</span> Address: </div>
                 <div class="content4-builder">
-                    <textarea name="address"  style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" > <?php if($this->projectsDetail[0]['address']!='')  { echo $this->projectsDetail[0]['address'];}?></textarea>
+                    <textarea name="address" id="address"  style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" ><?php if($this->projectsDetail[0]['address']!='')  { echo $this->projectsDetail[0]['address'];}?></textarea>
                 </div>
             </div>
             
             <div class="content2-1" >
                 <div class="content3-1"> <span style="color:red">*</span> Super Built-up Area:</div>
                 <div class="content4-1">
-                    <input type="text" name="builtup_area" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" value="<?php if($this->projectsDetail[0]['builtup_area']!='')  { echo $this->projectsDetail[0]['builtup_area'];}?>"/> (e.g. 1690 - 3965 sq.ft.)
+                    <input type="text" name="builtup_area" id="builtup_area" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" value="<?php if($this->projectsDetail[0]['builtup_area']!='')  { echo $this->projectsDetail[0]['builtup_area'];}?>"/> (e.g. 1690 - 3965 sq.ft.)
                 </div>
             </div>
-<div class="content2">
+<div class="content2" style="margin-top:35px;">
                 <div class="content3" Style="font-weight: normal;"> <span style="color:red">*</span> Starting Price:</div>
                 <div class="content4">
-                   <input type="text" name="starting_price" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" value="<?php if($this->projectsDetail[0]['starting_price']!='')  { echo $this->projectsDetail[0]['starting_price'];}?>"/> (e.g. 3.04 Crs.)
+                   <input type="text" name="starting_price" id="starting_price" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" value="<?php if($this->projectsDetail[0]['starting_price']!='')  { echo $this->projectsDetail[0]['starting_price'];}?>"/> (e.g. 3.04 Crs.)
                 </div>
             </div>
 
@@ -264,14 +264,14 @@ function previewImage(id){
             <div class="content2-1">
                 <div class="content3-1"> <span style="color:red">*</span> Buildings:</div>
                 <div class="content4-1">
-                    <input type="text" name="buildings" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" value="<?php if($this->projectsDetail[0]['buildings']!='')  { echo $this->projectsDetail[0]['buildings'];}?>"/> (e.g. 5.)
+                    <input type="text" name="buildings" id="buildings" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" value="<?php if($this->projectsDetail[0]['buildings']!='')  { echo $this->projectsDetail[0]['buildings'];}?>"/> (e.g. 5.)
                 </div>
             </div>
 
              <div class="content2">
                 <div class="content3" Style="font-weight: normal;"><span style="color:red">*</span> Configurations: </div>
                 <div class="content4-builder">
-                    <textarea name="configurations"  style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;"><?php if($this->projectsDetail[0]['configurations']!='')  { echo $this->projectsDetail[0]['configurations'];}?></textarea>
+                    <textarea name="configurations" id="configurations" style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;"><?php if($this->projectsDetail[0]['configurations']!='')  { echo $this->projectsDetail[0]['configurations'];}?></textarea>
                 </div>
             </div>
             <div class="content2-1">
@@ -286,10 +286,10 @@ function previewImage(id){
             </div>
 
 
-            <div class="content2-1">
+            <div class="content2-1" style="margin-top:35px;">
                 <div class="content3-1"> <span style="color:red">*</span> Possession: </div>
                 <div class="content4-1">
-                    <input type="text" name="possession" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="possession_date" value="<?php if($this->projectsDetail[0]['possession']!='')  { echo $this->projectsDetail[0]['possession'];}?>"/>
+                    <input type="text" name="possession" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="possessiondate" value="<?php if($this->projectsDetail[0]['possession']!='')  { echo $this->projectsDetail[0]['possession'];}?>"/>
                 </div>
             </div>
 
@@ -306,7 +306,7 @@ function previewImage(id){
             <div class="content2-1">
                 <div class="content3-1"><span style="color:red">*</span>City:</div>
                 <div class="content4-1">
-                    <select id="cityName" name="city" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
+                    <select id="cityName" name="city" id="city" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
                         <option value=''>Select</option>
                         <?php foreach ($this->cityList as $city) { ?>
                             <option  <?php if($this->projectsDetail[0]['city']== $city['id']) echo "selected";?> value=<?php echo $city['id'] ?>><?php echo $city['city_name'] ?></option>
@@ -329,7 +329,7 @@ function previewImage(id){
             <div class="content2-1">
                 <div class="content3-1"> <span style="color:red">*</span> Contact No:  </div>
                 <div class="content4-1">
-                    <input type="text" name="contact" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if($this->projectsDetail[0]['contact']!='')  { echo $this->projectsDetail[0]['contact'];}?>"/>
+                    <input type="text" name="contact" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="contact" value="<?php if($this->projectsDetail[0]['contact']!='')  { echo $this->projectsDetail[0]['contact'];}?>"/>
                 </div>
             </div>
 
@@ -338,14 +338,14 @@ function previewImage(id){
             <div class="content2-1">
                 <div class="content3-1"> <span style="color:red">*</span> Size:  </div>
                 <div class="content4-1">
-                    <input type="text" name="display_size" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if($this->projectsDetail[0]['display_size']!='')  { echo $this->projectsDetail[0]['display_size'];}?>"/>
+                    <input type="text" id="display_size" name="display_size" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;"  value="<?php if($this->projectsDetail[0]['display_size']!='')  { echo $this->projectsDetail[0]['display_size'];}?>"/>
                 </div>
             </div>
 
             <div class="content2-1">
                 <div class="content3-1"> <span style="color:red">*</span> Price:  </div>
                 <div class="content4-1">
-                    <input type="text" name="display_price" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if($this->projectsDetail[0]['display_price']!='')  { echo $this->projectsDetail[0]['display_price'];}?>"/>
+                    <input type="text"  name="display_price" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="display_price" value="<?php if($this->projectsDetail[0]['display_price']!='')  { echo $this->projectsDetail[0]['display_price'];}?>"/>
                 </div>
             </div>
 
@@ -361,9 +361,9 @@ function previewImage(id){
                 <div class="content3-1"> <span style="color:red">*</span> Price:  </div>
                 <div class="content4-1">
 
-                    <input type="text" placeholder="Min" name="search_min_price" style="width:140px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if($this->projectsDetail[0]['search_min_price']!='')  { echo $this->projectsDetail[0]['search_min_price'];}?>"/>
+                    <input type="text" placeholder="Min" name="search_min_price" style="width:140px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="search_min_price" value="<?php if($this->projectsDetail[0]['search_min_price']!='')  { echo $this->projectsDetail[0]['search_min_price'];}?>"/>
 
-                    <input type="text" placeholder="Max" name="search_max_price" style="width:140px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if($this->projectsDetail[0]['search_max_price']!='')  { echo $this->projectsDetail[0]['search_max_price'];}?>"/>
+                    <input type="text" placeholder="Max" name="search_max_price" style="width:140px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="search_max_price" value="<?php if($this->projectsDetail[0]['search_max_price']!='')  { echo $this->projectsDetail[0]['search_max_price'];}?>"/>
                 </div>
             </div>
 
@@ -371,9 +371,9 @@ function previewImage(id){
                 <div class="content3-1"> <span style="color:red">*</span> Size: </div>
                 <div class="content4-1">
 
-                    <input type="text" placeholder="Min" name="search_min_size" style="width:140px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if($this->projectsDetail[0]['search_max_price']!='')  { echo $this->projectsDetail[0]['search_min_size'];}?>"/>
+                    <input type="text" placeholder="Min" name="search_min_size" style="width:140px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="search_min_size" value="<?php if($this->projectsDetail[0]['search_max_price']!='')  { echo $this->projectsDetail[0]['search_min_size'];}?>"/>
 
-                    <input type="text" placeholder="Max" name="search_max_size" style="width:140px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="builder_name" value="<?php if($this->projectsDetail[0]['search_max_price']!='')  { echo $this->projectsDetail[0]['search_max_size'];}?>"/>
+                    <input type="text" placeholder="Max" name="search_max_size" style="width:140px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="search_max_size" value="<?php if($this->projectsDetail[0]['search_max_price']!='')  { echo $this->projectsDetail[0]['search_max_size'];}?>"/>
                 </div>
             </div>
 
@@ -382,7 +382,7 @@ function previewImage(id){
             <div class="content2-1">
                 <div class="content3-1"><span style="color:red">*</span>Mark as focused project:</div>
                 <div class="content4-1">
-                    <input type="checkbox" name="is_focused" value="" style="width:50px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;"/>
+                    <input type="checkbox" name="is_focused"  style="width:50px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;"/>
                 </div>
             </div>
 
@@ -625,7 +625,7 @@ function previewImage(id){
 
 
 
-            <div class="content2-1">
+  <!--           <div class="content2-1">
                 <div class="content3-1"><span style="color:red">*</span>Recommendation:</div>
                 <div class="content4-1">
                     <select id="recommendation" name="recommendation" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
@@ -636,7 +636,7 @@ function previewImage(id){
                     </select>
                 </div>
             </div>
-
+-->
             <div class="heading-1">Google Map Latitude & Longitude </div>
             <div class="content2-1">
                 <div class="content3-1"><span style="color:red">*</span>Latitude:</div>
@@ -651,13 +651,13 @@ function previewImage(id){
                 <div class="content3-1"><span style="color:red">*</span>Longitude: 	
                 </div>
                 <div class="content4-1">
-                    <input type="text" name="longitude" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="longitudeid" value="<?php if (isset($this->builderDetail[0]['builder_name'])) echo $this->builderDetail[0]['builder_name']; ?>"/>
+                    <input type="text" name="longitude" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="longitudeid" value="<?php if (isset($this->builderDetail[0]['builder_name'])) echo $this->builderDetail[0]['builder_name'];?>"/>
                 </div>
             </div>
             <div class="content2">
                 <div class="content3" Style="font-weight: normal;"><span style="color:red">*</span> Location Advantages: </div>
                 <div class="content4-builder">
-                    <textarea name="location_advantages"  style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="meta_tag"><?php if (isset($this->builderDetail[0]['builder_image'])) echo $this->builderDetail[0]['meta_tag']; ?></textarea>
+                    <textarea name="location_advantages" id="location_advantages" style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" ><?php if (isset($this->builderDetail[0]['builder_image'])) echo $this->builderDetail[0]['meta_tag'];?></textarea>
                 </div>
             </div>
 
@@ -702,76 +702,150 @@ function previewImage(id){
     }
 
     function submitForm(){
-	var property_type_id 	= $('#property_type_id').val();
-	var about_builder 	= $('#about_builder').val();
-	var imagename 		= $('#imagename').val();
-	var meta_tag 		= $('#meta_tag').val();
-	var keyword 		= $('#keyword').val();
-	var description 	= $('#description').val();
-	var priority 		= $('#priority').val();
-	var priority 		= $('#priority').val();
-	var priority 		= $('#priority').val();
-	var priority 		= $('#priority').val();
-	var builder_name 	= $('#builder_name').val();
-	var about_builder 	= $('#about_builder').val();
-	var imagename 		= $('#imagename').val();
-	var meta_tag 		= $('#meta_tag').val();
-	var keyword 		= $('#keyword').val();
-	var builder_name 	= $('#builder_name').val();
-	var about_builder 	= $('#about_builder').val();
-	var imagename 		= $('#imagename').val();
-	var meta_tag 		= $('#meta_tag').val();
-	var keyword 		= $('#keyword').val();
-	var description 	= $('#description').val();
-	var priority 		= $('#priority').val();
-	var priority 		= $('#priority').val();
-	var priority 		= $('#priority').val();
-	var priority 		= $('#priority').val();
-	var builder_name 	= $('#builder_name').val();
-	var about_builder 	= $('#about_builder').val();
-	var imagename 		= $('#imagename').val();
-	var meta_tag 		= $('#meta_tag').val();
-	var keyword 		= $('#keyword').val();
-	var description 	= $('#description').val();
-	var priority 		= $('#priority').val();
-	var priority 		= $('#priority').val();
-	var priority 		= $('#priority').val();
-	var priority 		= $('#priority').val();
-	var imagename_15 	= $('#imagename_15').val();
-	var recommendation 		= $('#recommendation').val();
-	var latitudeid 		= $('#latitudeid').val();
-	var longitudeid 		= $('#longitudeid').val();
-	var meta_tag 		= $('#meta_tag').val();
+		
+	var project_title 	= $('#projecttitle').val();
+	var project_plan 	= $('#project_plan').val();
+	var address 	    = $('#address').val();
+	var builtup_area 	= $('#builtup_area').val();
+	var starting_price 	= $('#starting_price').val();
+	var buildings 	    = $('#buildings').val();
+	var configurations 	= $('#configurations').val();
+	var builder 	    = $('#builder').val();
+	var possession 	    = $('#possessiondate').val();
+	var city 	       = $('#city').val();
+	var locationName   = $('#locationName').val();
+	var contact 	    = $('#contact').val();
+	var display_size   = $('#display_size').val();
+	var display_price  = $('#display_price').val();
+	var completed_on 	= $('#completed_on').val();
+	var search_max_price = $('#search_max_price').val();
+	var search_max_price = $('#search_max_price').val();
+	var search_min_size  = $('#search_min_size').val();
+	var search_max_size  = $('#search_max_size').val();
+	var imagename_1 	       = $('#imagename_1').val();
+	var imagename_2 	       = $('#imagename_2').val();
+	var imagename_3 	       = $('#imagename_3').val();
+	var imagename_4 	       = $('#imagename_4').val();
+	var imagename_11 	       = $('#imagename_11').val();
+	var imagename_12 	       = $('#imagename_12').val();
+	var imagename_13 	       = $('#imagename_13').val();
+	var imagename_14 	       = $('#imagename_14').val();
+	var imagename_15 	       = $('#imagename_15').val();
+	//var recommendation  = $('#recommendation').val();
+	var latitudeid 	   = $('#latitudeid').val();
+	var longitudeid    = $('#longitudeid').val();
+	var location_advantages  = $('#location_advantages').val();
+	
 	var error = 0;
 	var msg = '';
-	if(builder_name =='' ){
-		var msg = 'Builder Name cannot be empty.';
+
+	if(project_title ==''){
+		//alert('project_title  ='+project_title);return false;
+		var msg = 'Project Title cannot be empty.';
 		error = 1;
-	}else if(about_builder =='' ){
-		var msg = 'About Builder cannot be empty.';
+	}else if(project_plan =='' ){
+		var msg = 'Project Plan cannot be empty.';
 		error = 1;
-	}else if(imagename =='' ){
-		var msg = 'Builder Image cannot be empty.';
+	}else if(address =='' ){
+		var msg = 'Address cannot be empty.';
 		error = 1;
-	}else if(meta_tag =='' ){
-		var msg = 'Meta Tag cannot be empty.';
+	}else if(builtup_area =='' ){
+		var msg = 'Builtup Area cannot be empty.';
 		error = 1;
-	}else if(keyword =='' ){
-		var msg = 'Keyword cannot be empty.';
+	}else if(starting_price =='' ){
+		var msg = 'Starting Price cannot be empty.';
 		error = 1;
-	}else if(description =='' ){
-		var msg = 'Description cannot be empty.';
+	}else if(buildings =='' ){
+		var msg = 'Buildings cannot be empty.';
 		error = 1;
-	}else if(priority =='' ){
-		var msg = 'Priority cannot be empty.';
+	}else if(configurations =='' ){
+		var msg = 'Configurations cannot be empty.';
+		error = 1;
+	}else if(builder =='' ){
+		var msg = 'Builder cannot be empty.';
+		error = 1;
+	}else if(possession =='' ){
+		var msg = 'Possession cannot be empty.';
+		error = 1;
+	}else if(search_max_price =='' ){
+		var msg = 'Search Max Price cannot be empty.';
+		error = 1;
+	}else if(search_max_price =='' ){
+		var msg = 'Search Max Price cannot be empty.';
+		error = 1;
+	}else if(search_min_size =='' ){
+		var msg = 'Search Max Size cannot be empty.';
+		error = 1;
+	}else if(search_max_size =='' ){
+		var msg = 'Search Max Size cannot be empty.';
+		error = 1;
+	}else if(city =='' ){
+		var msg = 'City cannot be empty.';
+		error = 1;
+	}else if(locationName =='' ){
+		var msg = 'Location cannot be empty.';
+		error = 1;
+	}else if(contact =='' ){
+		var msg = 'Contact cannot be empty.';
+		error = 1;
+	}else if(display_size =='' ){
+		var msg = 'Display Size cannot be empty.';
+		error = 1;
+	}else if(display_price =='' ){
+		var msg = 'Display Price cannot be empty.';
+		error = 1;
+	}else if(completed_on =='' ){
+		var msg = 'Completed On cannot be empty.';
+		error = 1;
+	}else if(imagename_1 =='' ){
+		var msg = 'Slider Image 1 cannot be empty.';
+		error = 1;
+	}else if(imagename_2 =='' ){
+		var msg = 'Slider Image 2 cannot be empty.';
+		error = 1;
+	}else if(imagename_3 =='' ){
+		var msg = 'Slider Image 3 cannot be empty.';
+		error = 1;
+	}else if(imagename_4 =='' ){
+		var msg = 'Slider Image 4 cannot be empty.';
+		error = 1;
+	}else if(imagename_5 =='' ){
+		var msg = 'Slider Image 5 cannot be empty.';
+		error = 1;
+	}else if(imagename_11 =='' ){
+		var msg = 'Project Image cannot be empty.';
+		error = 1;
+	}else if(imagename_12 =='' ){
+		var msg = 'E-brochure cannot be empty.';
+		error = 1;
+	}else if(imagename_13 =='' ){
+		var msg = 'Location Map cannot be empty.';
+		error = 1;
+	}else if(imagename_14 =='' ){
+		var msg = 'Site Plan cannot be empty.';
+		error = 1;
+	}else if(imagename_15 =='' ){
+		var msg = 'Application Form cannot be empty.';
+		error = 1;
+	}else if(latitudeid =='' ){
+		var msg = 'Latitude cannot be empty.';
+		error = 1;
+	}else if(longitudeid =='' ){
+		var msg = 'Longitude cannot be empty.';
+		error = 1;
+	}else if(location_advantages =='' ){
+		var msg = 'Location Advantages cannot be empty.';
 		error = 1;
 	}
 
+
+	//alert('msg  ='+msg);return false;
+	
 	if(msg!=''){
 		$("#nameExist").text(msg).show();
 		return false;
 	}else{
-		$('#builderform').submit();
+		$('#projectform').submit();
 	}	
 }
 

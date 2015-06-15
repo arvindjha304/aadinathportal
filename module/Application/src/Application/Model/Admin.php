@@ -40,7 +40,48 @@ use Zend\Db\Sql\Expression;
 		return $result;
 		
 	}
-
+    public function getallproject()
+	{
+		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		// $sql = new Sql($db);
+		// $select = $sql->select()
+		// ->from(array('ct'=>'cities'))
+		// ->join(array('st'=>'states'),'ct.state_id=st.id');
+		// $result = $sql->prepareStatementForSqlObject($select)->execute();'
+	
+		$table = new TableGateway('projects',$adapter);
+		//$result = $table->select
+		
+		 $result = $table->select(function ($select)  {
+            $select
+                ->columns(array(
+					'id',
+                    'project_title',
+                    'property_type_id',
+                    'project_plan',
+                    'builder',
+					'builtup_area',
+					'is_active'
+					
+                ))
+                ->join('property_type', 'property_type.id = projects.property_type_id', array(
+                    'property_type'
+                    
+                ),'left')
+                ->join('builders', 'builders.id = projects.builder', array(
+                    'builder_name'
+                ),'left')
+				->where->equalTo('projects.is_delete','0');
+                
+        });
+		
+	
+		
+		
+		return $result->toArray();
+		
+		
+	}
 	public function getAllStates(){
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$sql = new Sql($db);
@@ -129,6 +170,19 @@ use Zend\Db\Sql\Expression;
 		join property_category pc on pc.id=pt.property_category_id";
 		if($propertype=='active'){
 			$sql.=" where pc.is_active=1 and pt.is_active=1";
+		}
+		$result =$db->query($sql)->execute();
+		return $result;
+	}
+	
+	public function getPropertycategory($propercat=''){
+	
+		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$sql="select proj.id,proj.project_title,proj.is_active,pt.property_type
+		from projects proj
+		join property_type pt on pt.id=proj.property_type_id";
+		if($propertype=='active'){
+			$sql.=" where pt.is_active=1 and proj.is_active=1";
 		}
 		$result =$db->query($sql)->execute();
 		return $result;

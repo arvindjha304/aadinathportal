@@ -1,0 +1,67 @@
+<?php $baseUrl = $this->basePath(); ?>
+<div class="contant">
+<div class="heading"><?php echo $this->heading?></div>
+<div class="contant1">
+	<form method="post" action="" id="pageform">
+    <?php if($this->msg!=''){?>
+	<div><?php echo $this->msg?></div>
+	<?php }?>
+	<div class="content2">
+		<div class="content3"><span style="color:red">*</span> Pages:</div>
+        <div class="content4"> 
+		<select id="pageName" name="page" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
+		<option value='' >Select Page Name</option>
+		<?php 
+		//print_r();
+		foreach ($this->pageList as $pages){
+		?>
+		<option value=<?php echo $pages['id']?> ><?php echo $pages['page_name'];?></option>
+		<?php } ?>
+		</select><span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"></span></div>
+    </div>
+	<div class="content2">
+	<div class="content3"><span style="color:red">*</span>Description:</div>
+        <div class="content4"><textarea name="desc" style="width:250px; height:50px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="pagedesc" />
+				
+				</textarea><span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"> </span></div>
+    </div>
+	</div>
+	<div class="content5">
+	
+	<button onclick="return submitForm()" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;"><?php echo $this->heading?></button>
+	<a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl;?>/admin/statelist" >Cancel</a>
+	
+	</div>
+	
+	</form>
+    
+</div>
+</div>
+<script>
+
+$("#pageName").change(function(){
+	var PageId = $(this).val();
+	SITEROOT = '<?php echo $baseUrl?>';
+	if(PageId!='')
+	{
+		$.post(SITEROOT+'/admin/getpages', {PageId:PageId},function(response){
+			if(response!=''){
+				$('#pagedesc').html(response);
+				return false;
+			}else{
+				$('#pagedesc').html('');
+				return false;
+			}
+		});
+	}else{
+		$('#pagedesc').html('');
+		return false;
+	}
+});
+
+
+
+
+
+</script>
+

@@ -803,6 +803,7 @@ class AdminController extends AbstractActionController
 				'possession'            => 	$this->params()->fromPost('possession'),
 				'project_desc'          => 	$this->params()->fromPost('project_desc'),
 				'city'                  => 	$this->params()->fromPost('city'),
+				'city'                  => 	$this->params()->fromPost('city'),
 				'contact'               => 	$this->params()->fromPost('contact'),
 				'display_size'          => 	$this->params()->fromPost('starting_price'),
 				'display_price'         => 	$this->params()->fromPost('display_price'),
@@ -811,6 +812,7 @@ class AdminController extends AbstractActionController
 				'search_max_price'		=> 	$this->params()->fromPost('search_max_price'),
 				'search_min_size'		=> 	$this->params()->fromPost('search_min_size'),
 				'search_max_size'		=> 	$this->params()->fromPost('search_max_size'),
+				'is_focused'		    => 	$this->params()->fromPost('is_focused'),
 				'amenities'             => 	(is_array($amenities)) ? implode(',', $amenities) : '',
 				'slide_image_1'         => 	$this->params()->fromPost('slide_image_1'),
 				'slide_image_2'         => 	$this->params()->fromPost('slide_image_2'),
@@ -854,7 +856,53 @@ class AdminController extends AbstractActionController
 		return $view;
 	}
 	
-
+	  public function projectslistAction()
+    {
+    	$view = new ViewModel();
+    	$this->layout('layout/layoutadmin');
+    	return $view;
+    }
+    
+public function projectslistdataAction()
+	{
+		$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
+    	$projectlist = $adminModel->getallproject();
+		
+		$dataArray = array();
+    	$baseUrl = $this->getRequest()->getbaseUrl();
+    	foreach($projectlist as $val1)
+		{	
+			$temp_arr = array();
+			$project_title	    =	$val1['project_title'];
+			$plan_type	        =	$val1['property_type'];
+			$builder_name	    =	$val1['builder_name'];
+			$builtup_area		=	 $val1['builtup_area'];
+			$status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
+			$action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
+			$delete 		=	'<a href="'.$baseUrl.'/admin/addeditprojects?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+			$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$project_title,$plan_type,$builder_name,$status,$delete.$action));
+		}
+		$json = json_encode($dataArray);
+		//$jsonData = '{rows:'.$json.'}';
+		exit('{rows:'.$json.'}');
+	}
+	
+	public function projectsstatusAction()
+    {
+    	$action 		= $this->params()->fromPost('action');
+    	$id 			= $this->params()->fromPost('id');
+    	$selectedIds 	= $this->params()->fromPost('selectedIds');
+    
+    	if(isset($selectedIds)){
+    		$idArr = explode(',',$selectedIds);
+    		foreach($idArr as $id)
+    			$this->statusUpdate('projects',$action,$id);
+    	}else{
+    		$this->statusUpdate('projects',$action,$id);
+    	}
+    	exit('1');
+    }
+	
 	public function getlocationsAction()
 	{
 	    if($this->getRequest()->isXmlHttpRequest()){
@@ -884,7 +932,7 @@ class AdminController extends AbstractActionController
 		$view->setVariable('heading',(isset($id)) ? 'Edit Floor Plan' : 'Add Floor Plan');
 		$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
 		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
-		$property_types = $adminModel->getPropertyTypes('active');
+		$property_types = $adminModel->getPropertycategory('active');
 		$view->setVariable('property_types', $property_types);
 
 		
@@ -979,5 +1027,223 @@ class AdminController extends AbstractActionController
     	}
     	exit('1');
     }
+	public function addeditnewsAction()
+	{
+		$view = new ViewModel();
+		$this->layout('layout/layoutadmin');
+		$id = $this->params()->fromQuery('id');
+		
+		$view->setVariable('heading',(isset($id)) ? 'Edit News' : 'Add News');
+		$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
+		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		//     	echo '<pre>';print_r($rowset);exit;
+		$msg = '';
+    	$request = $this->getRequest();
 	
+    	if ($request->isPost()) {
+        
+	     $news_name 		= $this->params()->fromPost('news_name');
+    	 $newsmsg 		    = $this->params()->fromPost('newsmsg');
+    	 $actv_date 		= $this->params()->fromPost('actv_date');	
+    	 $expir_date 		= $this->params()->fromPost('expir_date');
+		 $imagename  		= $this->params()->fromPost('imagename_1');
+		 $data = array(
+    				'news_title'			=> 	$news_name,
+					'news_msg'			    => 	$newsmsg,
+					'activ_date'			=> 	$actv_date,
+					'expir_date'			=> 	$expir_date,
+					'news_img'			    => 	$imagename,
+    				
+    			);
+   
+    		
+    		if(isset($id)){
+				
+				$where = array(
+					'id'	=> 	$id,
+				);
+				$adminModel->updateanywhere('news_detail',$data,$where);
+				$msg = 'News Edited Successfully.';
+			}else{
+    			$data = array(
+    				'news_title'			=> 	$news_name,
+					'news_msg'			    => 	$newsmsg,
+					'activ_date'			=> 	$actv_date,
+					'expir_date'			=> 	$expir_date,
+					'news_img'			    => 	$imagename,
+    			    'date_created'          => date('Y-m-d H:i:s'),
+    			);
+    			$adminModel->insertanywhere('news_detail',$data);
+				
+    			$msg = 'News Added Successfully.';
+    		}
+		}
+			//print_r($id);exit;
+		if(isset($id)){
+			$newsTable = new TableGateway('news_detail', $adapter);
+			$newsDetail = $newsTable->select(array('id' => $id))->toArray();
+			$view->setVariable('newsDetail', $newsDetail);
+		}
+	   $view->setVariable('msg', $msg);
+		return $view;
+	}
+	 public function newslistAction()
+    {
+    	$view = new ViewModel();
+    	$this->layout('layout/layoutadmin');
+    	return $view;
+    }
+	public function newslistdataAction()
+    {
+    	$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+    	$stateTable = new TableGateway('news_detail', $adapter);
+    	$arrList = $stateTable->select()->toArray();
+    	$dataArray = array();
+    	$baseUrl = $this->getRequest()->getbaseUrl();
+		//print_r($arrList);exit;
+    	foreach($arrList as $val1)
+    	{
+    		$temp_arr = array();
+    		$news_title		    =	$val1['news_title'];
+			$news_msg		    =	$val1['news_msg'];
+    		$status				=	($val1['is_active']==1) ? 'Active' :	'Inactive';
+    		$action				=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
+    		$delete 			=	'<a href="'.$baseUrl.'/admin/addeditnews?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+    		$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$news_title,$news_msg,$status,$delete.$action));
+    	}
+    	$json = json_encode($dataArray);
+    	$jsonData = '{rows:'.$json.'}';
+    	exit('{rows:'.$json.'}');
+    }
+    
+	public function newsstatusAction()
+    {
+    	$action 		= $this->params()->fromPost('action');
+    	$id 			= $this->params()->fromPost('id');
+    	$selectedIds 	= $this->params()->fromPost('selectedIds');
+    
+    	if(isset($selectedIds)){
+    		$idArr = explode(',',$selectedIds);
+    		foreach($idArr as $id)
+    			$this->statusUpdate('news_detail',$action,$id);
+    	}else{
+    		$this->statusUpdate('news_detail',$action,$id);
+    	}
+    	exit('1');
+    }
+	
+	 public function addeditpagesAction()
+    {
+    	$view = new ViewModel();
+    	$this->layout('layout/layoutadmin');
+    	$id = $this->params()->fromQuery('id');
+    	$view->setVariable('heading', 'Add/Edit Pages' );
+    	$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
+    	$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+    	$pageTable = new TableGateway('pages', $adapter);
+    	
+    	 	
+    	$rowset = $pageTable->select()->toArray();
+    	$view->setVariable('pageList', $rowset);
+		//echo '<pre>';print_r($rowset);exit;
+		$msg = '';
+    	$request = $this->getRequest();
+    	if ($request->isPost()) {
+    
+	        $pageid 		= $this->params()->fromPost('page');
+    		$page_desc 		= $this->params()->fromPost('desc');
+    		
+    		
+//     echo $location;exit;		
+    		
+    		
+    		if(isset($pageid)){
+    
+    			$data = array(
+    				'page_desc'	=> 	$page_desc,
+    					
+    			);
+    			$where = array(
+    					'id'	=> 	$pageid ,
+    			);
+    			$adminModel->updateanywhere('pages',$data,$where);
+    			$msg = 'Pages Edited Successfully.';
+    		}
+		}
+		if(isset($pageid)){
+		$pagesTable = new TableGateway('pages', $adapter);
+    		$pageOptions = $pagesTable->select(array('id' => $pageid))->toArray();
+    		$view->setVariable('pageOptions', $pageOptions);
+		}
+		$view->setVariable('msg', $msg);
+    	return $view;
+		
+    }
+    public function getpagesAction()
+    {
+    	if($this->getRequest()->isXmlHttpRequest()){
+    		$adapter = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+    		$pageId = $this->params()->fromPost('PageId');
+    		$pageTable = new TableGateway('pages', $adapter);
+    		$rowset = $pageTable->select(array('id' => $pageId))->toArray();
+    		// $rowset = $pageTable->select()->toArray();
+			
+			//print_r ($rowset); exit;
+			
+    		$str = '';
+    		if(count($rowset)){
+    			foreach ($rowset as $row) {
+    				echo $row["page_desc"];
+    			}
+    		}
+    		exit($str);
+    	}
+    }
+   public function addeditlogoAction()
+    {
+    	$view = new ViewModel();
+    	$this->layout('layout/layoutadmin');
+		$id = $this->params()->fromQuery('id');
+    	$view->setVariable('heading',(isset($id)) ? 'Edit Logo' : 'Add Logo');
+    	$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
+    	$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		//     	echo '<pre>';print_r($rowset);exit;
+		$msg = '';
+    	$request = $this->getRequest();
+	
+    	if ($request->isPost()) {
+        
+		 $imagename  		= $this->params()->fromPost('imagename_1');
+		 $imagename2  		= $this->params()->fromPost('imagename_2');
+		 $imagename3  		= $this->params()->fromPost('imagename_3');
+		 $logoid                = '1';
+		 if(isset($logoid)){
+    
+    			 $data = array(
+    				'homelogo'			=> 	$imagename,
+					'headerlogo'		=> 	$imagename2,
+					'bottomlogo'		=> 	$imagename3,
+    				
+    			);
+    			$where = array(
+    					'id'	=> 	$logoid ,
+    			);
+    			$adminModel->updateanywhere('logo',$data,$where);
+    			$msg = 'Logo Edited Successfully.';
+    		}
+		}
+	
+			//print_r($id);exit;
+		if(isset($logoid)){
+			$logoTable = new TableGateway('logo', $adapter);
+			$logoDetail = $logoTable->select(array('id' => '1'))->toArray();
+				
+			$view->setVariable('logoDetail', $logoDetail);
+			//print_r(logoDetail);exit;
+			
+		}
+    
+    	return $view;
+		
+    } 
 }
