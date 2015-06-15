@@ -201,11 +201,18 @@
 	font-size: 16px;
 }
 .insidepg-proj-builder{
-	margin: 18px 0px;
+	margin: 18px 0px !important;
 }
-.insidepg-proj-builder-img{
+.clear{
+    
+    clear:both;
+}
+.insidepg-proj-builder img{
+        padding-top:12px;
 	border-bottom: 1px dashed #ccc;
-	height: 102px;
+	height: 112px !important;
+        padding-bottom: 18px;
+        width: 160px !important;
 	
 }
 .search-width{
