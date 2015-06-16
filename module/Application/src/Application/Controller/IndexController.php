@@ -48,7 +48,6 @@ class IndexController extends AbstractActionController
            $minprice        = $this->params()->fromPost('minprice');
            $maxprice        = $this->params()->fromPost('maxprice');
            
-           
             $container = new Container('searchSessionFields');
             
             $container->cities          = $city_id;
