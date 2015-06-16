@@ -2,43 +2,67 @@
 <script src="<?php echo $baseUrl;?>/public/js/ajaxupload.3.5.js"></script>
 <script type="text/javascript">
 
+
+var deletedDivArray = [];
 $(function(){
- var btnUpload=$('#upload');
- var status=$('#status');
- var url='<?php echo $baseUrl ?>';
- var SITEROOT=url+"/admin/upload";
- new AjaxUpload(btnUpload,
- {
-     action: SITEROOT,
-     name:'uploadfile' ,
-     onSubmit: function(file, ext){
-
-         if (! (ext && /^(jpg|png|jpeg|gif)$/.test(ext))){
-             // extension is not allowed
-             status.text('Only JPG, PNG or GIF files are allowed');
-             return false;
-         }
-         status.text('Uploading...');
-     },
-     onComplete: function(file, response){
-         //On completion clear the status
-         status.text('');
-         var filepath = url+'/uploadfiles/'+response;
-         var xp = document.getElementById('files');
-         while(xp.hasChildNodes()){
-             document.getElementById('files').removeChild(xp.firstChild);
-         }
-
-         if(response != ""){
-             document.getElementById("imagename").value = response;
-             $('<div></div>').appendTo('#files').html('<img class="" height="60" width="70" style="border:1px solid #ccc;" src="'+filepath+'" alt="" /><br />').addClass('success');
-         } else{
-             $('<div></div>').appendTo('#files').text(response).addClass('error');
-         }
-     }
- });
-
+	 var btnUpload=$('#upload_1');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,1);
 });
+
+function ajaxUpload(btnUpload,status,id){
+	 var url='<?php echo $baseUrl ?>';
+	 var SITEROOT=url+"/admin/upload";
+	 new AjaxUpload(btnUpload,
+		 {
+		     action: SITEROOT,
+		     name:'uploadfile' ,
+		     onSubmit: function(file, ext){
+		         if (! (ext && /^(jpg|png|jpeg|gif)$/.test(ext))){
+		             // extension is not allowed
+		             status.text('Only JPG, PNG or GIF files are allowed');
+		             return false;
+		         }
+		         status.text('Uploading...');
+		     },
+		     onComplete: function(file, response){
+		         //On completion clear the status
+		         status.text('');
+		         var filepath = url+'/public/uploadfiles/'+response;
+		    	 id = parseInt(id);
+				$('#files_'+id).html('');
+		         if(response != ""){
+
+// 		        	 alert(id);
+// 		        	 return false;		         
+			         
+		             document.getElementById("imagename_"+id).value = response;
+		             $('#preview_'+id).show();
+		             $('<div></div>').appendTo('#files_'+id).html('<img height="50" width="50"  src="'+filepath+'" alt="" /><br />').addClass('success');
+		           //  $('#lastImageId').val(id+1);
+		         } else{
+		            // $('<div></div>').appendTo('#files').text(response).addClass('error');
+		         }
+		         
+		     }
+		 });
+}
+
+function previewImage(id){
+	$('#files_'+id).toggle();
+	return false;
+}
+
+
+function delDiv(id){
+	deletedDivArray.push(id);
+	$('#imagename_'+id).val('');
+	$('#amenityName_'+id).val('');
+	$('#preview_'+id).hide();
+	$('#files_'+id).html('');
+	$('#div_'+id).hide();
+	return false;
+}
 
 </script>
 
@@ -65,19 +89,25 @@ $(function(){
         <textarea name="about_builder" style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="about_builder"><?php if(isset($this->builderDetail[0]['builder_name'])) echo $this->builderDetail[0]['builder_name']; ?></textarea>
         </div>
     </div>
-    <div class="content2">
-    	 <input type='hidden' name='imagename' id='imagename' value='<?php if(isset($this->builderDetail[0]['builder_image'])) echo $this->builderDetail[0]['builder_image']; ?>'>
-		<div class="content3"><span style="color:red">*</span> Builder Image:</div>
-        <div class="content4-builder"><button class="" style="" id="upload">Browse</button>
-		<div class="am2" >
-        <div class="" id="files">
-        <?php if(isset($this->builderDetail[0]['builder_image'])) {?>
-			<img height="60" width="70" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->builderDetail[0]['builder_image']; ?>"/> 
-		<?php }?>
+     <div class="content2">
+    	<input type='hidden' name='imagename_1' id='imagename_1' value='<?php echo $this->builderDetail[0]['builder_image']; ?>'>
+		<div class="content3"><span style="color:red">*</span>Image:</div>
+        <div class="content4-builder">
+			<button class="" style="height:28px;margin-left:10px;" id="upload_1">Browse</button>
+			
+			<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_1" onclick="return previewImage('1')">Preview</button>
+			<div class="am" >
+		        <div class="" id="files_1" style="display: none"></div>
+		        <?php if(isset($this->builderDetail[0]['builder_image'])) {?>
+					<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->builderDetail[0]['builder_image']; ?>"/> 
+				<?php }?>
+				
+	    	</div>
 		</div>
-    	</div>
-		</div>
-    </div>
+		
+	</div>
+	
+    
     
     <div class="content2">
 		<div class="content3"><span style="color:red">*</span> Meta Tag:</div>

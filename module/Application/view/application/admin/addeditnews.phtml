@@ -1,6 +1,9 @@
 <?php $baseUrl = $this->basePath(); ?>
-
-<script src="<?php echo $baseUrl;?>/public/js/ajaxupload.3.5.js"></script>
+<script src="<?php echo $baseUrl; ?>/public/js/ajaxupload.3.5.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl; ?>/public/tinmca/jscripts/tiny_mce/tiny_mce.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script type="text/javascript">
 var deletedDivArray = [];
 $(function(){
@@ -9,8 +12,6 @@ $(function(){
 	 ajaxUpload(btnUpload,status,1);
 });
 
-
-	
 function ajaxUpload(btnUpload,status,id){
 	 var url='<?php echo $baseUrl ?>';
 	 var SITEROOT=url+"/admin/upload";
@@ -81,8 +82,57 @@ function delDiv(id){
 	return false;
 }
 
+ $(function() {
+    $( "#actv_date" ).datepicker();
+    
+    $( "#expir_date" ).datepicker();
+  });
+</script>
 
-
+<script type="text/javascript">
+    tinyMCE.init({
+        // General options
+        mode: "exact",
+        elements: "newsmsg,preq",
+        theme: "advanced",
+        width: "100%",
+        height: 310,
+        plugins: "jbimages,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount,advlist,autosave",
+        // Theme options
+        theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,code,",
+        theme_advanced_buttons2: "",
+        theme_advanced_buttons3: "",
+        //theme_advanced_buttons3 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,pagebreak,restoredraft",
+        //theme_advanced_buttons4 : "",
+        theme_advanced_toolbar_location: "top",
+        theme_advanced_toolbar_align: "left",
+        theme_advanced_statusbar_location: "bottom",
+        theme_advanced_resizing: true,
+        // Example content CSS (should be your site CSS)
+        content_css: "<?php echo $baseUrl; ?>/js/tinmca/css/content.css",
+        // Drop lists for link/image/media/template dialogs
+        template_external_list_url: "<?php echo $baseUrl; ?>/js/tinmca/lists/template_list.js",
+        external_link_list_url: "<?php echo $baseUrl; ?>/js/tinmca/lists/link_list.js",
+        external_image_list_url: "<?php echo $baseUrl; ?>/js/tinmca/lists/image_list.js",
+        media_external_list_url: "<?php echo $baseUrl; ?>/js/tinmca/lists/media_list.js",
+        // Style formats
+        style_formats: [
+            {title: 'Bold text', inline: 'b'},
+            {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
+            {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+            {title: 'Example 1', inline: 'span', classes: 'example1'},
+            {title: 'Example 2', inline: 'span', classes: 'example2'},
+            {title: 'Table styles'},
+            {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
+        ],
+        relative_urls: false,
+        // Replace values for the template plugin
+        template_replace_values: {
+            username: "Some User",
+            staffid: "991234"
+        },
+        autosave_ask_before_unload: false
+    });
 </script>
 
 
@@ -103,8 +153,8 @@ function delDiv(id){
     </div>
     <div class="content2">
 		<div class="content3"><span style="color:red">*</span> News Message</div>
-        <div class="content4-builder">
-       <input type="text" name="newsmsg" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="newsmsg" value="<?php echo $this->newsDetail[0]['news_msg']?>"/>
+        <div class="content4-1-2">
+       <textarea type="text" name="newsmsg" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="newsmsg" /><?php echo $this->newsDetail[0]['news_msg']?></textarea>
         </div>
     </div>
    
@@ -127,17 +177,17 @@ function delDiv(id){
     
 	  <div class="content2">
     	<input type='hidden' name='imagename_1' id='imagename_1' value='<?php echo $this->newsDetail[0]['news_img']; ?>'>
-		<div class="content3"><span style="color:red">*</span> Title / Image:</div>
+		<div class="content3"><span style="color:red">*</span>Image:</div>
         <div class="content4-builder">
 			<button class="" style="height:28px;margin-left:10px;" id="upload_1">Browse</button>
 			
 			<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_1" onclick="return previewImage('1')">Preview</button>
 			<div class="am" >
-		        <div class="" id="files_1" style="display: none">
+		        <div class="" id="files_1" style="display: none"></div>
 		        <?php if(isset($this->newsDetail[0]['news_img'])) {?>
 					<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->newsDetail[0]['news_img']; ?>"/> 
 				<?php }?>
-				</div>
+				
 	    	</div>
 		</div>
 		
@@ -167,7 +217,6 @@ function hasNumbers(t){
 
 function submitForm(){
 	var news_name 	= $('#news_name').val();
-	var newsmsg 	= $('#newsmsg').val();
 	var actv_date 	= $('#actv_date').val();
 	var expir_date 	= $('#expir_date').val();
 	var imagename_1 = $('#imagename_1').val();
@@ -177,10 +226,10 @@ function submitForm(){
 	if(news_name =='' ){
 		var msg = 'News Name cannot be empty.';
 		error = 1;
-	}else if(newsmsg =='' ){
-		var msg = 'News Message cannot be empty.';
-		error = 1;
-	}else if(actv_date =='' ){
+	}else if ( tinyMCE.get('newsmsg').getContent() == '' ){
+		alert('Description cannot be empty.');
+		return false;
+	 }else if(actv_date =='' ){
 		var msg = 'Activate Date cannot be empty.';
 		error = 1;
 	}else if(expir_date =='' ){

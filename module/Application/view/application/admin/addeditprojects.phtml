@@ -306,7 +306,7 @@ function previewImage(id){
             <div class="content2-1">
                 <div class="content3-1"><span style="color:red">*</span>City:</div>
                 <div class="content4-1">
-                    <select id="cityName" name="city" id="city" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
+                    <select  name="city" id="cityName" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
                         <option value=''>Select</option>
                         <?php foreach ($this->cityList as $city) { ?>
                             <option  <?php if($this->projectsDetail[0]['city']== $city['id']) echo "selected";?> value=<?php echo $city['id'] ?>><?php echo $city['city_name'] ?></option>
@@ -382,7 +382,7 @@ function previewImage(id){
             <div class="content2-1">
                 <div class="content3-1"><span style="color:red">*</span>Mark as focused project:</div>
                 <div class="content4-1">
-                    <input type="checkbox" name="is_focused"  style="width:50px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;"/>
+                    <input type="checkbox" name="is_focused" value="1" style="width:50px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;"/>
                 </div>
             </div>
 
@@ -703,6 +703,16 @@ function previewImage(id){
 
     function submitForm(){
 		
+	// alert(tinyMCE.get('desc').getContent());
+		// return false;	
+		
+		
+		
+		
+		
+	
+		
+		
 	var project_title 	= $('#projecttitle').val();
 	var project_plan 	= $('#project_plan').val();
 	var address 	    = $('#address').val();
@@ -712,8 +722,7 @@ function previewImage(id){
 	var configurations 	= $('#configurations').val();
 	var builder 	    = $('#builder').val();
 	var possession 	    = $('#possessiondate').val();
-	var city 	       = $('#city').val();
-	var locationName   = $('#locationName').val();
+	var cityName 	    = $('#cityName').val();
 	var contact 	    = $('#contact').val();
 	var display_size   = $('#display_size').val();
 	var display_price  = $('#display_price').val();
@@ -739,6 +748,16 @@ function previewImage(id){
 	var error = 0;
 	var msg = '';
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	if(project_title ==''){
 		//alert('project_title  ='+project_title);return false;
 		var msg = 'Project Title cannot be empty.';
@@ -767,23 +786,11 @@ function previewImage(id){
 	}else if(possession =='' ){
 		var msg = 'Possession cannot be empty.';
 		error = 1;
-	}else if(search_max_price =='' ){
-		var msg = 'Search Max Price cannot be empty.';
-		error = 1;
-	}else if(search_max_price =='' ){
-		var msg = 'Search Max Price cannot be empty.';
-		error = 1;
-	}else if(search_min_size =='' ){
-		var msg = 'Search Max Size cannot be empty.';
-		error = 1;
-	}else if(search_max_size =='' ){
-		var msg = 'Search Max Size cannot be empty.';
-		error = 1;
-	}else if(city =='' ){
+	}else if ( tinyMCE.get('desc').getContent() == '' ){
+		alert('Description cannot be empty.');
+		return false;
+	 }else if(cityName =='' ){
 		var msg = 'City cannot be empty.';
-		error = 1;
-	}else if(locationName =='' ){
-		var msg = 'Location cannot be empty.';
 		error = 1;
 	}else if(contact =='' ){
 		var msg = 'Contact cannot be empty.';
@@ -796,6 +803,18 @@ function previewImage(id){
 		error = 1;
 	}else if(completed_on =='' ){
 		var msg = 'Completed On cannot be empty.';
+		error = 1;
+	}else if(search_max_price =='' ){
+		var msg = 'Search Max Price cannot be empty.';
+		error = 1;
+	}else if(search_max_price =='' ){
+		var msg = 'Search Min Price cannot be empty.';
+		error = 1;
+	}else if(search_min_size =='' ){
+		var msg = 'Search Max Size cannot be empty.';
+		error = 1;
+	}else if(search_max_size =='' ){
+		var msg = 'Search Min Size cannot be empty.';
 		error = 1;
 	}else if(imagename_1 =='' ){
 		var msg = 'Slider Image 1 cannot be empty.';
@@ -847,6 +866,7 @@ function previewImage(id){
 	}else{
 		$('#projectform').submit();
 	}	
+	return false;
 }
 
 

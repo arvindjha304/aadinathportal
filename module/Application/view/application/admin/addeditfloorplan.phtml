@@ -104,19 +104,11 @@ function delDiv(id){
 		<option value = "">Select Project</option>
                         <?php
                         foreach ($this->property_types as $property_type) {
-                            $tempArr = array();
-                            if (!in_array($property_type['property_type'], $tempArr)) {
+                           
                                 ?>
                                 <optgroup label="<?php echo $property_type['property_type'] ?>">
                                 <?php } ?>
-                                <option <?php if($this->projectsDetail[0]['project_id']==$property_type['id'])  { echo 'selected';}?> value="<?php echo $property_type['id'] ?>"><?php echo ucfirst($property_type['project_title']) ?></option>
-                                <?php if (!in_array($property_type['property_type'], $tempArr)) { ?>	
-                                </optgroup>
-                                <?php
-                            }
-                            $tempArr[] = $property_type['property_type'];
-                        }
-                        ?>
+                               
 
                     </select>
         </div>

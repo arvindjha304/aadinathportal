@@ -157,7 +157,7 @@ class AdminController extends AbstractActionController
     	$stateTable = new TableGateway('states', $adapter);
     	
     	
-    	$rowset = $stateTable->select()->toArray();
+    	$rowset = $stateTable->select(array('is_delete'=>0))->toArray();
     	$view->setVariable('stateList', $rowset);
     	
     	
@@ -191,6 +191,7 @@ class AdminController extends AbstractActionController
     			);
     			$adminModel->insertanywhere('cities',$data);
     			$msg = 'City Added Successfully.';
+				
     		}
     	}
     	if(isset($id)){
@@ -288,7 +289,7 @@ class AdminController extends AbstractActionController
     	$stateTable = new TableGateway('states', $adapter);
     	 
     	 
-    	$stateList = $stateTable->select()->toArray();
+    	$stateList = $stateTable->select(array('is_delete'=>0))->toArray();
     	$view->setVariable('stateList', $stateList);
     	 
     	 
@@ -352,7 +353,7 @@ class AdminController extends AbstractActionController
     		$adapter = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
     		$stateId = $this->params()->fromPost('stateId');
     		$stateTable = new TableGateway('cities', $adapter);
-    		$rowset = $stateTable->select(array('state_id' => $stateId))->toArray();
+    		$rowset = $stateTable->select(array('state_id' => $stateId,'is_delete'=>0))->toArray();
     		$str = '';
     		if(count($rowset)){
     			foreach ($rowset as $row) {
@@ -666,7 +667,7 @@ class AdminController extends AbstractActionController
 				'keyword'			=> 	$this->params()->fromPost('keyword'),
 				'description'		=> 	$this->params()->fromPost('description'),
 				'priority'			=> 	$this->params()->fromPost('priority'),
-				'builder_image'		=> 	$this->params()->fromPost('imagename'),
+				'builder_image'		=> 	$this->params()->fromPost('imagename_1'),
 			);
 			
 			if(isset($id)){
@@ -704,7 +705,9 @@ class AdminController extends AbstractActionController
 		$artistTable = new TableGateway('builders', $adapter);
 		
 		$select = $artistTable->select(function($select){
-			$select->order('priority ASC');
+		$select->where->equalTo('is_delete' , '0');
+		$select->order('priority ASC');
+		
 		})->toArray();
 		
 		$dataArray = array();
@@ -754,8 +757,10 @@ class AdminController extends AbstractActionController
 	{
 		$view = new ViewModel();
 		$this->layout('layout/layoutadmin');
+		
 		$id = $this->params()->fromQuery('id');
 		$view->setVariable('heading',(isset($id)) ? 'Edit Project' : 'Add Project');
+		
 		$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
 		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$property_types = $adminModel->getPropertyTypes('active');
@@ -784,10 +789,14 @@ class AdminController extends AbstractActionController
 		$aminityList = $adminModel->getAminityList();
 		$view->setVariable('aminityListtt', $aminityList);
 		
-// 		echo '<pre>';print_r($cityList);exit;
+//	echo '<pre>';print_r($_POST); EXIT;
 		$msg = '';
 		$request = $this->getRequest();
 		if ($request->isPost()) {
+			$originalDate = $this->params()->fromPost('possession');
+           $newDate = date("Y-m-d", strtotime($originalDate));
+		   $completiondate = $this->params()->fromPost('completion_date');
+           $completiondate = date("Y-m-d", strtotime($completiondate));
             $amenities = $this->params()->fromPost('aminities');
 			$data = array(
 				'property_type_id'		=> 	$this->params()->fromPost('property_type_id'),
@@ -800,14 +809,14 @@ class AdminController extends AbstractActionController
 				'buildings'             => 	$this->params()->fromPost('buildings'),
 				'configurations'		=> 	$this->params()->fromPost('configurations'),
 				'builder'               => 	$this->params()->fromPost('builder'),
-				'possession'            => 	$this->params()->fromPost('possession'),
+				'possession'            => 	$newDate,
 				'project_desc'          => 	$this->params()->fromPost('project_desc'),
 				'city'                  => 	$this->params()->fromPost('city'),
-				'city'                  => 	$this->params()->fromPost('city'),
+				'location'              => 	$this->params()->fromPost('location'),
 				'contact'               => 	$this->params()->fromPost('contact'),
 				'display_size'          => 	$this->params()->fromPost('starting_price'),
 				'display_price'         => 	$this->params()->fromPost('display_price'),
-				'completion_date'		=> 	$this->params()->fromPost('completion_date'),
+				'completion_date'		=> 	$completiondate,
 				'search_min_price'		=> 	$this->params()->fromPost('search_min_price'),
 				'search_max_price'		=> 	$this->params()->fromPost('search_max_price'),
 				'search_min_size'		=> 	$this->params()->fromPost('search_min_size'),
@@ -833,7 +842,7 @@ class AdminController extends AbstractActionController
 				'longitude'             => 	$this->params()->fromPost('longitude'),
 				'location_advantages'	=> 	$this->params()->fromPost('location_advantages'),
 			);
-//	echo '<pre>';print_r($data);exit;		
+	//echo '<pre>';print_r($data);exit;		
 			if(isset($id)){
 				$where = array(
 					'id'	=> 	$id,
@@ -1041,17 +1050,19 @@ public function projectslistdataAction()
     	$request = $this->getRequest();
 	
     	if ($request->isPost()) {
-        
+        $actv_date = $this->params()->fromPost('actv_date');
+           $actvdate = date("Y-m-d", strtotime($actv_date));
+		   $expir_date = $this->params()->fromPost('expir_date');
+           $expirdate = date("Y-m-d", strtotime($expir_date));
 	     $news_name 		= $this->params()->fromPost('news_name');
     	 $newsmsg 		    = $this->params()->fromPost('newsmsg');
-    	 $actv_date 		= $this->params()->fromPost('actv_date');	
-    	 $expir_date 		= $this->params()->fromPost('expir_date');
+ 
 		 $imagename  		= $this->params()->fromPost('imagename_1');
 		 $data = array(
     				'news_title'			=> 	$news_name,
 					'news_msg'			    => 	$newsmsg,
-					'activ_date'			=> 	$actv_date,
-					'expir_date'			=> 	$expir_date,
+					'activ_date'			=> 	$actvdate,
+					'expir_date'			=> 	$expirdate,
 					'news_img'			    => 	$imagename,
     				
     			);
@@ -1068,8 +1079,8 @@ public function projectslistdataAction()
     			$data = array(
     				'news_title'			=> 	$news_name,
 					'news_msg'			    => 	$newsmsg,
-					'activ_date'			=> 	$actv_date,
-					'expir_date'			=> 	$expir_date,
+					'activ_date'			=> 	$actvdate,
+					'expir_date'			=> 	$expirdate,
 					'news_img'			    => 	$imagename,
     			    'date_created'          => date('Y-m-d H:i:s'),
     			);
@@ -1097,7 +1108,9 @@ public function projectslistdataAction()
     {
     	$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
     	$stateTable = new TableGateway('news_detail', $adapter);
-    	$arrList = $stateTable->select()->toArray();
+    	$arrList = $stateTable->select(function($select){
+			$select->where->equalTo('is_delete',0);
+		} )->toArray();
     	$dataArray = array();
     	$baseUrl = $this->getRequest()->getbaseUrl();
 		//print_r($arrList);exit;
