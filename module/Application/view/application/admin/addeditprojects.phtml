@@ -196,19 +196,21 @@ function previewImage(id){
                 <div class="content4-1">
                     <select id="property_type_id" name="property_type_id" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
                         <?php
-                        foreach ($this->property_types as $property_type) {
                             $tempArr = array();
-                            if (!in_array($property_type['category_name'], $tempArr)) {
-                                ?>
-                                <optgroup label="<?php echo $property_type['category_name'] ?>">
-                                <?php } ?>
-                                <option <?php if($this->projectsDetail[0]['property_type_id']==$property_type['id'])  { echo 'selected';}?> value="<?php echo $property_type['id'] ?>"><?php echo ucfirst($property_type['property_type']) ?></option>
-                                <?php if (!in_array($property_type['category_name'], $tempArr)) { ?>	
-                                </optgroup>
-                                <?php
+                            foreach ($this->property_types as $property_category) {
+                                if(count($property_category['propertyTypeList'])){?>
+                                    <optgroup label="<?php echo $property_category['category_name'] ?>">
+                                   <?php   
+                                        foreach($property_category['propertyTypeList'] as $property_type){
+                                    ?>       
+                                         <option <?php if($this->projectsDetail[0]['property_type_id']==$property_type['id'])  { echo 'selected';}?> value="<?php echo $property_type['id'] ?>"><?php echo ucfirst($property_type['property_type']) ?></option>   
+                                    <?php          
+                                        }
+                                    ?>    
+                                     </optgroup>   
+                        <?php            
+                                }
                             }
-                            $tempArr[] = $property_type['category_name'];
-                        }
                         ?>
 
                     </select>
@@ -252,7 +254,7 @@ function previewImage(id){
                     <input type="text" name="builtup_area" id="builtup_area" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" value="<?php if($this->projectsDetail[0]['builtup_area']!='')  { echo $this->projectsDetail[0]['builtup_area'];}?>"/> (e.g. 1690 - 3965 sq.ft.)
                 </div>
             </div>
-<div class="content2" style="margin-top:35px;">
+            <div class="content2" style="margin-top:35px;">
                 <div class="content3" Style="font-weight: normal;"> <span style="color:red">*</span> Starting Price:</div>
                 <div class="content4">
                    <input type="text" name="starting_price" id="starting_price" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" value="<?php if($this->projectsDetail[0]['starting_price']!='')  { echo $this->projectsDetail[0]['starting_price'];}?>"/> (e.g. 3.04 Crs.)

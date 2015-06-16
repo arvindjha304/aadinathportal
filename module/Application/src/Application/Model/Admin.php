@@ -165,20 +165,34 @@ use Zend\Db\Sql\Expression;
 	
 	}
 
-	public function getPropertyTypes($propertype=''){
+	public function getPropertyTypes(){
 	
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$sql="select pt.id,pt.property_type,pt.is_active,pc.category_name 
 		from property_type pt
 		join property_category pc on pc.id=pt.property_category_id
 		where pt.is_delete=0 ";
-		if($propertype=='active'){
-			$sql.=" and pc.is_active=1 and pt.is_active=1 ";
-		}
-		
 		$result =$db->query($sql)->execute();
 		return $result;
 	}
+    
+    
+    public function getPropertyTypesForListing(){
+        $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+        $tbl = new TableGateway('property_category', $db);
+        $propertyCategoryList = $tbl->select(array('is_active'=> '1'))->toArray();
+        $resultArr = array();
+        foreach($propertyCategoryList as $propertyCategory){
+            $tempArr = array();
+            $tempArr['category_name'] = $propertyCategory['category_name'];
+            $propertyCategoryId         = $propertyCategory['id'];
+            $tbl1 = new TableGateway('property_type', $db);
+            $propertyTypeList = $tbl1->select(array('property_category_id'=> $propertyCategoryId,'is_active'=>1,'is_delete'=>0))->toArray();
+            $tempArr['propertyTypeList'] = $propertyTypeList;
+            $resultArr[] =  $tempArr;  
+        }
+		return $resultArr;
+    }
 	
 	public function getPropertycategory($propercat=''){
 	

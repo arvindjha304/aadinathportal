@@ -24,7 +24,6 @@
         </li>   
         <li class="dropdown buy-box-last" style="padding-top:14px; width:16%; margin-left:2%;">
           <select name="propcategory" id="propcategory" class="form-control"> 
-              <option value="">Property Type</option>
               <?php foreach($this->propertyCategory as $propertyCategory){?>
                 <option value="<?php echo $propertyCategory['id'] ?>"><?php echo $propertyCategory['category_name'] ?></option>
             <?php } ?>

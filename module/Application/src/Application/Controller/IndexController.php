@@ -13,6 +13,8 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Session\Container;
+use Zend\Session\Config\StandardConfig;
+use Zend\Session\SessionManager;
 
 class IndexController extends AbstractActionController
 {
@@ -43,21 +45,18 @@ class IndexController extends AbstractActionController
         $request = $this->getRequest();
          if($request->isPost()){
             //echo '<pre>';print_r($this->params()->fromPost());exit;
-           $city_id         = $this->params()->fromPost('cities');
-           $propcategory_id = $this->params()->fromPost('propcategory');
-           $minprice        = $this->params()->fromPost('minprice');
-           $maxprice        = $this->params()->fromPost('maxprice');
-           
-            $container = new Container('searchSessionFields');
-            
-            $container->cities          = $city_id;
-            $container->propcategory    = $propcategory_id;
-            $container->minprice        = $minprice;
-            $container->maxprice        = $maxprice;
+            $config = new StandardConfig();
+            $config->setOptions(array(
+                'remember_me_seconds' => 1800,
+                'name'                => 'zf2',
+            ));
+            $manager = new SessionManager($config);
+            $container = new Container('searchSessionFields',$manager);
+            $container->cities          = $this->params()->fromPost('cities');
+            $container->propcategory    = $this->params()->fromPost('propcategory');
+            $container->minprice        = $this->params()->fromPost('minprice');
+            $container->maxprice        = $this->params()->fromPost('maxprice');
             return $this->redirect()->toUrl('project-list');
-           
-           
-           
         }
         return $view;
     }
@@ -72,6 +71,15 @@ class IndexController extends AbstractActionController
         $minprice        = $container->minprice;
         $maxprice        = $container->maxprice;
         $model = $this->getModel();
+        $table = new TableGateway('property_type',$this->getAdapter());
+        $propertyTypeArr = $table->select(array('property_category_id'=>$propcategory_id,'is_active'=>1))->toArray(); 
+        
+//        echo '<pre>';print_r($propertyTypeArr);
+//                   exit;
+        
+        
+        $view->setVariable('propertyTypeArr', $propertyTypeArr);
+        
         $searchResult = $model->searchProjects($city_id,$propcategory_id,$minprice,$maxprice);
         $searchResultArr = array();
         $count = 0;

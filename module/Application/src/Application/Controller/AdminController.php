@@ -763,7 +763,11 @@ class AdminController extends AbstractActionController
 		
 		$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
 		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
-		$property_types = $adminModel->getPropertyTypes('active');
+		$property_types = $adminModel->getPropertyTypesForListing();
+        
+//        echo '<pre>';print_r($property_types); EXIT;
+        
+        
 		$view->setVariable('property_types', $property_types);
 		
 		$artistTable = new TableGateway('builders', $adapter);
