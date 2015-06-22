@@ -102,13 +102,23 @@ function delDiv(id){
         <div class="content4">
         <select id="property_id" name="prty_type_id" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
 		<option value = "">Select Project</option>
-                        <?php
-                        foreach ($this->property_types as $property_type) {
-                           
-                                ?>
-                                <optgroup label="<?php echo $property_type['property_type'] ?>">
-                                <?php } ?>
-                               
+                       <?php
+                            $tempArr = array();
+                            foreach ($this->property_types as $property_category) {
+                                if(count($property_category['propertyTypeList'])){?>
+                                    <optgroup label="<?php echo $property_category['property_type'] ?>">
+                                   <?php   
+                                        foreach($property_category['propertyTypeList'] as $property_type){
+                                    ?>       
+                                         <option <?php if($this->projectsDetail[0]['project_id']==$property_type['id'])  { echo 'selected';}?> value="<?php echo $property_type['id'] ?>"><?php echo ucfirst($property_type['project_title']) ?></option>   
+                                    <?php          
+                                        }
+                                    ?>    
+                                     </optgroup>   
+                        <?php            
+                                }
+                            }
+                        ?>
 
                     </select>
         </div>
@@ -180,19 +190,22 @@ function hasNumbers(t){
 }
 
 function submitForm(){
+	//alert('hiii');
+	//return false;
 	var property_id 	= $('#property_id').val();
 	var florplan 	= $('#florplan').val();
 	var flrsize 	= $('#flrsize').val();
 	var floorsize 	= $('#floorsize').val();
 	var floorprice 	= $('#floorprice').val();
-	var imagename_1 = $('#imagename_1').val();
+	var imagename = $('#imagename_1').val();
 	
 	var error = 0;
 	var msg = '';
 	if(property_id =='' ){
-		var msg = 'Property Titel cannot be empty.';
+		var msg = 'Property Title cannot be empty.';
 		error = 1;
-	}else if(florplan =='' ){
+	}
+    else if(florplan =='' ){
 		var msg = 'Floor Plan cannot be empty.';
 		error = 1;
 	}else if(flrsize =='' ){
@@ -205,7 +218,7 @@ function submitForm(){
 		var msg = 'Floor Price cannot be empty.';
 		error = 1;
 	}
-	}else if(imagename_1 =='' ){
+	else if(imagename =='' ){
 		var msg = 'Floor Image cannot be empty.';
 		error = 1;
 	}

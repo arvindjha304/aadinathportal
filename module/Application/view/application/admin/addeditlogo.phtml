@@ -108,54 +108,54 @@ function delDiv(id){
     <input type='hidden' name='lastDivId' id='lastDivId' value=1>
     
     <div class="content2">
-    	<input type='hidden' name='imagename_1' id='imagename_1' value='<?php echo $this->logoDetail[0]['homelogo']; ?>'>
+    	<input type='hidden' name='imagename_1' id='imagename_1' value='<?php echo $this->logolist[0]['homelogo']; ?>'>
 		<div class="content3"><span style="color:red">*</span> Home Logo:</div>
         <div class="content4-builder"> 
 			<button class="" style="height:28px;margin-left:10px;" id="upload_1">Browse</button>
-<button class="" style="width:91px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border" id=" " onclick="return delDiv('1')">Delete</button>
+
 			<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_1" onclick="return previewImage('1')">Preview</button>
 			<div class="am" >
-		        <div class="" id="files_1" style="display: none">
-		        <?php if(isset($this->logoDetail[0]['homelogo'])) {?>
-					<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->logoDetail[0]['homelogo']; ?>"/> 
+		        <div class="" id="files_1" style="display: none"></div>
+		        <?php if(isset($this->logolist[0]['homelogo'])) {?>
+					<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->logolist[0]['homelogo']; ?>"/> 
 				<?php }?>
-				</div>
+				
 	    	</div>
 		</div>
 		
 	</div>
 	
     <div class="content2">
-    	<input type='hidden' name='imagename_2' id='imagename_2' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
+    	<input type='hidden' name='imagename_2' id='imagename_2' value='<?php echo $this->logolist[0]['bottomlogo']; ?>'>
 		<div class="content3"><span style="color:red">*</span>Header Logo:</div>
         <div class="content4-builder"> 
 		<button class="" style="height:28px;margin-left:10px;"  id="upload_2">Browse</button>
-		<button class="" style="width:91px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border" id=" " onclick="return delDiv('2')">Delete</button>
+		
 		<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_2" onclick="return previewImage('2')">Preview</button>
 		<div class="am" >
-	        <div class="" id="files_2" style="display: none">
-	        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
-				<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+	        <div class="" id="files_2" style="display: none"></div>
+	        <?php if(isset($this->logolist[0]['bottomlogo'])) {?>
+				<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->logolist[0]['bottomlogo']; ?>"/> 
 			<?php }?>
-			</div>
+			
 	    </div>
 		
 		</div>
 	</div>
 		
 	<div class="content2">
-    	<input type='hidden' name='imagename_3' id='imagename_3' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
+    	<input type='hidden' name='imagename_3' id='imagename_3' value='<?php echo $this->logolist[0]['bottomlogo']; ?>'>
 		<div class="content3"><span style="color:red">*</span>Bottom Logo:</div>
         <div class="content4-builder">
 		<button class="" style="height:28px;margin-left:10px;" id="upload_3">Browse</button>
-		<button class="" style="width:91px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border" id=" " onclick="return delDiv('3')">Delete</button>
+		
 		<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_3" onclick="return previewImage('3')">Preview</button>
 		<div class="am" >
-        <div class="" id="files_3" style="display: none">
-        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
-			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+        <div class="" id="files_3" style="display: none"></div>
+        <?php if(isset($this->logolist[0]['bottomlogo'])) {?>
+			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->logolist[0]['bottomlogo']; ?>"/> 
 		<?php }?>
-		</div>
+		
     	</div>
 		</div>
 	</div>

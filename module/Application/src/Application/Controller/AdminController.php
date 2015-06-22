@@ -945,7 +945,11 @@ public function projectslistdataAction()
 		$view->setVariable('heading',(isset($id)) ? 'Edit Floor Plan' : 'Add Floor Plan');
 		$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
 		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
-		$property_types = $adminModel->getPropertycategory('active');
+		$property_types = $adminModel->getfloorTypesForListing();
+        
+//        echo '<pre>';print_r($property_types); EXIT;
+        
+        
 		$view->setVariable('property_types', $property_types);
 
 		
@@ -1221,10 +1225,15 @@ public function projectslistdataAction()
     	$view = new ViewModel();
     	$this->layout('layout/layoutadmin');
 		$id = $this->params()->fromQuery('id');
+		//print_r($id);exit;
     	$view->setVariable('heading',(isset($id)) ? 'Edit Logo' : 'Add Logo');
     	$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
     	$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$logoTable = new TableGateway('logo',$adapter);
+		$rowset = $logoTable->select(array('id' => $id))->toArray();
+		$view->setVariable('logolist',$rowset);
 		//     	echo '<pre>';print_r($rowset);exit;
+		
 		$msg = '';
     	$request = $this->getRequest();
 	
@@ -1233,8 +1242,8 @@ public function projectslistdataAction()
 		 $imagename  		= $this->params()->fromPost('imagename_1');
 		 $imagename2  		= $this->params()->fromPost('imagename_2');
 		 $imagename3  		= $this->params()->fromPost('imagename_3');
-		 $logoid                = '1';
-		 if(isset($logoid)){
+		 
+		 if(isset($id)){
     
     			 $data = array(
     				'homelogo'			=> 	$imagename,
@@ -1243,7 +1252,7 @@ public function projectslistdataAction()
     				
     			);
     			$where = array(
-    					'id'	=> 	$logoid ,
+    					'id'	=> 	$id ,
     			);
     			$adminModel->updateanywhere('logo',$data,$where);
     			$msg = 'Logo Edited Successfully.';
@@ -1251,9 +1260,9 @@ public function projectslistdataAction()
 		}
 	
 			//print_r($id);exit;
-		if(isset($logoid)){
+		if(isset($id)){
 			$logoTable = new TableGateway('logo', $adapter);
-			$logoDetail = $logoTable->select(array('id' => '1'))->toArray();
+			$logoDetail = $logoTable->select(array('id' => '$id'))->toArray();
 				
 			$view->setVariable('logoDetail', $logoDetail);
 			//print_r(logoDetail);exit;

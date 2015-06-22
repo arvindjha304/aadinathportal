@@ -40,6 +40,9 @@ use Zend\Db\Sql\Expression;
 		return $result;
 		
 	}
+	
+	
+
     public function getallproject()
 	{
 		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
@@ -188,6 +191,24 @@ use Zend\Db\Sql\Expression;
             $propertyCategoryId         = $propertyCategory['id'];
             $tbl1 = new TableGateway('property_type', $db);
             $propertyTypeList = $tbl1->select(array('property_category_id'=> $propertyCategoryId,'is_active'=>1,'is_delete'=>0))->toArray();
+            $tempArr['propertyTypeList'] = $propertyTypeList;
+            $resultArr[] =  $tempArr;  
+        }
+		return $resultArr;
+    }
+	
+	  
+    public function getfloorTypesForListing(){
+        $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+        $tbl = new TableGateway('property_type', $db);
+        $propertyCategoryList = $tbl->select(array('is_active'=> '1'))->toArray();
+        $resultArr = array();
+        foreach($propertyCategoryList as $propertyCategory){
+            $tempArr = array();
+            $tempArr['property_type'] = $propertyCategory['property_type'];
+            $propertyCategoryId         = $propertyCategory['id'];
+            $tbl1 = new TableGateway('projects', $db);
+            $propertyTypeList = $tbl1->select(array('property_type_id'=> $propertyCategoryId,'is_active'=>1,'is_delete'=>0))->toArray();
             $tempArr['propertyTypeList'] = $propertyTypeList;
             $resultArr[] =  $tempArr;  
         }
