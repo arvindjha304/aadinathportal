@@ -64,6 +64,7 @@ use Zend\Db\Sql\Expression;
                     'project_plan',
                     'builder',
 					'builtup_area',
+					'longitude',
 					'is_active'
 					
                 ))
@@ -77,10 +78,7 @@ use Zend\Db\Sql\Expression;
 				->where->equalTo('projects.is_delete','0');
                 
         });
-		
 	
-		
-		
 		return $result->toArray();
 		
 		

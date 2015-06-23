@@ -786,6 +786,9 @@ class AdminController extends AbstractActionController
 		$view->setVariable('cityList', $cityList);
 		
 		
+		
+		
+		
 		$adminModel = $this->getModel();
 		$aminityList = $adminModel->getAminityList();
 		$view->setVariable('aminityList', $aminityList);
@@ -802,6 +805,13 @@ class AdminController extends AbstractActionController
 		   $completiondate = $this->params()->fromPost('completion_date');
            $completiondate = date("Y-m-d", strtotime($completiondate));
             $amenities = $this->params()->fromPost('aminities');
+			
+			$is_focused = ($this->params()->fromPost('is_focused') == 1) ? 1 : 0;
+			$has_1BHK  = ($this->params()->fromPost('is_1bhk') == 1) ? 1 : 0;
+			$has_2BHK  = ($this->params()->fromPost('is_2bhk') == 1) ? 1 : 0;
+			$has_3BHK  = ($this->params()->fromPost('is_3bhk') == 1) ? 1 : 0;
+			$has_4BHK  = ($this->params()->fromPost('is_4bhk') == 1) ? 1 : 0;
+			$has_5BHK  = ($this->params()->fromPost('is_5bhk') == 1) ? 1 : 0;
 			$data = array(
 				'property_type_id'		=> 	$this->params()->fromPost('property_type_id'),
 				'transaction_type_id'	=> 	$this->params()->fromPost('transaction_type_id'),
@@ -820,12 +830,19 @@ class AdminController extends AbstractActionController
 				'contact'               => 	$this->params()->fromPost('contact'),
 				'display_size'          => 	$this->params()->fromPost('starting_price'),
 				'display_price'         => 	$this->params()->fromPost('display_price'),
+				'price_unit'            => 	$this->params()->fromPost('price_unit'),
+				'search_price'         => 	$this->params()->fromPost('search_price'),
+				'has_1BHK'         		=> 	$has_1BHK,
+				'has_2BHK'         		=> 	$has_2BHK,
+				'has_3BHK'         		=> 	$has_3BHK,
+				'has_4BHK'         		=> 	$has_4BHK,
+				'has_5BHK'         		=> 	$has_5BHK,
 				'completion_date'		=> 	$completiondate,
 				'search_min_price'		=> 	$this->params()->fromPost('search_min_price'),
 				'search_max_price'		=> 	$this->params()->fromPost('search_max_price'),
 				'search_min_size'		=> 	$this->params()->fromPost('search_min_size'),
 				'search_max_size'		=> 	$this->params()->fromPost('search_max_size'),
-				'is_focused'		    => 	$this->params()->fromPost('is_focused'),
+				'is_focused'		    => 	$is_focused,
 				'amenities'             => 	(is_array($amenities)) ? implode(',', $amenities) : '',
 				'slide_image_1'         => 	$this->params()->fromPost('slide_image_1'),
 				'slide_image_2'         => 	$this->params()->fromPost('slide_image_2'),
@@ -860,10 +877,24 @@ class AdminController extends AbstractActionController
 			}
 		}
 		if(isset($id)){
+			
+			// $stateTable = new TableGateway('locations', $adapter);
+    		// $locationDetail = $stateTable->select(array('id' => $id))->toArray();
+    		// $city_id 	= $locationDetail[0]['city_id'];
+    		// $state_id 	= $locationDetail[0]['state_id'];  
+    		// $citiesTable = new TableGateway('cities', $adapter);
+    		// $cityOptions = $citiesTable->select(array('state_id' => $state_id))->toArray();
+    		// $view->setVariable('cityOptions', $cityOptions);
+    		// $view->setVariable('locationDetail', $locationDetail);
 			 
 			$stateTable = new TableGateway('projects', $adapter);
 			$projectsDetail = $stateTable->select(array('id' => $id))->toArray();
+			$loc_id 	= $projectsDetail[0]['location'];
+			$locaTable = new TableGateway('locations', $adapter);
+    		$locaOptions = $locaTable->select(array('id' => $loc_id))->toArray();
+    		$view->setVariable('locaOptions', $locaOptions);
 			$view->setVariable('projectsDetail', $projectsDetail);
+	
 		}
 		$view->setVariable('msg', $msg);
 		return $view;
