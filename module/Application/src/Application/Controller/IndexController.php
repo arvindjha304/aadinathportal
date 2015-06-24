@@ -44,7 +44,7 @@ class IndexController extends AbstractActionController
         $view->setVariable('propertyCategory', $result);
         $request = $this->getRequest();
          if($request->isPost()){
-            //echo '<pre>';print_r($this->params()->fromPost());exit;
+//           echo '<pre>';print_r($this->params()->fromPost());exit;
             $config = new StandardConfig();
             $config->setOptions(array(
                 'remember_me_seconds' => 1800,
@@ -56,6 +56,10 @@ class IndexController extends AbstractActionController
             $container->propcategory    = $this->params()->fromPost('propcategory');
             $container->minprice        = $this->params()->fromPost('minprice');
             $container->maxprice        = $this->params()->fromPost('maxprice');
+            $container->viewType        = 'list';
+            
+//            echo '<pre>';print_r($container);exit;
+            
             return $this->redirect()->toUrl('project-list');
         }
         return $view;
@@ -64,56 +68,103 @@ class IndexController extends AbstractActionController
     {
         $view = new ViewModel();
         $this->layout('layout/innersearchlayout');
-        $request = $this->getRequest();
         $container = new Container('searchSessionFields');
         $city_id         = $container->cities;
         $propcategory_id = $container->propcategory;
         $minprice        = $container->minprice;
         $maxprice        = $container->maxprice;
+        $refineSearchArr = $this->params()->fromQuery();
+        
+        
+//        print_r($refineSearchArr);exit;
+        
+        
+        $view->setVariable('viewType',$container->viewType);
+        $view->setVariable('possession',(isset($refineSearchArr['possession'])) ? $refineSearchArr['possession'] : '');
+        $view->setVariable('propertyType',(isset($refineSearchArr['propertyType'])) ? $refineSearchArr['propertyType'] : '');
+        $view->setVariable('budget',(isset($refineSearchArr['budget'])) ? $refineSearchArr['budget'] : '');
+        $view->setVariable('bedroom',(isset($refineSearchArr['bedroom'])) ? $refineSearchArr['bedroom'] : '');
+       // echo '<pre>';print_r($refineSearchArr);exit;
         $model = $this->getModel();
         $table = new TableGateway('property_type',$this->getAdapter());
         $propertyTypeArr = $table->select(array('property_category_id'=>$propcategory_id,'is_active'=>1))->toArray(); 
-        
-//        echo '<pre>';print_r($propertyTypeArr);
-//                   exit;
-        
-        
         $view->setVariable('propertyTypeArr', $propertyTypeArr);
-        
-        $searchResult = $model->searchProjects($city_id,$propcategory_id,$minprice,$maxprice);
-        $searchResultArr = array();
-        $count = 0;
-        foreach($searchResult as $search){
-            $project_id = $search['project_id'];
-            $table = new TableGateway('project_floor_plan',$this->getAdapter());
-//            $floor_plans = $table->select(array('project_id'=>$project_id))->toArray();
-            
-            $floor_plans = $table->select(function($select) use ($project_id){
-                $select->order('size ASC');
-                $select->where->equalTo('project_id',$project_id);
-            })->toArray();
-            
-//        if(count($floor_plans)){
-            $search['floor_plans'] = $floor_plans;
-            $searchResultArr[$count] = $search;
-            $count++;
-//         }
-        }
-
+        $searchResultArr = $model->searchResultData($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr);
         $view->setVariable('searchResultArr', $searchResultArr);
-        //           echo '<pre>';print_r($searchResultArr);
-        //           exit;
-        
         return $view;
     }
     public function projectGridAction()
     {
-        
-//        echo '11111';exit;
-         $view = new ViewModel();
-         $this->layout('layout/innersearchlayout');
-//         $indexModel = $this->getServiceLocator()->get('Application\Model\Index');
-//         $view->setVariable('aboutUsData', $indexModel->getAboutUs());
-         return $view;
+        $view = new ViewModel();
+        $this->layout('layout/innersearchlayout');
+        $container = new Container('searchSessionFields');
+        $city_id         = $container->cities;
+        $propcategory_id = $container->propcategory;
+        $minprice        = $container->minprice;
+        $maxprice        = $container->maxprice;
+      
+        $model = $this->getModel();
+        $searchResultArr = $model->searchResultData($city_id,$propcategory_id,$minprice,$maxprice,'');
+        $view->setVariable('searchResultArr', $searchResultArr);
+        return $view;
     }
+    
+    public function changesearchviewAction(){
+        
+        $container = new Container('searchSessionFields');
+        $container->viewType = $this->params()->fromPost('viewType');
+        $city_id         = $container->cities;
+        $propcategory_id = $container->propcategory;
+        $minprice        = $container->minprice;
+        $maxprice        = $container->maxprice;
+        $refineSearchArr = array(
+            'possession'    => $this->params()->fromPost('PossessionFilters'),
+            'propertyType'  => $this->params()->fromPost('PropertyTypeFilters'),
+            'budget'        => $this->params()->fromPost('BudgetFilters'),
+            'bedroom'       => $this->params()->fromPost('BedroomFilters')
+        );
+        $model = $this->getModel();
+        $searchResultArr = $model->searchResultData($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr);
+        exit(json_encode($searchResultArr));
+    }
+    
+    public function projectDetailAction()
+    {
+        $view = new ViewModel();
+        $this->layout('layout/innerlayout');
+        $id = $this->params()->fromQuery('id');
+        $model = $this->getModel();
+        $projectDetail = $model->getProjectDetail($id);
+        $view->setVariable('projectDetail', $projectDetail);
+        $floor_plans = $model->getProjectFloorPlan($id);
+        $view->setVariable('floor_plans', $floor_plans);
+        $amenitiesArr = $model->getProjectAmenities($projectDetail['amenities']);
+        $view->setVariable('amenitiesArr', $amenitiesArr);
+        
+//         echo '<pre>';print_r($floor_plans);exit;
+        
+        $floorSizeArr = $floorPriceArr = array();
+        foreach($floor_plans as $floor_plan){
+            $floorSizeArr[] = $floor_plan['size'];
+            $floorPriceArr[] = $floor_plan['price'];
+        }
+        $view->setVariable('floorSizeArr', $floorSizeArr);
+        $view->setVariable('floorPriceArr', $floorPriceArr);
+        
+        return $view;
+    }
+    public function getcallbackAction(){
+        if($this->getRequest()->isXmlHttpRequest()){
+            $data = array(
+                'project_id'    => $this->params()->fromPost('project_id'),
+                'email'         => $this->params()->fromPost('email'),
+                'mobile'        => $this->params()->fromPost('mobile'),
+                'date_created'  => date('Y-m-d H-i-s'),
+            );
+            if($data['mobile']!='')
+                $this->getModel()->insertanywhere('callback_interested_users', $data);
+            exit(1);
+        }
+    }
+    
 }

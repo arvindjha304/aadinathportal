@@ -10,6 +10,7 @@ $(document).ready(function($) {
 		left: '-224px'
 	});
 
+//        $('#style-selector').hide();
 	$('#style-selector a.close').click(function(e){
 		e.preventDefault();
 		var div = $('#style-selector');
