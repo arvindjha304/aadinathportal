@@ -163,7 +163,7 @@
 
 <!-- ######### JS FILES ######### -->
 <!-- get jQuery used for the theme -->
-
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/js/universal/jquery.js"></script>
 <script src="<?php echo $baseUrl;?>/public/js/style-switcher/styleselector.js"></script>
 <script src="<?php echo $baseUrl;?>/public/js/animations/js/animations.min.js" type="text/javascript"></script>
 <script src="<?php echo $baseUrl;?>/public/js/mainmenu/bootstrap.min.js"></script>
@@ -215,7 +215,35 @@
   </div>
 </div>
 
-
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Interested in <span id='callBackPrjName'>Parsvnath Paramount</span>?</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control" id="callBackInputEmail" placeholder="Enter email">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Mobile No.</label>
+    <input type="text" class="form-control" id="callBackInputMobile" placeholder="Mobile No.">
+  </div>
+  <input type="hidden"  id="callBackProjectId" >
+</form>
+      </div>
+      <div class="modal-footer">
+          <img id="callBackLoader" style="display:none;margin-right:20px;" src="<?php echo $baseUrl;?>/public/images/lightbox-ico-loading.gif">
+          <button id="callBackSubmit" type="button" class="btn btn-danger" onclick="return submitCallBack()">GET CALL BACK</button>
+               
+      </div>
+      
+    </div>
+  </div>
+</div>
 <!----SIGN UP FORM---->
 <!---
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

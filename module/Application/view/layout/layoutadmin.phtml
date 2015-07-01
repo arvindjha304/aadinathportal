@@ -51,10 +51,15 @@ if (defined('RUNNING_FROM_ROOT')) {
    <li class='last'><a href='<?php echo $baseUrl;?>/admin/builderlist'>Manage Builders</a></li>
    <li class='active has-sub'><a href='#'>Manage Projects</a>
    <ul>
-   <li ><a href='<?php echo $baseUrl;?>/admin/projectslist' style="padding-left:45px;">Manage Projects</a> </li>
-         <li ><a href='<?php echo $baseUrl;?>/admin/floorplanlist' style="padding-left:45px;">Manage Floorplan</a> </li>
-        
-      </ul>
+        <li ><a href='<?php echo $baseUrl;?>/admin/projectslist' style="padding-left:45px;">Manage Projects</a> </li>
+        <li ><a href='<?php echo $baseUrl;?>/admin/floorplanlist' style="padding-left:45px;">Manage Floorplan</a> </li>
+        <li class='has-sub'><a href='#' style="padding-left:45px;">Manage Banners</a>
+            <ul>
+                <li ><a href='<?php echo $baseUrl;?>/admin/homepagebanners' style="padding-left:45px;">Home Page Banners</a> </li>
+                <li class='last'><a href='<?php echo $baseUrl;?>/admin/bannerlist' style="padding-left:45px;">Project Banners</a> </li>
+            </ul>
+         </li>    
+   </ul>
    
    </li>
    <li class='last'><a href='<?php echo $baseUrl;?>/admin/addeditpages'>Manage CMS</a></li>

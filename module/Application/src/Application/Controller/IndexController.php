@@ -26,10 +26,14 @@ class IndexController extends AbstractActionController
     }
     public function indexAction()
     {
-         $view = new ViewModel();
-         $this->layout('layout/indexlayout');
-         $indexModel = $this->getModel();
-         $view->setVariable('aboutUsData', $indexModel->getAboutUs());
+        $view = new ViewModel();
+        $this->layout('layout/indexlayout');
+        $indexModel = $this->getModel();
+        $homeBannerArr = $indexModel->homepagebanners();
+        $view->setVariable('randomhomeBanner', array_rand($homeBannerArr));
+        $view->setVariable('homeBannerArr', $homeBannerArr);
+        $hotdealbanner = $indexModel->hotDealProjects();;
+        $view->setVariable('hotdealbanner', $hotdealbanner);
          return $view;
     }
     public function buyAction()
@@ -93,21 +97,21 @@ class IndexController extends AbstractActionController
         $view->setVariable('searchResultArr', $searchResultArr);
         return $view;
     }
-    public function projectGridAction()
-    {
-        $view = new ViewModel();
-        $this->layout('layout/innersearchlayout');
-        $container = new Container('searchSessionFields');
-        $city_id         = $container->cities;
-        $propcategory_id = $container->propcategory;
-        $minprice        = $container->minprice;
-        $maxprice        = $container->maxprice;
-      
-        $model = $this->getModel();
-        $searchResultArr = $model->searchResultData($city_id,$propcategory_id,$minprice,$maxprice,'');
-        $view->setVariable('searchResultArr', $searchResultArr);
-        return $view;
-    }
+//    public function projectGridAction()
+//    {
+//        $view = new ViewModel();
+//        $this->layout('layout/innersearchlayout');
+//        $container = new Container('searchSessionFields');
+//        $city_id         = $container->cities;
+//        $propcategory_id = $container->propcategory;
+//        $minprice        = $container->minprice;
+//        $maxprice        = $container->maxprice;
+//      
+//        $model = $this->getModel();
+//        $searchResultArr = $model->searchResultData($city_id,$propcategory_id,$minprice,$maxprice,'');
+//        $view->setVariable('searchResultArr', $searchResultArr);
+//        return $view;
+//    }
     
     public function changesearchviewAction(){
         
@@ -165,6 +169,65 @@ class IndexController extends AbstractActionController
                 $this->getModel()->insertanywhere('callback_interested_users', $data);
             exit(1);
         }
+    }
+    public function buildersAction()
+    {
+        $view = new ViewModel();
+        $this->layout('layout/innerlayout');
+        $builderTable = new TableGateway('builders',$this->getAdapter());
+        $allBuilder = $builderTable->select(array('is_active'=>1,'is_delete'=>0))->toArray();
+        $ii=0;$builderArr = array();
+        if(count($allBuilder)){
+            foreach ($allBuilder as $builder){
+                $countProjects = $this->getModel()->countProjects($builder['id']);
+                
+                if($countProjects['totalProject']>0){
+                    $builderArr[$ii] = $builder;
+                    $builderArr[$ii]['totalProject']    = $countProjects['totalProject'];
+                    $builderArr[$ii]['ongoingProject']  = $countProjects['ongoingProject'];
+                    $ii++;
+                }
+            }
+        }
+        $view->setVariable('builderArr', $builderArr);
+        return $view;
+    }
+    public function builderDetailAction()
+    {
+        $view = new ViewModel();
+        $this->layout('layout/innersearchlayout');
+        $id=$this->params()->fromQuery('id');
+        if(isset($id) && $id!=''){
+            $table = new TableGateway('builders',$this->getAdapter());
+            $builderDetail = $table->select(array('id'=>$id))->toArray();
+            $view->setVariable('builderDetail', $builderDetail);
+            
+            
+            $container = new Container('searchSessionFields');
+
+
+            $refineSearchArr = $this->params()->fromQuery();
+//            if($container->offsetExists('viewType')){
+//                $view->setVariable('viewType',$container->viewType);
+//            }
+            $view->setVariable('possession',(isset($refineSearchArr['possession'])) ? $refineSearchArr['possession'] : '');
+            $view->setVariable('propertyType',(isset($refineSearchArr['propertyType'])) ? $refineSearchArr['propertyType'] : '');
+            $view->setVariable('budget',(isset($refineSearchArr['budget'])) ? $refineSearchArr['budget'] : '');
+            $view->setVariable('bedroom',(isset($refineSearchArr['bedroom'])) ? $refineSearchArr['bedroom'] : '');
+            
+            
+            $builderId = $builderDetail[0]['id'];
+            $searchResultArr = $this->getModel()->searchResultData('','','','',$refineSearchArr,$builderId);
+            $countProjects = $this->getModel()->countProjects($builderId);
+            $view->setVariable('totalProject', $countProjects['totalProject']);
+            $view->setVariable('ongoingProject', $countProjects['ongoingProject']);
+         //   echo '<pre>';print_r($searchResultArr);exit;
+            
+            $view->setVariable('searchResultArr', $searchResultArr);
+            $view->setVariable('viewType', 'list');
+        }
+        
+        return $view;
     }
     
 }

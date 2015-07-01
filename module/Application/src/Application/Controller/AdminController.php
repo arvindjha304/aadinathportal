@@ -263,13 +263,7 @@ class AdminController extends AbstractActionController
     	);
     	$where = array(
     		'id'	=> 	$id,
-    	);
-    	 
-//     	echo '<pre>';print_r($id);exit;
-    	
-//     	echo '1111';exit;
-    	
-    	
+    	);    	 
     	if($action=='delete'){
     		$adminModel->deleteanywhere($table,$where);
     	}else{
@@ -1302,4 +1296,110 @@ public function projectslistdataAction()
     	return $view;
 		
     } 
+    public function addeditbannerAction()
+	{
+		$view = new ViewModel();
+		$this->layout('layout/layoutadmin');
+		$id = $this->params()->fromQuery('id');
+		$view->setVariable('heading',(isset($id)) ? 'Edit Banner' : 'Add Banner');
+		$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
+		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$property_types = $adminModel->getfloorTypesForListing();
+		$view->setVariable('property_types', $property_types);
+		$msg = '';
+		$request = $this->getRequest();
+		if ($request->isPost()) {
+           
+			$data = array(
+				'project_id'		=> 	$this->params()->fromPost('project_id'),
+				'banner_type'	    => 	$this->params()->fromPost('banner_type'),
+				'banner_image'      => 	$this->params()->fromPost('imagename_1'),
+				);	
+			if(isset($id)){
+				$where = array(
+					'id'	=> 	$id,
+				);
+				$adminModel->updateanywhere('bannerlist',$data,$where);
+				$msg = 'Banner Edited Successfully.';
+			}else{
+                $data['is_active']      = 1;
+                $data['is_delete']      = 0;
+				$data['date_created']   = date('Y-m-d H:i:s');
+				$adminModel->insertanywhere('bannerlist',$data);
+				$msg = 'Banner Added Successfully.';
+			}
+		}
+		if(isset($id)){
+			$stateTable = new TableGateway('bannerlist', $adapter);
+			$bannerDetail = $stateTable->select(array('id' => $id))->toArray();
+			$view->setVariable('bannerDetail', $bannerDetail);
+		}
+		$view->setVariable('msg', $msg);
+		return $view;
+	}
+    
+    
+	public function bannerstatusAction()
+    {
+    	$action 		= $this->params()->fromPost('action');
+    	$id 			= $this->params()->fromPost('id');
+    	$selectedIds 	= $this->params()->fromPost('selectedIds');
+    
+    	if(isset($selectedIds)){
+    		$idArr = explode(',',$selectedIds);
+    		foreach($idArr as $id)
+    			$this->statusUpdate('bannerlist',$action,$id);
+    	}else{
+    		$this->statusUpdate('bannerlist',$action,$id);
+    	}
+    	exit('1');
+    }
+    
+    public function bannerlistAction()
+	{
+		$view = new ViewModel();
+		$this->layout('layout/layoutadmin');
+		return $view;
+	}
+	public function bannerlistdataAction()
+	{
+		$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
+        $bannerList = $adminModel->getBannerList();
+    	$dataArray = array();
+    	$baseUrl = $this->getRequest()->getbaseUrl();
+    	foreach($bannerList as $val1)
+		{	
+			$temp_arr = array();
+			$project_title	=	$val1['project_title'];
+			$banner_type	=	$val1['banner_type'];
+			$status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
+			$action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
+			$delete 		=	'<a href="'.$baseUrl.'/admin/addeditbanner?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+			$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$project_title,$banner_type,$status,$delete.$action));
+		}
+		$json = json_encode($dataArray);
+		//$jsonData = '{rows:'.$json.'}';
+		exit('{rows:'.$json.'}');
+	}
+    
+    public function homepagebannersAction(){
+        $view = new ViewModel();
+		$this->layout('layout/layoutadmin');
+        $view->setVariable('heading', 'Home Page Banners');
+		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+        if($this->getRequest()->isPost()){
+            $data = array(
+                'banner_image_1'   => $this->params()->fromPost('imagename_1'),
+                'banner_image_2'   => $this->params()->fromPost('imagename_2'),
+                'banner_image_3'   => $this->params()->fromPost('imagename_3'),
+                'banner_image_4'   => $this->params()->fromPost('imagename_4'),
+                'banner_image_5'   => $this->params()->fromPost('imagename_5'),
+            );
+            $this->getModel()->insertanywhere('homepagebanners',$data);
+        }
+        $table = new TableGateway('homepagebanners',$adapter);
+        $view->setVariable('banners', $table->select()->toArray());
+		return $view; 
+    }
+    
 }

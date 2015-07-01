@@ -114,16 +114,12 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Vi
     public function getViewHelperConfig()
     {
     	return array(
-    			/* 'factories' => array(
-    					'test_helper' => function($sm) {
-    						$serviceLocator = $sm->getServiceLocator();
-    						return new \Application\View\Helper\Testhelper($serviceLocator);
-    					},
-    					'routeHelper' => function($sm) {
-    						$serviceLocator = $sm->getServiceLocator();
-    						return new \Application\View\Helper\RouteHelper($serviceLocator);
-    					}
-    			) */
+            'factories' => array(
+                'routeHelper' => function($sm) {
+                    $serviceLocator = $sm->getServiceLocator();
+                    return new \Application\View\Helper\RouteHelper($serviceLocator);
+                }
+            ) 
     	);
     }
 }

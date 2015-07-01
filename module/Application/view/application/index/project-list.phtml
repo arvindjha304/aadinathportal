@@ -19,12 +19,12 @@
       <ul class="nav navbar-nav">
         <li><div style="color:#777; padding-top:15px; margin-right:30px;">Refine Results :</div></li>               
         <li class="dropdown">
-          <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="possessionFilter">Possession <span class="caret"></span></a>
+            <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" ><span id="possessionText" >Possession</span><span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a ><input type="checkbox" onchange="managePossession('readyToMoveIn')" id="readyToMoveIn" value="readyToMoveIn"> Ready to move in</a></li>
-            <li><a ><input type="checkbox" onchange="managePossession('upto3month')" id="upto3month" value="upto3month"> Upto 3 Months</a></li>
-            <li><a ><input type="checkbox" onchange="managePossession('upto6month')" id="upto6month" value="upto6month"> Upto 6 Months</a></li>
-            <li><a ><input type="checkbox" onchange="managePossession('upto9month')" id="upto9month" value="upto9month"> Upto 9 Months</a></li>            
+            <li><a ><input type="checkbox" onchange="managePossession('readyToMoveIn')" id="readyToMoveIn" value="readyToMoveIn"><span id="text_readyToMoveIn" > Ready to move in</span></a></li>
+            <li><a ><input type="checkbox" onchange="managePossession('upto3month')" id="upto3month" value="upto3month"><span id="text_upto3month" > Upto 3 Months</span></a></li>
+            <li><a ><input type="checkbox" onchange="managePossession('upto6month')" id="upto6month" value="upto6month"><span id="text_upto6month" > Upto 6 Months</span></a></li>
+            <li><a ><input type="checkbox" onchange="managePossession('upto9month')" id="upto9month" value="upto9month"><span id="text_upto9month" > Upto 9 Months</span></a></li>            
           </ul>
         </li>
         <li class="dropdown">
@@ -76,6 +76,8 @@
   
   <!---------Heading----------->
   <input type="hidden" id="baseUrl" value="<?php echo $baseUrl;?>">
+  <input type="hidden" id="pageName" value="project-list">
+  <input type="hidden" id="builderDetailId" value="">
   <input type="hidden" id="PossessionFilters" value="<?php echo $this->possession;?>">
   <input type="hidden" id="PropertyTypeFilters" value="<?php echo $this->propertyType;?>">
   <input type="hidden" id="BudgetFilters" value="<?php echo $this->budget;?>">
@@ -100,10 +102,10 @@
     ?>            
             <div class="container insidepg-proj-row"> 
               <div class="row">
-              <div class="col-md-3  insidepg-proj-img-box"><a href="projects-detail.html"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $searchResult['project_image']?>" class="img-responsive"></a></div>
+              <div class="col-md-3  insidepg-proj-img-box"><a href="<?php echo $baseUrl;?>/index/project-detail?id=<?php echo $searchResult['project_id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $searchResult['project_image']?>" class="img-responsive"></a></div>
               <div class="col-md-7 insidepg-proj-detail">
               <div class="bs-example" data-example-id="bordered-table">
-               <h4 id="tables-bordered"><a href="projects-detail.html"><?php echo $searchResult['project_title']?></a></h4>
+               <h4 id="tables-bordered"><a href="<?php echo $baseUrl;?>/index/project-detail?id=<?php echo $searchResult['project_id']?>"><?php echo $searchResult['project_title']?></a></h4>
               <p><?php echo $searchResult['address']?></p>
                 <table class="table table-bordered">
                   <thead>
@@ -131,7 +133,7 @@
 
 
               <div class="col-md-2 insidepg-proj-builder">
-              <div class="row insidepg-proj-builder-img" align="center"><a href="#"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $searchResult['builder_image']?>"  class="img-responsive"></a></div>
+              <div class="row insidepg-proj-builder-img" align="center"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $searchResult['builder']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $searchResult['builder_image']?>"  class="img-responsive"></a></div>
             <div class="row insidepg-proj-builder text-center"><?php if(count($floorSizeArr)){ ?><div class="proj-price-text"><span class="rupee">`</span>  <?php echo min($floorSizeArr);?> - <span class="rupee">`</span> <?php echo max($floorSizeArr);?></div><?php } ?>
                   POSSESSION <?php echo date('M', strtotime($searchResult['possession']))?> `<?php echo date('d', strtotime($searchResult['possession']))?></div>
               <div class="row text-center"><button type="button" class="btn btn-danger" onclick="return getCallBAck('<?php echo $searchResult['project_id']?>','<?php echo $searchResult['project_title']?>')">GET CALL BACK</button></div>
@@ -162,8 +164,8 @@
         $count++;
     ?>
         <div class="one_fourth_less <?php if($count % 4 == 0){ echo 'last';}?> "  >    
-            <a href="projects-detail.html"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $searchResult['project_image']?>" alt="" /></a>
-            <h5><a href="projects-detail.html"><?php echo $searchResult['project_title']?></a> <em><?php echo $searchResult['address']?></em></h5>
+            <a href="<?php echo $baseUrl;?>/index/project-detail?id=<?php echo $searchResult['project_id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $searchResult['project_image']?>" alt="" /></a>
+            <h5><a href="<?php echo $baseUrl;?>/index/project-detail?id=<?php echo $searchResult['project_id']?>"><?php echo $searchResult['project_title']?></a> <em><?php echo $searchResult['address']?></em></h5>
              <?php  $floorSizeArr = array();$floorPriceArr = array();
              if(count($searchResult['floor_plans'])){
                     foreach($searchResult['floor_plans'] as $floor_plan){
@@ -224,35 +226,7 @@ $(document).mousewheel(function(event, delta) {
 </script>
  
  
-<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Interested in <span id='callBackPrjName'>Parsvnath Paramount</span>?</h4>
-      </div>
-      <div class="modal-body">
-        <form>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="callBackInputEmail" placeholder="Enter email">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Mobile No.</label>
-    <input type="text" class="form-control" id="callBackInputMobile" placeholder="Mobile No.">
-  </div>
-  <input type="hidden"  id="callBackProjectId" >
-</form>
-      </div>
-      <div class="modal-footer">
-          <img id="callBackLoader" style="display:none;margin-right:20px;" src="<?php echo $baseUrl;?>/public/images/lightbox-ico-loading.gif">
-          <button id="callBackSubmit" type="button" class="btn btn-danger" onclick="return submitCallBack()">GET CALL BACK</button>
-               
-      </div>
-      
-    </div>
-  </div>
-</div>
+
 
 
 

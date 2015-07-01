@@ -241,12 +241,23 @@ use Zend\Db\Sql\Expression;
 			$name = trim(strtolower($name));
 			$sql="select property_type from $field st where TRIM(LOWER(st.property_type))='$name'";
 		}
-		
 		$result =$db->query($sql)->execute()->current();
 		return $result;
-	
 	}
-
+    
+    public function getBannerList()
+	{ 
+		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+        $sql = new Sql($adapter);
+        $select = $sql->select()
+        ->columns(array('id','banner_image','is_active'))
+        ->from(array('bnr'=>'bannerlist'))
+        ->join(array('btl'=>'banner_type_list'), 'btl.id = bnr.banner_type', array('banner_type'))
+        ->join(array('prj'=>'projects'), 'prj.id = bnr.project_id', array('project_title'))
+		->where(array('bnr.is_delete'=> '0','prj.is_delete'=> '0',));
+        $result = $sql->prepareStatementForSqlObject($select)->execute();
+        return $result;
+	}
 	public function updateanywhere($mytable, array $data, $where) {
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$table = new TableGateway($mytable, $db);

@@ -39,7 +39,7 @@ use Zend\Db\Sql\Where;
 	
     
     
-    public function searchProjects($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr){
+    public function searchProjects($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr,$builderId=''){
         
         $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
         
@@ -92,13 +92,19 @@ use Zend\Db\Sql\Where;
                 $tempStr   .= ($tempStr=='') ? ' prj.has_5BHK=1' : ' or prj.has_5BHK=1';
             $bedroomFilterStr = ' and '.$tempStr;
         }
+        if($minprice!='' && $maxprice!=''){
+            $where .= "  AND prj.search_max_price between $minprice and $maxprice ";
+        }
+        if($builderId!=''){
+            $where .= "  AND prj.builder= $builderId";
+        }
         
 		$sql="select prj.*,ct.*,pt.*,pc.*,bld.*,prj.id as project_id from projects prj
         join cities ct on ct.id=prj.city and ct.is_active=1
         join property_type pt on pt.id=prj.property_type_id and pt.is_active=1
         join property_category pc on pc.id=pt.property_category_id and pc.is_active=1
         join builders bld on prj.builder=bld.id and bld.is_active=1
-        where prj.is_active=1 and prj.is_delete=0 $where AND prj.search_max_price between $minprice and $maxprice $bedroomFilterStr";
+        where prj.is_active=1 and prj.is_delete=0 $where $bedroomFilterStr";
         
 //    echo $sql;exit;
 		$result =$db->query($sql)->execute();
@@ -156,6 +162,45 @@ use Zend\Db\Sql\Where;
         return $resultArr;
     }
 
+    public function countProjects($builderId){
+        $projectTable = new TableGateway('projects',$this->getAdapter());
+        $totalProject   = $projectTable->select(array('is_active'=>1,'is_delete'=>0,'builder'=>$builderId))->count();
+        $ongoingProject = $projectTable->select(array('is_active'=>1,'is_delete'=>0,'builder'=>$builderId,'project_status'=>1))->count();
+        return array('totalProject'=>$totalProject,'ongoingProject'=>$ongoingProject);
+    }
+    
+    public function homepagebanners(){
+        $table = new TableGateway('homepagebanners',$this->getAdapter());
+        $bannerArr = $table->select()->toArray();
+        $homeBannerArr = array();
+        if(count($bannerArr)){
+            foreach ($bannerArr[0] as $key=>$banner){
+               if($key!='id' && $banner!='')
+                   $homeBannerArr[$key] = $banner;
+            }
+        }
+        return $homeBannerArr;
+    }
+     
+    public function hotDealProjects(){
+        $table = new TableGateway('bannerlist',$this->getAdapter());
+        $hotdealbanner = $table->select(array('banner_type'=>1,'is_active'=>1,'is_delete'=>0))->toArray();       
+        $sql = new Sql($this->getAdapter());
+        $select = $sql->select()
+        ->columns(array('banner_image','project_id'))
+        ->from(array('bnl'=>'bannerlist'))
+        ->where(array('banner_type'=>1,'is_active'=>1,'is_delete'=>0));
+        $result = $sql->prepareStatementForSqlObject($select)->execute();
+        $projectArr = array();
+        foreach($result as $res) $projectArr[] = $res;  
+        shuffle($projectArr);
+        
+        
+//        echo '<pre>';print_r($projectArr);exit;
+        
+        
+        return $projectArr;
+    }
     public function updateanywhere($mytable, array $data, $where) {
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$table = new TableGateway($mytable, $db);
