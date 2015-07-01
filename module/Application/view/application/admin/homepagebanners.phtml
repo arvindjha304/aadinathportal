@@ -1,0 +1,242 @@
+<?php $baseUrl = $this->basePath(); 
+
+//echo '<pre>';print_r($this->banners);exit;
+
+?>
+<script src="<?php echo $baseUrl;?>/public/js/ajaxupload.3.5.js"></script>
+<script type="text/javascript">
+var deletedDivArray = [];
+$(function(){
+	 var btnUpload=$('#upload_1');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,1);
+});
+
+$(function(){
+	 var btnUpload=$('#upload_2');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,2);
+});
+$(function(){
+	 var btnUpload=$('#upload_3');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,3);
+});
+$(function(){
+	 var btnUpload=$('#upload_4');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,4);
+});
+$(function(){
+	 var btnUpload=$('#upload_5');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,5);
+});
+	
+function ajaxUpload(btnUpload,status,id){
+	 var url='<?php echo $baseUrl ?>';
+	 var SITEROOT=url+"/admin/upload";
+	 new AjaxUpload(btnUpload,
+		 {
+		     action: SITEROOT,
+		     name:'uploadfile' ,
+		     onSubmit: function(file, ext){
+		         if (! (ext && /^(jpg|png|jpeg|gif)$/.test(ext))){
+		             // extension is not allowed
+		             status.text('Only JPG, PNG or GIF files are allowed');
+		             return false;
+		         }
+		         status.text('Uploading...');
+		     },
+		     onComplete: function(file, response){
+		         //On completion clear the status
+		         status.text('');
+		         var filepath = url+'/public/uploadfiles/'+response;
+		    	 id = parseInt(id);
+				$('#files_'+id).html('');
+		         if(response != ""){
+
+// 		        	 alert(id);
+// 		        	 return false;		         
+			         
+		             document.getElementById("imagename_"+id).value = response;
+		             $('#preview_'+id).show();
+		             $('<div></div>').appendTo('#files_'+id).html('<img height="50" width="50"  src="'+filepath+'" alt="" /><br />').addClass('success');
+		           //  $('#lastImageId').val(id+1);
+		         } else{
+		            // $('<div></div>').appendTo('#files').text(response).addClass('error');
+		         }
+		         
+		     }
+		 });
+}
+
+function previewImage(id){
+	$('#files_'+id).toggle();
+	return false;
+}
+
+
+
+
+</script>
+
+
+
+<div class="contant">
+<div class="heading"><?php echo $this->heading?></div>
+<div class="contant1">
+	<form method="post" action="" name="" id="amenityform">
+		
+    <?php if($this->msg!=''){?>
+	<div ><?php echo $this->msg?></div>
+	<?php }?>
+	<span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"></span>
+	
+    <div class="content2">
+    	<input type='hidden' name='imagename_1' id='imagename_1' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
+		<div class="content3">Banner Image 1:(1640 * 550)</div>
+        <div class="content4"> 
+			<button class="" style="height:28px;margin-left:10px;" id="upload_1">Browse</button>
+			<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_1" onclick="return previewImage('1')">Preview</button>
+			<div class="am" >
+		        <div class="" id="files_1" style="display: none">
+		        <?php if(isset($this->banners[0]['amenity_image'])) {?>
+					<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+				<?php }?>
+				</div>
+	    	</div>
+		</div>
+		
+	</div>
+		
+	<div class="content2" id='div_2'>
+    	<input type='hidden' name='imagename_2' id='imagename_2' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
+		<div class="content3">Banner Image 2:(1640 * 550)</div>
+        <div class="content4">
+		<button class="" style="height:28px;margin-left:10px;"  id="upload_2">Browse</button>
+		<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_2" onclick="return previewImage('2')">Preview</button>
+		<div class="am" >
+	        <div class="" id="files_2" style="display: none">
+	        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
+				<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+			<?php }?>
+			</div>
+	    </div>
+		
+		</div>
+	</div>
+		
+	<div class="content2" id='div_3'>
+    	<input type='hidden' name='imagename_3' id='imagename_3' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
+		<div class="content3">Banner Image 3:(1640 * 550)</div>
+        <div class="content4">
+		<button class="" style="height:28px;margin-left:10px;" id="upload_3">Browse</button>
+		<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_3" onclick="return previewImage('3')">Preview</button>
+		<div class="am" >
+        <div class="" id="files_3" style="display: none">
+        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
+			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+		<?php }?>
+		</div>
+    	</div>
+		</div>
+	</div>
+		
+	<div class="content2"  id='div_4'>
+    	<input type='hidden' name='imagename_4' id='imagename_4' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
+		<div class="content3">Banner Image 4:(1640 * 550)</div>
+        <div class="content4">
+		<button class="" style="height:28px;margin-left:10px;" id="upload_4">Browse</button>
+		<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_4" onclick="return previewImage('4')">Preview</button>
+		<div class="am" >
+        <div class="" id="files_4" style="display: none">
+        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
+			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+		<?php }?>
+		</div>
+    	</div>
+		</div>
+	</div>
+		
+	<div class="content2" id='div_5'>
+    	<input type='hidden' name='imagename_5' id='imagename_5' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
+		<div class="content3">Banner Image 5:(1640 * 550)</div>
+        <div class="content4">
+		<button class="" style="height:28px;margin-left:10px;" id="upload_5">Browse</button>
+		<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_5" onclick="return previewImage('5')">Preview</button>
+		<div class="am" >
+        <div class="" id="files_5" style="display: none">
+        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
+			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+		<?php }?>
+		</div>
+    	</div>
+		</div>
+	</div>
+		
+	
+   </div>
+	<div class="content5" style="padding-left:311px">
+	<button onclick="return submitForm()" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;">Submit</button>
+	<a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl;?>/admin/amentieslist" >Cancel</a>
+	</div>
+	
+	</form>
+    
+</div>
+</div>
+
+<script>
+var error = 0;
+function hasNumbers(t){
+	return /\d/.test(t);
+}
+
+function submitForm(){
+	$('#amenityform').submit();
+}
+
+// 	var propertyType = $("#propertyType").val();
+// 	if(propertyType == ''){
+// 		$("#nameExist").text('Property Type cannot be empty.').show();
+// 		return false;
+// 	}
+//	SITEROOT = '<?php echo $baseUrl?>';
+// 	if(propertyType!=''){
+// 		$.post(SITEROOT+'/admin/checkname', {name:propertyType,field:'property_type'},function(response){
+// 			if(response == '1'){
+// 				$("#nameExist").text('Name entered already exists.').show();
+// 				error = 1;
+// 				return false;
+// 			}else{
+// 				var chknumber = hasNumbers($('#propertyType').val());
+// 				if(chknumber==true){
+// 					$("#nameExist").text('Property Type cannot have numbers.').show();
+// 					error = 1;
+// 					return false;
+// 				}else{
+// 					$("#nameExist").hide();
+// 					error = 0;
+// 				}
+// 				if(error==0){
+// 					$('#propertyTypeform').submit();
+// 				}
+// 			}
+// 		});
+// 	}
+// return false;
+// }
+// $("#cityName").blur(function(){
+// 	var name = $(this).val();
+//	SITEROOT = '<?php echo $baseUrl?>';
+// 	if(name!=''){
+// 		$.post(SITEROOT+'/admin/checkname', {name:name,field:'cities'},function(response){
+// 			if(response == '1'){
+// 				alert('Name entered already exists');
+// 				return false;
+// 			}
+// 		});
+// 	}
+// });
+</script>

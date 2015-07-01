@@ -1,0 +1,165 @@
+<?php $baseUrl = $this->basePath();
+ //echo '<pre>';print_r($this->bannerDetail[0]);exit;
+ ?>
+
+<script src="<?php echo $baseUrl;?>/public/js/ajaxupload.3.5.js"></script>
+<script type="text/javascript">
+var deletedDivArray = [];
+$(function(){
+	 var btnUpload=$('#upload_1');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,1);
+});
+
+function ajaxUpload(btnUpload,status,id){
+	var url='<?php echo $baseUrl ?>';
+	var SITEROOT=url+"/admin/upload";
+	new AjaxUpload(btnUpload,
+    {
+        action: SITEROOT,
+        name:'uploadfile' ,
+        onSubmit: function(file, ext){
+            if (! (ext && /^(jpg|png|jpeg|gif)$/.test(ext))){
+                // extension is not allowed
+                status.text('Only JPG, PNG or GIF files are allowed');
+                return false;
+            }
+            status.text('Uploading...');
+        },
+        onComplete: function(file, response){
+            //On completion clear the status
+            status.text('');
+            var filepath = url+'/public/uploadfiles/'+response;
+            id = parseInt(id);
+           $('#files_'+id).html('');
+            if(response != ""){
+                document.getElementById("imagename_"+id).value = response;
+                $('#preview_'+id).show();
+                $('<div></div>').appendTo('#files_'+id).html('<img height="50" width="50"  src="'+filepath+'" alt="" /><br />').addClass('success');
+              //  $('#lastImageId').val(id+1);
+            } else{
+               // $('<div></div>').appendTo('#files').text(response).addClass('error');
+            }
+        }
+    });
+}
+
+function previewImage(id){
+	$('#files_'+id).toggle();
+	return false;
+}
+</script>
+
+
+<div class="contant">
+<div class="heading"><?php echo $this->heading?></div>
+<div class="contant1">
+	<form method="post" action="" name="" id="floorform">
+		
+    <?php if($this->msg!=''){?>
+	<div ><?php echo $this->msg?></div>
+	<?php }?>
+	<span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"></span>
+	<div class="content2">
+		<div class="content3"><span style="color:red">*</span> Project Title:</div>
+        <div class="content4">
+        <select id="project_id" name="project_id" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
+		<option value = "">Select Project</option>
+        <?php
+             $tempArr = array();
+             foreach ($this->property_types as $property_category) {
+                 if(count($property_category['propertyTypeList'])){?>
+                     <optgroup label="<?php echo $property_category['property_type'] ?>">
+                    <?php   
+                         foreach($property_category['propertyTypeList'] as $property_type){
+                     ?>       
+                          <option <?php if($this->bannerDetail[0]['project_id']==$property_type['id'])  { echo 'selected=selected';}?> value="<?php echo $property_type['id'] ?>"><?php echo ucfirst($property_type['project_title']) ?></option>   
+                     <?php          
+                         }
+                     ?>    
+                      </optgroup>   
+                     <?php            
+                 }
+             }
+         ?>
+
+        </select>
+        </div>
+    </div>
+    <div class="content2">
+		<div class="content3"><span style="color:red">*</span> Banner Type:</div>
+        <div class="content4-builder">
+            <select name="banner_type" id="banner_type" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;">
+                <option <?php if($this->bannerDetail[0]['banner_type']==1)  { echo 'selected=selected';}?> value="1">Hot Deals</option>
+                <option <?php if($this->bannerDetail[0]['banner_type']==2)  { echo 'selected=selected';}?> value="2">Project List</option>
+            </select>
+        </div>
+    </div>
+   
+	<div class="content2">
+    	<input type='hidden' name='imagename_1' id='imagename_1' value='<?php if ($this->bannerDetail[0]['banner_image']!='') echo $this->bannerDetail[0]['banner_image']; ?>'>
+		<div class="content3"><span style="color:red">*</span> Image:</div>
+        <div class="content4-builder">
+			<button class="" style="height:28px;margin-left:10px;" id="upload_1">Browse</button>
+			<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_1" onclick="return previewImage('1')">Preview</button>
+			<div class="am" >
+		        <div class="" id="files_1" style="display: none"></div>
+				<?php if($this->bannerDetail[0]['banner_image']!='') {?>
+					<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->bannerDetail[0]['banner_image']; ?>"/> 
+				<?php }?>
+	    	</div>
+		</div>
+		
+	</div>
+	
+   
+  
+	<div class="content5">
+	
+	<button onclick="return submitForm()" value="<?php echo $this->heading?>" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;"><?php echo $this->heading?></button>
+	<a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl;?>/admin/builderlist" >Cancel</a>
+	
+	</div>
+	
+	</form>
+    
+</div>
+</div>
+
+<script>
+
+
+var error = 0;
+function hasNumbers(t){
+	return /\d/.test(t);
+}
+
+function submitForm(){
+	//alert('hiii');
+	//return false;
+	var project_id 	= $('#project_id').val();
+	var banner_type = $('#banner_type').val();
+	var imagename   = $('#imagename_1').val();
+	
+	var error = 0;
+	var msg = '';
+	if(project_id =='' ){
+		var msg = 'Project Title cannot be empty.';
+		error = 1;
+	}else if(banner_type ==''){
+		var msg = 'Banner Type cannot be empty.';
+		error = 1;
+	}else if(imagename =='' ){
+		var msg = 'Banner Image cannot be empty.';
+		error = 1;
+	}
+
+	if(msg!=''){
+		$("#nameExist").text(msg).show();
+		return false;
+	}else{
+		$('#floorform').submit();
+	}	
+}
+
+</script>

@@ -1,0 +1,49 @@
+ <?php $baseUrl = $this->basePath(); ?>
+
+
+<div class="container">
+  <div class="page-header1">  
+  <h3>Builders in India</h3> </div>
+  </div>
+
+<div class="container">
+	<div class="one_full"  style="margin-top:65px;">
+     <?php foreach($this->builderArr as $builder){
+       $i=1;  ?>   
+        <div class="one_fifth <?php if($i%5==0) echo 'last'?>">   
+            <div class="flips4">        
+                <a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builder['id']?>"><div class="flips4_front flipscont4">
+                    <img height="80" width="100" src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builder['builder_image']?>" alt="" >                          </div>           
+                <div class="flips4_back flipscont4 white-text">
+                    <h5><strong><?php echo $builder['builder_name']?></strong></h5>
+                    <p>Total Projects - <?php echo $builder['totalProject']?><br>Ongoing Projects - <?php echo $builder['ongoingProject']?></p>
+                </div> </a>           
+            </div>    
+        </div>   
+        <?php if($i%5==0){ ?>
+        <div class="margin_top3"></div><div class="clearfix"></div>
+        <?php }
+        $i++;
+    }?> 	
+                            
+   	
+                            
+   	
+       
+    
+        
+    
+    </div><!-- end section -->
+    
+    </div><!-- end section -->
+    
+    
+  </div>
+
+
+<!---End of Builder--->
+
+
+
+  
+  
