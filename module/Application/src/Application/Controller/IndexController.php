@@ -32,7 +32,7 @@ class IndexController extends AbstractActionController
         $homeBannerArr = $indexModel->homepagebanners();
         $view->setVariable('randomhomeBanner', array_rand($homeBannerArr));
         $view->setVariable('homeBannerArr', $homeBannerArr);
-        $hotdealbanner = $indexModel->hotDealProjects();;
+        $hotdealbanner = $indexModel->projectBanner(1);
         $view->setVariable('hotdealbanner', $hotdealbanner);
          return $view;
     }
@@ -61,9 +61,7 @@ class IndexController extends AbstractActionController
             $container->minprice        = $this->params()->fromPost('minprice');
             $container->maxprice        = $this->params()->fromPost('maxprice');
             $container->viewType        = 'list';
-            
-//            echo '<pre>';print_r($container);exit;
-            
+            $container->projectBanner   = $this->getModel()->projectBanner(2);
             return $this->redirect()->toUrl('project-list');
         }
         return $view;
@@ -78,11 +76,7 @@ class IndexController extends AbstractActionController
         $minprice        = $container->minprice;
         $maxprice        = $container->maxprice;
         $refineSearchArr = $this->params()->fromQuery();
-        
-        
 //        print_r($refineSearchArr);exit;
-        
-        
         $view->setVariable('viewType',$container->viewType);
         $view->setVariable('possession',(isset($refineSearchArr['possession'])) ? $refineSearchArr['possession'] : '');
         $view->setVariable('propertyType',(isset($refineSearchArr['propertyType'])) ? $refineSearchArr['propertyType'] : '');

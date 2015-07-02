@@ -182,25 +182,27 @@ use Zend\Db\Sql\Where;
         return $homeBannerArr;
     }
      
-    public function hotDealProjects(){
-        $table = new TableGateway('bannerlist',$this->getAdapter());
-        $hotdealbanner = $table->select(array('banner_type'=>1,'is_active'=>1,'is_delete'=>0))->toArray();       
+    public function projectBanner($banner_type){
+        
         $sql = new Sql($this->getAdapter());
         $select = $sql->select()
         ->columns(array('banner_image','project_id'))
         ->from(array('bnl'=>'bannerlist'))
-        ->where(array('banner_type'=>1,'is_active'=>1,'is_delete'=>0));
+        ->where(array('banner_type'=>$banner_type,'is_active'=>1,'is_delete'=>0));
         $result = $sql->prepareStatementForSqlObject($select)->execute();
         $projectArr = array();
         foreach($result as $res) $projectArr[] = $res;  
         shuffle($projectArr);
-        
-        
-//        echo '<pre>';print_r($projectArr);exit;
-        
-        
         return $projectArr;
     }
+    
+    public function getBuilderList(){
+        
+        
+       // echo 'AAAAAAAAAA';exit;
+        
+    }
+    
     public function updateanywhere($mytable, array $data, $where) {
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$table = new TableGateway($mytable, $db);
