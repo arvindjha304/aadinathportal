@@ -121,7 +121,7 @@
                           <tr>
                           <td><?php echo $floor_plan['plan_type'];?></th>
                           <td><?php echo $floor_plan['size'].' '.$floor_plan['unit'];?></td>
-                          <td><span class="rupee">`</span> <?php echo $floor_plan['price'];?></td>
+                          <td><span class="rupee">`</span> <?php echo $floor_plan['price'].' '.$floor_plan['price_unit'];?></td>
                         </tr> 
                      <?php $floorSizeArr[]= $floor_plan['price'];
                       }?>
@@ -134,7 +134,7 @@
 
               <div class="col-md-2 insidepg-proj-builder">
               <div class="row insidepg-proj-builder-img" align="center"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $searchResult['builder']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $searchResult['builder_image']?>"  class="img-responsive"></a></div>
-            <div class="row insidepg-proj-builder text-center"><?php if(count($floorSizeArr)){ ?><div class="proj-price-text"><span class="rupee">`</span>  <?php echo min($floorSizeArr);?> - <span class="rupee">`</span> <?php echo max($floorSizeArr);?></div><?php } ?>
+            <div class="row insidepg-proj-builder text-center"><?php if(count($floorSizeArr)){ ?><div class="proj-price-text"><span class="rupee">`</span>  <?php echo $searchResult['min_floor_plan_price'];?> - <span class="rupee">`</span> <?php echo $searchResult['max_floor_plan_price'];?></div><?php } ?>
                   POSSESSION <?php echo date('M', strtotime($searchResult['possession']))?> `<?php echo date('d', strtotime($searchResult['possession']))?></div>
               <div class="row text-center"><button type="button" class="btn btn-danger" onclick="return getCallBAck('<?php echo $searchResult['project_id']?>','<?php echo $searchResult['project_title']?>')">GET CALL BACK</button></div>
               </div>
@@ -180,7 +180,7 @@
             <span class="grid_type_left_smltxt">Possession Date: <?php echo date('M', strtotime($searchResult['possession']))?> `<?php echo date('d', strtotime($searchResult['possession']))?></span>
             </div>
             <div class="grid_button">
-            <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> <?php if(count($floorPriceArr)) echo min($floorPriceArr)?></div>
+            <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> <?php if(count($floorPriceArr)) echo $searchResult['min_floor_plan_price']?></div>
             <div class="grid_button_right">
             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1">GET CALL BACK</button></div>
             </div>

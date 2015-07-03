@@ -34,7 +34,7 @@ class IndexController extends AbstractActionController
         $view->setVariable('homeBannerArr', $homeBannerArr);
         $hotdealbanner = $indexModel->projectBanner(1);
         $view->setVariable('hotdealbanner', $hotdealbanner);
-         return $view;
+        return $view;
     }
     public function buyAction()
     {
@@ -89,6 +89,8 @@ class IndexController extends AbstractActionController
         $view->setVariable('propertyTypeArr', $propertyTypeArr);
         $searchResultArr = $model->searchResultData($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr);
         $view->setVariable('searchResultArr', $searchResultArr);
+//        echo '<pre>';print_r($searchResultArr);exit;
+        
         return $view;
     }
 //    public function projectGridAction()

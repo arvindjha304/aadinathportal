@@ -133,22 +133,48 @@ use Zend\Db\Sql\Where;
         $searchResult = $this->searchProjects($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr);
         $searchResultArr = array();
         $count = 0;
+        $budget         = (isset($refineSearchArr['budget'])) ? $refineSearchArr['budget'] : '';
+        if($budget!=''){
+            $budgetArr = explode(',',$budget);
+            $maxprice = max($budgetArr);
+            
+            
+//            echo $maxprice;exit;
+        }
         foreach($searchResult as $search){
             $project_id = $search['project_id'];
-            $floor_plans = $this->getProjectFloorPlan($project_id);
+            $floor_plans = $this->getProjectFloorPlan($project_id,$minprice,$maxprice);
             if(count($floor_plans)){
                 $search['floor_plans'] = $floor_plans;
+                $search['max_floor_plan_price'] = $this->max_floor_plan_price($project_id,$minprice,$maxprice);
+                $search['min_floor_plan_price'] = $this->min_floor_plan_price($project_id,$minprice,$maxprice);
                 $searchResultArr[$count] = $search;
                 $count++;
             }
         }
         return $searchResultArr;
     }
-    public function getProjectFloorPlan($project_id){
+    public function max_floor_plan_price($project_id,$minprice,$maxprice){
+		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$sql="select concat(pfp.price,' ',pfp.price_unit) as maxPrice from project_floor_plan pfp where pfp.project_id=$project_id and pfp.search_price between $minprice and $maxprice order by pfp.search_price desc limit 1";
+        
+        
+//        echo $sql;exit;
+		$result =$db->query($sql)->execute()->current();
+		return $result['maxPrice'];
+	}
+    public function min_floor_plan_price($project_id,$minprice,$maxprice){
+		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$sql="select concat(pfp.price,' ',pfp.price_unit) as minPrice from project_floor_plan pfp where pfp.project_id=$project_id and pfp.search_price between $minprice and $maxprice order by pfp.search_price limit 1";
+		$result =$db->query($sql)->execute()->current();
+		return $result['minPrice'];
+	}
+    public function getProjectFloorPlan($project_id,$minprice,$maxprice){
         $table = new TableGateway('project_floor_plan',$this->getAdapter());
-        $floor_plans = $table->select(function($select) use ($project_id){
+        $floor_plans = $table->select(function($select) use ($project_id,$minprice,$maxprice){
             $select->order('size ASC');
             $select->where->equalTo('project_id',$project_id);
+            $select->where->between('search_price',$minprice,$maxprice);
         })->toArray();
         return $floor_plans;
     }
@@ -197,10 +223,17 @@ use Zend\Db\Sql\Where;
     }
     
     public function getBuilderList(){
-        
-        
+       // echo '<pre>';print_r($projectArr);exit;
        // echo 'AAAAAAAAAA';exit;
-        
+    }
+    public function getCityList(){
+        $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$sql = new Sql($db);
+		$select = $sql->select()
+        ->columns(array(new \Zend\Db\Sql\Expression('DISTINCT(city_name) as city'),'id as cityId'))
+		->from(array('ct'=>'cities'));
+		$result = $sql->prepareStatementForSqlObject($select)->execute();
+		return $result;
     }
     
     public function updateanywhere($mytable, array $data, $where) {

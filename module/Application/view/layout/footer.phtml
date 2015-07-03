@@ -1,6 +1,8 @@
 
 <?php $baseUrl = $this->basePath(); 
-$this->routeHelper()->indexmodel()->getBuilderList();
+$builderList = $this->routeHelper()->indexmodel()->getBuilderList();
+$cities = $this->routeHelper()->indexmodel()->getCityList();
+$citieList = $this->routeHelper()->indexmodel()->getCityList();
 ?>
 <!-- Top Builder========================================================================================== -->
   <!-- section 72 Builder--->
@@ -89,13 +91,9 @@ $this->routeHelper()->indexmodel()->getBuilderList();
         <div class="qlinks">
           <h4>Projects in india</h4>
           <ul>
-            <li><a href="projects.html"><i class="fa fa-angle-right"></i> Projects in Noida</a></li>
-            <li><a href="#"><i class="fa fa-angle-right"></i> Projects in Greater Noida</a></li>
-            <li><a href="#"><i class="fa fa-angle-right"></i> Projects in Raj Nagar Extension</a></li>
-            <li><a href="#"><i class="fa fa-angle-right"></i> Projects in Indirapuram</a></li>
-            <li><a href="#"><i class="fa fa-angle-right"></i> Projects in Noida Expressway</a></li>
-            <li><a href="#"><i class="fa fa-angle-right"></i> Projects in Ghaziabad</a></li>
-            <li><a href="#"><i class="fa fa-angle-right"></i> Projects in Gurgaon</a></li>
+             <?php foreach($cities as $city){?>
+              <li><a href=""><i class="fa fa-angle-right"></i> Projects in <?php echo $city['city']?></a></li>
+             <?php }?>
           </ul>
         </div>
       </div>
@@ -104,13 +102,9 @@ $this->routeHelper()->indexmodel()->getBuilderList();
         <div class="qlinks">
           <h4>Resale Property</h4>
           <ul>
-            <li><a href="projects-resale.html"><i class="fa fa-angle-right"></i> Resale in Noida</a></li>
-            <li><a href="#"><i class="fa fa-angle-right"></i> Resale in Greater Noida</a></li>
-            <li><a href="#"><i class="fa fa-angle-right"></i> Resale in Raj Nagar Extension</a></li>
-            <li><a href="#"><i class="fa fa-angle-right"></i> Resale in Indirapuram</a></li>
-            <li><a href="#"><i class="fa fa-angle-right"></i> Resale in Noida Expressway</a></li>
-            <li><a href="#"><i class="fa fa-angle-right"></i> Resale in Ghaziabad</a></li>
-            <li><a href="#"><i class="fa fa-angle-right"></i> Resale in Gurgaon</a></li>
+              <?php foreach($citieList as $city){?>
+              <li><a href=""><i class="fa fa-angle-right"></i> Resale in <?php echo $city['city']?></a></li>
+             <?php }?>
           </ul>
         </div>
       </div>

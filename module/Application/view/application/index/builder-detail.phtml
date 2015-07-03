@@ -167,7 +167,7 @@
 
               <div class="col-md-2 insidepg-proj-builder">
               <div class="row insidepg-proj-builder-img" align="center"><a href="#"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $searchResult['builder_image']?>"  class="img-responsive"></a></div>
-            <div class="row insidepg-proj-builder text-center"><?php if(count($floorSizeArr)){ ?><div class="proj-price-text"><span class="rupee">`</span>  <?php echo min($floorSizeArr);?> - <span class="rupee">`</span> <?php echo max($floorSizeArr);?></div><?php } ?>
+            <div class="row insidepg-proj-builder text-center"><?php if(count($floorSizeArr)){ ?><div class="proj-price-text"><span class="rupee">`</span>  <?php echo $searchResult['min_floor_plan_price'];?> - <span class="rupee">`</span> <?php echo $searchResult['max_floor_plan_price'];?></div><?php } ?>
                   POSSESSION <?php echo date('M', strtotime($searchResult['possession']))?> `<?php echo date('d', strtotime($searchResult['possession']))?></div>
               <div class="row text-center"><button type="button" class="btn btn-danger" onclick="return getCallBAck('<?php echo $searchResult['project_id']?>','<?php echo $searchResult['project_title']?>')">GET CALL BACK</button></div>
               </div>
@@ -175,15 +175,18 @@
               </div>  
 <?php
         $ii++; 
-        if($ii % 4 == 0 && $ii != count($this->searchResultArr)){?>
-
+        if($ii % 4 == 0 && $ii != count($this->searchResultArr)){
+            $container = new Zend\Session\Container('searchSessionFields');
+            $bannerArr = $container->projectBanner;
+            shuffle($bannerArr);
+            ?>
     <!---Add-Banner--->  
      <div class="container insidepg-proj-row">
      <div class="clearfix margin_top2"></div> 
-         <div class="row"><a style="float:left" href="#"><img src="<?php echo $baseUrl;?>/public/images/project/add-banner1.jpg"></a></div>
+         <div class="row"><a style="float:left" href="<?php echo $baseUrl;?>/index/project-detail?id=<?php echo $bannerArr[0]['project_id']?>"><img width="1160" height="100" src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $bannerArr[0]['banner_image']?>"></a></div>
      <div class="clearfix margin_top3"></div> 
      </div>
-    <?php }  
+    <?php }   
             }
         }
       }else{ ?>
@@ -221,10 +224,14 @@
      if($count % 4 == 0 && $count != count($this->searchResultArr)){ ?>
          <div style="border-bottom: 4px double #ccc;">&nbsp;</div>
     <?php }
-        if($count % 8 == 0){ ?>
+        if($count % 8 == 0){
+            $container = new Zend\Session\Container('searchSessionFields');
+            $bannerArr = $container->projectBanner;
+            shuffle($bannerArr);
+        ?>
         <div class="container insidepg-proj-row">
         <div class="clearfix margin_top3"></div> 
-        <div class="row"><a style="float:left" href="#"><img src="<?php echo $baseUrl;?>/public/images/project/add-banner1.jpg"></a></div>
+        <div class="row"><a style="float:left" href="<?php echo $baseUrl;?>/index/project-detail?id=<?php echo $bannerArr[0]['project_id']?>"><img width="1160" height="100" src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $bannerArr[0]['banner_image']?>"></a></div>
         <div class="clearfix margin_top3"></div> 
         </div>
     <?php }
