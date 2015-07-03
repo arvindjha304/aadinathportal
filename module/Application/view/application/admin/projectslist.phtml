@@ -60,16 +60,17 @@
 	var mygrid = new dhtmlXGridObject('manageuser');
 	mygrid.setSkin("dhx_skyblue");
 	mygrid.setImagePath("<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/imgs/");
-	mygrid.setHeader(",<b>Project</b>,<b>Plan</b>,<b>Builder</b>,<b>Status</b>,<b>Action</b>");							
-	mygrid.attachHeader("#master_checkbox,#text_filter,,,,");	
-	mygrid.setInitWidths(" 30, 150,150,150, 100, *");
-	mygrid.enableTooltips("false,false,false,false,false,false");
+	mygrid.setHeader(",<b>Project</b>,<b>Priority</b>,<b>Plan</b>,<b>Builder</b>,<b>Status</b>,<b>Action</b>");							
+	mygrid.attachHeader("#master_checkbox,#text_filter,,,,,");	
+	mygrid.setInitWidths(" 30, 150,100,150,100, 100, *");
+	mygrid.enableTooltips("false,false,false,false,false,false,false");
 	mygrid.enableAutoHeight(true);   
-	mygrid.setColAlign("center,left,left,left,left,left");
-	mygrid.setColTypes("ch,ro,ed,ro,ro,ro");
-	mygrid.setColSorting("na,str,str,str,str,str");
+	mygrid.setColAlign("center,left,left,left,left,left,left");
+	mygrid.setColTypes("ch,ro,ed,ro,ro,ro,ro");
+	mygrid.setColSorting("na,str,str,str,str,str,str");
 	mygrid.enablePaging(true, 10, null, "pagingArea", true, "recinfoArea");
 	mygrid.setPagingSkin("bricks");
+	mygrid.attachEvent("onEditCell",doOnCellEdit);
 	// mygrid.attachEvent("onXLS", function() { $("#preloader").show() });
 	// mygrid.attachEvent("onXLE", function() { $("#preloader").hide() });		
 	mygrid.attachEvent("onFilterEnd", callBack);													
@@ -80,7 +81,13 @@
 		
 		
 	}
-	
+	function doOnCellEdit(stage,rowId,cellInd,newValue,oldValue){
+		if(stage==2){
+			SITEROOT = '<?php echo $baseUrl?>';
+			$.post(SITEROOT+'/admin/updateprojectpriority', {id:rowId,value:newValue},function(response){}) ;
+		}
+		return true;
+	}
 	function deleteRow(id){
 		SITEROOT = '<?php echo $baseUrl?>';
 		$.post(SITEROOT+'/admin/projectsstatus', {id:id,action:'delete'},function(response){
