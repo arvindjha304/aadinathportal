@@ -65,6 +65,7 @@ use Zend\Db\Sql\Expression;
                     'builder',
 					'builtup_area',
 					'longitude',
+					'order',
 					'is_active'
 					
                 ))

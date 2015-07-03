@@ -815,6 +815,7 @@ class AdminController extends AbstractActionController
 				'buildings'             => 	$this->params()->fromPost('buildings'),
 				'configurations'		=> 	$this->params()->fromPost('configurations'),
 				'builder'               => 	$this->params()->fromPost('builder'),
+				'order'               => 	$this->params()->fromPost('priority'),
 				'possession'            => 	$newDate,
 				'project_desc'          => 	$this->params()->fromPost('project_desc'),
 				'city'                  => 	$this->params()->fromPost('city'),
@@ -912,10 +913,11 @@ public function projectslistdataAction()
 			$plan_type	        =	$val1['property_type'];
 			$builder_name	    =	$val1['builder_name'];
 			$builtup_area		=	 $val1['builtup_area'];
+			$order		        =	 $val1['order'];
 			$status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
 			$action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
 			$delete 		=	'<a href="'.$baseUrl.'/admin/addeditprojects?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
-			$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$project_title,$plan_type,$builder_name,$status,$delete.$action));
+			$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$project_title,$order,$plan_type,$builder_name,$status,$delete.$action));
 		}
 		$json = json_encode($dataArray);
 		//$jsonData = '{rows:'.$json.'}';
@@ -937,7 +939,16 @@ public function projectslistdataAction()
     	}
     	exit('1');
     }
-	
+	public function updateprojectpriorityAction()
+    {
+        if($this->getRequest()->isXmlHttpRequest()){
+    		$admin = $this->getServiceLocator()->get('Application\Model\Admin');
+    		$id 	= $this->params()->fromPost('id');
+    		$value 	= $this->params()->fromPost('value');
+			$admin->updateanywhere('projects', array('order'=>$value), array('id'=>$id));
+    		exit(1);
+    	}
+    }
 	public function getlocationsAction()
 	{
 	    if($this->getRequest()->isXmlHttpRequest()){
