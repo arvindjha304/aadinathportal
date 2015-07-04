@@ -3,6 +3,11 @@
 $builderList = $this->routeHelper()->indexmodel()->getBuilderList();
 $cities = $this->routeHelper()->indexmodel()->getCityList();
 $citieList = $this->routeHelper()->indexmodel()->getCityList();
+
+
+//echo $builderList[0]['builder_image'];exit;
+
+
 ?>
 <!-- Top Builder========================================================================================== -->
   <!-- section 72 Builder--->
@@ -13,38 +18,30 @@ $citieList = $this->routeHelper()->indexmodel()->getCityList();
         <div class="line white"></div>
       </h2>
       <div id="owl-demo14" class="owl-carousel">
+          <?php if(count($builderList)>=4){?>
         <div class="item" align="center">
-          <div class="one_fourth"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/builders/unnati-logo.png" alt="" /></a></div>
-          <!-- end section -->
-          <div class="one_fourth"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/builders/prateek-group-logo.png" alt="" /></a></div>
-          <!-- end section -->
-          <div class="one_fourth"><a href="builder-detail-list.html"><img src="<?php echo $baseUrl;?>/public/images/builders/supertech.png" alt="" /></a></div>
-          <!-- end section -->
-          <div class="one_fourth last"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/builders/sikka.png" alt="" /></a></div>
-          <!-- end section -->
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[0]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[0]['builder_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[1]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[1]['builder_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[2]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[2]['builder_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth last"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[3]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[3]['builder_image']?>" alt="" width="227" height="65" /></a></div>
         </div>
-        <!-- end slide -->
+          <?php }?>
+          <?php if(count($builderList)>=8){?>
         <div class="item">
-          <div class="one_fourth"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/builders/unnati-logo.png" alt="" /></a></div>
-          <!-- end section -->
-          <div class="one_fourth"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/builders/prateek-group-logo.png" alt="" /></a></div>
-          <!-- end section -->
-          <div class="one_fourth"><a href="builder-detail-list.html"><img src="<?php echo $baseUrl;?>/public/images/builders/supertech.png" alt="" /></a></div>
-          <!-- end section -->
-          <div class="one_fourth last"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/builders/sikka.png" alt="" /></a></div>
-          <!-- end section -->
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[5]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[5]['builder_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[6]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[6]['builder_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[7]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[7]['builder_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth last"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[8]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[8]['builder_image']?>" alt="" width="227" height="65" /></a></div>
         </div>
-        <!-- end slide -->
+          <?php }?>
+          <?php if(count($builderList)>=12){?>
         <div class="item">
-          <div class="one_fourth"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/builders/unnati-logo.png" alt="" /></a></div>
-          <!-- end section -->
-          <div class="one_fourth"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/builders/prateek-group-logo.png" alt="" /></a></div>
-          <!-- end section -->
-          <div class="one_fourth"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/builders/supertech.png" alt="" /></a></div>
-          <!-- end section -->
-          <div class="one_fourth last"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/builders/sikka.png" alt="" /></a></div>
-          <!-- end section -->
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[9]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[9]['builder_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[10]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[10]['builder_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[11]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[11]['builder_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth last"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[12]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[12]['builder_image']?>" alt="" width="227" height="65" /></a></div>
         </div>
+          <?php }?>
         <!-- end slide -->
       </div>
     </div>

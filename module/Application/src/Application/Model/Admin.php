@@ -67,7 +67,6 @@ use Zend\Db\Sql\Expression;
 					'longitude',
 					'order',
 					'is_active'
-					
                 ))
                 ->join('property_type', 'property_type.id = projects.property_type_id', array(
                     'property_type'

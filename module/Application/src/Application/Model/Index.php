@@ -223,8 +223,15 @@ use Zend\Db\Sql\Where;
     }
     
     public function getBuilderList(){
-       // echo '<pre>';print_r($projectArr);exit;
-       // echo 'AAAAAAAAAA';exit;
+        $table = new TableGateway('builders',$this->getAdapter());
+        $selectData = $table->select(function($select){
+        $select->columns(array('id','builder_image'))
+            ->where(array('is_active'=>1,'is_delete'=>0));
+        })->toArray();
+        shuffle($selectData);
+//         echo '<pre>';print_r($selectData);exit;
+        
+        return $selectData;
     }
     public function getCityList(){
         $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
