@@ -181,7 +181,7 @@ function previewImage(id){
         autosave_ask_before_unload: false
     });
 </script>
-
+<input type="text" id="errorMsg" style="width:0px;border:none">
 <div class="contant">
     <div class="heading"><?php echo $this->heading ?></div>
     <div class="contant1">
@@ -190,7 +190,7 @@ function previewImage(id){
             <?php if ($this->msg != '') { ?>
                 <div ><?php echo $this->msg ?></div>
             <?php } ?>
-           <span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"></span>
+                <span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"></span>
             <div class="content2-1">
                 <div class="content3-1"><span style="color:red">*</span> Property Type:</div>
                 <div class="content4-1">
@@ -779,7 +779,6 @@ function previewImage(id){
 	var error = 0;
 	var msg = '';
 
-
 	if(project_title ==''){
 		// alert('project_title  ='+project_title);return false;
 		var msg = 'Project Title cannot be empty.';
@@ -884,12 +883,16 @@ function previewImage(id){
 		var msg = 'Location Advantages cannot be empty.';
 		error = 1;
 	}
-
-
-	// alert('msg  ='+msg);return false;
-	
+    if(contact!=''){
+        var filter = /^[0-9-+]+$/;
+        if (filter.test(contact)==false) {
+            var msg = 'Invalid contact no.';
+            error = 1;
+        }
+    }
 	if(msg!=''){
 		$("#nameExist").text(msg).show();
+        $('#errorMsg').focus();
 		return false;
 	}else{
 		$('#projectform').submit();

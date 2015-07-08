@@ -69,6 +69,14 @@ function submitForm(){
 					$("#nameExist").hide();
 					error = 0;
 				}
+                var splChars = "*|,\":<>[]{}`\';()@&$#%";
+                for (var i = 0; i < name.length; i++) {
+                    if (splChars.indexOf(name.charAt(i)) != -1){
+                    $("#nameExist").text('Illegal characters detected.').show();
+					error = 1;
+					return false;
+                    }
+                }
 				if(error==0){
 					$('#cityform').submit();
 				}

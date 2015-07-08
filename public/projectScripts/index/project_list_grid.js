@@ -33,12 +33,11 @@ function submitCallBack(){
     }else{
          $('#callBackInputMobile').css('border-color','#ccc');
     }
-    
-    
     $('#callBackSubmit').hide();
     $('#callBackLoader').show();
     $.post(baseUrl+'/index/getcallback',{email:email,mobile:mobile,project_id:project_id},function(){
-        
+        $('#callBackSubmit').show();
+        $('#callBackLoader').hide();
         $('#myModal1').modal('hide');
     });
     

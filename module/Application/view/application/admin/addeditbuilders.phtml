@@ -195,6 +195,7 @@ function hasNumbers(t){
 }
 
 function submitForm(){
+    SITEROOT = '<?php echo $baseUrl?>';
 	var builder_name 	= $('#builder_name').val();
 	var about_builder 	= $('#about_builder').val();
 	var imagename 		= $('#imagename_1').val();
@@ -202,12 +203,22 @@ function submitForm(){
 	var priority 		= $('#priority').val();
 	var error = 0;
 	var msg = '';
+    if(builder_name!=''){
+        
+ 		$.post(SITEROOT+'/admin/checkname', {name:builder_name,field:'builders'},function(response){
+ 			if(response == '1'){
+                var msg = 'Builder Name entered already exists';
+                $("#nameExist").text(msg).show();
+                return false;
+ 			}
+ 		});
+ 	}
 	if(builder_name =='' ){
 		var msg = 'Builder Name cannot be empty.';
 		error = 1;
 	}else if ( tinyMCE.get('about_builder').getContent() == '' ){
-		alert('Description cannot be empty.');
-		return false;
+        var msg = 'Description cannot be empty.';
+		error = 1;
 	 }else if(imagename =='' ){
 		var msg = 'Builder Image cannot be empty.';
 		error = 1;
@@ -218,7 +229,7 @@ function submitForm(){
 		var msg = 'Priority cannot be empty.';
 		error = 1;
 	}
-
+    
 	if(msg!=''){
 		$("#nameExist").text(msg).show();
 		return false;

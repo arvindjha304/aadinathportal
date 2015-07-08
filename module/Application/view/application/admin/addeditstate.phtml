@@ -6,9 +6,10 @@
     <?php if($this->msg!=''){?>
 	<div><?php echo $this->msg?></div>
 	<?php }?>
+    <span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"></span>
 	<div class="content2">
 		<div class="content3"><span style="color:red">*</span> State:</div>
-        <div class="content4"><input name="state" type="text" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="stateName" value="<?php echo $this->stateDetail[0]['state_name']?>"/><span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"></span></div>
+        <div class="content4"><input name="state" type="text" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="stateName" value="<?php echo $this->stateDetail[0]['state_name']?>"/></div>
     </div>
 	<div class="content5">
 	
@@ -43,7 +44,8 @@ function submitForm(){
 				error = 1;
 				return false;
 			}else{
-				var chknumber = hasNumbers($('#stateName').val());
+                var stateName = $('#stateName').val();
+				var chknumber = hasNumbers(stateName);
 				if(chknumber==true){
 					$("#nameExist").text('State Name cannot have numbers.').show();
 					error = 1;
@@ -52,6 +54,14 @@ function submitForm(){
 					$("#nameExist").hide();
 					error = 0;
 				}
+                var splChars = "*|,\":<>[]{}`\';()@&$#%";
+                for (var i = 0; i < stateName.length; i++) {
+                    if (splChars.indexOf(stateName.charAt(i)) != -1){
+                    $("#nameExist").text('Illegal characters detected.').show();
+					error = 1;
+					return false;
+                    }
+                }
 				if(error==0){
 					$('#states').submit();
 				}

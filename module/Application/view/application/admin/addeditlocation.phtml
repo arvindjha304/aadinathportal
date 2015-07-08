@@ -60,7 +60,7 @@ $("#stateName").change(function(){
 				$('#cityName').html(response);
 				return false;
 			}else{
-				$('#cityName').html('');
+				$('#cityName').html('<option>No Data Found</option>');
 				return false;
 			}
 		});
@@ -99,26 +99,17 @@ function submitForm(){
 	}
 	SITEROOT = '<?php echo $baseUrl?>';
 	if(locationName!=''){
-		$.post(SITEROOT+'/admin/checkname', {name:locationName,field:'locations'},function(response){
-			if(response == '1'){
-				$("#nameExist").text('Name entered already exists.').show();
-				error = 1;
-				return false;
-			}else{
-				var chknumber = hasNumbers($('#locationName').val());
-				if(chknumber==true){
-					$("#nameExist").text('Location Name cannot have numbers.').show();
-					error = 1;
-					return false;
-				}else{
-					$("#nameExist").hide();
-					error = 0;
-				}
+//		$.post(SITEROOT+'/admin/checkname', {name:locationName,field:'locations'},function(response){
+//			if(response == '1'){
+//				$("#nameExist").text('Name entered already exists.').show();
+//				error = 1;
+//				return false;
+//			}else{
 				if(error==0){
 					$('#locationForm').submit();
 				}
-			}
-		});
+//			}
+//		});
 	}
 return false;
 }

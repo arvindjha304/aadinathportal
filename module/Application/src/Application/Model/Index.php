@@ -37,8 +37,74 @@ use Zend\Db\Sql\Where;
 		return $result;
 	}
 	
-    
-    
+    public function sendNewsLetter($data){
+        
+        $html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Express Zenith Newsletter</title>
+        </head>
+
+        <body style="margin:0; padding:0;">
+        <table width="640" border="0" cellpadding="0" cellspacing="0"  bgcolor="#fff" style="margin:auto; border:3px solid #02753e;">
+          <tr>
+            <td colspan="2" align="center" style="padding-top:20px; padding-bottom:10px;"><img width="252" height="61" src="http://aadinathindia.com/public/images/builders/sikka.png" /></td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center" style="font-family:Arial, Helvetica, sans-serif;font-size:60px;font-weight:bold;color:#b7291d">Express Zenith</td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center" style="font-family:Arial, Helvetica, sans-serif;font-size:24px;font-weight:bold;padding-top:5px;padding-bottom:20px;">SECTOR - 77, NOIDA</td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center" style="font-family:Arial, Helvetica, sans-serif;font-size:24px;font-weight:bold;padding:10px;color:#fff;background-color:#02753e;">For Booking, Call us on +91-8882 770 770</td>
+          </tr>
+          <tr>    
+            <td align="left" style="padding-left:20px;padding-top:20px;"><a href="#"><img width="98" height="50" src="img/logo.jpg" /></a></td>
+            <td align="right" style="padding-right:20px;padding-top:20px;font-size:16px;color:#b7291d;text-shadow:1px 1px #999;line-height:22px;font-weight:bold;font-family:"Times New Roman", Times, serif;"><span style="font-size:24px;">Price</span><br /> 0000 /- Sq Ft Onwards</td>
+          </tr>
+          <tr>
+            <td colspan="2" align="justify" style="font-family:Arial, Helvetica, sans-serif;font-size:12px;padding:10px 20px 10px 20px;color:#333;line-height:20px;font-weight:600">    
+            <p>Express Zenith, an iconic project unleashed by the Express Group is located in Noida Sector 77. It offers posh 2/3 bhk residential apartments with an exclusive limited edition of 700 units. Being constructed across a prime land of 5.5 acres, this beautiful township constitutes of 6 towers and 19 floors. This project has been conceptualized thoughtfully with a provision of spaciously designed apartment size ranging from 1075-1765 sqft.</p>
+            </td>
+          </tr>  
+          <tr>
+            <td colspan="2"><img width="634" height="250" src="img/slider.jpg" /></td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center" style="padding:10px;"><a href="#" style="text-decoration:none;"><div style="width:220px;background-color:#b7291d;border-radius: 35px 35px 35px 35px;-moz-border-radius: 35px 35px 35px 35px;-webkit-border-radius: 35px 35px 35px 35px;border:0px solid #000000;color:#fff;font-size:14px;font-weight:bold;font-family:Arial, Helvetica, sans-serif;padding:7px;text-align:center;">Click here to view details</div></a></td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center" style="font-family:Arial, Helvetica, sans-serif;font-size:12px;color:#333;line-height:16px;">For further information on projects, you can get in touch with us<br />
+        through email, phone or visit us online </td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center" style="font-family:Arial, Helvetica, sans-serif;font-size:13px;padding:10px;color:#333;line-height:16px;font-weight:600;">Phone: +91-8882-770-770 &nbsp;|&nbsp; Email: <a href="#">ceo@urbanavenues.in</a> &nbsp;|&nbsp; Website: <a href="#">urbanavenues.in</a></td>           </tr>
+        </table>
+        </body>
+        </html>'; 
+       // $projectDetail = $this->getProjectDetail($id);
+        $m = new \Zend\Mail\Message();
+        $m->addFrom('noreply@aadinath.co,', '')
+          ->addTo('ally@me.com', 'Ally Joe')
+          ->setSubject('Test');
+
+        $bodyPart = new \Zend\Mime\Message();
+
+        $bodyMessage = new \Zend\Mime\Part($html);
+        $bodyMessage->type = 'text/html';
+
+        $bodyPart->setParts(array($bodyMessage));
+
+        $m->setBody($bodyPart);
+        $m->setEncoding('UTF-8');
+        
+        $transport = new \Mail\Transport\Sendmail();
+        $transport->send($m);
+        
+    }
+
     public function searchProjects($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr,$builderId=''){
         
         $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
@@ -169,11 +235,12 @@ use Zend\Db\Sql\Where;
 		$result =$db->query($sql)->execute()->current();
 		return $result['minPrice'];
 	}
-    public function getProjectFloorPlan($project_id,$minprice,$maxprice){
+    public function getProjectFloorPlan($project_id,$minprice='',$maxprice=''){
         $table = new TableGateway('project_floor_plan',$this->getAdapter());
         $floor_plans = $table->select(function($select) use ($project_id,$minprice,$maxprice){
             $select->order('size ASC');
             $select->where->equalTo('project_id',$project_id);
+            if($minprice!='' && $maxprice!='')
             $select->where->between('search_price',$minprice,$maxprice);
         })->toArray();
         return $floor_plans;

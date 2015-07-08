@@ -62,7 +62,8 @@ class AdminController extends AbstractActionController
 			    		$adminModel->insertanywhere('states',$data);
 			    		$msg = 'State Added Successfully.';
 		    		}
-	    		}	
+	    		}
+            $this->redirect()->toUrl('statelist');
     	}
     	if(isset($id)){
     	
@@ -155,16 +156,9 @@ class AdminController extends AbstractActionController
     	$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
     	$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
     	$stateTable = new TableGateway('states', $adapter);
-    	
-    	
     	$rowset = $stateTable->select(array('is_delete'=>0))->toArray();
     	$view->setVariable('stateList', $rowset);
-    	
-    	
 //     	echo '<pre>';print_r($rowset);exit;
-    	
-    	
-    	 
     	$msg = '';
     	$request = $this->getRequest();
     	if ($request->isPost()) {
@@ -193,6 +187,7 @@ class AdminController extends AbstractActionController
     			$msg = 'City Added Successfully.';
 				
     		}
+            $this->redirect()->toUrl('citylist');
     	}
     	if(isset($id)){
     		 
@@ -215,24 +210,21 @@ class AdminController extends AbstractActionController
     public function citylistdataAction()
     {
     	$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
-    	
-    	
-//     	echo '<pre>';print_r($rowset);exit;
-    	
-    	
-    	$statelist = $adminModel->getAllCities();
+    	$citylist = $adminModel->getAllCities();
     	$dataArray = array();
     	$baseUrl = $this->getRequest()->getbaseUrl();
-    	foreach($statelist as $val1)
-    	{
-    		$temp_arr = array();
-    		$city_name		=	$val1['city_name'];
-    		$state_name		=	$val1['state_name'];
-    		$status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
-    		$action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
-    		$delete 		=	'<a href="'.$baseUrl.'/admin/addeditcity?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
-    		$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$city_name,$state_name,$status,$delete.$action));
-    	}
+        if(count($citylist)){
+            foreach($citylist as $val1)
+            {
+                $temp_arr = array();
+                $city_name		=	$val1['city_name'];
+                $state_name		=	$val1['state_name'];
+                $status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
+                $action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
+                $delete 		=	'<a href="'.$baseUrl.'/admin/addeditcity?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+                $dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$city_name,$state_name,$status,$delete.$action));
+            }
+        }
     	$json = json_encode($dataArray);
     	$jsonData = '{rows:'.$json.'}';
     	exit('{rows:'.$json.'}');
@@ -263,7 +255,7 @@ class AdminController extends AbstractActionController
     	);
     	$where = array(
     		'id'	=> 	$id,
-    	);    	 
+    	); 
     	if($action=='delete'){
     		$adminModel->deleteanywhere($table,$where);
     	}else{
@@ -281,27 +273,15 @@ class AdminController extends AbstractActionController
     	$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
     	$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
     	$stateTable = new TableGateway('states', $adapter);
-    	 
-    	 
     	$stateList = $stateTable->select(array('is_delete'=>0))->toArray();
     	$view->setVariable('stateList', $stateList);
-    	 
-    	 
     	//     	echo '<pre>';print_r($rowset);exit;
-    	 
-    	 
-    
     	$msg = '';
     	$request = $this->getRequest();
     	if ($request->isPost()) {
-    
     		$state 		= $this->params()->fromPost('state');
     		$city_id  	= $this->params()->fromPost('city');
     		$location  	= $this->params()->fromPost('location');
-    		
-//     echo $location;exit;		
-    		
-    		
     		if(isset($id)){
     
     			$data = array(
@@ -325,6 +305,8 @@ class AdminController extends AbstractActionController
     			$adminModel->insertanywhere('locations',$data);
     			$msg = 'Location Added Successfully.';
     		}
+            
+            $this->redirect()->toUrl('locationlist');
     	}
     	if(isset($id)){
     		 
@@ -426,7 +408,6 @@ class AdminController extends AbstractActionController
     	$stateTable = new TableGateway('property_category', $adapter);
     	$propertyCategoryList = $stateTable->select()->toArray();
     	$view->setVariable('propertyCategoryList', $propertyCategoryList);
-    
     	//     	echo '<pre>';print_r($rowset);exit;
     	$msg = '';
     	$request = $this->getRequest();
@@ -454,6 +435,7 @@ class AdminController extends AbstractActionController
     			$adminModel->insertanywhere('property_type',$data);
     			$msg = 'Property Type Added Successfully.';
     		}
+            $this->redirect()->toUrl('propertytypelist');
     	}
     	if(isset($id)){
     		 
@@ -518,10 +500,7 @@ class AdminController extends AbstractActionController
     	$this->layout('layout/layoutadmin');
     	$id = $this->params()->fromQuery('id');
     	$view->setVariable('heading',(isset($id)) ? 'Edit Amenities' : 'Add Amenities');
-    	 
     	$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
-    	
-    	
     	$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
     	$amenityTypeTable = new TableGateway('amenity_type_list', $adapter);
     	$amenityTypeList = $amenityTypeTable->select()->toArray();
@@ -563,6 +542,7 @@ class AdminController extends AbstractActionController
 		    		}
 	    			$msg = 'Amenitiy Added Successfully.';
 	    		}
+            $this->redirect()->toUrl('amentieslist');    
     	}
     	if(isset($id)){
     		$stateTable = new TableGateway('amenities', $adapter);
@@ -648,7 +628,6 @@ class AdminController extends AbstractActionController
 		$view->setVariable('heading',(isset($id)) ? 'Edit Builder' : 'Add Builder');
 		$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
 		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
-
 		//     	echo '<pre>';print_r($rowset);exit;
 		$msg = '';
 		$request = $this->getRequest();
@@ -673,6 +652,7 @@ class AdminController extends AbstractActionController
 				$adminModel->insertanywhere('builders',$data);
 				$msg = 'Builder Added Successfully.';
 			}
+            $this->redirect()->toUrl('builderlist');
 		}
 		if(isset($id)){
 			 
@@ -756,38 +736,22 @@ class AdminController extends AbstractActionController
 		$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
 		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$property_types = $adminModel->getPropertyTypesForListing();
-        
 //        echo '<pre>';print_r($property_types); EXIT;
-        
-        
 		$view->setVariable('property_types', $property_types);
-		
 		$artistTable = new TableGateway('builders', $adapter);
-		
 		$builderList = $artistTable->select(function($select){
 			$select->order('priority ASC');
 			$select->where('is_active', '1');
 		})->toArray();
-	
 		$view->setVariable('builderList', $builderList);
-		
 		$artistTable = new TableGateway('cities', $adapter);
-		
 		$cityList = $artistTable->select(array('is_active'=> '1'))->toArray();
-	
 		$view->setVariable('cityList', $cityList);
-		
-		
-		
-		
-		
 		$adminModel = $this->getModel();
 		$aminityList = $adminModel->getAminityList();
 		$view->setVariable('aminityList', $aminityList);
-		
 		$aminityList = $adminModel->getAminityList();
 		$view->setVariable('aminityListtt', $aminityList);
-		
 //	echo '<pre>';print_r($_POST); EXIT;
 		$msg = '';
 		$request = $this->getRequest();
@@ -867,18 +831,9 @@ class AdminController extends AbstractActionController
 				$adminModel->insertanywhere('projects',$data);
 				$msg = 'Project Added Successfully.';
 			}
+            $this->redirect()->toUrl('projectslist');
 		}
 		if(isset($id)){
-			
-			// $stateTable = new TableGateway('locations', $adapter);
-    		// $locationDetail = $stateTable->select(array('id' => $id))->toArray();
-    		// $city_id 	= $locationDetail[0]['city_id'];
-    		// $state_id 	= $locationDetail[0]['state_id'];  
-    		// $citiesTable = new TableGateway('cities', $adapter);
-    		// $cityOptions = $citiesTable->select(array('state_id' => $state_id))->toArray();
-    		// $view->setVariable('cityOptions', $cityOptions);
-    		// $view->setVariable('locationDetail', $locationDetail);
-			 
 			$stateTable = new TableGateway('projects', $adapter);
 			$projectsDetail = $stateTable->select(array('id' => $id))->toArray();
 			$loc_id 	= $projectsDetail[0]['location'];
@@ -979,13 +934,8 @@ public function projectslistdataAction()
 		$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
 		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$property_types = $adminModel->getfloorTypesForListing();
-        
 //        echo '<pre>';print_r($property_types); EXIT;
-        
-        
 		$view->setVariable('property_types', $property_types);
-
-		
 // 		echo '<pre>';print_r($cityList);exit;
 		$msg = '';
 		$request = $this->getRequest();
@@ -1014,6 +964,7 @@ public function projectslistdataAction()
 				$adminModel->insertanywhere('project_floor_plan',$data);
 				$msg = 'Floor Plan Added Successfully.';
 			}
+            $this->redirect()->toUrl('floorplanlist');
 		}
 		if(isset($id)){
 			 

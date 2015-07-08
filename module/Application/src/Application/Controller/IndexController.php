@@ -150,7 +150,6 @@ class IndexController extends AbstractActionController
         }
         $view->setVariable('floorSizeArr', $floorSizeArr);
         $view->setVariable('floorPriceArr', $floorPriceArr);
-        
         return $view;
     }
     public function getcallbackAction(){
@@ -161,8 +160,10 @@ class IndexController extends AbstractActionController
                 'mobile'        => $this->params()->fromPost('mobile'),
                 'date_created'  => date('Y-m-d H-i-s'),
             );
-            if($data['mobile']!='')
+            if($data['mobile']!=''){
                 $this->getModel()->insertanywhere('callback_interested_users', $data);
+                $this->getModel()->sendNewsLetter($data);
+            } 
             exit(1);
         }
     }

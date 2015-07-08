@@ -1,4 +1,8 @@
-<?php $baseUrl = $this->basePath(); ?>
+<?php $baseUrl = $this->basePath(); 
+
+//     	echo '<pre>';print_r($this->amenityDetail);exit;
+
+?>
 <script src="<?php echo $baseUrl;?>/public/js/ajaxupload.3.5.js"></script>
 <script type="text/javascript">
 var deletedDivArray = [];
@@ -141,7 +145,7 @@ function delDiv(id){
 			<?php }?>
 			<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_1" onclick="return previewImage('1')">Preview</button>
 			<div class="am" >
-		        <div class="" id="files_1" style="display: none">
+		        <div class="" id="files_1">
 		        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
 					<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
 				<?php }?>
@@ -239,6 +243,12 @@ function hasNumbers(t){
 }
 
 function submitForm(){
+    var imagename_1 = $('#imagename_1').val();
+    var amenityName_1 = $('#amenityName_1').val();
+    if(imagename_1=='' || amenityName_1==''){
+        $("#nameExist").text('Atleast 1 amenity must be entered.').show();
+		return false;
+    }
 	$('#amenityform').submit();
 }
 

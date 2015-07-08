@@ -98,8 +98,10 @@ use Zend\Db\Sql\Expression;
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$sql = new Sql($db);
 		$select = $sql->select()
+        ->columns(array('id','city_name','is_active'))
 		->from(array('ct'=>'cities'))
-		->join(array('st'=>'states'),'ct.state_id=st.id');
+		->join(array('st'=>'states'),'ct.state_id=st.id',array('state_name'))
+        ->where(array('ct.is_delete'=> '0','st.is_delete'=> '0'));
 		$result = $sql->prepareStatementForSqlObject($select)->execute();
 		return $result;
 		
@@ -230,16 +232,19 @@ use Zend\Db\Sql\Expression;
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		if($field == 'states'){
 			$name = trim(strtolower($name));
-			$sql="select state_name from $field st where TRIM(LOWER(st.state_name))='$name'";
+			$sql="select state_name from $field st where TRIM(LOWER(st.state_name))='$name' and is_active=1 and is_delete=0";
 		}elseif($field == 'cities'){
 			$name = trim(strtolower($name));
-			$sql="select city_name from $field st where TRIM(LOWER(st.city_name))='$name'";
+			$sql="select city_name from $field st where TRIM(LOWER(st.city_name))='$name' and is_active=1 and is_delete=0";
 		}elseif($field == 'locations'){
 			$name = trim(strtolower($name));
-			$sql="select location_name from $field st where TRIM(LOWER(st.location_name))='$name'";
+			$sql="select location_name from $field st where TRIM(LOWER(st.location_name))='$name' and is_active=1 and is_delete=0";
 		}elseif($field == 'property_type'){
 			$name = trim(strtolower($name));
-			$sql="select property_type from $field st where TRIM(LOWER(st.property_type))='$name'";
+			$sql="select property_type from $field st where TRIM(LOWER(st.property_type))='$name' and is_active=1 and is_delete=0";
+		}elseif($field == 'builders'){
+			$name = trim(strtolower($name));
+			$sql="select builder_name from $field st where TRIM(LOWER(st.builder_name))='$name' and is_active=1 and is_delete=0";
 		}
 		$result =$db->query($sql)->execute()->current();
 		return $result;
