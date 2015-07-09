@@ -203,16 +203,8 @@ function submitForm(){
 	var priority 		= $('#priority').val();
 	var error = 0;
 	var msg = '';
-    if(builder_name!=''){
-        
- 		$.post(SITEROOT+'/admin/checkname', {name:builder_name,field:'builders'},function(response){
- 			if(response == '1'){
-                var msg = 'Builder Name entered already exists';
-                $("#nameExist").text(msg).show();
-                return false;
- 			}
- 		});
- 	}
+    
+    
 	if(builder_name =='' ){
 		var msg = 'Builder Name cannot be empty.';
 		error = 1;
@@ -233,21 +225,20 @@ function submitForm(){
 	if(msg!=''){
 		$("#nameExist").text(msg).show();
 		return false;
-	}else{
-		$('#builderform').submit();
-	}	
+	}
+    if(builder_name!=''){
+        
+ 		$.post(SITEROOT+'/admin/checkname', {name:builder_name,field:'builders'},function(response){
+ 			if(response == '1'){
+                var msg = 'Builder Name entered already exists';
+                $("#nameExist").text(msg).show();
+                return false;
+ 			}else{
+                $('#builderform').submit();
+            }
+ 		});
+ 	} 
+    return false;
 }
 
-// $("#cityName").blur(function(){
-// 	var name = $(this).val();
-//	SITEROOT = '<?php echo $baseUrl?>';
-// 	if(name!=''){
-// 		$.post(SITEROOT+'/admin/checkname', {name:name,field:'cities'},function(response){
-// 			if(response == '1'){
-// 				alert('Name entered already exists');
-// 				return false;
-// 			}
-// 		});
-// 	}
-// });
 </script>

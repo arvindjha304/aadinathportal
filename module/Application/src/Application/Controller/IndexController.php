@@ -226,5 +226,11 @@ class IndexController extends AbstractActionController
         
         return $view;
     }
+    public function mapsearchAction()
+    {
+        $view = new ViewModel();
+        $this->layout('layout/searchmaplayout');
+        return $view;
+    }
     
 }

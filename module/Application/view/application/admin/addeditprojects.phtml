@@ -132,9 +132,21 @@ function previewImage(id){
 }
  $(function() {
     $( "#possessiondate" ).datepicker();
-    
     $( "#completed_on" ).datepicker();
   });
+function delBanner(id){
+    $('#imagename_'+id).val('');
+    $('#files_'+id).html('');
+    return false;
+}
+$('#project_status').change(function(){
+  if($(this).val()==1)
+    $('#completed_on_div').hide();
+  else{
+    $('#completed_on').val('');
+    $('#completed_on_div').show();
+  }
+});
 </script>
 <script type="text/javascript">
     tinyMCE.init({
@@ -365,22 +377,19 @@ function previewImage(id){
 			 <div class="content2-1">
                 <div class="content3-1"><span style="color:red">*</span> Project Status:</div>
                 <div class="content4-1">
-                    <select id="project_status" name="project_status" onchange="ReverseDisplay('uniquename')" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
-                             
-                                         <option  value="">Select Project Status</option>   
-										  <option  value="1" >Ongoing Project</option>   
-										   <option  value="2" onchange="ReverseDisplay('uniquename')">Completed Project</option>   
-                                   
-
+                    <select id="project_status" name="project_status" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
+                    <option value="">Select Project Status</option>   
+                    <option <?php if($this->projectsDetail[0]['project_status']==1) echo 'selected'?> value="1">Ongoing Project</option>   
+                    <option <?php if($this->projectsDetail[0]['project_status']==2) echo 'selected'?> value="2">Completed Project</option> 
                     </select>
                 </div>
             </div>
 
            
-            <div class="content2-1" id="uniquename" >
+            <div class="content2-1" id="completed_on_div" >
                 <div class="content3-1"> <span style="color:red">*</span> Completed On: </div>
                 <div class="content4-1">
-                    <input type="text" name="completion_date" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="completed_on" value="<?php if($this->projectsDetail[0]['completion_date']!='')  { echo $this->projectsDetail[0]['completion_date'];}?>"/>
+                    <input type="text" name="completion_date" style="width:246px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="completed_on" value="<?php if($this->projectsDetail[0]['completion_date']!='')  { echo date('Y-m-d',  strtotime($this->projectsDetail[0]['completion_date']));}?>"/>
                 </div>
             </div>
             <div class="heading-1"> Search Price & Size (e.g. only 0-9 digits.) </div>
@@ -465,13 +474,16 @@ function previewImage(id){
                 <input type='hidden' name='slide_image_1' id='imagename_1' value='<?php if ($this->projectsDetail[0]['slide_image_1']!='') echo $this->projectsDetail[0]['slide_image_1']; ?>'>
                 <div class="content3-1"><span style="color:red">*</span> Slide Image 1:(850 * 400)</div>
                 <div class="content4-1"><button class="" style="" id="upload_1">Browse</button>
-                <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_1" onclick="return previewImage('1')">Preview</button>
+                <?php if($this->projectsDetail[0]['slide_image_1']!='') {?>
+                <button id=" " class="" onclick="return delBanner('1')" style="width:69px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+                <?php }?>    
                     <div class="am2" >
-                        <div class="" id="files_1" style="display: none">
-                        </div>
+                        <div class="" id="files_1">
                         <?php if ($this->projectsDetail[0]['slide_image_1']!='') { ?>
                             <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_1']; ?>"/> 
                         <?php } ?>
+                        </div>
+                       
                     </div>
                 </div>  
             </div>
@@ -479,13 +491,16 @@ function previewImage(id){
                 <input type='hidden' name='slide_image_2' id='imagename_2' value='<?php if ($this->projectsDetail[0]['slide_image_2']!='') echo $this->projectsDetail[0]['slide_image_2']; ?>'>
                 <div class="content3-1"><span style="color:red">*</span> Slide Image 2:(850 * 400)</div>
                 <div class="content4-1"><button class="" style="" id="upload_2">Browse</button>
-                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_2" onclick="return previewImage('2')">Preview</button>
+                    <?php if($this->projectsDetail[0]['slide_image_2']!='') {?>
+                <button id=" " class="" onclick="return delBanner('2')" style="width:69px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+                <?php }?>
                     <div class="am2" >
-                        <div class="" id="files_2" style="display: none">
-                        </div>
-                        <?php if ($this->projectsDetail[0]['slide_image_2']!='') { ?>
+                        <div class="" id="files_2">
+                             <?php if ($this->projectsDetail[0]['slide_image_2']!='') { ?>
                             <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_2']; ?>"/> 
                         <?php } ?>
+                        </div>
+                       
                     </div>
                 </div>  
             </div>
@@ -493,12 +508,16 @@ function previewImage(id){
                 <input type='hidden' name='slide_image_3' id='imagename_3' value='<?php if ($this->projectsDetail[0]['slide_image_3']!='') echo $this->projectsDetail[0]['slide_image_3']; ?>'>
                 <div class="content3-1"><span style="color:red">*</span> Slide Image 3:(850 * 400)</div>
                 <div class="content4-1"><button class="" style="" id="upload_3">Browse</button>
-                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_3" onclick="return previewImage('3')">Preview</button>
+                <?php if($this->projectsDetail[0]['slide_image_3']!='') {?>
+                <button id=" " class="" onclick="return delBanner('3')" style="width:69px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+                <?php }?>
                     <div class="am2" >
-                        <div class="" id="files_3" style="display: none"> </div>
+                        <div class="" id="files_3">
                         <?php if ($this->projectsDetail[0]['slide_image_3']!='') { ?>
                             <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_3']; ?>"/> 
                         <?php } ?>
+                        </div>
+                        
                     </div>
                 </div>  
             </div>
@@ -506,7 +525,9 @@ function previewImage(id){
                 <input type='hidden' name='slide_image_4' id='imagename_4' value='<?php if ($this->projectsDetail[0]['slide_image_4']!='') echo $this->projectsDetail[0]['slide_image_4']; ?>'>
                 <div class="content3-1"><span style="color:red">*</span> Slide Image 4:(850 * 400)</div>
                 <div class="content4-1"><button class="" style="" id="upload_4">Browse</button>
-                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_4" onclick="return previewImage('4')">Preview</button>
+                    <?php if($this->projectsDetail[0]['slide_image_4']!='') {?>
+                <button id=" " class="" onclick="return delBanner('4')" style="width:69px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+                <?php }?>
                     <div class="am2" >
                         <div class="" id="files_4" style="display: none"> </div>
                         <?php if ($this->projectsDetail[0]['slide_image_4']!='') { ?>
@@ -520,12 +541,16 @@ function previewImage(id){
                 <input type='hidden' name='slide_image_5' id='imagename_5' value='<?php if ($this->projectsDetail[0]['slide_image_5']!='') echo $this->projectsDetail[0]['slide_image_5']; ?>'>                
                 <div class="content3-1"><span style="color:red">*</span> Slide Image 5:(850 * 400)</div>
                 <div class="content4-1"><button class="" style="" id="upload_5">Browse</button>
-                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_5" onclick="return previewImage('5')">Preview</button>
+                    <?php if($this->projectsDetail[0]['slide_image_5']!='') {?>
+                <button id=" " class="" onclick="return delBanner('5')" style="width:69px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+                <?php }?>
                     <div class="am2" >
-                        <div class="" id="files_5" style="display: none"> </div>
+                        <div class="" id="files_5" > 
                         <?php if ($this->projectsDetail[0]['slide_image_5']!='') { ?>
                             <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_5']; ?>"/> 
                         <?php } ?>
+                        </div>
+                        
                     </div>
                 </div>  
             </div>
@@ -533,12 +558,16 @@ function previewImage(id){
                 <input type='hidden' name='slide_image_6' id='imagename_6' value='<?php if ($this->projectsDetail[0]['slide_image_6']!='') echo $this->projectsDetail[0]['slide_image_6']; ?>'>
                 <div class="content3-1"><span style="color:red">*</span> Slide Image 6:(850 * 400)</div>
                 <div class="content4-1"><button class="" style="" id="upload_6">Browse</button>
-                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_6" onclick="return previewImage('6')">Preview</button>
+                    <?php if($this->projectsDetail[0]['slide_image_6']!='') {?>
+                <button id=" " class="" onclick="return delBanner('6')" style="width:69px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+                <?php }?>
                     <div class="am2" >
-                        <div class="" id="files_6" style="display: none"></div>
-                        <?php if ($this->projectsDetail[0]['slide_image_6']!='') { ?>
+                        <div class="" id="files_6">
+                             <?php if ($this->projectsDetail[0]['slide_image_6']!='') { ?>
                             <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_6']; ?>"/> 
                         <?php } ?>
+                        </div>
+                       
                     </div>
                 </div>  
             </div>
@@ -546,12 +575,16 @@ function previewImage(id){
                 <input type='hidden' name='slide_image_7' id='imagename_7' value='<?php if ($this->projectsDetail[0]['slide_image_7']!='') echo $this->projectsDetail[0]['slide_image_7']; ?>'>
                 <div class="content3-1"><span style="color:red">*</span> Slide Image 7:(850 * 400)</div>
                 <div class="content4-1"><button class="" style="" id="upload_7">Browse</button>
-                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_7" onclick="return previewImage('7')">Preview</button>
+                    <?php if($this->projectsDetail[0]['slide_image_7']!='') {?>
+                <button id=" " class="" onclick="return delBanner('7')" style="width:69px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+                <?php }?>
                     <div class="am2" >
-                        <div class="" id="files_7" style="display: none"></div>
-                        <?php if ($this->projectsDetail[0]['slide_image_7']!='') { ?>
+                        <div class="" id="files_7">
+                             <?php if ($this->projectsDetail[0]['slide_image_7']!='') { ?>
                             <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_7']; ?>"/> 
                         <?php } ?>
+                        </div>
+                       
                     </div>
                 </div>  
             </div>
@@ -559,12 +592,16 @@ function previewImage(id){
                 <input type='hidden' name='slide_image_8' id='imagename_8' value='<?php if ($this->projectsDetail[0]['slide_image_8']!='') echo $this->projectsDetail[0]['slide_image_8']; ?>'>
                 <div class="content3-1"><span style="color:red">*</span> Slide Image 8:(850 * 400)</div>
                 <div class="content4-1"><button class="" style="" id="upload_8">Browse</button>
-                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_8" onclick="return previewImage('8')">Preview</button>
+                    <?php if($this->projectsDetail[0]['slide_image_8']!='') {?>
+                <button id=" " class="" onclick="return delBanner('8')" style="width:69px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+                <?php }?>
                     <div class="am2" >
-                        <div class="" id="files_8" style="display: none"></div>
-                        <?php if ($this->projectsDetail[0]['slide_image_8']!='') { ?>
+                        <div class="" id="files_8">
+                             <?php if ($this->projectsDetail[0]['slide_image_8']!='') { ?>
                             <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_8']; ?>"/> 
                         <?php } ?>
+                        </div>
+                       
                     </div>
                 </div>  
             </div>
@@ -572,12 +609,16 @@ function previewImage(id){
                 <input type='hidden' name='slide_image_9' id='imagename_9' value='<?php if ($this->projectsDetail[0]['slide_image_9']!='') echo $this->projectsDetail[0]['slide_image_9']; ?>'>
                 <div class="content3-1"><span style="color:red">*</span> Slide Image 9:(850 * 400)</div>
                 <div class="content4-1"><button class="" style="" id="upload_9">Browse</button>
-                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_9" onclick="return previewImage('9')">Preview</button>
+                    <?php if($this->projectsDetail[0]['slide_image_9']!='') {?>
+                <button id=" " class="" onclick="return delBanner('9')" style="width:69px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+                <?php }?>
                     <div class="am2" >
-                        <div class="" id="files_9" style="display: none"></div>
-                        <?php if ($this->projectsDetail[0]['slide_image_9']!='') { ?>
+                        <div class="" id="files_9">
+                            <?php if ($this->projectsDetail[0]['slide_image_9']!='') { ?>
                             <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_9']; ?>"/> 
                         <?php } ?>
+                        </div>
+                        
                     </div>
                 </div>  
             </div>
@@ -585,12 +626,16 @@ function previewImage(id){
                 <input type='hidden' name='slide_image_10' id='imagename_10' value='<?php if ($this->projectsDetail[0]['slide_image_10']!='') echo $this->projectsDetail[0]['slide_image_10']; ?>'>
                 <div class="content3-1"><span style="color:red">*</span> Slide Image 10:(850 * 400)</div>
                 <div class="content4-1"><button class="" style="" id="upload_10">Browse</button>
-                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_10" onclick="return previewImage('10')">Preview</button>
+                    <?php if($this->projectsDetail[0]['slide_image_10']!='') {?>
+                <button id=" " class="" onclick="return delBanner('10')" style="width:69px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+                <?php }?>
                     <div class="am2" >
-                        <div class="" id="files_10" style="display: none"></div>
-                        <?php if ($this->projectsDetail[0]['slide_image_10']!='') { ?>
+                        <div class="" id="files_10">
+                            <?php if ($this->projectsDetail[0]['slide_image_10']!='') { ?>
                             <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_10']; ?>"/> 
                         <?php } ?>
+                        </div>
+                        
                     </div>
                 </div>  
             </div>
@@ -598,12 +643,15 @@ function previewImage(id){
                 <input type='hidden' name='project_image' id='imagename_11' value='<?php if ($this->projectsDetail[0]['project_image']!='') echo $this->projectsDetail[0]['project_image']; ?>'>
                 <div class="content3-1"><span style="color:red">*</span> Project Image:(275 * 210)</div>
                 <div class="content4-1"><button class="" style="" id="project_image_upload">Browse</button>
-                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_11" onclick="return previewImage('11')">Preview</button>
+                    <?php if($this->projectsDetail[0]['project_image']!='') {?>
+                <button id=" " class="" onclick="return delBanner('11')" style="width:69px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+                <?php }?>
                     <div class="am2" >
-                        <div class="" id="files_11" style="display: none"></div>
+                        <div class="" id="files_11">
                         <?php if ($this->projectsDetail[0]['project_image']!='') { ?>
                             <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['project_image']; ?>"/> 
                         <?php } ?>
+                        </div>
                     </div>
                 </div>  
             </div>
@@ -611,12 +659,15 @@ function previewImage(id){
                 <input type='hidden' name='brochure' id='imagename_12' value='<?php if ($this->projectsDetail[0]['brochure']!='') echo $this->projectsDetail[0]['brochure']; ?>'>
                 <div class="content3-1"><span style="color:red">*</span> E-brochure:</div>
                 <div class="content4-1"><button class="" style="" id="brochure_upload">Browse</button>
-                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_12" onclick="return previewImage('12')">Preview</button>
+                     <?php if($this->projectsDetail[0]['brochure']!='') {?>
+                <button id=" " class="" onclick="return delBanner('12')" style="width:69px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+                <?php }?>
                     <div class="am2" >
-                        <div class="" id="files_12" style="display: none"></div>
+                        <div class="" id="files_12">
                         <?php if ($this->projectsDetail[0]['brochure']!='') { ?>
                             <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['brochure']; ?>"/> 
                         <?php } ?>
+                        </div>
                     </div>
                 </div>  
             </div>
@@ -624,12 +675,16 @@ function previewImage(id){
                 <input type='hidden' name='location_map' id='imagename_13' value='<?php if ($this->projectsDetail[0]['location_map']!='') echo $this->projectsDetail[0]['location_map']; ?>'>
                 <div class="content3-1"><span style="color:red">*</span> Location Map:(675 * 675)</div>
                 <div class="content4-1"><button class="" style="" id="location_map_upload">Browse</button>
-                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_13" onclick="return previewImage('13')">Preview</button>
+                    <?php if($this->projectsDetail[0]['location_map']!='') {?>
+                <button id=" " class="" onclick="return delBanner('13')" style="width:69px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+                <?php }?>
                     <div class="am2" >
-                        <div class="" id="files_13" style="display: none"></div>
-                        <?php if ($this->projectsDetail[0]['location_map']!='') { ?>
+                        <div class="" id="files_13">
+                            <?php if ($this->projectsDetail[0]['location_map']!='') { ?>
                             <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['location_map']; ?>"/> 
                         <?php } ?>
+                        </div>
+                        
                     </div>
                 </div>  
             </div>
@@ -637,12 +692,16 @@ function previewImage(id){
                 <input type='hidden' name='site_plan' id='imagename_14' value='<?php if ($this->projectsDetail[0]['site_plan']!='') echo $this->projectsDetail[0]['site_plan']; ?>'>
                 <div class="content3-1"><span style="color:red">*</span> Site Plan:(675 * 675)</div>
                 <div class="content4-1"><button class="" style="" id="site_plan_upload">Browse</button>
-                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_14" onclick="return previewImage('14')">Preview</button>
+                    <?php if($this->projectsDetail[0]['site_plan']!='') {?>
+                <button id=" " class="" onclick="return delBanner('14')" style="width:69px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+                <?php }?>
                     <div class="am2" >
-                        <div class="" id="files_14" style="display: none"></div>
-                        <?php if ($this->projectsDetail[0]['site_plan']!='') { ?>
+                        <div class="" id="files_14">
+                             <?php if ($this->projectsDetail[0]['site_plan']!='') { ?>
                             <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['site_plan']; ?>"/> 
                         <?php } ?>
+                        </div>
+                       
                     </div>
                 </div>  
             </div>
@@ -650,12 +709,16 @@ function previewImage(id){
                 <input type='hidden' name='application_form' id='imagename_15' value='<?php if ($this->projectsDetail[0]['application_form']!='') echo $this->projectsDetail[0]['application_form']; ?>'>
                 <div class="content3-1"><span style="color:red">*</span> Application Form:</div>
                 <div class="content4-1"><button class="" style="" id="application_form_upload">Browse</button>
-                    <button class="" style="display:none;height:28px;margin-left:10px;background-color:#333; color:#fff; border" id="preview_15" onclick="return previewImage('15')">Preview</button>
+                    <?php if($this->projectsDetail[0]['application_form']!='') {?>
+                <button id=" " class="" onclick="return delBanner('15')" style="width:69px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+                <?php }?>
                     <div class="am2" >
-                        <div class="" id="files_15" style="display: none"></div>
-                        <?php if ($this->projectsDetail[0]['application_form']!='') { ?>
+                        <div class="" id="files_15" >
+                            <?php if ($this->projectsDetail[0]['application_form']!='') { ?>
                             <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['application_form']; ?>"/> 
                         <?php } ?>
+                        </div>
+                        
                     </div>
                 </div>  
             </div>
@@ -702,7 +765,7 @@ function previewImage(id){
             <div class="content5">
 
                 <button onclick="return submitForm()" value="<?php echo $this->heading ?>" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;"><?php echo $this->heading ?></button>
-                <a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl; ?>/admin/builderlist" >Cancel</a>
+                <a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl; ?>/admin/projectslist" >Cancel</a>
 
             </div>
 
@@ -827,9 +890,6 @@ function previewImage(id){
 		error = 1;
 	}else if(project_status =='' ){
 		var msg = 'Project Status cannot be empty.';
-		error = 1;
-	}else if(completed_on =='' ){
-		var msg = 'Completed On cannot be empty.';
 		error = 1;
 	}else if(search_max_price =='' ){
 		var msg = 'Search Max Price cannot be empty.';

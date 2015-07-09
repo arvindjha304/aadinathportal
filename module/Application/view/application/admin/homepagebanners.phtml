@@ -61,7 +61,7 @@ function ajaxUpload(btnUpload,status,id){
 			         
 		             document.getElementById("imagename_"+id).value = response;
 		             $('#preview_'+id).show();
-		             $('<div></div>').appendTo('#files_'+id).html('<img height="50" width="50"  src="'+filepath+'" alt="" /><br />').addClass('success');
+		             $('<div></div>').appendTo('#files_'+id).html('<img height="60" width="70" src="'+filepath+'" alt="" /><br />').addClass('success');
 		           //  $('#lastImageId').val(id+1);
 		         } else{
 		            // $('<div></div>').appendTo('#files').text(response).addClass('error');
@@ -74,6 +74,12 @@ function ajaxUpload(btnUpload,status,id){
 function previewImage(id){
 	$('#files_'+id).toggle();
 	return false;
+}
+
+function delBanner(id){
+    $('#imagename_'+id).val('');
+    $('#files_'+id).html('');
+    return false;
 }
 
 
@@ -94,15 +100,18 @@ function previewImage(id){
 	<span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"></span>
 	
     <div class="content2">
-    	<input type='hidden' name='imagename_1' id='imagename_1' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
+    	<input type='hidden' name='imagename_1' id='imagename_1' value='<?php echo $this->banners[0]['banner_image_1']; ?>'>
 		<div class="content3">Banner Image 1:(1640 * 550)</div>
         <div class="content4"> 
 			<button class="" style="height:28px;margin-left:10px;" id="upload_1">Browse</button>
+            <?php if($this->banners[0]['banner_image_1']!='') {?>
+            <button id=" " class="" onclick="return delBanner('1')" style="width:91px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+            <?php }?>
 			<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_1" onclick="return previewImage('1')">Preview</button>
 			<div class="am" >
-		        <div class="" id="files_1" style="display: none">
-		        <?php if(isset($this->banners[0]['amenity_image'])) {?>
-					<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+		        <div class="" id="files_1">
+		        <?php if($this->banners[0]['banner_image_1']!='') {?>
+					<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->banners[0]['banner_image_1']; ?>"/> 
 				<?php }?>
 				</div>
 	    	</div>
@@ -111,15 +120,18 @@ function previewImage(id){
 	</div>
 		
 	<div class="content2" id='div_2'>
-    	<input type='hidden' name='imagename_2' id='imagename_2' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
+    	<input type='hidden' name='imagename_2' id='imagename_2' value='<?php echo $this->banners[0]['banner_image_2']; ?>'>
 		<div class="content3">Banner Image 2:(1640 * 550)</div>
         <div class="content4">
 		<button class="" style="height:28px;margin-left:10px;"  id="upload_2">Browse</button>
+        <?php if($this->banners[0]['banner_image_2']!='') {?>
+            <button id=" " class="" onclick="return delBanner('2')" style="width:91px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+            <?php }?>
 		<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_2" onclick="return previewImage('2')">Preview</button>
 		<div class="am" >
-	        <div class="" id="files_2" style="display: none">
-	        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
-				<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+	        <div class="" id="files_2">
+	        <?php if($this->banners[0]['banner_image_2']!='') {?>
+				<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->banners[0]['banner_image_2']; ?>"/> 
 			<?php }?>
 			</div>
 	    </div>
@@ -128,15 +140,18 @@ function previewImage(id){
 	</div>
 		
 	<div class="content2" id='div_3'>
-    	<input type='hidden' name='imagename_3' id='imagename_3' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
+    	<input type='hidden' name='imagename_3' id='imagename_3' value='<?php echo $this->banners[0]['banner_image_3']; ?>'>
 		<div class="content3">Banner Image 3:(1640 * 550)</div>
         <div class="content4">
 		<button class="" style="height:28px;margin-left:10px;" id="upload_3">Browse</button>
+        <?php if($this->banners[0]['banner_image_3']!='') {?>
+            <button id=" " class="" onclick="return delBanner('3')" style="width:91px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+            <?php }?>
 		<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_3" onclick="return previewImage('3')">Preview</button>
 		<div class="am" >
-        <div class="" id="files_3" style="display: none">
-        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
-			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+        <div class="" id="files_3">
+        <?php if($this->banners[0]['banner_image_3']!='') {?>
+			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->banners[0]['banner_image_3']; ?>"/> 
 		<?php }?>
 		</div>
     	</div>
@@ -144,15 +159,18 @@ function previewImage(id){
 	</div>
 		
 	<div class="content2"  id='div_4'>
-    	<input type='hidden' name='imagename_4' id='imagename_4' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
+    	<input type='hidden' name='imagename_4' id='imagename_4' value='<?php echo $this->banners[0]['banner_image_4']; ?>'>
 		<div class="content3">Banner Image 4:(1640 * 550)</div>
         <div class="content4">
 		<button class="" style="height:28px;margin-left:10px;" id="upload_4">Browse</button>
+        <?php if($this->banners[0]['banner_image_4']!='') {?>
+            <button id=" " class="" onclick="return delBanner('4')" style="width:91px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+            <?php }?>
 		<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_4" onclick="return previewImage('4')">Preview</button>
 		<div class="am" >
-        <div class="" id="files_4" style="display: none">
-        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
-			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+        <div class="" id="files_4">
+        <?php if($this->banners[0]['banner_image_4']!='') {?>
+			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->banners[0]['banner_image_4']; ?>"/> 
 		<?php }?>
 		</div>
     	</div>
@@ -160,15 +178,18 @@ function previewImage(id){
 	</div>
 		
 	<div class="content2" id='div_5'>
-    	<input type='hidden' name='imagename_5' id='imagename_5' value='<?php echo $this->amenityDetail[0]['amenity_image']; ?>'>
+    	<input type='hidden' name='imagename_5' id='imagename_5' value='<?php echo $this->banners[0]['banner_image_5']; ?>'>
 		<div class="content3">Banner Image 5:(1640 * 550)</div>
         <div class="content4">
 		<button class="" style="height:28px;margin-left:10px;" id="upload_5">Browse</button>
+        <?php if($this->banners[0]['banner_image_5']!='') {?>
+            <button id=" " class="" onclick="return delBanner('5')" style="width:91px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
+            <?php }?>
 		<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_5" onclick="return previewImage('5')">Preview</button>
 		<div class="am" >
-        <div class="" id="files_5" style="display: none">
-        <?php if(isset($this->amenityDetail[0]['amenity_image'])) {?>
-			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->amenityDetail[0]['amenity_image']; ?>"/> 
+        <div class="" id="files_5">
+        <?php if($this->banners[0]['banner_image_5']!='') {?>
+			<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->banners[0]['banner_image_5']; ?>"/> 
 		<?php }?>
 		</div>
     	</div>
@@ -178,8 +199,8 @@ function previewImage(id){
 	
    </div>
 	<div class="content5" style="padding-left:311px">
-	<button onclick="return submitForm()" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;">Submit</button>
-	<a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl;?>/admin/amentieslist" >Cancel</a>
+	<button onclick="return submitForm()" style="width:83px; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;">Submit</button>
+	
 	</div>
 	
 	</form>

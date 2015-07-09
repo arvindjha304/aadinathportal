@@ -34,8 +34,9 @@ function ajaxUpload(btnUpload,status,id){
            $('#files_'+id).html('');
             if(response != ""){
                 document.getElementById("imagename_"+id).value = response;
-                $('#preview_'+id).show();
-                $('<div></div>').appendTo('#files_'+id).html('<img height="50" width="50"  src="'+filepath+'" alt="" /><br />').addClass('success');
+                //$('#preview_'+id).show();
+                $('#files_'+id).html('');
+                $('#files_'+id).html('<img height="60" width="70" src="'+filepath+'" alt="" /><br />').addClass('success');
               //  $('#lastImageId').val(id+1);
             } else{
                // $('<div></div>').appendTo('#files').text(response).addClass('error');
@@ -103,10 +104,12 @@ function previewImage(id){
 			<button class="" style="height:28px;margin-left:10px;" id="upload_1">Browse</button>
 			<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_1" onclick="return previewImage('1')">Preview</button>
 			<div class="am" >
-		        <div class="" id="files_1" style="display: none"></div>
+                <div class="" id="files_1">
 				<?php if($this->bannerDetail[0]['banner_image']!='') {?>
 					<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->bannerDetail[0]['banner_image']; ?>"/> 
 				<?php }?>
+                    
+                </div>
 	    	</div>
 		</div>
 		
@@ -117,7 +120,7 @@ function previewImage(id){
 	<div class="content5">
 	
 	<button onclick="return submitForm()" value="<?php echo $this->heading?>" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;"><?php echo $this->heading?></button>
-	<a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl;?>/admin/builderlist" >Cancel</a>
+	<a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl;?>/admin/bannerlist" >Cancel</a>
 	
 	</div>
 	

@@ -17,8 +17,10 @@ class AdminController extends AbstractActionController
 {
 	public function getbaseUrl(){
 		$baseUrl = $this->getRequest()->getbaseUrl();
-		
 	}
+    public function getAdapter(){
+        return $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+    }
     public function indexAction()
     {
          $view = new ViewModel();
@@ -1270,8 +1272,7 @@ public function projectslistdataAction()
 		$view->setVariable('property_types', $property_types);
 		$msg = '';
 		$request = $this->getRequest();
-		if ($request->isPost()) {
-           
+		if ($request->isPost()) {           
 			$data = array(
 				'project_id'		=> 	$this->params()->fromPost('project_id'),
 				'banner_type'	    => 	$this->params()->fromPost('banner_type'),
@@ -1290,6 +1291,7 @@ public function projectslistdataAction()
 				$adminModel->insertanywhere('bannerlist',$data);
 				$msg = 'Banner Added Successfully.';
 			}
+            $this->redirect()->toUrl('bannerlist');
 		}
 		if(isset($id)){
 			$stateTable = new TableGateway('bannerlist', $adapter);
@@ -1350,6 +1352,7 @@ public function projectslistdataAction()
         $view->setVariable('heading', 'Home Page Banners');
 		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
         if($this->getRequest()->isPost()){
+//		    echo '<pre>';print_r($this->params()->fromPost());exit;
             $data = array(
                 'banner_image_1'   => $this->params()->fromPost('imagename_1'),
                 'banner_image_2'   => $this->params()->fromPost('imagename_2'),
@@ -1357,7 +1360,12 @@ public function projectslistdataAction()
                 'banner_image_4'   => $this->params()->fromPost('imagename_4'),
                 'banner_image_5'   => $this->params()->fromPost('imagename_5'),
             );
-            $this->getModel()->insertanywhere('homepagebanners',$data);
+            $table = new TableGateway('homepagebanners',$this->getAdapter());
+            $dataArr = $table->select()->toArray();
+            if(count($dataArr))
+                $this->getModel()->updateanywhere('homepagebanners',$data,array('id'=>1));
+            else
+                $this->getModel()->insertanywhere('homepagebanners',$data);
         }
         $table = new TableGateway('homepagebanners',$adapter);
         $view->setVariable('banners', $table->select()->toArray());
