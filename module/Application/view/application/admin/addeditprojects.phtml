@@ -96,11 +96,12 @@ function ajaxUpload(btnUpload,status,id){
 		     action: SITEROOT,
 		     name:'uploadfile' ,
 		     onSubmit: function(file, ext){
-		         if (! (ext && /^(jpg|png|jpeg|gif)$/.test(ext))){
+		         if (! (ext && /^(jpg|png|jpeg|gif|pdf)$/.test(ext))){
 		             // extension is not allowed
 		             status.text('Only JPG, PNG or GIF files are allowed');
 		             return false;
 		         }
+                 $extnsn = ext;
 		         status.text('Uploading...');
 		     },
 		     onComplete: function(file, response){
@@ -111,11 +112,15 @@ function ajaxUpload(btnUpload,status,id){
 				$('#files_'+id).html('');
 		         if(response != ""){
 
-// 		        	 alert(id);
+// 		        	 alert($extnsn);
 // 		        	 return false;		         
 			         
 		             document.getElementById("imagename_"+id).value = response;
 		             $('#preview_'+id).show();
+                     
+                     if($extnsn=='pdf')
+                         $('<div></div>').appendTo('#files_'+id).html('<button style="width:auto;height:28px;margin-left:10px; background-color:#333; color:#fff; border" ><a style="color:#fff;text-decoration:none" target="blank" href="'+filepath+'">View File</a></button>').addClass('success');
+                     else
 		             $('<div></div>').appendTo('#files_'+id).html('<img height="50" width="50" src="'+filepath+'" alt="" /><br />').addClass('success');
 		           //  $('#lastImageId').val(id+1);
 		         } else{
@@ -765,7 +770,7 @@ $('#project_status').change(function(){
             <div class="content5">
 
                 <button onclick="return submitForm()" value="<?php echo $this->heading ?>" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;"><?php echo $this->heading ?></button>
-                <a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl; ?>/admin/projectslist" >Cancel</a>
+                <a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl; ?>/admin/projectslist">Cancel</a>
 
             </div>
 

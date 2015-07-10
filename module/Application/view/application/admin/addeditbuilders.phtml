@@ -121,7 +121,7 @@ function delDiv(id){
 <div class="heading"><?php echo $this->heading?></div>
 <div class="contant1">
 	<form method="post" action="" name="" id="builderform">
-		
+	<input type="hidden" id="builderId" value="<?php if(isset($this->builderDetail[0]['id'])) echo $this->builderDetail[0]['id']; ?>" />	
     <?php if($this->msg!=''){?>
 	<div ><?php echo $this->msg?></div>
 	<?php }?>
@@ -135,7 +135,7 @@ function delDiv(id){
     <div class="content2">
 		<div class="content3"><span style="color:red">*</span> About Builder:</div>
         <div class="content4-1-2">
-        <textarea name="about_builder" style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="about_builder"><?php if(isset($this->builderDetail[0]['builder_name'])) echo $this->builderDetail[0]['builder_name']; ?></textarea>
+        <textarea name="about_builder" style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="about_builder"><?php if(isset($this->builderDetail[0]['about_builder'])) echo $this->builderDetail[0]['about_builder']; ?></textarea>
         </div>
     </div>
      <div class="content2">
@@ -196,8 +196,8 @@ function hasNumbers(t){
 
 function submitForm(){
     SITEROOT = '<?php echo $baseUrl?>';
+	var builderId       = $('#builderId').val();
 	var builder_name 	= $('#builder_name').val();
-	var about_builder 	= $('#about_builder').val();
 	var imagename 		= $('#imagename_1').val();
 	var experience 		= $('#experience').val();
 	var priority 		= $('#priority').val();
@@ -226,7 +226,7 @@ function submitForm(){
 		$("#nameExist").text(msg).show();
 		return false;
 	}
-    if(builder_name!=''){
+    if(builderId==''){
         
  		$.post(SITEROOT+'/admin/checkname', {name:builder_name,field:'builders'},function(response){
  			if(response == '1'){
@@ -237,7 +237,9 @@ function submitForm(){
                 $('#builderform').submit();
             }
  		});
- 	} 
+ 	}else{
+         $('#builderform').submit();
+    }
     return false;
 }
 

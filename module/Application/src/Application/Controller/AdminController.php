@@ -1060,10 +1060,7 @@ public function projectslistdataAction()
 					'activ_date'			=> 	$actvdate,
 					'expir_date'			=> 	$expirdate,
 					'news_img'			    => 	$imagename,
-    				
     			);
-   
-    		
     		if(isset($id)){
 				
 				$where = array(
@@ -1084,6 +1081,7 @@ public function projectslistdataAction()
 				
     			$msg = 'News Added Successfully.';
     		}
+            $this->redirect()->toUrl('newslist');
 		}
 			//print_r($id);exit;
 		if(isset($id)){
@@ -1118,7 +1116,7 @@ public function projectslistdataAction()
     		$status				=	($val1['is_active']==1) ? 'Active' :	'Inactive';
     		$action				=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
     		$delete 			=	'<a href="'.$baseUrl.'/admin/addeditnews?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
-    		$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$news_title,$news_msg,$status,$delete.$action));
+    		$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$news_title,$status,$delete.$action));
     	}
     	$json = json_encode($dataArray);
     	$jsonData = '{rows:'.$json.'}';
