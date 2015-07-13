@@ -145,7 +145,6 @@ function changeView(viewType) {
                     ii++; 
                     if(ii % 4 == 0 && ii != response.length){
                         var returnArr = shuffleProjectBanner();
-        //                        alert(returnArr['project_id']+'======='+returnArr['banner_image']);
                         str += '<div class="container insidepg-proj-row"><div class="clearfix margin_top3"></div><div class="row"><a style="float:left" href="'+SITEROOT+'/index/project-detail?id='+returnArr['project_id']+'"><img width="1160" height="100" src="'+SITEROOT+'/public/uploadfiles/'+returnArr['banner_image']+'"></a></div><div class="clearfix margin_top3"></div></div>';
                    }  
                 });

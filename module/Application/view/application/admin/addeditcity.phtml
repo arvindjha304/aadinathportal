@@ -8,6 +8,7 @@
 	<div><?php echo $this->msg?></div>
 	<?php }?>
 	<span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"></span>
+    <input type="hidden" id="city_Id" value="<?php echo $this->cityDetail[0]['id']?>"/>
 	<div class="content2">
 		<div class="content3"><span style="color:red">*</span> State:</div>
         <div class="content4">
@@ -46,7 +47,7 @@ function hasNumbers(t){
 //	$('#cityName').val('');
 //});
 function submitForm(){
-
+    var city_Id = $("#city_Id").val();
 	var name = $("#cityName").val();
 	if(name == ''){
 		$("#nameExist").text('City Name cannot be empty.').show();
@@ -56,35 +57,49 @@ function submitForm(){
 	if(name!=''){
 		$.post(SITEROOT+'/admin/checkname', {name:name,field:'cities'},function(response){
 			if(response == '1'){
-				$("#nameExist").text('Name entered already exists.').show();
-				error = 1;
-				return false;
-			}else{
-				var chknumber = hasNumbers($('#cityName').val());
-				if(chknumber==true){
-					$("#nameExist").text('City Name cannot have numbers.').show();
-					error = 1;
-					return false;
-				}else{
-					$("#nameExist").hide();
-					error = 0;
-				}
-                var splChars = "*|,\":<>[]{}`\';()@&$#%";
-                for (var i = 0; i < name.length; i++) {
-                    if (splChars.indexOf(name.charAt(i)) != -1){
-                    $("#nameExist").text('Illegal characters detected.').show();
-					error = 1;
-					return false;
-                    }
+                if(city_Id==''){
+                    $("#nameExist").text('Name entered already exists.').show();
+                    error = 1;
+                    return false;
+                }else{
+                   return validateform();
                 }
-				if(error==0){
-					$('#cityform').submit();
-				}
+			}else{
+                return validateform();
 			}
+    return false;        
 		});
 	}
 return false;
 }
+
+function validateform(){
+    var chknumber = hasNumbers($('#cityName').val());
+    if(chknumber==true){
+        $("#nameExist").text('City Name cannot have numbers.').show();
+        error = 1;
+        return false;
+    }else{
+        $("#nameExist").hide();
+        error = 0;
+    }
+    var splChars = "*|,\":<>[]{}`\';()@&$#%";
+    for (var i = 0; i < name.length; i++) {
+        if (splChars.indexOf(name.charAt(i)) != -1){
+        $("#nameExist").text('Illegal characters detected.').show();
+        error = 1;
+        return false;
+        }
+    }
+    if(error==0){
+        $('#cityform').submit();
+    }
+}
+
+
+
+
+
 // $("#cityName").blur(function(){
 // 	var name = $(this).val();
 //	SITEROOT = '<?php echo $baseUrl?>';
