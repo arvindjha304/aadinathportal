@@ -281,11 +281,16 @@ use Zend\Db\Sql\Where;
         $select = $sql->select()
         ->columns(array('banner_image','project_id'))
         ->from(array('bnl'=>'bannerlist'))
-        ->where(array('banner_type'=>$banner_type,'is_active'=>1,'is_delete'=>0));
+        ->join(array('prj'=>'projects'), 'prj.id = bnl.project_id', array('project_title'))
+        ->where(array('banner_type'=>$banner_type,'bnl.is_active'=>1,'bnl.is_delete'=>0,'prj.is_delete'=> '0','prj.is_active'=> '1'));
         $result = $sql->prepareStatementForSqlObject($select)->execute();
         $projectArr = array();
         foreach($result as $res) $projectArr[] = $res;  
         shuffle($projectArr);
+        
+        
+//        echo '<pre>';print_r($projectArr);exit;
+        
         return $projectArr;
     }
     
@@ -305,8 +310,33 @@ use Zend\Db\Sql\Where;
 		$sql = new Sql($db);
 		$select = $sql->select()
         ->columns(array(new \Zend\Db\Sql\Expression('DISTINCT(city_name) as city'),'id as cityId'))
-		->from(array('ct'=>'cities'));
+		->from(array('ct'=>'cities'))
+        ->where(array('ct.is_active'=>1,'ct.is_delete'=>0))
+        ->limit(7);
+            
 		$result = $sql->prepareStatementForSqlObject($select)->execute();
+		return $result;
+    }
+    public function projectByCategory($property_type){
+        $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$sql = new Sql($db);
+		$select = $sql->select()
+        ->columns(array('id as prjId','project_title'))
+		->from(array('prj'=>'projects'))
+        ->join(array('pptId'=>'property_type'), 'pptId.id=prj.property_type_id')
+        ->join(array('pptCatId'=>'property_category'), 'pptCatId.id=pptId.property_category_id')
+        ->where(array('prj.is_active'=>1,'prj.is_delete'=>0,'pptId.is_active'=>1,'pptId.is_delete'=>0,'pptId.property_category_id'=>$property_type))
+//        ->where->notEqualTo('prj.order', 0);
+                ->where('prj.order!=0')
+        ->order('prj.order')
+        ->limit(9);
+            
+		$result = $sql->prepareStatementForSqlObject($select)->execute();
+        
+//        foreach($result as $res){
+//            echo '<pre>';print_r($res);
+//        }        
+//        exit;
 		return $result;
     }
     

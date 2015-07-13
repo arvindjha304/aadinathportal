@@ -34,6 +34,10 @@ class IndexController extends AbstractActionController
         $view->setVariable('homeBannerArr', $homeBannerArr);
         $hotdealbanner = $indexModel->projectBanner(1);
         $view->setVariable('hotdealbanner', $hotdealbanner);
+        $residentialPrjcts = $indexModel->projectByCategory(1);
+        $view->setVariable('residentialPrjcts', $residentialPrjcts);
+        $commercialPrjcts = $indexModel->projectByCategory(2);
+        $view->setVariable('commercialPrjcts', $commercialPrjcts);
         return $view;
     }
     public function buyAction()

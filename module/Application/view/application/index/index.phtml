@@ -27,30 +27,18 @@
                             <li>
                               <p>Residential Projects</p>
                             </li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> Residential 1</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> Residential 2</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> Residential 3</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> Residential 4</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> Residential 5</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> Residential 6</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> Residential 7</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> Residential 8</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> Residential 9</a></li>
+                            <?php foreach($this->residentialPrjcts as $res){?>
+                            <li><a href="<?php echo $baseUrl;?>/index/project-detail?id=<?php echo $res['prjId']?>"><i class="fa fa-caret-right"></i><?php echo $res['project_title']?></a></li>
+                            <?php }?>
                             <li><a href="#"><i class="fa fa-caret-right"></i> For More Projects <em>Click</em></a></li>
                           </ul>
                           <ul class="col-sm-6 col-md-3 list-unstyled">
                             <li>
                               <p>Commercial Projects</p>
                             </li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> Commercial 1</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> Commercial 2</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> Commercial 3</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> Commercial 4</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> Commercial 5</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> Commercial 6</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> Commercial 7</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> Commercial 8</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> Commercial 9</a></li>
+                            <?php foreach($this->commercialPrjcts as $res){?>
+                            <li><a href="<?php echo $baseUrl;?>/index/project-detail?id=<?php echo $res['prjId']?>"><i class="fa fa-caret-right"></i><?php echo $res['project_title']?></a></li>
+                            <?php }?>
                             <li><a href="#"><i class="fa fa-caret-right"></i> For More Projects <em>Click</em></a></li>
                           </ul>
                           <ul class="col-sm-6 col-md-3 last list-unstyled nav-project-img-ul-bordr">
