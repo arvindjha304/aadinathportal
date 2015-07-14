@@ -579,7 +579,7 @@ document.getElementById("emiAmount").onblur = function (){
 function initialize() {
   var myLatlng = new google.maps.LatLng(<?php echo $this->projectDetail['latitude']?>,<?php echo $this->projectDetail['longitude']?>);
   var mapOptions = {
-    zoom: 18,
+    zoom: 12,
     center: myLatlng
   }
   var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);

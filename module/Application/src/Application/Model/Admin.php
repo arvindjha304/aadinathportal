@@ -160,9 +160,9 @@ use Zend\Db\Sql\Expression;
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$sql="select lc.id,lc.location_name,lc.is_active,ct.city_name,st.state_name ,st.is_delete
 		from locations lc
-		join cities ct on ct.id=lc.city_id 
-		join states st on st.id=lc.state_id 
-		where lc.is_delete = '0' ";
+		join cities ct on ct.id=lc.city_id and ct.is_delete = '0' and ct.is_active=1
+		join states st on st.id=lc.state_id and st.is_delete = '0' and st.is_active=1 
+		where lc.is_delete = '0' and lc.is_active=1";
 		$result =$db->query($sql)->execute();
 		return $result;
 	

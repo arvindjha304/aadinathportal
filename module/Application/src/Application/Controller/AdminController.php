@@ -275,7 +275,7 @@ class AdminController extends AbstractActionController
     	$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
     	$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
     	$stateTable = new TableGateway('states', $adapter);
-    	$stateList = $stateTable->select(array('is_delete'=>0))->toArray();
+    	$stateList = $stateTable->select(array('is_delete'=>0,'is_active'=>1))->toArray();
     	$view->setVariable('stateList', $stateList);
     	//     	echo '<pre>';print_r($rowset);exit;
     	$msg = '';
@@ -331,7 +331,7 @@ class AdminController extends AbstractActionController
     		$adapter = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
     		$stateId = $this->params()->fromPost('stateId');
     		$stateTable = new TableGateway('cities', $adapter);
-    		$rowset = $stateTable->select(array('state_id' => $stateId,'is_delete'=>0))->toArray();
+    		$rowset = $stateTable->select(array('state_id' => $stateId,'is_delete'=>0,'is_active'=>1))->toArray();
     		$str = '';
     		if(count($rowset)){
     			foreach ($rowset as $row) {
@@ -744,10 +744,17 @@ class AdminController extends AbstractActionController
 		$builderList = $artistTable->select(function($select){
 			$select->order('priority ASC');
 			$select->where('is_active', '1');
+			$select->where('is_delete', '0');
 		})->toArray();
 		$view->setVariable('builderList', $builderList);
 		$artistTable = new TableGateway('cities', $adapter);
-		$cityList = $artistTable->select(array('is_active'=> '1'))->toArray();
+//		$cityList = $artistTable->select(array('is_active'=> '1','is_delete'=> '0'))->toArray();
+        $cityList = $artistTable->select(function($select){
+            $select
+               ->columns(array('id as cityId','city_name'))
+               ->join(array('st'=>'states'),'st.id=cities.state_id')     
+               ->where(array('cities.is_active'=> '1','cities.is_delete'=> '0','st.is_active'=> '1','st.is_delete'=> '0'));
+        })->toArray();
 		$view->setVariable('cityList', $cityList);
 		$adminModel = $this->getModel();
 		$aminityList = $adminModel->getAminityList();

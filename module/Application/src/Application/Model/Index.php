@@ -166,10 +166,11 @@ use Zend\Db\Sql\Where;
         }
         
 		$sql="select prj.*,ct.*,pt.*,pc.*,bld.*,prj.id as project_id from projects prj
-        join cities ct on ct.id=prj.city and ct.is_active=1
-        join property_type pt on pt.id=prj.property_type_id and pt.is_active=1
+        join cities ct on ct.id=prj.city and ct.is_active=1 and ct.is_delete=0 
+        join states st on st.id=ct.state_id and st.is_active=1 and st.is_delete=0  
+        join property_type pt on pt.id=prj.property_type_id and pt.is_active=1 and pt.is_delete=0 
         join property_category pc on pc.id=pt.property_category_id and pc.is_active=1
-        join builders bld on prj.builder=bld.id and bld.is_active=1
+        join builders bld on prj.builder=bld.id and bld.is_active=1 and bld.is_delete=0
         where prj.is_active=1 and prj.is_delete=0 $where $bedroomFilterStr";
         
 //    echo $sql;exit;
@@ -186,7 +187,7 @@ use Zend\Db\Sql\Where;
         join property_type pt on pt.id=prj.property_type_id and pt.is_active=1
         join property_category pc on pc.id=pt.property_category_id and pc.is_active=1
         join builders bld on prj.builder=bld.id and bld.is_active=1
-        where prj.is_active=1 and prj.is_delete=0 ";
+        where prj.is_active=1 and prj.is_delete=0 and prj.id=$id";
         
 //     echo $sql;exit;
 		$result =$db->query($sql)->execute()->current();
@@ -311,7 +312,8 @@ use Zend\Db\Sql\Where;
 		$select = $sql->select()
         ->columns(array(new \Zend\Db\Sql\Expression('DISTINCT(city_name) as city'),'id as cityId'))
 		->from(array('ct'=>'cities'))
-        ->where(array('ct.is_active'=>1,'ct.is_delete'=>0))
+        ->join(array('st'=>'states'),'st.id=ct.state_id')
+        ->where(array('ct.is_active'=>1,'ct.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0))
         ->limit(7);
             
 		$result = $sql->prepareStatementForSqlObject($select)->execute();

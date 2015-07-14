@@ -327,7 +327,7 @@ $('#project_status').change(function(){
                     <select  name="city" id="cityName" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" >
                         <option value=''>Select</option>
                         <?php foreach ($this->cityList as $city) { ?>
-                            <option  <?php if($this->projectsDetail[0]['city']== $city['id']) echo "selected";?> value=<?php echo $city['id'] ?>><?php echo $city['city_name'] ?></option>
+                            <option  <?php if($this->projectsDetail[0]['city']== $city['cityId']) echo "selected";?> value=<?php echo $city['cityId'] ?>><?php echo $city['city_name'] ?></option>
 
                         <?php } ?>
                     </select>
