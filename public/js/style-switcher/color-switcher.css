@@ -1,6 +1,6 @@
     #style-selector {
         position: fixed;
-        top: 84px;
+        top: 0px;
         left: 0;
         z-index: 9999;
 		font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -14,7 +14,7 @@
         z-index: 9999;
         display: inline-block;
         background: #fff;
-		margin-top: 9px;
+		margin-top: 8px;
     }
     .style-selector-wrapper > div {
         margin: 0px 20px 10px 20px;
@@ -27,7 +27,7 @@
         height: 40px;
         line-height: 40px;
         text-align: center;
-        background: #454545 url(colors-swi.png) no-repeat 8px 5px;
+        background: #ed3237 url(colors-swi.png) no-repeat 8px 5px;
         border-radius: 0px;
 		font-size: 1px;
 		color: #454545;

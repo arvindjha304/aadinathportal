@@ -1,4 +1,4 @@
- <?php $baseUrl = $this->basePath();?>
+ <?php $baseUrl = $this->basePath(); ?>
 
 		 <div id="navbar-collapse-1" class="navbar-collapse collapse">
             <nav>
@@ -186,7 +186,7 @@
   
   <!-- Projects ============================================================================================= -->
   <!-- featured section 42 Project -->
-  <div class="clearfix margin_top5"></div>
+  <div class="clearfix margin_top2"></div>
   <div class="featured_section42">
     <div class="left">
       <ul class="haccordion" id="haccordion">
@@ -206,8 +206,9 @@
           <div class="bgDescription"></div>
           <div class="description">
             <h2>Commercial</h2>
-            <p>Lorem Ipsum is simply dummy text of the printing industry.</p>
-            <a href="projects.html">Read more</a> </div>
+            <a href="<?php echo $baseUrl;?>/index/project-detail?id=<?php echo $this->hotdealbanner[0]['project_id']?>"><img width="150" height="100" src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $this->hotdealbanner[0]['banner_image']?>" class="nav-project-img-border"></a> 
+            <a href="<?php echo $baseUrl;?>/index/project-detail?id=<?php echo $this->hotdealbanner[1]['project_id']?>"><img width="150" height="100" src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $this->hotdealbanner[1]['banner_image']?>" class="nav-project-img-border" style="margin-left:180px;"></a> 
+			</div>
         </li>
       </ul>
       
@@ -221,7 +222,7 @@
   
   
   <!-- Flow Chart============================================================================================ -->
-  <div class="clearfix margin_top12"></div>
+  <div class="clearfix margin_top5"></div>
   <div class="featured_section39">
     <div class="container">
 
@@ -276,7 +277,7 @@
   
   <!-- Testimonial========================================================================================== -->
   <!-- featured section 46 Testimonial--->
-  <div class="clearfix margin_top12"></div>
+  <div class="clearfix margin_top4"></div>
   <div class="featured_section46">
     <div class="container">
       <h2 class="title27 roboto">People Says
