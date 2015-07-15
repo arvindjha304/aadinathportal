@@ -14,7 +14,7 @@
 return array(
      'db' => array(
          'driver'         => 'Pdo',
-         'dsn'            => 'mysql:dbname=aadinath;host=localhost',
+         'dsn'            => 'mysql:dbname=aadinath_portal;host=localhost',
 //         'dsn'            => 'mysql:dbname=aadinath_portal;host=localhost',
          'driver_options' => array(
              PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
