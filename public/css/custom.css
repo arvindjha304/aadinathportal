@@ -413,3 +413,6 @@ margin-bottom:30px; color:#333; font-family: "Raleway",sans-serif;
 .sell-form-input{
 	height:60px;
 }
+.cursor{
+	cursor: pointer;
+}

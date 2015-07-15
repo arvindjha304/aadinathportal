@@ -19,7 +19,7 @@
       <ul class="nav navbar-nav">
         <li><div style="color:#777; padding-top:15px; margin-right:30px;">Refine Results :</div></li>               
         <li class="dropdown">
-            <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" ><span id="possessionText" >Possession</span><span class="caret"></span></a>
+            <a  class="dropdown-toggle cursor" data-toggle="dropdown" role="button" aria-expanded="false" ><span id="possessionText" >Possession</span><span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a ><input type="checkbox" onchange="managePossession('readyToMoveIn')" id="readyToMoveIn" value="readyToMoveIn"><span id="text_readyToMoveIn" > Ready to move in</span></a></li>
             <li><a ><input type="checkbox" onchange="managePossession('upto3month')" id="upto3month" value="upto3month"><span id="text_upto3month" > Upto 3 Months</span></a></li>
@@ -28,7 +28,7 @@
           </ul>
         </li>
 <!--    <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="propertyTypeFilter">Property Type <span class="caret"></span></a>
+          <a class="dropdown-toggle cursor" data-toggle="dropdown" role="button" aria-expanded="false" id="propertyTypeFilter">Property Type <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
               <?php
               foreach($this->propertyTypeArr as $propertyType){?>
@@ -37,7 +37,7 @@
           </ul>
         </li>-->
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="budgetFilter">Budget <span class="caret"></span></a>
+          <a class="dropdown-toggle cursor" data-toggle="dropdown" role="button" aria-expanded="false" id="budgetFilter">Budget <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
               <li><a ><input type="checkbox" onchange="manageBudget(2500000)" id="budget_2500000" value="2500000">&nbsp;&nbsp;<span class="rupee">`</span> 25 L</a></li> 
               <li><a ><input type="checkbox" onchange="manageBudget(5000000)" id="budget_5000000" value="5000000">&nbsp;&nbsp;<span class="rupee">`</span> 50 L</a></li> 
@@ -48,7 +48,7 @@
           </ul>
         </li>
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="bedroomFilter">Bedrooms <span class="caret"></span></a>
+          <a class="dropdown-toggle cursor" data-toggle="dropdown" role="button" aria-expanded="false" id="bedroomFilter">Bedrooms <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a ><input type="checkbox" onchange="manageBedrooms(1)" id="bedroom_1" value="1"> 1 Bedroom</a></li>
             <li><a ><input type="checkbox" onchange="manageBedrooms(2)" id="bedroom_2" value="2"> 2 Bedrooms</a></li>
@@ -61,8 +61,8 @@
       </ul>
      <!--right---> 
       <ul class="nav navbar-nav navbar-right"> 
-        <li><a onclick="changeView('list')"><span class="glyphicon glyphicon-th-list"></span> LIST</a></li>       
-        <li><a onclick="changeView('grid')"><span class="glyphicon glyphicon-th-large"></span> GRID</a></li>
+        <li><a onclick="changeView('list')" class="cursor"><span class="glyphicon glyphicon-th-list"></span> LIST</a></li>       
+        <li><a onclick="changeView('grid')" class="cursor"><span class="glyphicon glyphicon-th-large"></span> GRID</a></li>
              
       </ul>
     </div><!-- /.navbar-collapse -->
