@@ -45,7 +45,7 @@ class IndexController extends AbstractActionController
         $view = new ViewModel();
         $this->layout('layout/innerlayout');
         $table= new TableGateway('cities',$this->getAdapter());
-        $result = $table->select(array('is_active'=>1))->toArray();
+        $result = $table->select(array('is_active'=>1,'is_delete'=>0))->toArray();
         $view->setVariable('cities', $result);
         $table= new TableGateway('property_category',$this->getAdapter());
         $result = $table->select(array('is_active'=>1))->toArray();

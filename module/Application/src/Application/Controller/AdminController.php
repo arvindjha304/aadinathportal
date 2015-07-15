@@ -679,9 +679,8 @@ class AdminController extends AbstractActionController
 		$artistTable = new TableGateway('builders', $adapter);
 		
 		$select = $artistTable->select(function($select){
-		$select->where->equalTo('is_delete' , '0');
-		$select->order('priority ASC');
-		
+            $select->where(array('is_delete'=>'0','is_active'=>'1'));
+            $select->order('priority ASC');
 		})->toArray();
 		
 		$dataArray = array();
@@ -743,8 +742,7 @@ class AdminController extends AbstractActionController
 		$artistTable = new TableGateway('builders', $adapter);
 		$builderList = $artistTable->select(function($select){
 			$select->order('priority ASC');
-			$select->where('is_active', '1');
-			$select->where('is_delete', '0');
+			$select->where(array('is_active'=>'1','is_delete'=>'0'));
 		})->toArray();
 		$view->setVariable('builderList', $builderList);
 		$artistTable = new TableGateway('cities', $adapter);
@@ -1364,6 +1362,11 @@ public function projectslistdataAction()
                 'banner_image_3'   => $this->params()->fromPost('imagename_3'),
                 'banner_image_4'   => $this->params()->fromPost('imagename_4'),
                 'banner_image_5'   => $this->params()->fromPost('imagename_5'),
+                'banner_image_6'   => $this->params()->fromPost('imagename_6'),
+                'banner_image_7'   => $this->params()->fromPost('imagename_7'),
+                'banner_image_8'   => $this->params()->fromPost('imagename_8'),
+                'banner_image_9'   => $this->params()->fromPost('imagename_9'),
+                'banner_image_10'  => $this->params()->fromPost('imagename_10'),
             );
             $table = new TableGateway('homepagebanners',$this->getAdapter());
             $dataArr = $table->select()->toArray();
