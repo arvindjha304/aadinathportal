@@ -970,7 +970,7 @@ h6, .h6 {
 }
 p {
 	margin:0 0 10px;
-	text-align: justify;
+	/*text-align: justify;*/
 	
 }
 .lead {

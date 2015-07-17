@@ -128,34 +128,13 @@ $citieList = $this->routeHelper()->indexmodel()->getCityList();
   <!-- scroll to top======================================================================================== -->  
   <div class="scrollup" style="cursor:pointer"></div><!-- end scroll to top of the page-->
   
-  <!-- Left Navigation Toggal=============================================================================== --> 
-  <div id="style-selector"  style="left: -224px;">
-<div class="style-selector-wrapper">
-<span class="title">MENU</span>
-<div>        
-<br /><br />
-
-<span class="title-sub2"><strong>Aadinath Guide <br>(Complete Property Guide)</strong></span>
-<ul class="styles" style="border-bottom: none;">
-    <li><a href="property-buying-step.html" class="demolinks">- FAQs</a></li>
-    <li><a href="home-loan.html" class="demolinks">- Home Loan</a></li>
-    <li><a href="vaastu-tips.html" class="demolinks">- Vaastu Tips</a></li>
-    <li><a href="emi.html" class="demolinks">- EMI Calculator</a></li>
-	<li><a href="nri.html" class="demolinks">- NRI Services</a></li>
-    <li><a href="#" class="demolinks">- Blog</a></li>
-</ul>
-<span class="title-sub2">Need Any Help? <br><b>Call us: 0120-4256308</b></span>
-
-
-<a href="#" class="close icon-chevron-right"></a>  
-    
-</div>
-</div>
-</div>
+ 
 </div>
 
 <!-- ######### JS FILES ######### -->
 <!-- get jQuery used for the theme -->
+<input id='projectBaseUrl' type='hidden' value="<?php echo $baseUrl?>"/>
+
 <script type="text/javascript" src="<?php echo $baseUrl;?>/public/js/universal/jquery.js"></script>
 <script src="<?php echo $baseUrl;?>/public/js/style-switcher/styleselector.js"></script>
 <script src="<?php echo $baseUrl;?>/public/js/animations/js/animations.min.js" type="text/javascript"></script>

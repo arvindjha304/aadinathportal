@@ -1124,7 +1124,7 @@ textarea.input-lg {
     -ms-user-select:none;
     -o-user-select:none;
     user-select:none;
-        min-width:80px;
+        min-width:40px;
 }
 .btn:focus {
     outline:thin dotted #333;
