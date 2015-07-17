@@ -73,6 +73,7 @@ class IndexController extends AbstractActionController
     public function projectListAction()
     {
         $view = new ViewModel();
+        $model = $this->getModel();
         $this->layout('layout/innersearchlayout');
         $container = new Container('searchSessionFields');
         $city_id         = $container->cities;
@@ -81,13 +82,13 @@ class IndexController extends AbstractActionController
         $maxprice        = $container->maxprice;
         $refineSearchArr = $this->params()->fromQuery();
 //        print_r($refineSearchArr);exit;
+        $view->setVariable('cityName',$model->getCityName($city_id));
         $view->setVariable('viewType',$container->viewType);
         $view->setVariable('possession',(isset($refineSearchArr['possession'])) ? $refineSearchArr['possession'] : '');
         $view->setVariable('propertyType',(isset($refineSearchArr['propertyType'])) ? $refineSearchArr['propertyType'] : '');
         $view->setVariable('budget',(isset($refineSearchArr['budget'])) ? $refineSearchArr['budget'] : '');
         $view->setVariable('bedroom',(isset($refineSearchArr['bedroom'])) ? $refineSearchArr['bedroom'] : '');
        // echo '<pre>';print_r($refineSearchArr);exit;
-        $model = $this->getModel();
         $table = new TableGateway('property_type',$this->getAdapter());
         $propertyTypeArr = $table->select(array('property_category_id'=>$propcategory_id,'is_active'=>1))->toArray(); 
         $view->setVariable('propertyTypeArr', $propertyTypeArr);
@@ -217,8 +218,11 @@ class IndexController extends AbstractActionController
             $view->setVariable('bedroom',(isset($refineSearchArr['bedroom'])) ? $refineSearchArr['bedroom'] : '');
             
             
-            $builderId = $builderDetail[0]['id'];
+            $builderId = $builderDetail[0]['id'];      
+            
             $searchResultArr = $this->getModel()->searchResultData('','','','',$refineSearchArr,$builderId);
+            
+//      echo 1111;exit;
             $countProjects = $this->getModel()->countProjects($builderId);
             $view->setVariable('totalProject', $countProjects['totalProject']);
             $view->setVariable('ongoingProject', $countProjects['ongoingProject']);

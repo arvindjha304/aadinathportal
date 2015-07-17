@@ -195,17 +195,16 @@ use Zend\Db\Sql\Where;
         
     }
     
-    public function searchResultData($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr){
+    public function searchResultData($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr,$builderId=''){
         
-        $searchResult = $this->searchProjects($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr);
+        $searchResult = $this->searchProjects($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr,$builderId='');
+        
         $searchResultArr = array();
         $count = 0;
         $budget         = (isset($refineSearchArr['budget'])) ? $refineSearchArr['budget'] : '';
         if($budget!=''){
             $budgetArr = explode(',',$budget);
             $maxprice = max($budgetArr);
-            
-            
 //            echo $maxprice;exit;
         }
         foreach($searchResult as $search){
@@ -218,21 +217,41 @@ use Zend\Db\Sql\Where;
                 $searchResultArr[$count] = $search;
                 $count++;
             }
-        }
+        }  
         return $searchResultArr;
     }
+    
+    public function getCityName($city_id){
+		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+        
+        $table = new TableGateway('cities',$db);
+        $data= $table->select(array('id'=>$city_id))->toArray();
+        
+        $cityName = (count($data)) ? $data[0]['city_name']:'';
+//        echo '<pre>';print_r($data);exit;
+        
+//        echo  $cityName;exit;
+	
+		return $cityName;
+	}
     public function max_floor_plan_price($project_id,$minprice,$maxprice){
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
-		$sql="select concat(pfp.price,' ',pfp.price_unit) as maxPrice from project_floor_plan pfp where pfp.project_id=$project_id and pfp.search_price between $minprice and $maxprice order by pfp.search_price desc limit 1";
+        $between='';
+        if($minprice!='' && $maxprice!='')
+           $between = ' between '.$minprice.' and '.$maxprice.' ';
+		$sql="select concat(pfp.price,' ',pfp.price_unit) as maxPrice from project_floor_plan pfp where pfp.project_id=$project_id and pfp.search_price  $between order by pfp.search_price desc limit 1";
         
         
-//        echo $sql;exit;
+      //  echo $sql;exit;
 		$result =$db->query($sql)->execute()->current();
 		return $result['maxPrice'];
 	}
     public function min_floor_plan_price($project_id,$minprice,$maxprice){
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
-		$sql="select concat(pfp.price,' ',pfp.price_unit) as minPrice from project_floor_plan pfp where pfp.project_id=$project_id and pfp.search_price between $minprice and $maxprice order by pfp.search_price limit 1";
+        $between='';
+        if($minprice!='' && $maxprice!='')
+           $between = ' between '.$minprice.' and '.$maxprice.' ';
+		$sql="select concat(pfp.price,' ',pfp.price_unit) as minPrice from project_floor_plan pfp where pfp.project_id=$project_id and pfp.search_price $between order by pfp.search_price limit 1";
 		$result =$db->query($sql)->execute()->current();
 		return $result['minPrice'];
 	}

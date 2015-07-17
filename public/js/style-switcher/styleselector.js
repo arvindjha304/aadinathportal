@@ -8,11 +8,10 @@ $(document).ready(function($) {
 	// Style Selector	
 	// $('#style-selector').animate({
 		// left: '-225px'
-		
 		// alert('0000');
 	// });
+//  $('#style-selector').hide();
 
-//        $('#style-selector').hide();
 	$('#style-selector a.close').click(function(e){
 		e.preventDefault();
 		var div = $('#style-selector');

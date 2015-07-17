@@ -992,16 +992,8 @@ public function projectslistdataAction()
 	public function floorplanlistdataAction()
 	{
 		$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
-    	
-    	
 //     	echo '<pre>';print_r($rowset);exit;
-    	
-    	
     	$floorlist = $adminModel->getAllProjects();
-		
-		
-		
-		
     	$dataArray = array();
     	$baseUrl = $this->getRequest()->getbaseUrl();
     	foreach($floorlist as $val1)
@@ -1010,9 +1002,8 @@ public function projectslistdataAction()
 			$project_title	    =	$val1['project_title'];
 			$plan_type	    =	$val1['plan_type'];
 			$size	        =	$val1['size'].'&nbsp'.$val1['unit'];
-			$unit	        =	$val1['unit'];
-			$price		    =	'Rs '. $val1['price'];
-			$status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
+			$price		    =	$val1['price'].' '.$val1['price_unit'];
+			$status			=   ($val1['is_active']==1) ? 'Active' :	'Inactive';
 			$action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
 			$delete 		=	'<a href="'.$baseUrl.'/admin/addeditfloorplan?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
 			$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$project_title,$plan_type,$size,$price,$status,$delete.$action));

@@ -120,7 +120,7 @@ function delDiv(id){
                             }
                         ?>
 
-                    </select>
+        </select>
         </div>
     </div>
     <div class="content2">
@@ -137,9 +137,9 @@ function delDiv(id){
 		<div class="content3"><span style="color:red">*</span> Size:</div>
         <div class="content4-builder">
         <input type="text" name="size" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="floorsize" value="<?php echo $this->projectsDetail[0]['size']?>"/><select style="height:30px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9; margin-left:20px;" name="flrsize" id="flrsize"><option value ="">Select</option>
-		<option <?php if($this->projectsDetail[0]['unit']=='sqft')  { echo 'selected';}?> ><?php echo 'Sqft';?></option>
-		<option <?php if($this->projectsDetail[0]['unit']=='Sqm')  { echo 'selected';}?> ><?php echo 'Sqm' ;?></option>
-		<option <?php if($this->projectsDetail[0]['unit']=='Sqyard')  { echo 'selected';}?> ><?php echo 'Sqyard' ;?></option>
+		<option <?php if($this->projectsDetail[0]['unit']=='sqft')  { echo 'selected';}?> value='sqft'><?php echo 'Sqft';?></option>
+		<option <?php if($this->projectsDetail[0]['unit']=='Sqm')  { echo 'selected';}?> value='Sqm'><?php echo 'Sqm' ;?></option>
+		<option <?php if($this->projectsDetail[0]['unit']=='Sqyard')  { echo 'selected';}?> value='Sqyard'><?php echo 'Sqyard' ;?></option>
 		</select>
         </div>
     </div>
@@ -149,8 +149,8 @@ function delDiv(id){
         <div class="content4-builder">
         <input type="text" name="price" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="floorprice" value="<?php echo $this->projectsDetail[0]['price']?>"/>
 		<select style="height:30px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9; margin-left:20px;" name="price_unit" id="price_unit"><option value ="">Select</option>
-		<option <?php if($this->projectsDetail[0]['price_unit']=='L')  { echo 'selected';}?> ><?php echo 'L';?></option>
-		<option <?php if($this->projectsDetail[0]['price_unit']=='Cr')  { echo 'selected';}?> ><?php echo 'Cr' ;?></option>
+		<option <?php if($this->projectsDetail[0]['price_unit']=='L')  { echo 'selected';}?>  value='L'><?php echo 'L';?></option>
+		<option <?php if($this->projectsDetail[0]['price_unit']=='Cr')  { echo 'selected';}?> value='Cr' ><?php echo 'Cr' ;?></option>
 		
 		</select>
         </div>
