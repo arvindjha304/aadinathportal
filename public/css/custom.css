@@ -283,7 +283,7 @@
 	font-weight:bold;
 	color: #d9534f;
 	border-right: 1px dotted #d9534f;
-	font-size:14px;
+	font-size:12px;
 	text-align:left;
 	line-height: 16px;
 	padding-left:5%;
@@ -415,4 +415,19 @@ margin-bottom:30px; color:#333; font-family: "Raleway",sans-serif;
 }
 .cursor{
 	cursor: pointer;
+}
+.project-download-btnn1{
+	margin-top: 30px;	
+	font-weight:bold;	
+	text-align: center;	
+	color : #d9534f !important;
+	font-size: 12px;
+	border-right: 1px solid #ccc;	
+	}
+
+.project-download-btnn2{	
+	text-align:center;
+	font-weight:bold;	
+	margin-top: 30px;	
+	font-size: 12px;
 }
