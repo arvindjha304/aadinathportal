@@ -263,12 +263,52 @@ function redirectUrl(){
         paramStr += (paramCount==0)? '?bedroom='+BedroomValues : '&bedroom='+BedroomValues;
         paramCount++;
     }
-    
-    
-//    alert(baseUrl+'/index/project-list'+paramStr);
-    
+//    alert(baseUrl+'/index/project-list'+paramStr);    
     var pageName = $('#pageName').val();
     window.location.href = baseUrl+'/index/'+pageName+paramStr;
     return false;
 
 }
+
+   $('#projectSearchInput').keyup(function(){
+  
+        var searchStr = $(this).val();
+        
+        //alert(searchStr.length);return false;
+        if(searchStr.length > 1){
+        $.post(baseUrl + '/index/project-search', {searchStr: searchStr}, function (response) {
+            var htmlStr = '';
+            if (response.cityarr.length > 0) {
+                htmlStr += '<ul><li class="magicsearch-results-align">Location</li>';
+                $.each(response.cityarr, function(id,value) {
+                    htmlStr += '<a href="'+baseUrl+'/index/projectbycity?cityId='+value.city_id+'"><li class="magicsearch-results-leftpad"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <span style="padding-left:2%;">'+value.city_name+'</span></li></a>';
+                });
+                htmlStr += '</ul>';
+            }
+            if (response.builderarr.length > 0) {
+                htmlStr += '<ul><li class="magicsearch-results-align">Builder</li>';
+                $.each(response.builderarr, function(id,value) {
+                   htmlStr += '<a href="'+baseUrl+'/index/builder-detail?id='+value.bld_id+'"><li class="magicsearch-results-leftpad"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <span style="padding-left:2%;">'+value.builder_name+'</span></li></a>';
+                });
+                htmlStr += '</ul>';
+            }
+            if (response.projectarr.length > 0) {
+                htmlStr += '<ul><li class="magicsearch-results-align">Project</li>';
+                $.each(response.projectarr, function(id,value) {
+                    htmlStr += '<a href="'+baseUrl+'/index/project-detail?id='+value.prj_id+'"><li class="magicsearch-results-leftpad"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <span style="padding-left:2%;">'+value.project_title+'</span></li></a>';
+                });
+                htmlStr += '</ul>';
+            }
+            var re = new RegExp(searchStr,"gi");
+            var newHtml = htmlStr.replace(re, '<b>'+ucFirst(searchStr)+'</b>')
+            $('#inputSearchResults').html(newHtml);
+        },'json');
+    }else{
+        $('#inputSearchResults').html('');
+    }   
+    return false;
+    });
+    
+    function ucFirst(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }

@@ -51,7 +51,7 @@ class IndexController extends AbstractActionController
         $result = $table->select(array('is_active'=>1))->toArray();
         $view->setVariable('propertyCategory', $result);
         $request = $this->getRequest();
-         if($request->isPost()){
+        if($request->isPost()){
 //           echo '<pre>';print_r($this->params()->fromPost());exit;
             $config = new StandardConfig();
             $config->setOptions(array(
@@ -69,6 +69,22 @@ class IndexController extends AbstractActionController
             return $this->redirect()->toUrl('project-list');
         }
         return $view;
+    }
+    public function projectbycityAction(){
+        $config = new StandardConfig();
+        $config->setOptions(array(
+            'remember_me_seconds' => 1800,
+            'name'                => 'zf2',
+        ));
+        $manager = new SessionManager($config);
+        $container = new Container('searchSessionFields',$manager);
+        $container->cities          = $this->params()->fromQuery('cityId');
+        $container->propcategory    = '';
+        $container->minprice        = '';
+        $container->maxprice        = '';
+        $container->viewType        = 'list';
+        $container->projectBanner   = $this->getModel()->projectBanner(2);
+        return $this->redirect()->toUrl('project-list');
     }
     public function projectListAction()
     {
@@ -203,11 +219,7 @@ class IndexController extends AbstractActionController
             $table = new TableGateway('builders',$this->getAdapter());
             $builderDetail = $table->select(array('id'=>$id))->toArray();
             $view->setVariable('builderDetail', $builderDetail);
-            
-            
             $container = new Container('searchSessionFields');
-
-
             $refineSearchArr = $this->params()->fromQuery();
 //            if($container->offsetExists('viewType')){
 //                $view->setVariable('viewType',$container->viewType);
@@ -216,22 +228,16 @@ class IndexController extends AbstractActionController
             $view->setVariable('propertyType',(isset($refineSearchArr['propertyType'])) ? $refineSearchArr['propertyType'] : '');
             $view->setVariable('budget',(isset($refineSearchArr['budget'])) ? $refineSearchArr['budget'] : '');
             $view->setVariable('bedroom',(isset($refineSearchArr['bedroom'])) ? $refineSearchArr['bedroom'] : '');
-            
-            
             $builderId = $builderDetail[0]['id'];      
-            
             $searchResultArr = $this->getModel()->searchResultData('','','','',$refineSearchArr,$builderId);
-            
 //      echo 1111;exit;
             $countProjects = $this->getModel()->countProjects($builderId);
             $view->setVariable('totalProject', $countProjects['totalProject']);
             $view->setVariable('ongoingProject', $countProjects['ongoingProject']);
          //   echo '<pre>';print_r($searchResultArr);exit;
-            
             $view->setVariable('searchResultArr', $searchResultArr);
             $view->setVariable('viewType', 'list');
         }
-        
         return $view;
     }
     public function mapsearchAction()
@@ -239,6 +245,13 @@ class IndexController extends AbstractActionController
         $view = new ViewModel();
         $this->layout('layout/searchmaplayout');
         return $view;
+    }
+    public function projectSearchAction()
+    {
+        $searchStr = $this->params()->fromPost('searchStr');
+        $result=$this->getModel()->projectSearchData($searchStr);
+        $str = json_encode($result);
+        exit($str);  
     }
     
 }

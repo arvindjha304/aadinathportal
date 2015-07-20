@@ -350,8 +350,7 @@ use Zend\Db\Sql\Where;
 //        ->where->notEqualTo('prj.order', 0);
                 ->where('prj.order!=0')
         ->order('prj.order')
-        ->limit(9);
-            
+        ->limit(9);            
 		$result = $sql->prepareStatementForSqlObject($select)->execute();
         
 //        foreach($result as $res){
@@ -361,6 +360,74 @@ use Zend\Db\Sql\Where;
 		return $result;
     }
     
+    public function projectSearchData($searchStr){
+        $db = $this->getAdapter(); 
+        $where = new Where();
+        $sql = new Sql($db);
+        $select= $sql->select()
+        ->columns(['id as prjId','project_title'])
+		->from(['prj'=>'projects'])
+        ->join(['ct'=>'cities'],'ct.id=prj.city',[])
+        ->join(['st'=>'states'],'st.id=ct.state_id',[])
+        ->join(['pptId'=>'property_type'], 'pptId.id=prj.property_type_id',[])
+        ->join(['pptCatId'=>'property_category'], 'pptCatId.id=pptId.property_category_id',[])
+        ->join(['bld'=>'builders'],'prj.builder=bld.id',[])        
+        ->where(['prj.is_active'=>1,'prj.is_delete'=>0,'ct.is_active'=>1,'ct.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0,'pptId.is_active'=>1,
+        'pptId.is_delete'=>0,'pptCatId.is_active'=>1,'bld.is_active'=>1,'bld.is_delete'=>0]);
+        $where->like('prj.project_title',$searchStr.'%');
+        $select->where($where);
+        $prjList = $sql->prepareStatementForSqlObject($select)->execute();
+        $projectArr = [];
+        foreach($prjList as $res){
+            if(count($res))
+                $projectArr[] = ['prj_id'=>$res['prjId'],'project_title'=>$res['project_title']];
+        }    
+        
+        $sql = new Sql($db);
+        $where = new Where();
+        $select= $sql->select()
+        ->columns([])
+		->from(['prj'=>'projects'])
+        ->join(['ct'=>'cities'],'ct.id=prj.city',[])
+        ->join(['st'=>'states'],'st.id=ct.state_id',[])
+        ->join(['pptId'=>'property_type'], 'pptId.id=prj.property_type_id',[])
+        ->join(['pptCatId'=>'property_category'], 'pptCatId.id=pptId.property_category_id',[])
+        ->join(['bld'=>'builders'],'prj.builder=bld.id',['id','builder_name'])        
+        ->where(['prj.is_active'=>1,'prj.is_delete'=>0,'ct.is_active'=>1,'ct.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0,'pptId.is_active'=>1,
+        'pptId.is_delete'=>0,'pptCatId.is_active'=>1,'bld.is_active'=>1,'bld.is_delete'=>0]);
+        $where->like('bld.builder_name',$searchStr.'%');
+        $select->where($where) ->group('bld.id');
+        
+        $bldList = $sql->prepareStatementForSqlObject($select)->execute();
+        $builderArr = [];
+        foreach($bldList as $res){
+            if(count($res))
+                $builderArr[] = ['bld_id'=>$res['id'],'builder_name'=>$res['builder_name']];
+        } 
+        
+        $sql = new Sql($db);
+        $where = new Where();
+        $select= $sql->select()
+        ->columns([])
+		->from(['prj'=>'projects'])
+        ->join(['ct'=>'cities'],'ct.id=prj.city',['id','city_name'])
+        ->join(['st'=>'states'],'st.id=ct.state_id',[])
+        ->join(['pptId'=>'property_type'], 'pptId.id=prj.property_type_id',[])
+        ->join(['pptCatId'=>'property_category'], 'pptCatId.id=pptId.property_category_id',[])
+        ->join(['bld'=>'builders'],'prj.builder=bld.id',[])        
+        ->where(['prj.is_active'=>1,'prj.is_delete'=>0,'ct.is_active'=>1,'ct.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0,'pptId.is_active'=>1,
+        'pptId.is_delete'=>0,'pptCatId.is_active'=>1,'bld.is_active'=>1,'bld.is_delete'=>0]);
+        $where->like('ct.city_name',$searchStr.'%');
+        $select->where($where) ->group('ct.id');
+        $ctyList = $sql->prepareStatementForSqlObject($select)->execute();
+        
+        $cityArr = [];
+        foreach($ctyList as $res){
+            if(count($res))
+                $cityArr[] = ['city_id'=>$res['id'],'city_name'=>$res['city_name']];
+        } 
+		return ['projectarr'=>$projectArr,'builderarr'=>$builderArr,'cityarr'=>$cityArr];
+    }
     public function updateanywhere($mytable, array $data, $where) {
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$table = new TableGateway($mytable, $db);
