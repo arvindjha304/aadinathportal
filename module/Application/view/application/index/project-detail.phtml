@@ -1,4 +1,11 @@
-<?php $baseUrl = $this->basePath(); ?>
+<?php $baseUrl = $this->basePath(); 
+
+//echo $this->max_floor_plan;exit;
+
+//echo '<pre>';print_r($this->projectDetail);exit;
+//echo '<pre>';print_r($this->floor_plans);exit;
+
+?>
  <!-- tabs -->
     <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl;?>/public/js/tabs/assets/css/responsive-tabs.css">
     <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl;?>/public/js/tabs/assets/css/responsive-tabs2.css">
@@ -12,9 +19,11 @@
     <div class="insidepg-heading">
   <div class="container">
    <div class="page-header1 clearfix">
-  <div class="col-md-10"><h3><?php echo $this->projectDetail['project_title']?><br> <small><?php echo $this->projectDetail['address']?></small></h3></div>
-  <a href="#"><div class="col-md-1 project-download-btnn1"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span><br>BROUCHER </div></a>  
-  <a href="#"><div class="col-md-1 project-download-btnn2"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span><br>APP-FORM</div></a>
+  <div class="col-md-10"><h3><?php echo strtoupper($this->projectDetail['project_title'])?><br> <small><?php echo $this->projectDetail['address']?></small></h3></div>
+  <?php if($this->projectDetail['brochure']!='')?>
+  <a target="_blank" href="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $this->projectDetail['brochure'];?>"><div class="col-md-1 project-download-btnn1"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span><br>BROUCHER </div></a>  
+  <?php if($this->projectDetail['application_form']!='')?>
+  <a target="_blank" href="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $this->projectDetail['application_form'];?>"><div class="col-md-1 project-download-btnn2"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span><br>APP-FORM</div></a>
   </div>
   </div>  
   </div>
@@ -81,13 +90,39 @@
 
   
   </div>
+  <?php
+        $bhkArray = [];
+        if($this->projectDetail['has_1BHK']==1)
+           $bhkArray[] = 1;
+        if($this->projectDetail['has_2BHK']==1)
+           $bhkArray[] = 2;
+        if($this->projectDetail['has_3BHK']==1)
+           $bhkArray[] = 3;
+        if($this->projectDetail['has_4BHK']==1)
+           $bhkArray[] = 4;
+        if($this->projectDetail['has_5BHK']==1)
+           $bhkArray[] = 5;
+        $bhkStr = '';
+        $pp=0;
+   // echo '<pre>';print_r($bhkArray);exit;
+        foreach($bhkArray as $bhk){
+            if($bhkStr!=''){
+                if($pp==count($bhkArray)-1)
+                    $bhkStr .= ' & ';
+                else
+                    $bhkStr .= ', ';
+            }
+            $bhkStr .= $bhk;
+            $pp++;
+        }
   
+  ?>
  <!---Slider right--->
   <div class="col-md-3">
   <div class="row">
   <div class="col-md-9 proj-detail-right1">
-  <span class="proj-price-text"><span class="rupee">`</span> 49.8 L - <span class="rupee">`</span> 1.28 Cr</span><br>
-	2/3/4 BHK
+  <span class="proj-price-text"><span class="rupee">`</span> <?php echo $this->min_floor_plan;?> - <span class="rupee">`</span> <?php echo $this->max_floor_plan;?></span><br>
+	<?php echo $bhkStr;?> BHK
   </div>
   <div class="col-md-3 proj-detail-right1">
   <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span></button>
@@ -96,7 +131,7 @@
   <div class="row">
   <div class="col-md-12  proj-detail-right1">  
   <span class="proj-price-text">POSSESSION <?php echo date('M', strtotime($this->projectDetail['possession']))?> `<?php echo date('Y', strtotime($this->projectDetail['possession']))?></span><br>
-  Last Update 05-05-2015
+  Last Update <?php echo date('m-d-Y', strtotime($this->projectDetail['last_updated']))?>
   </div>
   </div>
   <div class="row">
@@ -139,7 +174,7 @@
     <div class="divider_line1"></div>
     <div class="container">
 		<div class="one_full stcode_title7">    
-    	<h2>ABOUT   <strong><?php echo $this->projectDetail['project_title']?></strong>  PROJECT
+            <h2>ABOUT   <strong><?php echo strtoupper($this->projectDetail['project_title'])?></strong>  PROJECT
         <em><?php echo $this->projectDetail['address']?></em>
        </h2>
         
@@ -162,12 +197,9 @@
             <div class="flips4_back flipscont4 white-text">
             	<h5><strong>ADDRESS</strong></h5>
                 <p><?php echo $this->projectDetail['address']?></p>
-
             </div>
-            
         </div>
-    
-    </div><!-- end section -->
+        </div><!-- end section -->
                             
    		<div class="one_third">   
         <div class="flips4">        
@@ -210,7 +242,7 @@
             </div>            
             <div class="flips4_back flipscont4 white-text">
             	<h5><strong>STARTING PRICE</strong></h5>
-                <p><span class="rupee">`</span> 3.04 Crs</p>
+                <p><span class="rupee">`</span> <?php echo $this->min_floor_plan;?></p>
 
             </div>
             
@@ -285,7 +317,7 @@
         <tr>
           <td><?php echo $floor_plan['plan_type'] ?></th>
           <td><?php echo $floor_plan['size'] ?> <?php echo $floor_plan['unit'] ?></td>
-          <td><?php echo $floor_plan['price'] ?></td>
+          <td><?php echo $floor_plan['price'].' '.$floor_plan['price_unit'] ?></td>
           <td><a class="yo" href="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $floor_plan['floor_plan_image'] ?>" title="<?php echo $this->projectDetail['project_title']?> - FLOOR PLAN (<?php echo $floor_plan['plan_type'] ?> / <?php echo $floor_plan['size'] ?> <?php echo $floor_plan['unit'] ?>)">View Floor Plan</a></td>
         </tr>
         <?php } ?>
@@ -336,27 +368,16 @@
 
 <div class="container">
 <div class="last stcode_title5"><h3><span class="line2"></span><span class="line"></span><span class="text"><strong>ABOUT BUILDERS</strong></span></h3></div>
-		<div class="three_fourth">    
-    	<p style="text-align:justify;">
-        
-      An ISO 9001, ISO 14001 and OHSAS 18001 Certified Company, Parsvnath Developers Ltd. is backed by a team of trained employees who are provided with opportunities to learn, grow and take pride in their achievements. The company constantly researches and adapts the latest in technology to stay abreast of the current demand in order to offer a wide variety of affordable and quality solutions to its customers. Parsvnath Developers Ltd. is a dependable name in the construction industry that offers secure and luxurious housing options and convenient commercial business spaces. Today, Parsvnath Developers Ltd occupies an eminent position amongst the top Real Estate development groups in the National Capital Region (NCR) region. Through the years, Parsvnath Developers Ltd have stayed true to their commitment of building a better world by transforming barren tracts into landscaped green belts housing world class commercial, residential and recreational properties.<br><br> <a href="#"><b>View more about Builders...</b></a>
-    
- 
-  </p>
-    
-        
+	<div class="three_fourth">    
+    	<p style="text-align:justify;"><?php echo $this->projectDetail['about_builder'];?><br><br> <a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $this->projectDetail['bldId'];?>"><b>View more about Builders...</b></a></p>
     </div><!-- end section -->
     
     <div class="one_fourth last">
     <div class="last stcode_title5">
-            
-        
-        
         <ul>
-        <li>EXPERIENCE : 15 Years</li>
-        <li>TOTAL PROJECTS : 35</li>
-        <li>ONGOING PROJECTS : 15</li>
-        <li>ASSOCIATE MEMBERSHIPS : CREDAI </li>
+        <li>EXPERIENCE : <?php echo $this->projectDetail['builder_experience'];?> Years</li>
+        <li>TOTAL PROJECTS : <?php echo $this->totalProject;?></li>
+        <li>ONGOING PROJECTS : <?php echo $this->ongoingProject;?></li>
         </ul>        
     </div>
     </div>
@@ -552,15 +573,16 @@ document.getElementById("emiAmount").onblur = function (){
 
 <!--	<script language="javascript" type="text/javascript" src="zoom/js/jquery.js"></script>	-->
 	<script type="text/javascript">
-    //$(function() {
-	$(document).ready(function() {
+//    $(function() {
+//	$(document).ready(function() {
         $('.gallery a').lightBox();
 		//$('#gallery2 a').lightBox();
 		$('.gallery a.yo').lightBox();
 		//$('#gallery4 a.down').lightBox();
 		//$('#gallery5 a.me').lightBox();
 		
-    });
+//    });
+//    });
 </script>
 
 

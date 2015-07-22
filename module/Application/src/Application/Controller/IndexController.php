@@ -44,9 +44,9 @@ class IndexController extends AbstractActionController
     {
         $view = new ViewModel();
         $this->layout('layout/innerlayout');
-        $table= new TableGateway('cities',$this->getAdapter());
-        $result = $table->select(array('is_active'=>1,'is_delete'=>0))->toArray();
-        $view->setVariable('cities', $result);
+//        $table= new TableGateway('cities',$this->getAdapter());
+//        $result = $table->select(array('is_active'=>1,'is_delete'=>0))->toArray();
+        $view->setVariable('cities', $this->getModel()->getCityList());
         $table= new TableGateway('property_category',$this->getAdapter());
         $result = $table->select(array('is_active'=>1))->toArray();
         $view->setVariable('propertyCategory', $result);
@@ -110,8 +110,7 @@ class IndexController extends AbstractActionController
         $view->setVariable('propertyTypeArr', $propertyTypeArr);
         $searchResultArr = $model->searchResultData($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr);
         $view->setVariable('searchResultArr', $searchResultArr);
-//        echo '<pre>';print_r($searchResultArr);exit;
-        
+//       echo '<pre>';print_r($searchResultArr);exit;        
         return $view;
     }
 //    public function projectGridAction()
@@ -159,9 +158,17 @@ class IndexController extends AbstractActionController
         $view->setVariable('projectDetail', $projectDetail);
         $floor_plans = $model->getProjectFloorPlan($id);
         $view->setVariable('floor_plans', $floor_plans);
+        
+        $max_floor_plan = $this->getModel()->max_floor_plan_price($projectDetail['project_id']);
+        $min_floor_plan = $this->getModel()->min_floor_plan_price($projectDetail['project_id']);                
+        $view->setVariable('max_floor_plan', $max_floor_plan);       
+        $view->setVariable('min_floor_plan', $min_floor_plan);
+                
         $amenitiesArr = $model->getProjectAmenities($projectDetail['amenities']);
         $view->setVariable('amenitiesArr', $amenitiesArr);
-        
+        $countProjects = $this->getModel()->countProjects($projectDetail['bldId']);
+        $view->setVariable('totalProject', $countProjects['totalProject']);
+        $view->setVariable('ongoingProject', $countProjects['ongoingProject']);
 //         echo '<pre>';print_r($floor_plans);exit;
         
         $floorSizeArr = $floorPriceArr = array();

@@ -165,7 +165,7 @@ use Zend\Db\Sql\Where;
             $where .= "  AND prj.builder= $builderId";
         }
         
-		$sql="select prj.*,ct.*,pt.*,pc.*,bld.*,prj.id as project_id from projects prj
+		$sql="select prj.*,ct.*,st.*,pt.*,pc.*,bld.*,prj.id as project_id from projects prj
         join cities ct on ct.id=prj.city and ct.is_active=1 and ct.is_delete=0 
         join states st on st.id=ct.state_id and st.is_active=1 and st.is_delete=0  
         join property_type pt on pt.id=prj.property_type_id and pt.is_active=1 and pt.is_delete=0 
@@ -182,7 +182,7 @@ use Zend\Db\Sql\Where;
         
         $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
         
-		$sql="select prj.*,ct.*,pt.*,pc.*,bld.*,prj.id as project_id from projects prj
+		$sql="select prj.*,ct.*,pt.*,pc.*,bld.*,prj.id as project_id,bld.id as bldId from projects prj
         join cities ct on ct.id=prj.city and ct.is_active=1
         join property_type pt on pt.id=prj.property_type_id and pt.is_active=1
         join property_category pc on pc.id=pt.property_category_id and pc.is_active=1
@@ -234,7 +234,7 @@ use Zend\Db\Sql\Where;
 	
 		return $cityName;
 	}
-    public function max_floor_plan_price($project_id,$minprice,$maxprice){
+    public function max_floor_plan_price($project_id,$minprice='',$maxprice=''){
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
         $between='';
         if($minprice!='' && $maxprice!='')
@@ -242,11 +242,11 @@ use Zend\Db\Sql\Where;
 		$sql="select concat(pfp.price,' ',pfp.price_unit) as maxPrice from project_floor_plan pfp where pfp.project_id=$project_id and pfp.search_price  $between order by pfp.search_price desc limit 1";
         
         
-      //  echo $sql;exit;
+//        echo $sql;exit;
 		$result =$db->query($sql)->execute()->current();
 		return $result['maxPrice'];
 	}
-    public function min_floor_plan_price($project_id,$minprice,$maxprice){
+    public function min_floor_plan_price($project_id,$minprice='',$maxprice=''){
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
         $between='';
         if($minprice!='' && $maxprice!='')
@@ -317,7 +317,7 @@ use Zend\Db\Sql\Where;
     public function getBuilderList(){
         $table = new TableGateway('builders',$this->getAdapter());
         $selectData = $table->select(function($select){
-        $select->columns(array('id','builder_image'))
+        $select->columns(array('id','builder_footer_image'))
             ->where(array('is_active'=>1,'is_delete'=>0));
         })->toArray();
         shuffle($selectData);
@@ -327,16 +327,34 @@ use Zend\Db\Sql\Where;
     }
     public function getCityList(){
         $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
-		$sql = new Sql($db);
-		$select = $sql->select()
-        ->columns(array(new \Zend\Db\Sql\Expression('DISTINCT(city_name) as city'),'id as cityId'))
-		->from(array('ct'=>'cities'))
-        ->join(array('st'=>'states'),'st.id=ct.state_id')
-        ->where(array('ct.is_active'=>1,'ct.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0))
-        ->limit(7);
-            
-		$result = $sql->prepareStatementForSqlObject($select)->execute();
-		return $result;
+//		$sql = new Sql($db);
+//		$select = $sql->select()
+//        ->columns(array(new \Zend\Db\Sql\Expression('DISTINCT(city_name) as city'),'id as cityId'))
+//		->from(array('ct'=>'cities'))
+//        ->join(array('st'=>'states'),'st.id=ct.state_id')
+//        ->where(array('ct.is_active'=>1,'ct.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0))
+//        ->limit(7);
+//            
+//		$result = $sql->prepareStatementForSqlObject($select)->execute();
+        
+        
+        
+        $sql = new Sql($db);
+        $where = new Where();
+        $select= $sql->select()
+        ->columns([])
+		->from(['prj'=>'projects'])
+        ->join(['ct'=>'cities'],'ct.id=prj.city',['id','city_name'])
+        ->join(['st'=>'states'],'st.id=ct.state_id',[])
+        ->join(['pptId'=>'property_type'], 'pptId.id=prj.property_type_id',[])
+        ->join(['pptCatId'=>'property_category'], 'pptCatId.id=pptId.property_category_id',[])
+        ->join(['bld'=>'builders'],'prj.builder=bld.id',[])        
+        ->where(['prj.is_active'=>1,'prj.is_delete'=>0,'ct.is_active'=>1,'ct.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0,'pptId.is_active'=>1,
+        'pptId.is_delete'=>0,'pptCatId.is_active'=>1,'bld.is_active'=>1,'bld.is_delete'=>0])
+//        $where->like('ct.city_name',$searchStr.'%');
+        ->group('ct.id')->limit(7);
+        $ctyList = $sql->prepareStatementForSqlObject($select)->execute();
+		return $ctyList;
     }
     public function projectByCategory($property_type){
         $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');

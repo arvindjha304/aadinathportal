@@ -54,12 +54,12 @@ function submitForm(){
 	}
 	SITEROOT = '<?php echo $baseUrl?>';
 	if(propertyType!=''){
-		$.post(SITEROOT+'/admin/checkname', {name:propertyType,field:'property_type'},function(response){
-			if(response == '1'){
-				$("#nameExist").text('Name entered already exists.').show();
-				error = 1;
-				return false;
-			}else{
+//		$.post(SITEROOT+'/admin/checkname', {name:propertyType,field:'property_type'},function(response){
+//			if(response == '1'){
+//				$("#nameExist").text('Name entered already exists.').show();
+//				error = 1;
+//				return false;
+//			}else{
 				var chknumber = hasNumbers($('#propertyType').val());
 				if(chknumber==true){
 					$("#nameExist").text('Property Type cannot have numbers.').show();
@@ -72,8 +72,8 @@ function submitForm(){
 				if(error==0){
 					$('#propertyTypeform').submit();
 				}
-			}
-		});
+//			}
+//		});
 	}
 return false;
 }

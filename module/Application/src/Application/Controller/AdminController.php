@@ -636,11 +636,12 @@ class AdminController extends AbstractActionController
 		if ($request->isPost()) {
 	
 			$data = array(
-				'builder_name'		=> 	$this->params()->fromPost('builder_name'),
-				'about_builder'		=> 	$this->params()->fromPost('about_builder'),
-				'builder_experience'=> 	$this->params()->fromPost('experience'),
-				'priority'			=> 	$this->params()->fromPost('priority'),
-				'builder_image'		=> 	$this->params()->fromPost('imagename_1'),
+				'builder_name'          => 	$this->params()->fromPost('builder_name'),
+				'about_builder'         => 	$this->params()->fromPost('about_builder'),
+				'builder_experience'    => 	$this->params()->fromPost('experience'),
+				'priority'              => 	$this->params()->fromPost('priority'),
+				'builder_image'         => 	$this->params()->fromPost('imagename_1'),
+				'builder_footer_image'	=> 	$this->params()->fromPost('imagename_2'),
 			);
 			
 			if(isset($id)){

@@ -58,6 +58,11 @@ $(function(){
 	 var status=$('#status');
 	 ajaxUpload(btnUpload,status,1);
 });
+$(function(){
+	 var btnUpload=$('#upload_2');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,2);
+});
 
 function ajaxUpload(btnUpload,status,id){
 	 var url='<?php echo $baseUrl ?>';
@@ -87,7 +92,7 @@ function ajaxUpload(btnUpload,status,id){
 			         
 		             document.getElementById("imagename_"+id).value = response;
 		             $('#preview_'+id).show();
-		             $('<div></div>').appendTo('#files_'+id).html('<img height="50" width="50"  src="'+filepath+'" alt="" /><br />').addClass('success');
+		             $('#files_'+id).html('<img height="50" width="50"  src="'+filepath+'" alt="" /><br />').addClass('success');
 		           //  $('#lastImageId').val(id+1);
 		         } else{
 		            // $('<div></div>').appendTo('#files').text(response).addClass('error');
@@ -138,24 +143,35 @@ function delDiv(id){
         <textarea name="about_builder" style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="about_builder"><?php if(isset($this->builderDetail[0]['about_builder'])) echo $this->builderDetail[0]['about_builder']; ?></textarea>
         </div>
     </div>
-     <div class="content2">
+    <div class="content2">
     	<input type='hidden' name='imagename_1' id='imagename_1' value='<?php echo $this->builderDetail[0]['builder_image']; ?>'>
 		<div class="content3"><span style="color:red">*</span>Image:(200 * 67)</div>
         <div class="content4-builder">
 			<button class="" style="height:28px;margin-left:10px;" id="upload_1">Browse</button>
-			
-			<button class="" style="height:28px;margin-left:10px;display:none; background-color:#333; color:#fff; border" id="preview_1" onclick="return previewImage('1')">Preview</button>
 			<div class="am" >
-		        <div class="" id="files_1" style="display: none"></div>
+                <div class="" id="files_1">
 		        <?php if(isset($this->builderDetail[0]['builder_image'])) {?>
 					<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->builderDetail[0]['builder_image']; ?>"/> 
 				<?php }?>
+                </div>
 				
 	    	</div>
 		</div>
-		
 	</div>
-	
+	<div class="content2">
+    	<input type='hidden' name='imagename_2' id='imagename_2' value='<?php echo $this->builderDetail[0]['builder_footer_image']; ?>'>
+		<div class="content3"><span style="color:red">*</span>Builder Footer Image:<br>(200 * 67)</div>
+        <div class="content4-builder">
+			<button class="" style="height:28px;margin-left:10px;" id="upload_2">Browse</button>
+			<div class="am" >
+                <div class="" id="files_2">
+		        <?php if(isset($this->builderDetail[0]['builder_footer_image'])) {?>
+					<img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->builderDetail[0]['builder_footer_image']; ?>"/> 
+				<?php }?>
+                </div>
+	    	</div>
+		</div>
+	</div>
     
     
     <div class="content2">

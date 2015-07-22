@@ -169,10 +169,35 @@
         $count = 0;
         foreach($this->searchResultArr as $searchResult){
         $count++;
+        $bhkArray = [];
+        if($searchResult['has_1BHK']==1)
+           $bhkArray[] = 1;
+        if($searchResult['has_2BHK']==1)
+           $bhkArray[] = 2;
+        if($searchResult['has_3BHK']==1)
+           $bhkArray[] = 3;
+        if($searchResult['has_4BHK']==1)
+           $bhkArray[] = 4;
+        if($searchResult['has_5BHK']==1)
+           $bhkArray[] = 5;
+        $bhkStr = '';
+        $pp=0;
+   // echo '<pre>';print_r($bhkArray);exit;
+        foreach($bhkArray as $bhk){
+            if($bhkStr!=''){
+                if($pp==count($bhkArray)-1)
+                    $bhkStr .= ' & ';
+                else
+                    $bhkStr .= ', ';
+            }
+            $bhkStr .= $bhk;
+            $pp++;
+        }
+//        echo $bhkStr;exit;
     ?>
         <div class="one_fourth_less <?php if($count % 4 == 0){ echo 'last';}?> "  >    
             <a href="<?php echo $baseUrl;?>/index/project-detail?id=<?php echo $searchResult['project_id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $searchResult['project_image']?>" alt="" /></a>
-            <h5><a href="<?php echo $baseUrl;?>/index/project-detail?id=<?php echo $searchResult['project_id']?>"><?php echo $searchResult['project_title']?></a> <em><?php echo $searchResult['address']?></em></h5>
+            <h5><a href="<?php echo $baseUrl;?>/index/project-detail?id=<?php echo $searchResult['project_id']?>"><?php echo $searchResult['project_title']?></a> <em><?php echo $searchResult['city_name'].', '.$searchResult['state_name']?></em></h5>
              <?php  $floorSizeArr = array();$floorPriceArr = array();
              if(count($searchResult['floor_plans'])){
                     foreach($searchResult['floor_plans'] as $floor_plan){
@@ -180,13 +205,13 @@
                         $floorSizeArr[]= $floor_plan['size'];
              }}?>
             <div class="grid_type">
-            4, 2 & 3 BHK ( <?php if(count($floorSizeArr)) echo max($floorSizeArr)?> - <?php if(count($floorSizeArr)) echo min($floorSizeArr)?> sq ft )<br>
+            <?php echo $bhkStr;?> BHK ( <?php if(count($floorSizeArr)) echo max($floorSizeArr)?> - <?php if(count($floorSizeArr)) echo min($floorSizeArr)?> sq ft )<br>
             <span class="grid_type_left_smltxt">Possession Date: <?php echo date('M', strtotime($searchResult['possession']))?> `<?php echo date('Y', strtotime($searchResult['possession']))?></span>
             </div>
             <div class="grid_button">
             <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> <?php if(count($floorPriceArr)) echo $searchResult['min_floor_plan_price']?></div>
             <div class="grid_button_right">
-            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal1">GET CALL BACK</button></div>
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" onclick="return getCallBAck('<?php echo $searchResult['project_id']?>','<?php echo $searchResult['project_title']?>')">GET CALL BACK</button></div>
             </div>
         </div>
         
@@ -198,6 +223,7 @@
         if($count % 8 == 0){
             $container = new Zend\Session\Container('searchSessionFields');
             $bannerArr = $container->projectBanner;
+            if(count($bannerArr))
             shuffle($bannerArr);
         ?>
         <div class="container insidepg-proj-row">
@@ -221,6 +247,7 @@
         
         <?php $container = new Zend\Session\Container('searchSessionFields');
         $bannerArr = $container->projectBanner;
+        if(count($bannerArr))
         shuffle($bannerArr); ?>
         var returnArr = new Array();
         returnArr['project_id']      = '<?php echo $bannerArr[0]['project_id']?>';
