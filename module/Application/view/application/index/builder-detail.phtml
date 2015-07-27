@@ -258,7 +258,19 @@ $(document).mousewheel(function(event, delta) {
 //      alert(' down');
     
  });
-
+ 
+   function shuffleProjectBanner(){
+        
+        <?php $container = new Zend\Session\Container('searchSessionFields');
+        $bannerArr = $container->projectBanner;
+        if(count($bannerArr))
+        shuffle($bannerArr); ?>
+        var returnArr = new Array();
+        returnArr['project_id']      = '<?php echo $bannerArr[0]['project_id']?>';
+        returnArr['banner_image']    = '<?php echo $bannerArr[0]['banner_image']?>';
+        return returnArr;
+    }
+ 
 
 </script>
  

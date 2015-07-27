@@ -15,6 +15,9 @@ use Zend\Db\TableGateway\TableGateway;
 use Zend\Session\Container;
 use Zend\Session\Config\StandardConfig;
 use Zend\Session\SessionManager;
+use Zend\Mail;
+
+
 
 class IndexController extends AbstractActionController
 {
@@ -104,7 +107,7 @@ class IndexController extends AbstractActionController
         $view->setVariable('propertyType',(isset($refineSearchArr['propertyType'])) ? $refineSearchArr['propertyType'] : '');
         $view->setVariable('budget',(isset($refineSearchArr['budget'])) ? $refineSearchArr['budget'] : '');
         $view->setVariable('bedroom',(isset($refineSearchArr['bedroom'])) ? $refineSearchArr['bedroom'] : '');
-       // echo '<pre>';print_r($refineSearchArr);exit;
+//        echo '<pre>';print_r($refineSearchArr);exit;
         $table = new TableGateway('property_type',$this->getAdapter());
         $propertyTypeArr = $table->select(array('property_category_id'=>$propcategory_id,'is_active'=>1))->toArray(); 
         $view->setVariable('propertyTypeArr', $propertyTypeArr);
@@ -180,6 +183,161 @@ class IndexController extends AbstractActionController
         $view->setVariable('floorPriceArr', $floorPriceArr);
         return $view;
     }
+    
+    
+    public function htmlmailAction(){
+        $to_email='arvindjha304@gmail.com';
+        $to_name='Arvind Jha';
+        $subject='Test mail 24 July';
+        $body='This id a dummy text.';
+        $htmltext = '<b>heii, <i>sorry</i>, i\'m going late</b>';
+        $this->getModel()->sendmail($to_email,$to_name,$subject,$body);
+        
+        
+//        exit;
+        
+        $this->getModel()->sendmailHTML($to_email,$to_name,$subject,$htmltext);
+        
+        exit;
+        
+    //    $_SERVER[HTTP_HOST] => localhost
+        
+        
+    //    echo '<PRE>';PRINT_R($_SERVER);exit;
+        
+//        $message = new \Zend\Mail\Message();
+//        $message->addTo('arvindjha304@gmail.com')
+//            ->addFrom('arvindjha304@gmail.com')
+//            ->setSubject('Test send mail using ZF2');
+//
+//        // Setup SMTP transport using LOGIN authentication
+//        $transport = new \Zend\Mail\Transport\Smtp();
+//        $options   = new \Zend\Mail\Transport\SmtpOptions(array(
+//            'host'              => 'smtp.gmail.com',
+//            'connection_class'  => 'login',
+//            'connection_config' => array(
+//                'ssl'       => 'tls',
+//                'username' => 'test00455@gmail.com',
+//                'password' => 'Test@1423'
+//            ),
+//            'port' => 587,
+//        ));
+//
+//        $html = new \Zend\Mime\Part('<b>heii, <i>sorry</i>, i\'m going late</b>');
+//        $html->type = "text/html";
+//
+//        $body = new \Zend\Mime\Message();
+//        $body->addPart($html);
+//
+//        $message->setBody($body);
+//
+//        $transport->setOptions($options);
+//        $transport->send($message);
+//
+//        exit;
+
+
+//        $message = new \Zend\Mail\Message();
+//
+//        $message->setBody('This is the body');
+//        $message->setFrom('enjoylife304@gmail.com');
+//        $message->addTo('arvindjha304@gmail.com');
+//        $message->setSubject('Test subject');
+//
+//        $smtpOptions = new \Zend\Mail\Transport\SmtpOptions();
+//
+//        $smtpOptions->setHost('smtp.gmail.com')
+//                    ->setConnectionClass('login')
+//                    ->setName('smtp.gmail.com')
+//                    ->setConnectionConfig(array(
+//                            'username' => 'test00455@gmail.com',
+//                            'password' => 'Test@1423',
+//                            'ssl' => 'tls',
+//                        )
+//                    );
+//
+//        $transport = new \Zend\Mail\Transport\Smtp($smtpOptions);
+//        $transport->send($message);
+//
+//
+//
+//
+//        exit;
+
+//        $mail = new \Zend\Mail\Message();
+//        $mail->setBody('This is the text of the email.');
+//        $mail->setFrom('admin@aadinathindia.com', 'Admin');
+//        $mail->addTo('arvindjha304@gmail.com', 'Arvind Jha');
+//        $mail->setSubject('TestSubject');
+//
+//        $transport = new \Zend\Mail\Transport\Sendmail();
+//        
+//        $transport->send($mail);
+//        
+//        exit;
+        
+//        $to = "arvindjha304@gmail.com";
+//        $subject = "My subject";
+//        $txt = "Hello world!";
+//        $headers = "From: webmaster@example.com" . "\r\n" .
+//        "CC: somebodyelse@example.com";
+//
+//        mail($to,$subject,$txt,$headers);
+//
+//        exit;
+        
+        
+//        $userid='1';
+//        $name='Arvind Jha';
+//        $create_date=date("Y-m-d H:i:s");
+//        $useremail='arvind@gmail.com';
+//        $contact='2314568970';
+//        $project='1';
+//        $mes='messagemessagemessage';
+//        $subject ="Amaatra Homes";
+//        $source = '9';
+//        $adminemail ="arvindjha304@gmail.com";
+//        $message = "<table width='50%' border='0' cellspacing='8' cellpadding='4' align='center' style='border:#00CCFF solid 3px; color:#333333;'>
+//         <tr>
+//           <td><div>
+//
+//               <div>&nbsp;</div>
+//
+//               <div><b>Name : ".$name."</b></div>
+//
+//               <div>&nbsp;</div>
+//         <div><b>Email : ".$useremail."</b></div>
+//         <div>&nbsp;</div>
+//         <div><b>Phone Number : ".$contact."</b></div>
+//         <div>&nbsp;</div>
+//         <div><b>Message : ".$mes."</b></div>
+//         <div>&nbsp;</div>
+//         <div><b>Subject : ".$subject."</b></div>
+//         <div>&nbsp;</div>
+//
+//
+//       </div></td>
+//         </tr>
+//       </table>";
+//          
+//            $headers  = 'MIME-Version: 1.0' . "\r\n";
+//         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+//         $headers  = 'MIME-Version: 1.0' . "\r\n";
+//         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+//         $headers .= 'From:Admin'. "\r";
+//         $headers .= 'otp@drproperty.in'. "\r\n";
+//
+//echo 'AAAABBBB';exit;
+//           if(mail($adminemail, $subject, $message, $headers)){
+//               echo 'Your mail has been sent successfully.';
+//           } else{
+//               echo 'Unable to send email. Please try again.';
+//           }
+//       exit;
+    }
+    
+    
+    
     public function getcallbackAction(){
         if($this->getRequest()->isXmlHttpRequest()){
             $data = array(
@@ -191,6 +349,13 @@ class IndexController extends AbstractActionController
             if($data['mobile']!=''){
                 $this->getModel()->insertanywhere('callback_interested_users', $data);
                 $this->getModel()->sendNewsLetter($data);
+//               $htmlBody = '<b>Hello World</b>';
+//               $textBody = 'mail';
+//               $subject = 'Test Mail';
+//               $from = 'arvind@idi.com';
+//               $to  = 'arvindjha304@gmail.com';
+//                
+//                $this->getModel()->sendMail($htmlBody, $textBody, $subject, $from, $to);
             } 
             exit(1);
         }
@@ -223,6 +388,7 @@ class IndexController extends AbstractActionController
         $this->layout('layout/innersearchlayout');
         $id=$this->params()->fromQuery('id');
         if(isset($id) && $id!=''){
+            
             $table = new TableGateway('builders',$this->getAdapter());
             $builderDetail = $table->select(array('id'=>$id))->toArray();
             $view->setVariable('builderDetail', $builderDetail);
@@ -235,9 +401,8 @@ class IndexController extends AbstractActionController
             $view->setVariable('propertyType',(isset($refineSearchArr['propertyType'])) ? $refineSearchArr['propertyType'] : '');
             $view->setVariable('budget',(isset($refineSearchArr['budget'])) ? $refineSearchArr['budget'] : '');
             $view->setVariable('bedroom',(isset($refineSearchArr['bedroom'])) ? $refineSearchArr['bedroom'] : '');
-            $builderId = $builderDetail[0]['id'];      
+            $builderId = $builderDetail[0]['id'];  
             $searchResultArr = $this->getModel()->searchResultData('','','','',$refineSearchArr,$builderId);
-//      echo 1111;exit;
             $countProjects = $this->getModel()->countProjects($builderId);
             $view->setVariable('totalProject', $countProjects['totalProject']);
             $view->setVariable('ongoingProject', $countProjects['ongoingProject']);

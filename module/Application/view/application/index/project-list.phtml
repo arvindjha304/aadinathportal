@@ -205,7 +205,7 @@
                         $floorSizeArr[]= $floor_plan['size'];
              }}?>
             <div class="grid_type">
-            <?php echo $bhkStr;?> BHK ( <?php if(count($floorSizeArr)) echo max($floorSizeArr)?> - <?php if(count($floorSizeArr)) echo min($floorSizeArr)?> sq ft )<br>
+            <?php echo $bhkStr;?> BHK ( <?php if(count($floorSizeArr)) echo min($floorSizeArr)?> - <?php if(count($floorSizeArr)) echo max($floorSizeArr)?> sq ft )<br>
             <span class="grid_type_left_smltxt">Possession Date: <?php echo date('M', strtotime($searchResult['possession']))?> `<?php echo date('Y', strtotime($searchResult['possession']))?></span>
             </div>
             <div class="grid_button">

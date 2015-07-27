@@ -8,6 +8,11 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Where;
+
+use Zend\Mail;
+use Zend\Mime\Message as MimeMessage;
+use Zend\Mime\Part as MimePart;
+
  class Index extends AbstractTableGateway implements ServiceLocatorAwareInterface {
 
 	protected $serviceLocator;
@@ -36,77 +41,165 @@ use Zend\Db\Sql\Where;
 		$result =$db->query($sql)->execute()->current();
 		return $result;
 	}
-	
+//	function sendMail($htmlBody, $textBody, $subject, $from, $to)
+//    {
+//        $to = 'arvindjha304@gmail.com';
+//        $from = 'noreply@idi.com';
+//        $subject = 'Website Change Reqest';
+//
+//        $headers = "From: noreply@idi.com\r\n";
+//        $headers .= "Reply-To: noreply@idi.com\r\n";
+//        $headers .= "CC: susan@example.com\r\n";
+//        $headers .= "MIME-Version: 1.0\r\n";
+//
+//        $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+//
+//
+//        $message = '<html><body>';
+//        $message .= '<h1>Hello, World!</h1>';
+//        $message .= '</body></html>';
+//
+//
+////        mail($to, $subject, $message, $headers);
+//        if(mail($to, $subject, $message, $headers)){
+//            echo 'Your mail has been sent successfully.';
+//        } else{
+//            echo 'Unable to send email. Please try again.';
+//        }
+//
+//
+//        return 1;
+//    }
     public function sendNewsLetter($data){
+        $project_id = $data['project_id'];
+        $user_email = $data['email'];
+        $projectDetail = $this->getProjectDetail($project_id);
+        $min_floor_plan = $this->min_floor_plan_price($project_id);   
+//        echo '<pre>';print_r($projectDetail);exit;
         
         $html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
         <html xmlns="http://www.w3.org/1999/xhtml">
         <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Express Zenith Newsletter</title>
+        <title>'.$projectDetail['project_title'].'</title>
         </head>
 
         <body style="margin:0; padding:0;">
         <table width="640" border="0" cellpadding="0" cellspacing="0"  bgcolor="#fff" style="margin:auto; border:3px solid #02753e;">
           <tr>
-            <td colspan="2" align="center" style="padding-top:20px; padding-bottom:10px;"><img width="252" height="61" src="http://aadinathindia.com/public/images/builders/sikka.png" /></td>
+            <td colspan="2" align="center" style="padding-top:20px; padding-bottom:10px;"><img width="252" height="61" src="http://aadinathindia.com/public/uploadfiles/'.$projectDetail['builder_image'].'" /></td>
           </tr>
           <tr>
-            <td colspan="2" align="center" style="font-family:Arial, Helvetica, sans-serif;font-size:60px;font-weight:bold;color:#b7291d">Express Zenith</td>
+            <td colspan="2" align="center" style="font-family:Arial, Helvetica, sans-serif;font-size:60px;font-weight:bold;color:#b7291d">'.$projectDetail['project_title'].'</td>
           </tr>
           <tr>
-            <td colspan="2" align="center" style="font-family:Arial, Helvetica, sans-serif;font-size:24px;font-weight:bold;padding-top:5px;padding-bottom:20px;">SECTOR - 77, NOIDA</td>
+            <td colspan="2" align="center" style="font-family:Arial, Helvetica, sans-serif;font-size:24px;font-weight:bold;padding-top:5px;padding-bottom:20px;">'.$projectDetail['location_name'].', '.$projectDetail['city_name'].'</td>
           </tr>
           <tr>
-            <td colspan="2" align="center" style="font-family:Arial, Helvetica, sans-serif;font-size:24px;font-weight:bold;padding:10px;color:#fff;background-color:#02753e;">For Booking, Call us on +91-8882 770 770</td>
+            <td colspan="2" align="center" style="font-family:Arial, Helvetica, sans-serif;font-size:24px;font-weight:bold;padding:10px;color:#fff;background-color:#02753e;">For Booking, Call us on +91-9650 797 111</td>
           </tr>
           <tr>    
-            <td align="left" style="padding-left:20px;padding-top:20px;"><a href="#"><img width="98" height="50" src="img/logo.jpg" /></a></td>
-            <td align="right" style="padding-right:20px;padding-top:20px;font-size:16px;color:#b7291d;text-shadow:1px 1px #999;line-height:22px;font-weight:bold;font-family:"Times New Roman", Times, serif;"><span style="font-size:24px;">Price</span><br /> 0000 /- Sq Ft Onwards</td>
+            <td align="right" style="padding-right:20px;padding-top:20px;font-size:16px;color:#b7291d;text-shadow:1px 1px #999;line-height:22px;font-weight:bold;font-family:\'Times New Roman\', Times, serif;"><span style="font-size:24px;">Price</span><br /> '.$min_floor_plan.'/Sq Ft Onwards</td>
           </tr>
           <tr>
             <td colspan="2" align="justify" style="font-family:Arial, Helvetica, sans-serif;font-size:12px;padding:10px 20px 10px 20px;color:#333;line-height:20px;font-weight:600">    
-            <p>Express Zenith, an iconic project unleashed by the Express Group is located in Noida Sector 77. It offers posh 2/3 bhk residential apartments with an exclusive limited edition of 700 units. Being constructed across a prime land of 5.5 acres, this beautiful township constitutes of 6 towers and 19 floors. This project has been conceptualized thoughtfully with a provision of spaciously designed apartment size ranging from 1075-1765 sqft.</p>
+            <p>'.$projectDetail['project_desc'].'</p>
             </td>
           </tr>  
           <tr>
-            <td colspan="2"><img width="634" height="250" src="img/slider.jpg" /></td>
+            <td colspan="2"><img width="634" height="250" src="http://aadinathindia.com/public/uploadfiles/'.$projectDetail['project_image'].'" /></td>
           </tr>
           <tr>
-            <td colspan="2" align="center" style="padding:10px;"><a href="#" style="text-decoration:none;"><div style="width:220px;background-color:#b7291d;border-radius: 35px 35px 35px 35px;-moz-border-radius: 35px 35px 35px 35px;-webkit-border-radius: 35px 35px 35px 35px;border:0px solid #000000;color:#fff;font-size:14px;font-weight:bold;font-family:Arial, Helvetica, sans-serif;padding:7px;text-align:center;">Click here to view details</div></a></td>
+            <td colspan="2" align="center" style="padding:10px;"><a href="http://aadinathindia.com/index/project-detail?id='.$projectDetail['project_id'].'" style="text-decoration:none;"><div style="width:220px;background-color:#b7291d;border-radius: 35px 35px 35px 35px;-moz-border-radius: 35px 35px 35px 35px;-webkit-border-radius: 35px 35px 35px 35px;border:0px solid #000000;color:#fff;font-size:14px;font-weight:bold;font-family:Arial, Helvetica, sans-serif;padding:7px;text-align:center;">Click here to view details</div></a></td>
           </tr>
           <tr>
             <td colspan="2" align="center" style="font-family:Arial, Helvetica, sans-serif;font-size:12px;color:#333;line-height:16px;">For further information on projects, you can get in touch with us<br />
         through email, phone or visit us online </td>
           </tr>
           <tr>
-            <td colspan="2" align="center" style="font-family:Arial, Helvetica, sans-serif;font-size:13px;padding:10px;color:#333;line-height:16px;font-weight:600;">Phone: +91-8882-770-770 &nbsp;|&nbsp; Email: <a href="#">ceo@urbanavenues.in</a> &nbsp;|&nbsp; Website: <a href="#">urbanavenues.in</a></td>           </tr>
+            <td colspan="2" align="center" style="font-family:Arial, Helvetica, sans-serif;font-size:13px;padding:10px;color:#333;line-height:16px;font-weight:600;">Phone: +91-9650 797 111 &nbsp;|&nbsp; Email: <a>crm@aadinathindia.com</a> &nbsp;|&nbsp; Website: <a href="http://aadinathindia.com/">aadinathindia.com</a></td>           </tr>
         </table>
         </body>
         </html>'; 
-       // $projectDetail = $this->getProjectDetail($id);
-        $m = new \Zend\Mail\Message();
-        $m->addFrom('noreply@aadinath.co,', '')
-          ->addTo('ally@me.com', 'Ally Joe')
-          ->setSubject('Test');
-
-        $bodyPart = new \Zend\Mime\Message();
-
-        $bodyMessage = new \Zend\Mime\Part($html);
-        $bodyMessage->type = 'text/html';
-
-        $bodyPart->setParts(array($bodyMessage));
-
-        $m->setBody($bodyPart);
-        $m->setEncoding('UTF-8');
-        
-        $transport = new \Mail\Transport\Sendmail();
-        $transport->send($m);
-        
+       $subject = $projectDetail['project_title']. ' Newsletter';
+       
+    //   $user_email = 'arvindjha304@gmail.com';
+       
+       $this->sendmailHTML($user_email,'',$subject,$html);
     }
-
-    public function searchProjects($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr,$builderId=''){
+    
+    public function sendmail($to_email,$to_name,$subject,$body){
+        $message = new \Zend\Mail\Message();
+        $message->addTo($to_email, $to_name)
+                ->setFrom('no-reply@aadinathindia.com', 'Aadinath India')
+                ->setSubject($subject)
+                ->setBody($body);
         
+        if($_SERVER['HTTP_HOST']=='localhost'){
+           
+            $smtpOptions = new \Zend\Mail\Transport\SmtpOptions();
+            $smtpOptions->setHost('smtp.gmail.com')
+            ->setConnectionClass('login')
+            ->setName('smtp.gmail.com')
+            ->setConnectionConfig(array(
+                    'username' => 'mail.discoverysolutions@gmail.com',
+                    'password' => 'Discovery@123',
+//                    'username' => 'test00455@gmail.com',
+//                    'password' => 'Test@1423',
+                    'ssl' => 'tls',
+                )
+            ); 
+            $transport = new \Zend\Mail\Transport\Smtp($smtpOptions);
+            $transport->send($message);
+        }else{
+            $transport = new \Zend\Mail\Transport\Sendmail();
+            $transport->send($message);
+        }
+        return 1;
+    }
+    public function sendmailHTML($to_email,$to_name,$subject,$htmltext){
+        $message = new \Zend\Mail\Message();
+        $message->addTo($to_email, $to_name)
+                ->setFrom('no-reply@aadinathindia.com', 'Aadinath India')
+                ->setSubject($subject);
+       // $htmltext = '<b>heii, <i>sorry</i>, i\'m going late</b>';
+        
+        if($_SERVER['HTTP_HOST']=='localhost'){
+            $transport = new \Zend\Mail\Transport\Smtp();
+            $options   = new \Zend\Mail\Transport\SmtpOptions(array(
+                'host'              => 'smtp.gmail.com',
+                'connection_class'  => 'login',
+                'connection_config' => array(
+                    'ssl'       => 'tls',
+                    'username' => 'mail.discoverysolutions@gmail.com',
+                    'password' => 'Discovery@123'
+//                      'username' => 'test00455@gmail.com',
+//                      'password' => 'Test@1423', 
+                ),
+                'port' => 587,
+            ));
+            $html = new \Zend\Mime\Part($htmltext);
+            $html->type = "text/html";
+            $body = new \Zend\Mime\Message();
+            $body->addPart($html);
+            $message->setBody($body);
+            $transport->setOptions($options);
+            $transport->send($message);
+        }else{
+            $bodyPart = new \Zend\Mime\Message();
+            $bodyMessage = new \Zend\Mime\Part($htmltext);
+            $bodyMessage->type = 'text/html';
+            $bodyPart->setParts(array($bodyMessage));
+            $message->setBody($bodyPart);
+            $message->setEncoding('UTF-8');
+            $transport = new \Zend\Mail\Transport\Sendmail();
+            $transport->send($message); 
+        }
+        return 1;
+    }
+    
+    
+    public function searchProjects($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr,$builderId=''){
         $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
         
         $possession     = (isset($refineSearchArr['possession'])) ? $refineSearchArr['possession'] : '';
@@ -166,7 +259,8 @@ use Zend\Db\Sql\Where;
         }
         
 		$sql="select prj.*,ct.*,st.*,pt.*,pc.*,bld.*,prj.id as project_id from projects prj
-        join cities ct on ct.id=prj.city and ct.is_active=1 and ct.is_delete=0 
+        join locations lt on lt.id=prj.location and lt.is_active=1 and lt.is_delete=0 
+        join cities ct on ct.id=prj.city and ct.is_active=1 
         join states st on st.id=ct.state_id and st.is_active=1 and st.is_delete=0  
         join property_type pt on pt.id=prj.property_type_id and pt.is_active=1 and pt.is_delete=0 
         join property_category pc on pc.id=pt.property_category_id and pc.is_active=1
@@ -182,7 +276,8 @@ use Zend\Db\Sql\Where;
         
         $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
         
-		$sql="select prj.*,ct.*,pt.*,pc.*,bld.*,prj.id as project_id,bld.id as bldId from projects prj
+		$sql="select prj.*,lt.*,ct.*,pt.*,pc.*,bld.*,prj.id as project_id,bld.id as bldId from projects prj
+        join locations lt on lt.id=prj.location and lt.is_active=1 and lt.is_delete=0 
         join cities ct on ct.id=prj.city and ct.is_active=1
         join property_type pt on pt.id=prj.property_type_id and pt.is_active=1
         join property_category pc on pc.id=pt.property_category_id and pc.is_active=1
@@ -196,8 +291,7 @@ use Zend\Db\Sql\Where;
     }
     
     public function searchResultData($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr,$builderId=''){
-        
-        $searchResult = $this->searchProjects($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr,$builderId='');
+        $searchResult = $this->searchProjects($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr,$builderId);
         
         $searchResultArr = array();
         $count = 0;
