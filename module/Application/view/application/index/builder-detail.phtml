@@ -21,10 +21,10 @@
         <li class="dropdown">
             <a  class="dropdown-toggle cursor" data-toggle="dropdown" role="button" aria-expanded="false" ><span id="possessionText" >Possession</span><span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a ><input type="checkbox" onchange="managePossession('readyToMoveIn')" id="readyToMoveIn" value="readyToMoveIn"><span id="text_readyToMoveIn" > Ready to move in</span></a></li>
-            <li><a ><input type="checkbox" onchange="managePossession('upto3month')" id="upto3month" value="upto3month"><span id="text_upto3month" > Upto 3 Months</span></a></li>
-            <li><a ><input type="checkbox" onchange="managePossession('upto6month')" id="upto6month" value="upto6month"><span id="text_upto6month" > Upto 6 Months</span></a></li>
-            <li><a ><input type="checkbox" onchange="managePossession('upto9month')" id="upto9month" value="upto9month"><span id="text_upto9month" > Upto 9 Months</span></a></li>            
+            <li><a style="cursor:default;"><input type="checkbox" onchange="managePossession('readyToMoveIn')" id="readyToMoveIn" value="readyToMoveIn" class="cursor"><span id="text_readyToMoveIn" > Ready to move in</span></a></li>
+            <li><a style="cursor:default;"><input type="checkbox" onchange="managePossession('upto3month')" id="upto3month" value="upto3month" class="cursor"><span id="text_upto3month" > Upto 3 Months</span></a></li>
+            <li><a style="cursor:default;"><input type="checkbox" onchange="managePossession('upto6month')" id="upto6month" value="upto6month" class="cursor"><span id="text_upto6month" > Upto 6 Months</span></a></li>
+            <li><a style="cursor:default;"><input type="checkbox" onchange="managePossession('upto9month')" id="upto9month" value="upto9month" class="cursor"><span id="text_upto9month" > Upto 9 Months</span></a></li>            
           </ul>
         </li>
 <!--    <li class="dropdown">
@@ -39,22 +39,22 @@
         <li class="dropdown">
           <a class="dropdown-toggle cursor" data-toggle="dropdown" role="button" aria-expanded="false" id="budgetFilter">Budget <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-              <li><a ><input type="checkbox" onchange="manageBudget(2500000)" id="budget_2500000" value="2500000">&nbsp;&nbsp;<span class="rupee">`</span> 25 L</a></li> 
-              <li><a ><input type="checkbox" onchange="manageBudget(5000000)" id="budget_5000000" value="5000000">&nbsp;&nbsp;<span class="rupee">`</span> 50 L</a></li> 
-              <li><a ><input type="checkbox" onchange="manageBudget(7500000)" id="budget_7500000" value="7500000">&nbsp;&nbsp;<span class="rupee">`</span> 75 L</a></li> 
-              <li><a ><input type="checkbox" onchange="manageBudget(10000000)" id="budget_10000000" value="10000000">&nbsp;&nbsp;<span class="rupee">`</span> 1.00 Cr</a></li> 
-              <li><a ><input type="checkbox" onchange="manageBudget(15000000)" id="budget_15000000" value="15000000">&nbsp;&nbsp;<span class="rupee">`</span> 1.50 Cr</a></li> 
-              <li><a ><input type="checkbox" onchange="manageBudget(20000000)" id="budget_20000000" value="20000000">&nbsp;&nbsp;<span class="rupee">`</span> 2.00 Cr</a></li> 
+              <li><a style="cursor:default;"><input type="checkbox" onchange="manageBudget(2500000)" id="budget_2500000" value="2500000" class="cursor">&nbsp;&nbsp;<span class="rupee">`</span> 25 L</a></li> 
+              <li><a style="cursor:default;"><input type="checkbox" onchange="manageBudget(5000000)" id="budget_5000000" value="5000000" class="cursor">&nbsp;&nbsp;<span class="rupee">`</span> 50 L</a></li> 
+              <li><a style="cursor:default;"><input type="checkbox" onchange="manageBudget(7500000)" id="budget_7500000" value="7500000" class="cursor">&nbsp;&nbsp;<span class="rupee">`</span> 75 L</a></li> 
+              <li><a style="cursor:default;"><input type="checkbox" onchange="manageBudget(10000000)" id="budget_10000000" value="10000000" class="cursor">&nbsp;&nbsp;<span class="rupee">`</span> 1.00 Cr</a></li> 
+              <li><a style="cursor:default;"><input type="checkbox" onchange="manageBudget(15000000)" id="budget_15000000" value="15000000" class="cursor">&nbsp;&nbsp;<span class="rupee">`</span> 1.50 Cr</a></li> 
+              <li><a style="cursor:default;"><input type="checkbox" onchange="manageBudget(20000000)" id="budget_20000000" value="20000000" class="cursor">&nbsp;&nbsp;<span class="rupee">`</span> 2.00 Cr</a></li> 
           </ul>
         </li>
         <li class="dropdown">
           <a class="dropdown-toggle cursor" data-toggle="dropdown" role="button" aria-expanded="false" id="bedroomFilter">Bedrooms <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a ><input type="checkbox" onchange="manageBedrooms(1)" id="bedroom_1" value="1"> 1 Bedroom</a></li>
-            <li><a ><input type="checkbox" onchange="manageBedrooms(2)" id="bedroom_2" value="2"> 2 Bedrooms</a></li>
-            <li><a ><input type="checkbox" onchange="manageBedrooms(3)" id="bedroom_3" value="3"> 3 Bedrooms</a></li>
-            <li><a ><input type="checkbox" onchange="manageBedrooms(4)" id="bedroom_4" value="4"> 4 Bedrooms</a></li>
-            <li><a ><input type="checkbox" onchange="manageBedrooms(5)" id="bedroom_5" value="4+"> 4+ Bedrooms</a></li>           
+            <li><a style="cursor:default;"><input type="checkbox" onchange="manageBedrooms(1)" id="bedroom_1" value="1" class="cursor"> 1 Bedroom</a></li>
+            <li><a style="cursor:default;"><input type="checkbox" onchange="manageBedrooms(2)" id="bedroom_2" value="2" class="cursor"> 2 Bedrooms</a></li>
+            <li><a style="cursor:default;"><input type="checkbox" onchange="manageBedrooms(3)" id="bedroom_3" value="3" class="cursor"> 3 Bedrooms</a></li>
+            <li><a style="cursor:default;"><input type="checkbox" onchange="manageBedrooms(4)" id="bedroom_4" value="4" class="cursor"> 4 Bedrooms</a></li>
+            <li><a style="cursor:default;"><input type="checkbox" onchange="manageBedrooms(5)" id="bedroom_5" value="4+" class="cursor"> 4+ Bedrooms</a></li>           
           </ul>
         </li>
         <li><a ><span class="glyphicon glyphicon-refresh"></span> <span style="cursor:pointer" id="resetFilter">Reset</span> </a></li> 
