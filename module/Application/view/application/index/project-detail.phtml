@@ -1,9 +1,22 @@
 <?php $baseUrl = $this->basePath(); 
 
-//echo $this->max_floor_plan;exit;
+
+//if($this->projectDetail['brochure'] !=''){
+//    echo '111';
+//}else{
+//    echo '222';
+//}
+//exit;
+//
+//echo $this->projectDetail['brochure'].'</br>';
+//echo $this->projectDetail['application_form'];exit;
+
+
 
 //echo '<pre>';print_r($this->projectDetail);exit;
 //echo '<pre>';print_r($this->floor_plans);exit;
+
+
 
 ?>
  <!-- tabs -->
@@ -20,10 +33,10 @@
   <div class="container">
    <div class="page-header1 clearfix">
   <div class="col-md-10"><h3><?php echo strtoupper($this->projectDetail['project_title'])?><br> <small><?php echo $this->projectDetail['address']?></small></h3></div>
-  <?php if($this->projectDetail['brochure']!='')?>
+  <?php if($this->projectDetail['brochure']!=''){ ?>
   <a target="_blank" href="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $this->projectDetail['brochure'];?>"><div class="col-md-1 project-download-btnn1"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span><br>BROUCHER </div></a>  
-  <?php if($this->projectDetail['application_form']!='')?>
-  <a target="_blank" href="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $this->projectDetail['application_form'];?>"><div class="col-md-1 project-download-btnn2"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span><br>APP-FORM</div></a>
+  <?php } if($this->projectDetail['application_form']!='') { ?>
+  <a target="_blank" href="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $this->projectDetail['application_form'];?>"><div class="col-md-1 project-download-btnn2"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span><br>APP-FORM</div></a><?php } ?>
   </div>
   </div>  
   </div>
@@ -131,7 +144,7 @@
   <div class="row">
   <div class="col-md-12  proj-detail-right1">  
   <span class="proj-price-text">POSSESSION <?php echo date('M', strtotime($this->projectDetail['possession']))?> `<?php echo date('Y', strtotime($this->projectDetail['possession']))?></span><br>
-  Last Update <?php echo date('m-d-Y', strtotime($this->projectDetail['last_updated']))?>
+  Last Update <?php echo date('d-m-Y', strtotime($this->projectDetail['prj_last_updated']))?>
   </div>
   </div>
   <div class="row">
@@ -196,7 +209,7 @@
             </div>            
             <div class="flips4_back flipscont4 white-text">
             	<h5><strong>ADDRESS</strong></h5>
-                <p><?php echo $this->projectDetail['address']?></p>
+                <p><?php echo $this->projectDetail['location_name'].','.$this->projectDetail['city_name']?></p>
             </div>
         </div>
         </div><!-- end section -->
@@ -258,10 +271,8 @@
             </div>            
             <div class="flips4_back flipscont4 white-text">
             	<h5><strong>BUILDINGS</strong></h5>
-                <p>5</p>
-
+                <p><?php echo $this->buildings;?></p>
             </div>
-            
         </div>
     
     </div><!-- end section -->    
@@ -274,7 +285,7 @@
             </div>            
             <div class="flips4_back flipscont4 white-text">
             	<h5><strong>CONFIGURATIONS</strong></h5>
-                <p>3, 4, 5 Bedroom Apartment,Penthouse</p>
+                <p><?php echo $bhkStr;?> Bedroooms</p>
 
             </div>
             
@@ -396,17 +407,12 @@
     <div class="clearfix"></div>
         
     <div id="owl-demo7" class="owl-carousel">
-            
-        <div class="item"><img class="lazyOwl" src="<?php echo $baseUrl;?>/public/images/similar-project/supertech-orb-elevation.jpeg" alt="" /></div>
-        <div class="item"><img class="lazyOwl" src="<?php echo $baseUrl;?>/public/images/similar-project/ajnara-grand-heritage-elevation.jpeg" alt="" /></div>
-        <div class="item"><img class="lazyOwl" src="<?php echo $baseUrl;?>/public/images/similar-project/apex-buildcon-athena-elevation.jpeg" alt="" /></div>
-        <div class="item"><img class="lazyOwl" src="<?php echo $baseUrl;?>/public/images/similar-project/panchsheel-group-pratishtha-elevation.jpeg" alt="" /></div>
-        <div class="item"><img class="lazyOwl" src="<?php echo $baseUrl;?>/public/images/similar-project/supertech-orb-elevation.jpeg" alt="" /></div>
-        <div class="item"><img class="lazyOwl" src="<?php echo $baseUrl;?>/public/images/similar-project/ajnara-grand-heritage-elevation.jpeg" alt="" /></div>
-        <div class="item"><img class="lazyOwl" src="<?php echo $baseUrl;?>/public/images/similar-project/apex-buildcon-athena-elevation.jpeg" alt="" /></div>
-        <div class="item"><img class="lazyOwl" src="<?php echo $baseUrl;?>/public/images/similar-project/panchsheel-group-pratishtha-elevation.jpeg" alt="" /></div>
+        <?php foreach($this->similarProjects as $similarProjects){  //echo '<pre>';print_r($similarProjects);exit;?>            
+        <div class="item"><a href="<?php echo $baseUrl;?>/index/project-detail?id=<?php echo $similarProjects['project_id'] ?>" target="_blank"><img class="lazyOwl" src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $similarProjects['project_image'] ?>" alt="<?php echo $similarProjects['project_title'] ?>" /></a></div>       
+        <?php }?>    
+        
 
-	</div><!-- end section -->
+    </div><!-- end section -->
     <div class="clearfix margin_top4"></div>
         </div>
         

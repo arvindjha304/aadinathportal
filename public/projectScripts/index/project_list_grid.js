@@ -313,14 +313,14 @@ function redirectUrl(){
             if (response.builderarr.length > 0) {
                 htmlStr += '<ul><li class="magicsearch-results-align">Builder</li>';
                 $.each(response.builderarr, function(id,value) {
-                   htmlStr += '<a href="'+baseUrl+'/index/builder-detail?id='+value.bld_id+'"><li class="magicsearch-results-leftpad"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <span style="padding-left:2%;">'+value.builder_name+'</span></li></a>';
+                   htmlStr += '<a href="'+baseUrl+'/index/builder-detail?id='+value.bld_id+'"><li class="magicsearch-results-leftpad"><span class="glyphicon glyphicon glyphicon-stats" aria-hidden="true"></span> <span style="padding-left:2%;">'+value.builder_name+'</span></li></a>';
                 });
                 htmlStr += '</ul>';
             }
             if (response.projectarr.length > 0) {
                 htmlStr += '<ul><li class="magicsearch-results-align">Project</li>';
                 $.each(response.projectarr, function(id,value) {
-                    htmlStr += '<a href="'+baseUrl+'/index/project-detail?id='+value.prj_id+'"><li class="magicsearch-results-leftpad"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <span style="padding-left:2%;">'+value.project_title+'</span></li></a>';
+                    htmlStr += '<a href="'+baseUrl+'/index/project-detail?id='+value.prj_id+'"><li class="magicsearch-results-leftpad"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> <span style="padding-left:2%;">'+value.project_title+'</span></li></a>';
                 });
                 htmlStr += '</ul>';
             }

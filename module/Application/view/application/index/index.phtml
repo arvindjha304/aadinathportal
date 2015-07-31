@@ -1,4 +1,9 @@
- <?php $baseUrl = $this->basePath(); ?>
+ <?php $baseUrl = $this->basePath(); 
+ 
+ 
+//echo $this->url('home'); exit;
+ 
+ ?>
 
 		 <div id="navbar-collapse-1" class="navbar-collapse collapse">
             <nav>
@@ -31,7 +36,7 @@
                             <?php foreach($this->residentialPrjcts as $res){?>
                             <li><a href="<?php echo $baseUrl;?>/index/project-detail?id=<?php echo $res['prjId']?>"><i class="fa fa-caret-right"></i><?php echo $res['project_title']?></a></li>
                             <?php }?>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> For More Projects <em>Click</em></a></li>
+                            <li><a href="<?php echo $baseUrl;?>/index/projectbycity?propCatId=1"><i class="fa fa-caret-right"></i> For More Projects <em>Click</em></a></li>
                           </ul>
                           <ul class="col-sm-6 col-md-3 list-unstyled">
                             <li>
@@ -40,7 +45,7 @@
                             <?php foreach($this->commercialPrjcts as $res){?>
                             <li><a href="<?php echo $baseUrl;?>/index/project-detail?id=<?php echo $res['prjId']?>"><i class="fa fa-caret-right"></i><?php echo $res['project_title']?></a></li>
                             <?php }?>
-                            <li><a href="#"><i class="fa fa-caret-right"></i> For More Projects <em>Click</em></a></li>
+                            <li><a href="<?php echo $baseUrl;?>/index/projectbycity?propCatId=2"><i class="fa fa-caret-right"></i> For More Projects <em>Click</em></a></li>
                           </ul>
                           <ul class="col-sm-6 col-md-3 last list-unstyled nav-project-img-ul-bordr">
                             <li>
@@ -285,20 +290,23 @@
         <div class="line"></div>
       </h2>
       <div class="clearfix margin_top1"></div>
+     
+    <?php if(count($this->allTestimonials[0])){?>  
       <div class="one_half animate" data-anim-type="fadeInLeft" data-anim-delay="200">
-        <div class="bubble"> <img src="<?php echo $baseUrl;?>/public/images/testimonial/people-img-1.jpg" alt="" />
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
+        <div class="bubble"> <img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $this->allTestimonials[0]['image']?>" alt="" />
+          <p><?php echo $this->allTestimonials[0]['comment']?></p>
           <div class="clearfix"></div>
         </div>
-        <strong>Anupam Sinha <em>&nbsp;</em></strong> </div>
-      <!-- end section -->
+        <strong><?php echo $this->allTestimonials[0]['name']?> <em>&nbsp;</em></strong> </div>
+    <?php } if(count($this->allTestimonials[1])){?> 
+      
       <div class="one_half last animate" data-anim-type="fadeInRight" data-anim-delay="200">
-        <div class="bubble"> <img src="<?php echo $baseUrl;?>/public/images/testimonial/people-img-2.jpg" alt="" />
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
+        <div class="bubble"> <img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $this->allTestimonials[1]['image']?>" alt="" />
+          <p><?php echo $this->allTestimonials[1]['comment']?></p>
           <div class="clearfix"></div>
         </div>
-        <strong>Meenu Raghav <em>&nbsp;</em></strong> </div>
-      <!-- end section -->
+        <strong><?php echo $this->allTestimonials[1]['name']?> <em>&nbsp;</em></strong> </div>
+      <?php } ?> 
     </div>
   </div>
   <!-- end featured section 46 Testimonial--->

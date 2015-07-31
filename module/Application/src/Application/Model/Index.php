@@ -34,7 +34,26 @@ use Zend\Mime\Part as MimePart;
 	public function getServiceLocator() {
      return $this->serviceLocator;
 	}
+    
+    public function updateanywhere($mytable, array $data, $where) {
+		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$table = new TableGateway($mytable, $db);
+		$results = $table->update($data, $where);
+		return 1;
+	}
 
+	public function deleteanywhere($mytable, $where) {
+		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$table = new TableGateway($mytable, $db);
+		$table->delete($where); 
+	}
+
+	public function insertanywhere($mytable, array $data) {
+		$db = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$table = new TableGateway($mytable, $db);
+		$results = $table->insert($data);
+	}
+	
 	public function getAboutUs(){
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$sql="select * from about_us";
@@ -249,7 +268,7 @@ use Zend\Mime\Part as MimePart;
                 $tempStr   .= ($tempStr=='') ? ' prj.has_4BHK=1' : ' or prj.has_4BHK=1';
             if(in_array(5, $bedroomArr))
                 $tempStr   .= ($tempStr=='') ? ' prj.has_5BHK=1' : ' or prj.has_5BHK=1';
-            $bedroomFilterStr = ' and '.$tempStr;
+            $bedroomFilterStr = ' and ('.$tempStr.')';
         }
         if($minprice!='' && $maxprice!=''){
             $where .= "  AND prj.search_max_price between $minprice and $maxprice ";
@@ -276,7 +295,8 @@ use Zend\Mime\Part as MimePart;
         
         $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
         
-		$sql="select prj.*,lt.*,ct.*,pt.*,pc.*,bld.*,prj.id as project_id,bld.id as bldId from projects prj
+		$sql="select prj.*,lt.*,ct.*,pt.*,pc.*,bld.*,prj.id as project_id,bld.id as bldId,prj.last_updated as prj_last_updated
+            from projects prj
         join locations lt on lt.id=prj.location and lt.is_active=1 and lt.is_delete=0 
         join cities ct on ct.id=prj.city and ct.is_active=1
         join property_type pt on pt.id=prj.property_type_id and pt.is_active=1
@@ -352,10 +372,11 @@ use Zend\Mime\Part as MimePart;
     public function getProjectFloorPlan($project_id,$minprice='',$maxprice=''){
         $table = new TableGateway('project_floor_plan',$this->getAdapter());
         $floor_plans = $table->select(function($select) use ($project_id,$minprice,$maxprice){
-            $select->order('size ASC');
             $select->where->equalTo('project_id',$project_id);
+            $select->where(array('is_active'=>1,'is_delete'=>0));
             if($minprice!='' && $maxprice!='')
             $select->where->between('search_price',$minprice,$maxprice);
+            $select->order('size ASC');
         })->toArray();
         return $floor_plans;
     }
@@ -486,9 +507,14 @@ use Zend\Mime\Part as MimePart;
         ->join(['bld'=>'builders'],'prj.builder=bld.id',[])        
         ->where(['prj.is_active'=>1,'prj.is_delete'=>0,'ct.is_active'=>1,'ct.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0,'pptId.is_active'=>1,
         'pptId.is_delete'=>0,'pptCatId.is_active'=>1,'bld.is_active'=>1,'bld.is_delete'=>0]);
-        $where->like('prj.project_title',$searchStr.'%');
+        $where->like('prj.project_title','%'.$searchStr.'%');
         $select->where($where);
         $prjList = $sql->prepareStatementForSqlObject($select)->execute();
+        
+//        $prjList = $sql->prepareStatementForSqlObject($select)->getSql();
+//        
+//        echo $prjList;exit;
+        
         $projectArr = [];
         foreach($prjList as $res){
             if(count($res))
@@ -507,7 +533,7 @@ use Zend\Mime\Part as MimePart;
         ->join(['bld'=>'builders'],'prj.builder=bld.id',['id','builder_name'])        
         ->where(['prj.is_active'=>1,'prj.is_delete'=>0,'ct.is_active'=>1,'ct.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0,'pptId.is_active'=>1,
         'pptId.is_delete'=>0,'pptCatId.is_active'=>1,'bld.is_active'=>1,'bld.is_delete'=>0]);
-        $where->like('bld.builder_name',$searchStr.'%');
+        $where->like('bld.builder_name','%'.$searchStr.'%');
         $select->where($where) ->group('bld.id');
         
         $bldList = $sql->prepareStatementForSqlObject($select)->execute();
@@ -529,7 +555,7 @@ use Zend\Mime\Part as MimePart;
         ->join(['bld'=>'builders'],'prj.builder=bld.id',[])        
         ->where(['prj.is_active'=>1,'prj.is_delete'=>0,'ct.is_active'=>1,'ct.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0,'pptId.is_active'=>1,
         'pptId.is_delete'=>0,'pptCatId.is_active'=>1,'bld.is_active'=>1,'bld.is_delete'=>0]);
-        $where->like('ct.city_name',$searchStr.'%');
+        $where->like('ct.city_name','%'.$searchStr.'%');
         $select->where($where) ->group('ct.id');
         $ctyList = $sql->prepareStatementForSqlObject($select)->execute();
         
@@ -540,27 +566,18 @@ use Zend\Mime\Part as MimePart;
         } 
 		return ['projectarr'=>$projectArr,'builderarr'=>$builderArr,'cityarr'=>$cityArr];
     }
-    public function updateanywhere($mytable, array $data, $where) {
-		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
-		$table = new TableGateway($mytable, $db);
-		$results = $table->update($data, $where);
-		return 1;
-	}
-
-	public function deleteanywhere($mytable, $where) {
-		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
-		$table = new TableGateway($mytable, $db);
-		$table->delete($where); 
-	}
-
-		
-	public function insertanywhere($mytable, array $data) {
-
-		$db = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
-		$table = new TableGateway($mytable, $db);
-		$results = $table->insert($data);
-	}
+    
+	public function allTestimonials(){
+		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$artistTable = new TableGateway('testimonial', $adapter);
+        $select = $artistTable->select(function($select){
+            $select->where(array('is_delete'=>'0','is_active'=>'1'));
+            $select->order('name ASC');
+        })->toArray();
+        shuffle($select);
+		return $select;
 	
+	}
 	
 	
     

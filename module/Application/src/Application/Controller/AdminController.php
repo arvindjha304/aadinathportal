@@ -785,7 +785,7 @@ class AdminController extends AbstractActionController
 				'builtup_area'          => 	$this->params()->fromPost('builtup_area'),
 				'starting_price'		=> 	$this->params()->fromPost('starting_price'),
 				'buildings'             => 	$this->params()->fromPost('buildings'),
-				'configurations'		=> 	$this->params()->fromPost('configurations'),
+				'configurations'		=> 	' ',
 				'builder'               => 	$this->params()->fromPost('builder'),
 				'order'               => 	$this->params()->fromPost('priority'),
 				'possession'            => 	$newDate,
@@ -1372,4 +1372,92 @@ public function projectslistdataAction()
 		return $view; 
     }
     
+    
+    public function addedittestimonialAction()
+    {
+        $view = new ViewModel();
+        $this->layout('layout/layoutadmin');
+        $id = $this->params()->fromQuery('id');
+        $view->setVariable('heading',(isset($id)) ? 'Edit Testimonial' : 'Add Testimonial');
+        $adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
+        $adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+        //     	echo '<pre>';print_r($rowset);exit;
+        $msg = '';
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+//echo '<pre>';print_r($this->params()->fromPost());exit;
+            $data = array(
+                'name'          => 	$this->params()->fromPost('name'),
+                'comment'       => 	$this->params()->fromPost('comment'),
+                'image'         => 	$this->params()->fromPost('imagename_1'),
+            );
+
+            if(isset($id)){
+                $where = array(
+                    'id'	=> 	$id,
+                );
+                $adminModel->updateanywhere('testimonial',$data,$where);
+            }else{
+                $data['date_created'] = date('Y-m-d H:i:s');
+                $adminModel->insertanywhere('testimonial',$data);
+            }
+        $this->redirect()->toUrl('testimoniallist');
+        }
+        if(isset($id)){
+            $stateTable = new TableGateway('testimonial', $adapter);
+            $builderDetail = $stateTable->select(array('id' => $id))->toArray();
+            
+//            echo '<pre>';print_r($builderDetail);exit;
+            $view->setVariable('testimonialDetail', $builderDetail);
+        }
+        return $view;
+    }
+
+    public function testimoniallistAction()
+    {
+        $view = new ViewModel();
+        $this->layout('layout/layoutadmin');
+        return $view;
+    }
+
+    public function testimoniallistdataAction()
+    {
+        $adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+        $artistTable = new TableGateway('testimonial', $adapter);
+        $select = $artistTable->select(function($select){
+            $select->where(array('is_delete'=>'0'));
+            $select->order('name ASC');
+        })->toArray();
+
+        $dataArray = array();
+        $baseUrl = $this->getRequest()->getbaseUrl();
+        foreach($select as $val1)
+        {
+            $temp_arr = array();
+            $name                       =	$val1['name'];
+            $status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
+            $action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
+            $delete 		=	'<a href="'.$baseUrl.'/admin/addedittestimonial?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+            $dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$name,$status,$delete.$action));
+        }
+        $json = json_encode($dataArray);
+        //$jsonData = '{rows:'.$json.'}';
+        exit('{rows:'.$json.'}');
+    }
+	
+	public function updatetestimonialstatusAction()
+	{
+		$action 		= $this->params()->fromPost('action');
+		$id 			= $this->params()->fromPost('id');
+		$selectedIds 	= $this->params()->fromPost('selectedIds');
+	
+		if(isset($selectedIds)){
+			$idArr = explode(',',$selectedIds);
+			foreach($idArr as $id)
+				$this->statusUpdate('testimonial',$action,$id);
+		}else{
+			$this->statusUpdate('testimonial',$action,$id);
+		}
+		exit('1');
+	}
 }

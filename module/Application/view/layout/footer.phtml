@@ -5,6 +5,8 @@ $cities = $this->routeHelper()->indexmodel()->getCityList();
 $citieList = $this->routeHelper()->indexmodel()->getCityList();
 
 
+//echo '<pre>';print_r($builderList); EXIT;
+
 //echo $builderList[0]['builder_footer_image'];exit;
 
 
@@ -28,18 +30,18 @@ $citieList = $this->routeHelper()->indexmodel()->getCityList();
           <?php }?>
           <?php if(count($builderList)>=8){?>
         <div class="item">
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[4]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[4]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
           <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[5]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[5]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
           <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[6]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[6]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
-          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[7]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[7]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
-          <div class="one_fourth last"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[8]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[8]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth last"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[7]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[7]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
         </div>
           <?php }?>
           <?php if(count($builderList)>=12){?>
         <div class="item">
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[8]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[8]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
           <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[9]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[9]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
           <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[10]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[10]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
-          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[11]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[11]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
-          <div class="one_fourth last"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[12]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[12]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth last"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[11]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[11]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
         </div>
           <?php }?>
         <!-- end slide -->
@@ -112,7 +114,7 @@ $citieList = $this->routeHelper()->indexmodel()->getCityList();
     <div class="copyright_info two">
       <div class="container">
         <div class="clearfix divider_dashed10"></div>
-        <div class="one_half animate" data-anim-type="fadeInRight" data-anim-delay="300"> Copyright &copy; 2015 aadinath.com. All rights reserved.</div>
+        <div class="one_half animate" data-anim-type="fadeInRight" data-anim-delay="300"> Copyright &copy; <?php echo date('Y')?> aadinathindia.com. All rights reserved.</div>
         <div class="one_half last">
           <ul class="footer_social_links">
             <li class="animate" data-anim-type="zoomIn" data-anim-delay="300"><a href="#">Powerd by:</a></li>

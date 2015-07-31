@@ -41,6 +41,10 @@ class IndexController extends AbstractActionController
         $view->setVariable('residentialPrjcts', $residentialPrjcts);
         $commercialPrjcts = $indexModel->projectByCategory(2);
         $view->setVariable('commercialPrjcts', $commercialPrjcts);
+        
+        
+        $allTestimonials = $indexModel->allTestimonials();
+        $view->setVariable('allTestimonials', $allTestimonials);
         return $view;
     }
     public function buyAction()
@@ -82,7 +86,7 @@ class IndexController extends AbstractActionController
         $manager = new SessionManager($config);
         $container = new Container('searchSessionFields',$manager);
         $container->cities          = $this->params()->fromQuery('cityId');
-        $container->propcategory    = '';
+        $container->propcategory    = $this->params()->fromQuery('propCatId');
         $container->minprice        = '';
         $container->maxprice        = '';
         $container->viewType        = 'list';
@@ -162,11 +166,21 @@ class IndexController extends AbstractActionController
         $floor_plans = $model->getProjectFloorPlan($id);
         $view->setVariable('floor_plans', $floor_plans);
         
+        
+        
+        
+//        echo '<pre>';print_r($projectDetail);exit;
+        
+        
         $max_floor_plan = $this->getModel()->max_floor_plan_price($projectDetail['project_id']);
         $min_floor_plan = $this->getModel()->min_floor_plan_price($projectDetail['project_id']);                
         $view->setVariable('max_floor_plan', $max_floor_plan);       
         $view->setVariable('min_floor_plan', $min_floor_plan);
-                
+           
+        
+        $similarProjects = $this->getModel()->searchProjects($projectDetail['city'],'','','','');                
+        $view->setVariable('similarProjects', $similarProjects); 
+        
         $amenitiesArr = $model->getProjectAmenities($projectDetail['amenities']);
         $view->setVariable('amenitiesArr', $amenitiesArr);
         $countProjects = $this->getModel()->countProjects($projectDetail['bldId']);

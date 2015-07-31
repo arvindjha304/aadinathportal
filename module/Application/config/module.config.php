@@ -14,7 +14,7 @@ return array(
 
 		'router' => array(
 				'routes' => array(
-						'hom' => array(
+						'home' => array(
 							'type' => 'Zend\Mvc\Router\Http\Literal',
 							'options' => array(
 								'route'    => '/',
@@ -24,6 +24,30 @@ return array(
 								),
 							),
 						),
+                        'login' => array(
+                            'type'    => 'Literal',
+                            'options' => array(
+                                'route'    => '/login',
+                                'defaults' => array(
+                                    '__NAMESPACE__' => 'Application\Controller',
+                                    'controller'    => 'Index',
+                                    'action'        => 'index',
+                                ),
+                            ),
+                        ),
+                    
+                        'blog' => array(
+                           'type'    => 'Segment',
+                            'options' => array(
+                                'route'    => '/[:controller[/:action]]',
+                                'defaults' => array(
+                                        '__NAMESPACE__' => 'Application\Controller',
+                                        'controller'    => 'Index',
+                                        'action'        => 'index',
+                                ),
+                            ),
+                        ),
+                    
 						// The following is a route to simplify getting started creating
 						// new controllers and actions without needing to create a new
 						// module. Simply drop new controllers in, and you can access them
@@ -49,82 +73,82 @@ return array(
 											//'more_id'     => '[a-zA-Z][a-zA-Z0-9_-]*',
 											// ),
 											'defaults' => array(
-													'id1'   =>'',
-													'id2'   =>'',
-													'id3'   =>'',
-													'id4'   =>'',
-													'id5'   =>'',
-													'id6'   =>'',
-													'id7'   =>'',
-													'value1'=>'',
-													'value2'=>'',
-													'value3'=>'',
-													'value4'=>'',
-													'value5'=>'',
-													'value6'=>'',
-													'value7'=>'',
+                                                'id1'   =>'',
+                                                'id2'   =>'',
+                                                'id3'   =>'',
+                                                'id4'   =>'',
+                                                'id5'   =>'',
+                                                'id6'   =>'',
+                                                'id7'   =>'',
+                                                'value1'=>'',
+                                                'value2'=>'',
+                                                'value3'=>'',
+                                                'value4'=>'',
+                                                'value5'=>'',
+                                                'value6'=>'',
+                                                'value7'=>'',
 											),	
 										),
 								),
-								),
+							),
 						),
 
 						'application' => array(
 								'type'    => 'Segment',
 								'options' => array(
-										'route'    => '/application[/:controller[/:action]]',
-										'defaults' => array(
-												'__NAMESPACE__' => 'Application\Controller',
-												'controller'    => 'Index',
-												'action'        => 'index',
-										),
+                                    'route'    => '/application[/:controller[/:action]]',
+                                    'defaults' => array(
+                                            '__NAMESPACE__' => 'Application\Controller',
+                                            'controller'    => 'Index',
+                                            'action'        => 'index',
+                                    ),
 								),
 								'may_terminate' => true,
 								'child_routes' => array(
-										'default' => array(
-												'type'    => 'Segment',
-												'options' => array(
-														'route'    => '[/:id][/:id_value]',
-														'constraints' => array(
-																'id' => '[a-zA-Z][a-zA-Z0-9_-]*',
-																'id_value'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-														),
-														'defaults' => array(
-														),
-												),
-										),
+                                    'default' => array(
+                                        'type'    => 'Segment',
+                                        'options' => array(
+                                            'route'    => '[/:id][/:id_value]',
+                                            'constraints' => array(
+                                                'id'            => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                                'id_value'      => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                            ),
+                                            'defaults' => array(
+                                            ),
+                                        ),
+                                    ),
 								),
 						),
 
 						'pagination' => array(
-								'type'    => 'Segment',
-								'options' => array(
-										'route'    => '/[:controller[/:action]]',
-										'defaults' => array(
-												'__NAMESPACE__' => 'Application\Controller',
-												'controller'    => 'Index',
-												'action'        => 'index',
-										),
-								),
-								'may_terminate' => true,
-								'child_routes' => array(
-										'default' => array(
-												'type'    => 'Segment',
-												'options' => array(
-														'route'    => '/[:id1][/][:value1][/][:id2][/][:value2]',
-														'constraints' => array(
-																'id' => '[a-zA-Z][a-zA-Z0-9_-]*',
-																'id_value'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-														),
-														'defaults' => array(
-																'id1'   =>'',
-																'value1'   =>'',
-																'id2'   =>'',
-																'value2'   =>''
-														),
-												),
-										),
-								),
+                            'type'    => 'Segment',
+                            'options' => array(
+                                'route'    => '/[:controller[/:action]]',
+                                'defaults' => array(
+                                    '__NAMESPACE__' => 'Application\Controller',
+                                    'controller'    => 'Index',
+                                    'action'        => 'index',
+                                ),
+                            ),
+                            'may_terminate' => true,
+                            'child_routes' => array(
+                                'default' => array(
+                                    'type'    => 'Segment',
+                                    'options' => array(
+                                        'route'    => '/[:id1][/][:value1][/][:id2][/][:value2]',
+                                        'constraints' => array(
+                                            'id' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                            'id_value'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                        ),
+                                        'defaults' => array(
+                                            'id1'   =>'',
+                                            'value1'   =>'',
+                                            'id2'   =>'',
+                                            'value2'   =>''
+                                        ),
+                                    ),
+                                ),
+                            ),
 						),
 
 
@@ -157,55 +181,55 @@ return array(
 		),
 
 		'controller_plugins' => array(
-				'invokables' => array(
-						/* 'HelperAuth' 				=> 'Application\Controller\Plugin\HelperAuth',
-						'CommonFunctions' 				=> 'Application\Controller\Plugin\CommonFunctions',
-						'Acl2' 							=> 'Application\Controller\Plugin\Acl2',
-						'csvUserExport' 				=> 'Application\Controller\Plugin\csvUserExport',
-						'Trainingcatelogallplace'		=> 'Application\Controller\Plugin\Trainingcatelogallplace',
-						'ElearningMedia'				=> 'Application\Controller\Plugin\ElearningMedia',
-						'Enrolleduserfromallplace' 		=> 'Application\Controller\Plugin\Enrolleduserfromallplace',
-						'Mailnotification'				=> 'Application\Controller\Plugin\Mailnotification',
-						'Mylearningfunctions'			=> 'Application\Controller\Plugin\Mylearningfunctions',
-						'Coursecreditfunctions'			=> 'Application\Controller\Plugin\Coursecreditfunctions',
-						'TrainingItemsFunctions'		=> 'Application\Controller\Plugin\TrainingItemsFunctions',
-						'Assignmentfunctions'			=> 'Application\Controller\Plugin\Assignmentfunctions', */
-				)
+            'invokables' => array(
+                    /* 'HelperAuth' 				=> 'Application\Controller\Plugin\HelperAuth',
+                    'CommonFunctions' 				=> 'Application\Controller\Plugin\CommonFunctions',
+                    'Acl2' 							=> 'Application\Controller\Plugin\Acl2',
+                    'csvUserExport' 				=> 'Application\Controller\Plugin\csvUserExport',
+                    'Trainingcatelogallplace'		=> 'Application\Controller\Plugin\Trainingcatelogallplace',
+                    'ElearningMedia'				=> 'Application\Controller\Plugin\ElearningMedia',
+                    'Enrolleduserfromallplace' 		=> 'Application\Controller\Plugin\Enrolleduserfromallplace',
+                    'Mailnotification'				=> 'Application\Controller\Plugin\Mailnotification',
+                    'Mylearningfunctions'			=> 'Application\Controller\Plugin\Mylearningfunctions',
+                    'Coursecreditfunctions'			=> 'Application\Controller\Plugin\Coursecreditfunctions',
+                    'TrainingItemsFunctions'		=> 'Application\Controller\Plugin\TrainingItemsFunctions',
+                    'Assignmentfunctions'			=> 'Application\Controller\Plugin\Assignmentfunctions', */
+            )
 		),
 
 		'view_manager' => array(
-				'display_not_found_reason' => true,
-				'display_exceptions'       => true,
-				'doctype'                  => 'HTML5',
-				'not_found_template'       => 'error/404',
-				'exception_template'       => 'error/index',
-				'template_map' => array(
-						'layout/layout'            	=> __DIR__ . '/../view/layout/layout.phtml',
-						/* 'adminheader'              	=> __DIR__ . '/../view/layout/scripts/adminheader.phtml',
-						'standard/adminheader'     	=> __DIR__ . '/../view/layout/scripts/standard/adminheader.phtml',
-						'header'           			=> __DIR__ . '/../view/layout/scripts/header.phtml',
-						'leftnav'           		=> __DIR__ . '/../view/layout/scripts/leftnav.phtml',
-						'footer'           			=> __DIR__ . '/../view/layout/scripts/footer.phtml',
-						'application/index/index'  	=> __DIR__ . '/../view/application/index/index.phtml', */
-						'error/404'                	=> __DIR__ . '/../view/error/404.phtml',
-						'error/index'              	=> __DIR__ . '/../view/error/index.phtml',
-				),
-				'template_path_stack' => array(
-						'application'=> __DIR__ . '/../view',
-				),
+            'display_not_found_reason' => true,
+            'display_exceptions'       => true,
+            'doctype'                  => 'HTML5',
+            'not_found_template'       => 'error/404',
+            'exception_template'       => 'error/index',
+            'template_map' => array(
+                'layout/layout'            	=> __DIR__ . '/../view/layout/layout.phtml',
+                /* 'adminheader'              	=> __DIR__ . '/../view/layout/scripts/adminheader.phtml',
+                'standard/adminheader'     	=> __DIR__ . '/../view/layout/scripts/standard/adminheader.phtml',
+                'header'           			=> __DIR__ . '/../view/layout/scripts/header.phtml',
+                'leftnav'           		=> __DIR__ . '/../view/layout/scripts/leftnav.phtml',
+                'footer'           			=> __DIR__ . '/../view/layout/scripts/footer.phtml',
+                'application/index/index'  	=> __DIR__ . '/../view/application/index/index.phtml', */
+                'error/404'                	=> __DIR__ . '/../view/error/404.phtml',
+                'error/index'              	=> __DIR__ . '/../view/error/index.phtml',
+            ),
+            'template_path_stack' => array(
+                    'application'=> __DIR__ . '/../view',
+            ),
 		),
 
 		'service_manager'=>array(
-				'initializers' => array(
-						function ($instance, $sm) {
-							if ($instance instanceof \Zend\Db\Adapter\AdapterAwareInterface) {
-								$instance->setDbAdapter($sm->get('Zend\Db\Adapter\Adapter'));
-							}
-						}
-				),
-				// 'invokables' => array(
-				// 'Application\Model\UserTable' => 'Application\Model\UserTable'
-				// )
+            'initializers' => array(
+                function ($instance, $sm) {
+                    if ($instance instanceof \Zend\Db\Adapter\AdapterAwareInterface) {
+                        $instance->setDbAdapter($sm->get('Zend\Db\Adapter\Adapter'));
+                    }
+                }
+            ),
+            // 'invokables' => array(
+            // 'Application\Model\UserTable' => 'Application\Model\UserTable'
+            // )
 		),
 
 );

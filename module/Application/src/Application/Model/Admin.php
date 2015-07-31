@@ -93,7 +93,7 @@ use Zend\Db\Sql\Expression;
 		return $result;
 	
 	}
-
+    
 	public function getAllCities(){
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$sql = new Sql($db);

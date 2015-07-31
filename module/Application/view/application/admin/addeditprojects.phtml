@@ -281,12 +281,12 @@ $('#project_status').change(function(){
                 </div>
             </div>
 
-             <div class="content2">
+ <!--            <div class="content2">
                 <div class="content3" Style="font-weight: normal;"><span style="color:red">*</span> Configurations: </div>
                 <div class="content4-builder">
                     <textarea name="configurations" id="configurations" style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;"><?php if($this->projectsDetail[0]['configurations']!='')  { echo $this->projectsDetail[0]['configurations'];}?></textarea>
                 </div>
-            </div>
+            </div>-->
             <div class="content2-1">
                 <div class="content3-1"><span style="color:red;margin-top:30px;">*</span>Builder:</div>
                 <div class="content4-1">
@@ -528,7 +528,7 @@ $('#project_status').change(function(){
                 <button id=" " class="" onclick="return delBanner('4')" style="width:69px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
                 <?php }?>
                     <div class="am2" >
-                        <div class="" id="files_4" style="display: none"> </div>
+                        <div class="" id="files_4" > </div>
                         <?php if ($this->projectsDetail[0]['slide_image_4']!='') { ?>
                             <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_4']; ?>"/> 
                         <?php } ?>
@@ -810,7 +810,7 @@ $('#project_status').change(function(){
 	var builtup_area 	= $('#builtup_area').val();
 	var starting_price 	= $('#starting_price').val();
 	var buildings 	    = $('#buildings').val();
-	var configurations 	= $('#configurations').val();
+	//var configurations 	= $('#configurations').val();
 	var builder 	    = $('#builder').val();
 	var priority        = $('#priority').val();
 	var possession 	    = $('#possessiondate').val();
@@ -828,6 +828,7 @@ $('#project_status').change(function(){
 	var imagename_2 	       = $('#imagename_2').val();
 	var imagename_3 	       = $('#imagename_3').val();
 	var imagename_4 	       = $('#imagename_4').val();
+    var imagename_5 	       = $('#imagename_5').val();
 	var imagename_11 	       = $('#imagename_11').val();
 	var imagename_12 	       = $('#imagename_12').val();
 	var imagename_13 	       = $('#imagename_13').val();
@@ -860,10 +861,12 @@ $('#project_status').change(function(){
 	}else if(buildings =='' ){
 		var msg = 'Buildings cannot be empty.';
 		error = 1;
-	}else if(configurations =='' ){
-		var msg = 'Configurations cannot be empty.';
-		error = 1;
-	}else if(builder =='' ){
+	}
+//    else if(configurations =='' ){
+//		var msg = 'Configurations cannot be empty.';
+//		error = 1;
+//	}
+    else if(builder =='' ){
 		var msg = 'Builder cannot be empty.';
 		error = 1;
 	}else if(priority =='' ){
@@ -920,19 +923,23 @@ $('#project_status').change(function(){
 	}else if(imagename_11 =='' ){
 		var msg = 'Project Image cannot be empty.';
 		error = 1;
-	}else if(imagename_12 =='' ){
-		var msg = 'E-brochure cannot be empty.';
-		error = 1;
-	}else if(imagename_13 =='' ){
+	}
+//    else if(imagename_12 =='' ){
+//		var msg = 'E-brochure cannot be empty.';
+//		error = 1;
+//	}
+    else if(imagename_13 =='' ){
 		var msg = 'Location Map cannot be empty.';
 		error = 1;
 	}else if(imagename_14 =='' ){
 		var msg = 'Site Plan cannot be empty.';
 		error = 1;
-	}else if(imagename_15 =='' ){
-		var msg = 'Application Form cannot be empty.';
-		error = 1;
-	}else if(latitudeid =='' ){
+	}
+//    else if(imagename_15 =='' ){
+//		var msg = 'Application Form cannot be empty.';
+//		error = 1;
+//	}
+    else if(latitudeid =='' ){
 		var msg = 'Latitude cannot be empty.';
 		error = 1;
 	}else if(longitudeid =='' ){
