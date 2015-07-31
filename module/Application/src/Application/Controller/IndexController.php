@@ -384,7 +384,6 @@ class IndexController extends AbstractActionController
         if(count($allBuilder)){
             foreach ($allBuilder as $builder){
                 $countProjects = $this->getModel()->countProjects($builder['id']);
-                
                 if($countProjects['totalProject']>0){
                     $builderArr[$ii] = $builder;
                     $builderArr[$ii]['totalProject']    = $countProjects['totalProject'];

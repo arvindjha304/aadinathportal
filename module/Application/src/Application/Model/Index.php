@@ -504,11 +504,10 @@ use Zend\Mime\Part as MimePart;
         ->join(['st'=>'states'],'st.id=ct.state_id',[])
         ->join(['pptId'=>'property_type'], 'pptId.id=prj.property_type_id',[])
         ->join(['pptCatId'=>'property_category'], 'pptCatId.id=pptId.property_category_id',[])
-        ->join(['bld'=>'builders'],'prj.builder=bld.id',[])        
-        ->where(['prj.is_active'=>1,'prj.is_delete'=>0,'ct.is_active'=>1,'ct.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0,'pptId.is_active'=>1,
-        'pptId.is_delete'=>0,'pptCatId.is_active'=>1,'bld.is_active'=>1,'bld.is_delete'=>0]);
+        ->join(['bld'=>'builders'],'prj.builder=bld.id',[]); 
         $where->like('prj.project_title','%'.$searchStr.'%');
         $select->where($where);
+        $select->where(array('prj.is_active'=>1,'prj.is_delete'=>0,'ct.is_active'=>1,'ct.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0,'pptId.is_active'=>1,'pptId.is_delete'=>0,'pptCatId.is_active'=>1,'bld.is_active'=>1,'bld.is_delete'=>0));
         $prjList = $sql->prepareStatementForSqlObject($select)->execute();
         
 //        $prjList = $sql->prepareStatementForSqlObject($select)->getSql();
@@ -518,7 +517,7 @@ use Zend\Mime\Part as MimePart;
         $projectArr = [];
         foreach($prjList as $res){
             if(count($res))
-                $projectArr[] = ['prj_id'=>$res['prjId'],'project_title'=>$res['project_title']];
+                $projectArr[] = ['prj_id'=>$res['prjId'],'project_title'=>trim($res['project_title'])];
         }    
         
         $sql = new Sql($db);

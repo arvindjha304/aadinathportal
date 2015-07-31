@@ -304,29 +304,38 @@ function redirectUrl(){
         $.post(baseUrl + '/index/project-search', {searchStr: searchStr}, function (response) {
             var htmlStr = '';
             if (response.cityarr.length > 0) {
+                
                 htmlStr += '<ul><li class="magicsearch-results-align">Location</li>';
                 $.each(response.cityarr, function(id,value) {
-                    htmlStr += '<a href="'+baseUrl+'/index/projectbycity?cityId='+value.city_id+'"><li class="magicsearch-results-leftpad"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <span style="padding-left:2%;">'+value.city_name+'</span></li></a>';
+                    var re = new RegExp(searchStr,"gi");
+                    var new_city_name = value.city_name.replace(re, "<b>"+ucFirst(searchStr)+"</b>")
+                    htmlStr += '<a href="'+baseUrl+'/index/projectbycity?cityId='+value.city_id+'"><li class="magicsearch-results-leftpad"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <span style="padding-left:2%;">'+new_city_name+'</span></li></a>';
                 });
                 htmlStr += '</ul>';
             }
             if (response.builderarr.length > 0) {
                 htmlStr += '<ul><li class="magicsearch-results-align">Builder</li>';
                 $.each(response.builderarr, function(id,value) {
-                   htmlStr += '<a href="'+baseUrl+'/index/builder-detail?id='+value.bld_id+'"><li class="magicsearch-results-leftpad"><span class="glyphicon glyphicon glyphicon-stats" aria-hidden="true"></span> <span style="padding-left:2%;">'+value.builder_name+'</span></li></a>';
+                    var re = new RegExp(searchStr,"gi");
+                    var new_builder_name = value.builder_name.replace(re, "<b>"+ucFirst(searchStr)+"</b>")
+                   htmlStr += '<a href="'+baseUrl+'/index/builder-detail?id='+value.bld_id+'"><li class="magicsearch-results-leftpad"><span class="glyphicon glyphicon glyphicon-stats" aria-hidden="true"></span> <span style="padding-left:2%;">'+new_builder_name+'</span></li></a>';
                 });
                 htmlStr += '</ul>';
             }
             if (response.projectarr.length > 0) {
                 htmlStr += '<ul><li class="magicsearch-results-align">Project</li>';
                 $.each(response.projectarr, function(id,value) {
-                    htmlStr += '<a href="'+baseUrl+'/index/project-detail?id='+value.prj_id+'"><li class="magicsearch-results-leftpad"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> <span style="padding-left:2%;">'+value.project_title+'</span></li></a>';
+                    var re = new RegExp(searchStr,"gi");
+                    var new_project_title = value.project_title.replace(re, "<b>"+ucFirst(searchStr)+"</b>")
+                    htmlStr += '<a href="'+baseUrl+'/index/project-detail?id='+value.prj_id+'"><li class="magicsearch-results-leftpad"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> <span style="padding-left:2%;">'+new_project_title+'</span></li></a>';
                 });
                 htmlStr += '</ul>';
             }
-            var re = new RegExp(searchStr,"gi");
-            var newHtml = htmlStr.replace(re, '<b>'+ucFirst(searchStr)+'</b>')
-            $('#inputSearchResults').html(newHtml);
+//            var re = new RegExp(searchStr,"gi");
+//            var newHtml = htmlStr.replace(re, '<b>'+ucFirst(searchStr)+'</b>')
+            
+            
+            $('#inputSearchResults').html(htmlStr);
         },'json');
     }else{
         $('#inputSearchResults').html('');
