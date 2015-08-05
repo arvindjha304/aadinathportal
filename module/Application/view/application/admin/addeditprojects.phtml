@@ -90,7 +90,7 @@ $(function(){
 	
 function ajaxUpload(btnUpload,status,id){
 	 var url='<?php echo $baseUrl ?>';
-	 var SITEROOT=url+"/admin/upload";
+	 var SITEROOT=url+"/backend/admin/upload";
 	 new AjaxUpload(btnUpload,
 		 {
 		     action: SITEROOT,
@@ -198,7 +198,7 @@ $('#project_status').change(function(){
     <div class="heading"><?php echo $this->heading ?></div>
     <div class="contant1">
         <form method="post" action="" name="" id="projectform">
-
+            <input type="hidden" id="projectSlug" name="projectSlug">    
             <?php if ($this->msg != '') { ?>
                 <div ><?php echo $this->msg ?></div>
             <?php } ?>
@@ -764,7 +764,7 @@ $('#project_status').change(function(){
             <div class="content5">
 
                 <button onclick="return submitForm()" value="<?php echo $this->heading ?>" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;"><?php echo $this->heading ?></button>
-                <a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl; ?>/admin/projectslist">Cancel</a>
+                <a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl;?>/backend/admin/projectslist">Cancel</a>
 
             </div>
 
@@ -779,7 +779,7 @@ $('#project_status').change(function(){
         SITEROOT = '<?php echo $baseUrl ?>';
         if (cityId != '')
         {
-            $.post(SITEROOT + '/admin/getlocations', {cityId: cityId}, function (response) {
+            $.post(SITEROOT + '/backend/admin/getlocations', {cityId: cityId}, function (response) {
                 if (response != '') {
                     $('#locationName').html(response);
                     return false;
@@ -961,6 +961,8 @@ $('#project_status').change(function(){
         $('#errorMsg').focus();
 		return false;
 	}else{
+        var projectSlug = project_title.replace(/\s+/g, '-').toLowerCase();
+        $('#projectSlug').val(projectSlug); 
 		$('#projectform').submit();
 	}	
 	return false;

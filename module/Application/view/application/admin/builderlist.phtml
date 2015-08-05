@@ -12,7 +12,7 @@
 <script type="text/javascript" src="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/ext/dhtmlxgrid_pgn.js"></script>
 <div class="contant">
 <div class="heading">Manage Builders
-<a href='<?php echo $baseUrl;?>/admin/addeditbuilders'><input type="submit" value="+ Add Builder" style="width:auto; height:28px; background-color:#333; color:#FFFFFF; border:none; border-radius: 16px;cursor: pointer;padding:5px; float:right; padding-left:10px; padding-right:10px;"  /></a></div>
+<a href='<?php echo $baseUrl;?>/backend/admin/addeditbuilders'><input type="submit" value="+ Add Builder" style="width:auto; height:28px; background-color:#333; color:#FFFFFF; border:none; border-radius: 16px;cursor: pointer;padding:5px; float:right; padding-left:10px; padding-right:10px;"  /></a></div>
 <!----img area----->
 <div class="contant1">
 	
@@ -55,7 +55,7 @@
 </div>
 <script>
 	SITEROOT = '<?php echo $baseUrl?>';
-	var strgridURL='<?php echo $baseUrl;?>/admin/builderlistdata';
+	var strgridURL='<?php echo $baseUrl;?>/backend/admin/builderlistdata';
 	var mygrid = new dhtmlXGridObject('manageuser');
 	mygrid.setSkin("dhx_skyblue");
 	mygrid.setImagePath("<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/imgs/");
@@ -82,16 +82,16 @@
 	function doOnCellEdit(stage,rowId,cellInd,newValue,oldValue){
 		if(stage==2){
 			SITEROOT = '<?php echo $baseUrl?>';
-			$.post(SITEROOT+'/admin/updatebuilderpriority', {id:rowId,value:newValue},function(response){}) ;
+			$.post(SITEROOT+'/backend/admin/updatebuilderpriority', {id:rowId,value:newValue},function(response){}) ;
 		}
 		return true;
 	}
 	function deleteRow(id){
 		SITEROOT = '<?php echo $baseUrl?>';
-		$.post(SITEROOT+'/admin/updatebuilderstatus', {id:id,action:'delete'},function(response){
+		$.post(SITEROOT+'/backend/admin/updatebuilderstatus', {id:id,action:'delete'},function(response){
 			if(response == '1')
 			{
-				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/builderlistdata',callBack,"json");
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/backend/admin/builderlistdata',callBack,"json");
 			}
 		
 		}) ;
@@ -99,10 +99,10 @@
 	
 	function activeStatus(id){
 		SITEROOT = '<?php echo $baseUrl?>';
-		$.post(SITEROOT+'/admin/updatebuilderstatus', {id:id,action:'active'},function(response){
+		$.post(SITEROOT+'/backend/admin/updatebuilderstatus', {id:id,action:'active'},function(response){
 			if(response == '1')
 			{
-				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/builderlistdata',callBack,"json");
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/backend/admin/builderlistdata',callBack,"json");
 			}
 		
 		}) ;
@@ -111,11 +111,11 @@
 	
 	function inActiveStatus(id){
 		SITEROOT = '<?php echo $baseUrl?>';
-		$.post(SITEROOT+'/admin/updatebuilderstatus', {id:id,action:'inactive'},function(response){
+		$.post(SITEROOT+'/backend/admin/updatebuilderstatus', {id:id,action:'inactive'},function(response){
 			// alert(response);
 			if(response == '1')
 			{
-				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/builderlistdata',callBack,"json");
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/backend/admin/builderlistdata',callBack,"json");
 			}
 		
 		}) ;
@@ -144,10 +144,10 @@
 
 				
 				SITEROOT = '<?php echo $baseUrl?>';
-				$.post(SITEROOT+'/admin/updatebuilderstatus', {selectedIds:selectedIds,action:action},function(response){
+				$.post(SITEROOT+'/backend/admin/updatebuilderstatus', {selectedIds:selectedIds,action:action},function(response){
 					if(response == '1')
 					{
-						mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/builderlistdata',callBack,"json");
+						mygrid.clearAndLoad('<?php echo $baseUrl;?>/backend/admin/builderlistdata',callBack,"json");
 					}
 				}) ;		
 			}

@@ -1,0 +1,206 @@
+<?php $baseUrl = $this->basePath(); ?>
+<script src="<?php echo $baseUrl;?>/public/js/ajaxupload.3.5.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl; ?>/public/tinmca/jscripts/tiny_mce/tiny_mce.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript">
+    tinyMCE.init({
+        // General options
+        mode: "exact",
+        elements: "comment",
+        theme: "advanced",
+        width: "100%",
+        height: 310,
+        plugins: "jbimages,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount,advlist,autosave",
+        // Theme options
+        theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,code,",
+        theme_advanced_buttons2: "",
+        theme_advanced_buttons3: "",
+        //theme_advanced_buttons3 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,pagebreak,restoredraft",
+        //theme_advanced_buttons4 : "",
+        theme_advanced_toolbar_location: "top",
+        theme_advanced_toolbar_align: "left",
+        theme_advanced_statusbar_location: "bottom",
+        theme_advanced_resizing: true,
+        // Example content CSS (should be your site CSS)
+        content_css: "<?php echo $baseUrl; ?>/js/tinmca/css/content.css",
+        // Drop lists for link/image/media/template dialogs
+        template_external_list_url: "<?php echo $baseUrl; ?>/js/tinmca/lists/template_list.js",
+        external_link_list_url: "<?php echo $baseUrl; ?>/js/tinmca/lists/link_list.js",
+        external_image_list_url: "<?php echo $baseUrl; ?>/js/tinmca/lists/image_list.js",
+        media_external_list_url: "<?php echo $baseUrl; ?>/js/tinmca/lists/media_list.js",
+        // Style formats
+        style_formats: [
+            {title: 'Bold text', inline: 'b'},
+            {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
+            {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+            {title: 'Example 1', inline: 'span', classes: 'example1'},
+            {title: 'Example 2', inline: 'span', classes: 'example2'},
+            {title: 'Table styles'},
+            {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
+        ],
+        relative_urls: false,
+        // Replace values for the template plugin
+        template_replace_values: {
+            username: "Some User",
+            staffid: "991234"
+        },
+        autosave_ask_before_unload: false,
+    });
+</script>
+<script type="text/javascript">
+
+
+var deletedDivArray = [];
+$(function(){
+	 var btnUpload=$('#upload_1');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,1);
+});
+$(function(){
+	 var btnUpload=$('#upload_2');
+	 var status=$('#status');
+	 ajaxUpload(btnUpload,status,2);
+});
+
+function ajaxUpload(btnUpload,status,id){
+	 var url='<?php echo $baseUrl ?>';
+	 var SITEROOT=url+"/backend/admin/upload";
+	 new AjaxUpload(btnUpload,
+            {
+                action: SITEROOT,
+                name:'uploadfile' ,
+                onSubmit: function(file, ext){
+                    if (! (ext && /^(jpg|png|jpeg|gif)$/.test(ext))){
+                        // extension is not allowed
+                        status.text('Only JPG, PNG or GIF files are allowed');
+                        return false;
+                    }
+                    status.text('Uploading...');
+                },
+                onComplete: function(file, response){
+                    //On completion clear the status
+                    status.text('');
+                    var filepath = url+'/public/uploadfiles/'+response;
+                    id = parseInt(id);
+                           $('#files_'+id).html('');
+                    if(response != ""){
+
+// 		        	 alert(id);
+// 		        	 return false;		         
+
+                        document.getElementById("imagename_"+id).value = response;
+                        $('#preview_'+id).show();
+                        $('#files_'+id).html('<img height="50" width="50"  src="'+filepath+'" alt="" /><br />').addClass('success');
+                      //  $('#lastImageId').val(id+1);
+                    } else{
+                       // $('<div></div>').appendTo('#files').text(response).addClass('error');
+                    }
+                }
+            });
+}
+
+function previewImage(id){
+	$('#files_'+id).toggle();
+	return false;
+}
+
+
+function delDiv(id){
+	deletedDivArray.push(id);
+	$('#imagename_'+id).val('');
+	$('#amenityName_'+id).val('');
+	$('#preview_'+id).hide();
+	$('#files_'+id).html('');
+	$('#div_'+id).hide();
+	return false;
+}
+
+</script>
+
+
+
+<div class="contant">
+<div class="heading"><?php echo $this->heading?></div>
+<div class="contant1">
+    <form method="post" action="" name="" id="testimonialform">
+	<input type="hidden" id="builderId" value="<?php if(isset($this->builderDetail[0]['id'])) echo $this->builderDetail[0]['id']; ?>" />	
+    <?php if($this->msg!=''){?>
+	<div ><?php echo $this->msg?></div>
+	<?php }?>
+	<span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"></span>
+	<div class="content2">
+		<div class="content3"><span style="color:red">*</span> Name:</div>
+        <div class="content4">
+        <input type="text" name="name" style="width:250px; height:28px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="name" value="<?php if(isset($this->testimonialDetail[0]['name'])) echo $this->testimonialDetail[0]['name']; ?>"/>
+        </div>
+    </div>
+    <div class="content2">
+		<div class="content3"><span style="color:red">*</span> Feedback:</div>
+        <div class="content4-1-2">
+        <textarea name="comment" style="width:250px; height:56px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;" id="comment"><?php if(isset($this->testimonialDetail[0]['comment'])) echo $this->testimonialDetail[0]['comment']; ?></textarea>
+        </div>
+    </div>
+    <div class="content2">
+    	<input type='hidden' name='imagename_1' id='imagename_1' value='<?php echo $this->testimonialDetail[0]['image']; ?>'>
+        <div class="content3"><span style="color:red">*</span>Image:(200 * 67)</div>
+        <div class="content4-builder">
+            <button class="" style="height:28px;margin-left:10px;" id="upload_1">Browse</button>
+            <div class="am" >
+            <div class="" id="files_1">
+                <?php if(isset($this->testimonialDetail[0]['image'])) {?>
+                    <img height="60" width="70"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->testimonialDetail[0]['image']; ?>"/> 
+                <?php }?>
+            </div>
+            </div>
+        </div>
+    </div>
+	
+    <div class="content5">
+    <button onclick="return submitForm()" value="<?php echo $this->heading?>" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;"><?php echo $this->heading?></button>
+    <a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl;?>/backend/admin/testimoniallist" >Cancel</a>
+    </div>
+	
+    </form>
+    
+</div>
+</div>
+
+<script>
+
+var error = 0;
+function hasNumbers(t){
+	return /\d/.test(t);
+}
+
+function submitForm(){
+    SITEROOT = '<?php echo $baseUrl?>';
+	var name                = $('#name').val();
+	var imagename 		= $('#imagename_1').val();
+	var error = 0;
+	var msg = '';
+// alert(imagename);
+// return false;
+	if(name =='' ){
+            var msg = 'Name cannot be empty.';
+            error = 1;
+	}else if ( tinyMCE.get('comment').getContent() == '' ){
+        var msg = 'Feedback cannot be empty.';
+		error = 1;
+	 }else if(imagename =='' ){
+            var msg = 'Image cannot be empty.';
+            error = 1;
+	}
+    
+	if(msg!=''){
+            $("#nameExist").text(msg).show();
+            return false;
+	}
+   
+        $('#testimonialform').submit();
+   
+    return false;
+}
+
+</script>

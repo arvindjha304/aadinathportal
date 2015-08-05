@@ -12,7 +12,7 @@
 <script type="text/javascript" src="<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/ext/dhtmlxgrid_pgn.js"></script>
 <div class="contant">
 <div class="heading">Manage City
-<a href='<?php echo $baseUrl;?>/admin/addeditcity'><input type="submit" value="+ Add City" style="width:auto; height:28px; background-color:#333; color:#FFFFFF; border:none; border-radius: 16px;cursor: pointer;padding:5px; float:right; padding-left:10px; padding-right:10px;"  /> </a></div>
+<a href='<?php echo $baseUrl;?>/backend/admin/addeditcity'><input type="submit" value="+ Add City" style="width:auto; height:28px; background-color:#333; color:#FFFFFF; border:none; border-radius: 16px;cursor: pointer;padding:5px; float:right; padding-left:10px; padding-right:10px;"  /> </a></div>
 <!----img area----->
 <div class="contant1">
 	
@@ -55,7 +55,7 @@
 </div>
 <script>
 
-	var strgridURL='<?php echo $baseUrl;?>/admin/citylistdata';
+	var strgridURL='<?php echo $baseUrl;?>/backend/admin/citylistdata';
 	var mygrid = new dhtmlXGridObject('manageuser');
 	mygrid.setSkin("dhx_skyblue");
 	mygrid.setImagePath("<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/imgs/");
@@ -82,10 +82,10 @@
 	
 	function deleteRow(id){
 		SITEROOT = '<?php echo $baseUrl?>';
-		$.post(SITEROOT+'/admin/updatecitystatus', {id:id,action:'delete'},function(response){
+		$.post(SITEROOT+'/backend/admin/updatecitystatus', {id:id,action:'delete'},function(response){
 			if(response == '1')
 			{
-				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/citylistdata',callBack,"json");
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/backend/admin/citylistdata',callBack,"json");
 			}
 		
 		}) ;
@@ -93,10 +93,10 @@
 	
 	function activeStatus(id){
 		SITEROOT = '<?php echo $baseUrl?>';
-		$.post(SITEROOT+'/admin/updatecitystatus', {id:id,action:'active'},function(response){
+		$.post(SITEROOT+'/backend/admin/updatecitystatus', {id:id,action:'active'},function(response){
 			if(response == '1')
 			{
-				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/citylistdata',callBack,"json");
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/backend/admin/citylistdata',callBack,"json");
 			}
 		
 		}) ;
@@ -105,11 +105,11 @@
 	
 	function inActiveStatus(id){
 		SITEROOT = '<?php echo $baseUrl?>';
-		$.post(SITEROOT+'/admin/updatecitystatus', {id:id,action:'inactive'},function(response){
+		$.post(SITEROOT+'/backend/admin/updatecitystatus', {id:id,action:'inactive'},function(response){
 			// alert(response);
 			if(response == '1')
 			{
-				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/citylistdata',callBack,"json");
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/backend/admin/citylistdata',callBack,"json");
 			}
 		
 		}) ;
@@ -133,10 +133,10 @@
 			if(action!=''){
 				var selectedIds = getSelectedIds();
 				SITEROOT = '<?php echo $baseUrl?>';
-				$.post(SITEROOT+'/admin/updatestatus', {selectedIds:selectedIds,action:action},function(response){
+				$.post(SITEROOT+'/backend/admin/updatestatus', {selectedIds:selectedIds,action:action},function(response){
 					if(response == '1')
 					{
-						mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/citylistdata',callBack,"json");
+						mygrid.clearAndLoad('<?php echo $baseUrl;?>/backend/admin/citylistdata',callBack,"json");
 					}
 				}) ;		
 			}

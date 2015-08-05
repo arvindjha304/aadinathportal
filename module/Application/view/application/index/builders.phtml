@@ -12,7 +12,7 @@
        $i=1;  ?>   
         <div class="one_fifth <?php if($i%5==0) echo 'last'?>">   
             <div class="flips4">        
-                <a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builder['id']?>"><div class="flips4_front flipscont4">
+                <a href="<?php echo $baseUrl;?>/builders/<?php echo $builder['builderSlug']?>"><div class="flips4_front flipscont4">
                     <img height="80" width="100" src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builder['builder_image']?>" alt="" >                          </div>           
                 <div class="flips4_back flipscont4 white-text">
                     <h5><strong><?php echo $builder['builder_name']?></strong></h5>
@@ -37,8 +37,12 @@
     
     </div><!-- end section -->
     
-    
- 
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        $('#pageTitle').text('Aadinath | Builders');
+    });
+    </script>
 
 
 <!---End of Builder--->

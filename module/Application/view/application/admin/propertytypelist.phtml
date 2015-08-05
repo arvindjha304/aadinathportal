@@ -13,7 +13,7 @@
 <div class="contant">
 <div class="heading">Manage Property Type
 
-<a href='<?php echo $baseUrl;?>/admin/addeditpropertytype'><input type="submit" value="+ Add Property Type" style="width:auto; height:28px; background-color:#333; color:#FFFFFF; border:none; border-radius: 16px;cursor: pointer;padding:5px; float:right; padding-left:10px; padding-right:10px;"  /></a>
+<a href='<?php echo $baseUrl;?>/backend/admin/addeditpropertytype'><input type="submit" value="+ Add Property Type" style="width:auto; height:28px; background-color:#333; color:#FFFFFF; border:none; border-radius: 16px;cursor: pointer;padding:5px; float:right; padding-left:10px; padding-right:10px;"  /></a>
 </div>
 <!----img area----->
 <div class="contant1">
@@ -58,7 +58,7 @@
 </div>
 <script>
 
-	var strgridURL='<?php echo $baseUrl;?>/admin/propertytypelistdata';
+	var strgridURL='<?php echo $baseUrl;?>/backend/admin/propertytypelistdata';
 	var mygrid = new dhtmlXGridObject('manageuser');
 	mygrid.setSkin("dhx_skyblue");
 	mygrid.setImagePath("<?php echo $baseUrl;?>/public/dhtmlxgrid/codebase/imgs/");
@@ -85,9 +85,9 @@
 	
 	function deleteRow(id){
 		SITEROOT = '<?php echo $baseUrl?>';
-		$.post(SITEROOT+'/admin/updatepropertypestatus', {id:id,action:'delete'},function(response){
+		$.post(SITEROOT+'/backend/admin/updatepropertypestatus', {id:id,action:'delete'},function(response){
 			if(response == '1'){
-				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/propertytypelistdata',callBack,"json");
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/backend/admin/propertytypelistdata',callBack,"json");
 			}
 		
 		}) ;
@@ -95,10 +95,10 @@
 	
 	function activeStatus(id){
 		SITEROOT = '<?php echo $baseUrl?>';
-		$.post(SITEROOT+'/admin/updatepropertypestatus', {id:id,action:'active'},function(response){
+		$.post(SITEROOT+'/backend/admin/updatepropertypestatus', {id:id,action:'active'},function(response){
 			if(response == '1')
 			{
-				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/propertytypelistdata',callBack,"json");
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/backend/admin/propertytypelistdata',callBack,"json");
 			}
 		
 		}) ;
@@ -107,11 +107,11 @@
 	
 	function inActiveStatus(id){
 		SITEROOT = '<?php echo $baseUrl?>';
-		$.post(SITEROOT+'/admin/updatepropertypestatus', {id:id,action:'inactive'},function(response){
+		$.post(SITEROOT+'/backend/admin/updatepropertypestatus', {id:id,action:'inactive'},function(response){
 			// alert(response);
 			if(response == '1')
 			{
-				mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/propertytypelistdata',callBack,"json");
+				mygrid.clearAndLoad('<?php echo $baseUrl;?>/backend/admin/propertytypelistdata',callBack,"json");
 			}
 		
 		}) ;
@@ -135,10 +135,10 @@
 			if(action!=''){
 				var selectedIds = getSelectedIds();
 				SITEROOT = '<?php echo $baseUrl?>';
-				$.post(SITEROOT+'/admin/updatepropertypestatus', {selectedIds:selectedIds,action:action},function(response){
+				$.post(SITEROOT+'/backend/admin/updatepropertypestatus', {selectedIds:selectedIds,action:action},function(response){
 					if(response == '1')
 					{
-						mygrid.clearAndLoad('<?php echo $baseUrl;?>/admin/propertytypelistdata',callBack,"json");
+						mygrid.clearAndLoad('<?php echo $baseUrl;?>/backend/admin/propertytypelistdata',callBack,"json");
 					}
 				}) ;		
 			}

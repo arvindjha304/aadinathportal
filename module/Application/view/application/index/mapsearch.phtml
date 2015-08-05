@@ -1,0 +1,549 @@
+<?php $baseUrl = $this->basePath(); ?>
+<link rel="stylesheet" href="<?php echo $baseUrl;?>/public/css/map-proj.css" type="text/css" />
+<!---------Filteration bar----------->
+<div class="filteration">
+<div class="container">
+  <div class="container-fluid bg-white">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><div style="color:#777; padding-top:15px; margin-right:30px;">Refine Results :</div></li>               
+        <li class="dropdown">
+            <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" ><span id="possessionText" >Possession</span><span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a ><input type="checkbox" onchange="managePossession('readyToMoveIn')" id="readyToMoveIn" value="readyToMoveIn"><span id="text_readyToMoveIn" > Ready to move in</span></a></li>
+            <li><a ><input type="checkbox" onchange="managePossession('upto3month')" id="upto3month" value="upto3month"><span id="text_upto3month" > Upto 3 Months</span></a></li>
+            <li><a ><input type="checkbox" onchange="managePossession('upto6month')" id="upto6month" value="upto6month"><span id="text_upto6month" > Upto 6 Months</span></a></li>
+            <li><a ><input type="checkbox" onchange="managePossession('upto9month')" id="upto9month" value="upto9month"><span id="text_upto9month" > Upto 9 Months</span></a></li>            
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="propertyTypeFilter">Property Type <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+              <?php
+              foreach($this->propertyTypeArr as $propertyType){?>
+                  <li><a ><input type="checkbox"  onchange="managePropertyType(<?php echo $propertyType['id'];?>)" id="propertyType_<?php echo $propertyType['id'];?>" value="<?php echo $propertyType['id'];?>"> <?php echo $propertyType['property_type'];?></a></li>
+             <?php  }?>         
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="budgetFilter">Budget <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+              <li><a ><input type="checkbox" onchange="manageBudget(2500000)" id="budget_2500000" value="2500000">&nbsp;&nbsp;<span class="rupee">`</span> 25 L</a></li> 
+              <li><a ><input type="checkbox" onchange="manageBudget(5000000)" id="budget_5000000" value="5000000">&nbsp;&nbsp;<span class="rupee">`</span> 50 L</a></li> 
+              <li><a ><input type="checkbox" onchange="manageBudget(7500000)" id="budget_7500000" value="7500000">&nbsp;&nbsp;<span class="rupee">`</span> 75 L</a></li> 
+              <li><a ><input type="checkbox" onchange="manageBudget(10000000)" id="budget_10000000" value="10000000">&nbsp;&nbsp;<span class="rupee">`</span> 1.00 Cr</a></li> 
+              <li><a ><input type="checkbox" onchange="manageBudget(15000000)" id="budget_15000000" value="15000000">&nbsp;&nbsp;<span class="rupee">`</span> 1.50 Cr</a></li> 
+              <li><a ><input type="checkbox" onchange="manageBudget(20000000)" id="budget_20000000" value="20000000">&nbsp;&nbsp;<span class="rupee">`</span> 2.00 Cr</a></li> 
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="bedroomFilter">Bedrooms <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a ><input type="checkbox" onchange="manageBedrooms(1)" id="bedroom_1" value="1"> 1 Bedroom</a></li>
+            <li><a ><input type="checkbox" onchange="manageBedrooms(2)" id="bedroom_2" value="2"> 2 Bedrooms</a></li>
+            <li><a ><input type="checkbox" onchange="manageBedrooms(3)" id="bedroom_3" value="3"> 3 Bedrooms</a></li>
+            <li><a ><input type="checkbox" onchange="manageBedrooms(4)" id="bedroom_4" value="4"> 4 Bedrooms</a></li>
+            <li><a ><input type="checkbox" onchange="manageBedrooms(5)" id="bedroom_5" value="4+"> 4+ Bedrooms</a></li>           
+          </ul>
+        </li>
+        <li><a ><span class="glyphicon glyphicon-refresh"></span> <span style="cursor:pointer" id="resetFilter">Reset</span> </a></li> 
+      </ul>
+     <!--right---> 
+      <ul class="nav navbar-nav navbar-right"> 
+        <li><a onclick="changeView('list')"><span class="glyphicon glyphicon-th-list"></span> LIST</a></li>       
+        <li><a onclick="changeView('grid')"><span class="glyphicon glyphicon-th-large"></span> GRID</a></li>
+             
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+
+</div>
+</div>
+
+
+<!------Map Project Detail ------->
+<div class="col-md-3 map-proj-detail-main">
+<div class="col-md-11 map-proj-detail-left">
+<div class="clearfix margin_top2"></div>
+<div class="col-md-12 map-proj-detail-main">
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="5"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="6"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="7"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+    <div class="item active">
+      <img src="<?php echo $baseUrl;?>/public/images/project/project-detail1.jpg">      
+    </div>
+    <div class="item">
+      <img src="<?php echo $baseUrl;?>/public/images/project/project-detail2.jpg">     
+    </div>
+    <div class="item">
+      <img src="<?php echo $baseUrl;?>/public/images/project/project-detail1.jpg">     
+    </div>
+    <div class="item">
+      <img src="<?php echo $baseUrl;?>/public/images/project/project-detail2.jpg">     
+    </div>
+    <div class="item">
+      <img src="<?php echo $baseUrl;?>/public/images/project/project-detail1.jpg">     
+    </div>
+    <div class="item">
+      <img src="<?php echo $baseUrl;?>/public/images/project/project-detail2.jpg">     
+    </div>
+    <div class="item">
+      <img src="<?php echo $baseUrl;?>/public/images/project/project-detail1.jpg">     
+    </div>
+    <div class="item">
+      <img src="<?php echo $baseUrl;?>/public/images/project/project-detail2.jpg">     
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+</div>
+<div class="col-md-12 margin_top3 map-proj-detail-main">
+<h4>Project Details</h4>  
+  <div class="bs-example" data-example-id="bordered-table">
+    <table class="table table-bordered map-proj-detail-tbl">     
+      <tbody>
+      	<tr>
+          <td scope="row">Configurations</td>
+          <td>3/4/5 BHK Apartment</td>          
+        </tr>
+        <tr>
+          <td scope="row">Super Builtup Area</td>
+          <td>1690 - 3965 sq.ft.</td>          
+        </tr>
+        <tr>
+          <td scope="row">Starting Price</td>
+          <td><span class="rupee">`</span> 49.8L</td>          
+        </tr>
+        <tr>
+          <td scope="row">Possession Date</td>
+          <td>Dec `17</td>          
+        </tr>
+        <tr>
+          <td scope="row">Buildings</td>
+          <td>5</td>          
+        </tr>
+      </tbody>
+    </table>
+  </div><!-- /example -->
+
+
+</div>
+<div class="col-md-12 margin_top3 map-proj-detail-main">
+<h4>Amenities</h4>  
+  <div class="bs-example" data-example-id="bordered-table">
+    <table class="table table-bordered map-proj-detail-tbl">     
+      <tbody>
+      	<tr>
+          <td scope="row"><img src="<?php echo $baseUrl;?>/public/images/icon/lift-icon.png"></td>
+          <td>Lift</td>          
+        </tr>
+        <tr>
+          <td scope="row"><img src="<?php echo $baseUrl;?>/public/images/icon/security-icon.png"></td>
+          <td>Security</td>          
+        </tr>
+        <tr>
+          <td scope="row"><img src="<?php echo $baseUrl;?>/public/images/icon/internet-icon.png"></td>
+          <td>Internet</td>          
+        </tr>
+        <tr>
+          <td scope="row"><img src="<?php echo $baseUrl;?>/public/images/icon/playarea-icon.png"></td>
+          <td>Play Area</td>          
+        </tr>
+        <tr>
+          <td scope="row"><img src="<?php echo $baseUrl;?>/public/images/icon/power-backup-icon.png"></td>
+          <td>Power Backup</td>          
+        </tr>
+        <tr>
+          <td scope="row"><img src="<?php echo $baseUrl;?>/public/images/icon/swimming-pool-icon.png"></td>
+          <td>Swimming Pool</td>          
+        </tr>
+        <tr>
+          <td scope="row"><img src="<?php echo $baseUrl;?>/public/images/icon/gymnasium-icon.png"></td>
+          <td>Gymnasium</td>          
+        </tr>
+      </tbody>
+    </table>
+  </div><!-- /example -->
+
+
+</div>
+<div class="clearfix margin_top2"></div>
+<div class="col-md-12" align="center">
+<a href="#"><button type="button" class="btn btn-danger">Click for more details</button></a>
+</div>
+<div class="clearfix margin_top2"></div>
+</div>
+<a href="#"><div class="col-md-1 map-close-button-right text-center"><strong>x</strong></div></a>
+
+
+</div>
+
+
+
+  
+<!---Container--->
+<div class="row map-main"> 
+  <div class="col-md-9 map-left">
+  
+  <iframe src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d56041.034821647445!2d77.35022398878235!3d28.61283365263367!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e6!4m0!4m5!1s0x390cef8c1466f1e5%3A0xb916ca1aa19340b5!2sSector+65%2C+Noida%2C+Uttar+Pradesh+201307!3m2!1d28.612763299999997!2d77.3871319!5e0!3m2!1sen!2sin!4v1435953640845" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
+  
+  </div>
+  <div class="col-md-3 map-right">
+  <div class="row">
+  <div class="clearfix margin_top1"></div>
+	  <div class="col-md-12 totalproj">  	
+		 <h5>New Residential Projects in Delhi</h5>
+         Found a total of 102 projects.
+         
+     </div>
+  </div>
+  
+  <div class="row">
+  <div class="clearfix margin_top1"></div>
+	  <div class="col-md-12">  	
+		 <div class="col-md-4 map-right-img-box"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img1.jpg"></a></div>
+         <div class="col-md-8 map-right-detail-box"><h5><a href="#">Parsvnath Paramount</a></h5>
+         <em>Subhash Nagar , Delhi</em>
+         <div class="grid_type1">2, 3 & 4 BHK (930 - 2385 sq ft)</div>
+         <div class="grid_button1">
+	         <div class="grid_button_left1"><span class="grid_button_left_smltxt1">STARTING PRICE- </span><span class="rupee">`</span>
+3.04 Crs </div>
+             <div class="grid_button_right1"><a href="#" data-toggle="modal" data-target="#myModal1" title="Get call back"><span class="glyphicon glyphicon-envelope"></span></a></div>
+         </div>
+         </div>
+         
+     </div>
+  </div>
+  
+  <div class="row">
+  <div class="clearfix margin_top1"></div>
+	  <div class="col-md-12">  	
+		 <div class="col-md-4 map-right-img-box"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img2.jpg"></a></div>
+         <div class="col-md-8 map-right-detail-box"><h5><a href="#">Eden Heights</a></h5>
+         <em>Sector 6, Dwarka , Delhi</em>
+         <div class="grid_type1">2, 3 & 4 BHK (undefined sq ft)</div>
+         <div class="grid_button1">
+	         <div class="grid_button_left1"><span class="grid_button_left_smltxt">STARTING PRICE- </span><span class="rupee">`</span>
+44.63 L </div>
+             <div class="grid_button_right1"><a href="#" data-toggle="modal" data-target="#myModal1" title="Get call back"><span class="glyphicon glyphicon-envelope"></span></a></div>
+         </div>
+         </div>
+         
+     </div>
+  </div>
+  
+  <div class="row">
+  <div class="clearfix margin_top1"></div>
+	  <div class="col-md-12">  	
+		 <div class="col-md-4 map-right-img-box"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img1.jpg"></a></div>
+         <div class="col-md-8 map-right-detail-box"><h5><a href="#">Parsvnath Paramount</a></h5>
+         <em>Subhash Nagar , Delhi</em>
+         <div class="grid_type1">2, 3 & 4 BHK (930 - 2385 sq ft)</div>
+         <div class="grid_button1">
+	         <div class="grid_button_left1"><span class="grid_button_left_smltxt">STARTING PRICE- </span><span class="rupee">`</span>
+3.04 Crs </div>
+             <div class="grid_button_right1"><a href="#" data-toggle="modal" data-target="#myModal1" title="Get call back"><span class="glyphicon glyphicon-envelope"></span></a></div>
+         </div>
+         </div>
+         
+     </div>
+  </div>
+  
+  <div class="row">
+  <div class="clearfix margin_top1"></div>
+	  <div class="col-md-12">  	
+		 <div class="col-md-4 map-right-img-box"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img2.jpg"></a></div>
+         <div class="col-md-8 map-right-detail-box"><h5><a href="#">Eden Heights</a></h5>
+         <em>Sector 6, Dwarka , Delhi</em>
+         <div class="grid_type1">2, 3 & 4 BHK (undefined sq ft)</div>
+         <div class="grid_button1">
+	         <div class="grid_button_left1"><span class="grid_button_left_smltxt">STARTING PRICE- </span><span class="rupee">`</span>
+44.63 L </div>
+             <div class="grid_button_right1"><a href="#" data-toggle="modal" data-target="#myModal1" title="Get call back"><span class="glyphicon glyphicon-envelope"></span></a></div>
+         </div>
+         </div>
+         
+     </div>
+  </div>
+  
+  <div class="row">
+  <div class="clearfix margin_top1"></div>
+	  <div class="col-md-12">  	
+		 <div class="col-md-4 map-right-img-box"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img1.jpg"></a></div>
+         <div class="col-md-8 map-right-detail-box"><h5><a href="#">Parsvnath Paramount</a></h5>
+         <em>Subhash Nagar , Delhi</em>
+         <div class="grid_type1">2, 3 & 4 BHK (930 - 2385 sq ft)</div>
+         <div class="grid_button1">
+	         <div class="grid_button_left1"><span class="grid_button_left_smltxt">STARTING PRICE- </span><span class="rupee">`</span>
+3.04 Crs </div>
+             <div class="grid_button_right1"><a href="#" data-toggle="modal" data-target="#myModal1" title="Get call back"><span class="glyphicon glyphicon-envelope"></span></a></div>
+         </div>
+         </div>
+         
+     </div>
+  </div>
+  
+  <div class="row">
+  <div class="clearfix margin_top1"></div>
+	  <div class="col-md-12">  	
+		 <div class="col-md-4 map-right-img-box"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img2.jpg"></a></div>
+         <div class="col-md-8 map-right-detail-box"><h5><a href="#">Eden Heights</a></h5>
+         <em>Sector 6, Dwarka , Delhi</em>
+         <div class="grid_type1">2, 3 & 4 BHK (undefined sq ft)</div>
+         <div class="grid_button1">
+	         <div class="grid_button_left1"><span class="grid_button_left_smltxt">STARTING PRICE- </span><span class="rupee">`</span>
+44.63 L </div>
+             <div class="grid_button_right1"><a href="#" data-toggle="modal" data-target="#myModal1" title="Get call back"><span class="glyphicon glyphicon-envelope"></span></a></div>
+         </div>
+         </div>
+         
+     </div>
+  </div>
+  
+  <div class="row">
+  <div class="clearfix margin_top1"></div>
+	  <div class="col-md-12">  	
+		 <div class="col-md-4 map-right-img-box"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img1.jpg"></a></div>
+         <div class="col-md-8 map-right-detail-box"><h5><a href="#">Parsvnath Paramount</a></h5>
+         <em>Subhash Nagar , Delhi</em>
+         <div class="grid_type1">2, 3 & 4 BHK (930 - 2385 sq ft)</div>
+         <div class="grid_button1">
+	         <div class="grid_button_left1"><span class="grid_button_left_smltxt">STARTING PRICE- </span><span class="rupee">`</span>
+3.04 Crs </div>
+             <div class="grid_button_right1"><a href="#" data-toggle="modal" data-target="#myModal1" title="Get call back"><span class="glyphicon glyphicon-envelope"></span></a></div>
+         </div>
+         </div>
+         
+     </div>
+  </div>
+  
+  <div class="row">
+  <div class="clearfix margin_top1"></div>
+	  <div class="col-md-12">  	
+		 <div class="col-md-4 map-right-img-box"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img2.jpg"></a></div>
+         <div class="col-md-8 map-right-detail-box"><h5><a href="#">Eden Heights</a></h5>
+         <em>Sector 6, Dwarka , Delhi</em>
+         <div class="grid_type1">2, 3 & 4 BHK (undefined sq ft)</div>
+         <div class="grid_button1">
+	         <div class="grid_button_left1"><span class="grid_button_left_smltxt">STARTING PRICE- </span><span class="rupee">`</span>
+44.63 L </div>
+             <div class="grid_button_right1"><a href="#" data-toggle="modal" data-target="#myModal1" title="Get call back"><span class="glyphicon glyphicon-envelope"></span></a></div>
+         </div>
+         </div>
+         
+     </div>
+  </div>
+  
+  <div class="row">
+  <div class="clearfix margin_top1"></div>
+	  <div class="col-md-12">  	
+		 <div class="col-md-4 map-right-img-box"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img1.jpg"></a></div>
+         <div class="col-md-8 map-right-detail-box"><h5><a href="#">Parsvnath Paramount</a></h5>
+         <em>Subhash Nagar , Delhi</em>
+         <div class="grid_type1">2, 3 & 4 BHK (930 - 2385 sq ft)</div>
+         <div class="grid_button1">
+	         <div class="grid_button_left1"><span class="grid_button_left_smltxt">STARTING PRICE- </span><span class="rupee">`</span>
+3.04 Crs </div>
+             <div class="grid_button_right1"><a href="#" data-toggle="modal" data-target="#myModal1" title="Get call back"><span class="glyphicon glyphicon-envelope"></span></a></div>
+         </div>
+         </div>
+         
+     </div>
+  </div>
+  
+  <div class="row">
+  <div class="clearfix margin_top1"></div>
+	  <div class="col-md-12">  	
+		 <div class="col-md-4 map-right-img-box"><a href="#"><img src="<?php echo $baseUrl;?>/public/images/project/proj-img2.jpg"></a></div>
+         <div class="col-md-8 map-right-detail-box"><h5><a href="#">Eden Heights</a></h5>
+         <em>Sector 6, Dwarka , Delhi</em>
+         <div class="grid_type1">2, 3 & 4 BHK (undefined sq ft)</div>
+         <div class="grid_button1">
+	         <div class="grid_button_left1"><span class="grid_button_left_smltxt">STARTING PRICE- </span><span class="rupee">`</span>
+44.63 L </div>
+             <div class="grid_button_right1"><a href="#" data-toggle="modal" data-target="#myModal1" title="Get call back"><span class="glyphicon glyphicon-envelope"></span></a></div>
+         </div>
+         </div>
+         
+     </div>
+  </div>
+  <div class="clearfix margin_top3"></div>
+  </div>
+  </div>
+  </div>
+  
+  
+  
+  
+  
+<script src="<?php echo $baseUrl;?>/public/projectScripts/index/project_list_grid.js" type="text/javascript"></script>
+<script>
+$(document).ready(function(){
+    //return updateValues();
+    
+    
+});
+
+</script>
+
+
+
+
+
+  
+  
+  <!-- scroll to top======================================================================================== -->  
+  <div class="scrollup" style="cursor:pointer"></div><!-- end scroll to top of the page-->
+  
+  <!-- Left Navigation Toggal=============================================================================== --> 
+  <div id="style-selector"  style="left: -224px;">
+<div class="style-selector-wrapper">
+<span class="title">MENU</span>
+<div>        
+<br /><br />
+
+<span class="title-sub2"><strong>Aadinath Guide <br>(Complete Property Guide)</strong></span>
+<ul class="styles" style="border-bottom: none;">
+    <li><a href="property-buying-step.html" class="demolinks">- FAQs</a></li>
+    <li><a href="home-loan.html" class="demolinks">- Home Loan</a></li>
+    <li><a href="vaastu-tips.html" class="demolinks">- Vaastu Tips</a></li>
+    <li><a href="emi.html" class="demolinks">- EMI Calculator</a></li>
+	<li><a href="nri.html" class="demolinks">- NRI Services</a></li>
+    <li><a href="#" class="demolinks">- Blog</a></li>
+</ul>
+<span class="title-sub2">Need Any Help? <br><b>Call us: 0120-4256308</b></span>
+
+
+<a href="#" class="close icon-chevron-right"></a>  
+    
+</div>
+</div>
+</div>
+</div>
+
+<!-- ######### JS FILES ######### -->
+<!-- get jQuery used for the theme -->
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/js/universal/jquery.js"></script>
+<script src="<?php echo $baseUrl;?>/public/js/style-switcher/styleselector.js"></script>
+<script src="<?php echo $baseUrl;?>/public/js/animations/js/animations.min.js" type="text/javascript"></script>
+<script src="<?php echo $baseUrl;?>/public/js/mainmenu/bootstrap.min.js"></script>
+<script src="<?php echo $baseUrl;?>/public/js/mainmenu/customeUI.js"></script>
+<script src="<?php echo $baseUrl;?>/public/js/masterslider/jquery.easing.min.js"></script>
+
+
+
+ 
+  <script type="text/javascript">
+    $('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').focus()
+})
+  
+ </script>
+
+ <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">ACCOUNT LOGIN</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter your Email Address">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter your Password">
+  </div>
+  
+  <div class="checkbox">
+    <label>
+      <input type="checkbox"> Remember Me      
+    </label>
+    <p class="help-block"><a href="#">Forgot Password?</a></p>
+  </div>  
+</form>
+
+     </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-danger">LOGIN NOW!</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">SIGN UP</button>       
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Interested in <span id='callBackPrjName'>Parsvnath Paramount</span>?</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control" id="callBackInputEmail" placeholder="Enter email">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Mobile No.</label>
+    <input type="text" class="form-control" id="callBackInputMobile" placeholder="Mobile No.">
+  </div>
+  <input type="hidden"  id="callBackProjectId" >
+</form>
+      </div>
+      <div class="modal-footer">
+          <img id="callBackLoader" style="display:none;margin-right:20px;" src="<?php echo $baseUrl;?>/public/images/lightbox-ico-loading.gif">
+          <button id="callBackSubmit" type="button" class="btn btn-danger" onclick="return submitCallBack()">GET CALL BACK</button>
+               
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<script src="<?php echo $baseUrl;?>/public/js/scrolltotop/totop.js" type="text/javascript"></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/js/mainmenu/sticky.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/js/mainmenu/modernizr.custom.75180.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/js/cubeportfolio/jquery.cubeportfolio.min.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/js/cubeportfolio/main5.js"></script>
+<script src="<?php echo $baseUrl;?>/public/js/carouselowl/owl.carousel.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/js/accordion2/custom.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/js/universal/custom.js"></script>
+
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/js/jquery.disablescroll.js"></script>

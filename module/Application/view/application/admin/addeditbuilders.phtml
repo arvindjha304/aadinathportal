@@ -66,7 +66,7 @@ $(function(){
 
 function ajaxUpload(btnUpload,status,id){
 	 var url='<?php echo $baseUrl ?>';
-	 var SITEROOT=url+"/admin/upload";
+	 var SITEROOT=url+"/backend/admin/upload";
 	 new AjaxUpload(btnUpload,
 		 {
 		     action: SITEROOT,
@@ -126,6 +126,7 @@ function delDiv(id){
 <div class="heading"><?php echo $this->heading?></div>
 <div class="contant1">
 	<form method="post" action="" name="" id="builderform">
+    <input type="hidden" id="builderSlug" name="builderSlug" />
 	<input type="hidden" id="builderId" value="<?php if(isset($this->builderDetail[0]['id'])) echo $this->builderDetail[0]['id']; ?>" />	
     <?php if($this->msg!=''){?>
 	<div ><?php echo $this->msg?></div>
@@ -194,7 +195,7 @@ function delDiv(id){
 	<div class="content5">
 	
 	<button onclick="return submitForm()" value="<?php echo $this->heading?>" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;"><?php echo $this->heading?></button>
-	<a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl;?>/admin/builderlist" >Cancel</a>
+	<a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl;?>/backend/admin/builderlist" >Cancel</a>
 	
 	</div>
 	
@@ -254,6 +255,8 @@ function submitForm(){
             }
  		});
  	}else{
+        var builderSlug = builder_name.replace(/\s+/g, '-').toLowerCase();
+        $('#builderSlug').val(builderSlug); 
          $('#builderform').submit();
     }
     return false;

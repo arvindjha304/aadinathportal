@@ -9,6 +9,7 @@
 	<?php }?>
 	<span style="color:#cc0000;margin-left:20px;display:none;" id="nameExist"></span>
     <input type="hidden" id="city_Id" value="<?php echo $this->cityDetail[0]['id']?>"/>
+    <input type="hidden" id="slug" name="citySlug" value=""/>
 	<div class="content2">
 		<div class="content3"><span style="color:red">*</span> State:</div>
         <div class="content4">
@@ -29,7 +30,7 @@
 	<div class="content5">
 	
 	<button onclick="return submitForm()" value="<?php echo $this->heading?>" style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px;cursor: pointer;padding:5px;">Submit</button>
-	<a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl;?>/admin/citylist" >Cancel</a>
+	<a style="width:auto; height:28px; background-color:#CC0000; color:#FFFFFF; border:none; border-radius: 3px; margin-left:10px;cursor: pointer;padding:5px;text-decoration:none;" href="<?php echo $baseUrl;?>/backend/admin/citylist" >Cancel</a>
 	
 	</div>
 	
@@ -52,7 +53,10 @@ function submitForm(){
 	if(name == ''){
 		$("#nameExist").text('City Name cannot be empty.').show();
 		return false;
-	}
+	}else{
+        name = name.replace(/\s+/g, '-').toLowerCase();
+        $('#slug').val(name); 
+    }
 	SITEROOT = '<?php echo $baseUrl?>';
 	if(name!=''){
 		$.post(SITEROOT+'/admin/checkname', {name:name,field:'cities'},function(response){

@@ -11,12 +11,12 @@
    <div class="buy-form-inside">
    
    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-       <form action="" method="post">
+       <form action="" method="post" id="buyform">
       <ul class="nav navbar-nav">
         <li><div style="color:#777; padding-top:18px; margin-right:5px; margin-left:0px;">FIND YOUR PROPERTY :</div></li>  
         <li class="buy-box-last" style="padding-top:14px; width:16%; margin-left:2%;">
           <select name="cities" id="cities" class="form-control">
-            <option value="">All Cities</option>
+            <option value="">Select City</option>
             <?php foreach($this->cities as $city){?>
                 <option value="<?php echo $city['id'] ?>"><?php echo $city['city_name'] ?></option>
             <?php } ?>
@@ -56,7 +56,7 @@
         </select>
           
         </li>   
-        <li class="buy-box-last" style="padding-top:14px; padding-left:5px; margin-left:2%;"><input type="submit" class="btn btn-danger" value="Search"/></li> 
+        <li class="buy-box-last" style="padding-top:14px; padding-left:5px; margin-left:2%;"><input onclick="return buySubmit()" type="submit" class="btn btn-danger" value="Search"/></li> 
       </ul>
      <!--right---> 
       </form>
@@ -139,7 +139,7 @@
 </div>
 </div>
 
-
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script>
 function submitSearchForm(){
    
@@ -147,8 +147,6 @@ function submitSearchForm(){
    var propcategory = $('#propcategory').val();
    var minprice     = $('#minprice').val();
    var maxprice     = $('#maxprice').val();
-   
-   
     <?php
         $container = new \Zend\Session\Container('searchSessionFields');
         $container->cities          = '<script>cities</script>';
@@ -156,8 +154,20 @@ function submitSearchForm(){
         $container->minprice        = '<script>minprice</script>';
         $container->maxprice        = '<script>maxprice</script>';
     ?>
-            
+}
+ 
+    $(document).ready(function(){
+        $('#pageTitle').text('Aadinath | Buy Property');
+    });
+   
+function buySubmit(){
     
+    if($('#cities').val()==""){
+        $('#cities').css('border-color','red');
+        return false;
+    }else{
+        $("#buyform").submit();
+    }
 }
 
 </script>

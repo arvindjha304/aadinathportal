@@ -1,0 +1,103 @@
+<?php $baseUrl = $this->basePath(); ?>
+<!doctype html>
+<html lang="en-gb" class="no-js">
+<head>
+<title>Aadinath</title>
+<link rel="shortcut icon" type="image/png" href="<?php echo $baseUrl;?>/public/images/logo/favicon.png"/>
+<link rel="shortcut icon" href="<?php echo $baseUrl;?>/public/images/favicon.html">
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,700,800,900' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Dancing+Script:400,700' rel='stylesheet' type='text/css'>
+
+<!-- custom -->
+<link rel="stylesheet" href="<?php echo $baseUrl;?>/public/css/custom.css">
+<link rel="stylesheet" href="<?php echo $baseUrl;?>/public/css/reset.css" type="text/css" />
+<link rel="stylesheet" href="<?php echo $baseUrl;?>/public/css/style.css" type="text/css" />
+<!-- font awesome icons -->
+<link rel="stylesheet" href="<?php echo $baseUrl;?>/public/css/font-awesome/css/font-awesome.min.css">
+<!-- simple line icons -->
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl;?>/public/css/simpleline-icons/simple-line-icons.css" media="screen" />
+<!-- et linefont icons -->
+<link rel="stylesheet" href="<?php echo $baseUrl;?>/public/css/et-linefont/etlinefont.css">
+<!-- animations -->
+<link href="<?php echo $baseUrl;?>/public/js/animations/css/animations.min.css" rel="stylesheet" type="text/css" media="all" />
+<!-- responsive devices styles -->
+<link rel="stylesheet" media="screen" href="<?php echo $baseUrl;?>/public/css/responsive-leyouts.css" type="text/css" />
+<!-- shortcodes -->
+<link rel="stylesheet" media="screen" href="<?php echo $baseUrl;?>/public/css/shortcodes.css" type="text/css" />
+<!-- style switcher -->
+<link rel = "stylesheet" media = "screen" href = "<?php echo $baseUrl;?>/public/js/style-switcher/color-switcher.css" />
+<!-- mega menu -->
+<link href="<?php echo $baseUrl;?>/public/js/mainmenu/bootstrap.min.css" rel="stylesheet">
+<link href="<?php echo $baseUrl;?>/public/js/mainmenu/demo.css" rel="stylesheet">
+<link href="<?php echo $baseUrl;?>/public/js/mainmenu/menu11.css" rel="stylesheet">
+<!-- MasterSlider -->
+<link rel="stylesheet" href="<?php echo $baseUrl;?>/public/js/masterslider/style/masterslider.css" />
+<link rel="stylesheet" href="<?php echo $baseUrl;?>/public/js/masterslider/skins/default/style.css" />
+<!-- cubeportfolio -->
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl;?>/public/js/cubeportfolio/cubeportfolio.min.css">
+<!-- owl carousel -->
+<link href="<?php echo $baseUrl;?>/public/js/carouselowl/owl.transitions.css" rel="stylesheet">
+<link href="<?php echo $baseUrl;?>/public/js/carouselowl/owl.carousel.css" rel="stylesheet">
+<!-- accordion2 -->
+<link href="<?php echo $baseUrl;?>/public/js/accordion2/style.css" rel="stylesheet" />
+
+<link rel="stylesheet" media="screen" href="<?php echo $baseUrl;?>/public/bootstrap/css/bootstrap.min.css" type="text/css" />
+
+<script type="text/javascript" src="<?php echo $baseUrl;?>/public/js/universal/jquery.js"></script>
+
+</head>
+<body>
+<div class="site_wrapper">
+<!---------Magic Search----------->
+	
+<div class="magicsearch">
+<div class="container">
+<nav class="navbar navbar-default">  
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <!--<a href="#"><img src="images/logo/logo-inside.png" width="80%" style="padding-top:5px;"></a>-->
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">        
+      <li><a href="index.html" style="padding-top:0px; height:50px;"><img src="<?php echo $baseUrl;?>/public/images/logo/logo-inside.png"  class="img-responsive"></a></li>        
+      </ul>
+      <ul class="nav navbar-nav">
+      <div class="input-group search-width">
+    <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+    <input type="text" class="form-control" id="inputGroupSuccess1" aria-describedby="inputGroupSuccess1Status">
+  </div></ul>
+      <ul class="nav navbar-nav navbar-right">
+       <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-unchecked"></span> COMPARE <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">           
+            <li class="divider"></li>
+            <li><a href="#">1</a></li>
+            <li class="divider"></li>
+            <li><a href="#">2</a></li>
+          </ul>
+        </li>       
+        <li><a href="#" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-user"></span> LOG IN</a></li>             
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  <!-- /.container-fluid -->
+</nav>
+</div>
+</div>
+
+
+
+
+  <?php echo $this->layout()->content; ?>
+</body>
+</html>

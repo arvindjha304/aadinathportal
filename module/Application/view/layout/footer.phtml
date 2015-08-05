@@ -22,26 +22,26 @@ $citieList = $this->routeHelper()->indexmodel()->getCityList();
       <div id="owl-demo14" class="owl-carousel">
           <?php if(count($builderList)>=4){?>
         <div class="item" align="center">
-          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[0]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[0]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
-          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[1]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[1]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
-          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[2]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[2]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
-          <div class="one_fourth last"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[3]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[3]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/builders/<?php echo $builderList[0]['builderSlug']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[0]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/builders/<?php echo $builderList[1]['builderSlug']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[1]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/builders/<?php echo $builderList[2]['builderSlug']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[2]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth last"><a href="<?php echo $baseUrl;?>/builders/<?php echo $builderList[3]['builderSlug']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[3]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
         </div>
           <?php }?>
           <?php if(count($builderList)>=8){?>
         <div class="item">
-          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[4]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[4]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
-          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[5]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[5]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
-          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[6]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[6]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
-          <div class="one_fourth last"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[7]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[7]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/builders/<?php echo $builderList[4]['builderSlug']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[4]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/builders/<?php echo $builderList[5]['builderSlug']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[5]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/builders/<?php echo $builderList[6]['builderSlug']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[6]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth last"><a href="<?php echo $baseUrl;?>/builders/<?php echo $builderList[7]['builderSlug']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[7]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
         </div>
           <?php }?>
           <?php if(count($builderList)>=12){?>
         <div class="item">
-          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[8]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[8]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
-          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[9]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[9]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
-          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[10]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[10]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
-          <div class="one_fourth last"><a href="<?php echo $baseUrl;?>/index/builder-detail?id=<?php echo $builderList[11]['id']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[11]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/builders/<?php echo $builderList[8]['builderSlug']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[8]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/builders/<?php echo $builderList[9]['builderSlug']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[9]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth"><a href="<?php echo $baseUrl;?>/builders/<?php echo $builderList[10]['builderSlug']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[10]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
+          <div class="one_fourth last"><a href="<?php echo $baseUrl;?>/builders/<?php echo $builderList[11]['builderSlug']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $builderList[11]['builder_footer_image']?>" alt="" width="227" height="65" /></a></div>
         </div>
           <?php }?>
         <!-- end slide -->
@@ -59,7 +59,7 @@ $citieList = $this->routeHelper()->indexmodel()->getCityList();
 </div>-->
     <div class="container">
       <div class="one_fourth animate" data-anim-type="fadeInUp" data-anim-delay="300">
-        <h4><a href="<?php echo $baseUrl;?>/index"><img src="<?php echo $baseUrl;?>/public/images/logo/aadinath_logo.png" alt="" /></a></h4>
+        <h4><a href="<?php echo $baseUrl;?>/homepage"><img src="<?php echo $baseUrl;?>/public/images/logo/aadinath_logo.png" alt="" /></a></h4>
         <ul class="faddress" style="padding-top:10px;">
           <li></li>
           <li><i class="fa fa-map-marker fa-lg"></i>&nbsp; A-10, Sector-63, Noida.</li>
@@ -91,7 +91,7 @@ $citieList = $this->routeHelper()->indexmodel()->getCityList();
           <h4>Projects in india</h4>
           <ul>
              <?php foreach($cities as $city){?>
-              <li><a href="<?php echo $baseUrl;?>/index/projectbycity?cityId=<?php echo $city['id']?>"><i class="fa fa-angle-right"></i> Projects in <?php echo $city['city_name']?></a></li>
+              <li><a href="<?php echo $baseUrl;?>/projects-in-<?php echo $city['citySlug']?>"><i class="fa fa-angle-right"></i> Projects in <?php echo $city['city_name']?></a></li>
              <?php }?>
           </ul>
         </div>
