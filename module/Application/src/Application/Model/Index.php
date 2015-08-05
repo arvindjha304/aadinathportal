@@ -129,7 +129,7 @@ use Zend\Mime\Part as MimePart;
             <td colspan="2"><img width="634" height="250" src="http://aadinathindia.com/public/uploadfiles/'.$projectDetail['project_image'].'" /></td>
           </tr>
           <tr>
-            <td colspan="2" align="center" style="padding:10px;"><a href="http://aadinathindia.com/index/project-detail?id='.$projectDetail['project_id'].'" style="text-decoration:none;"><div style="width:220px;background-color:#b7291d;border-radius: 35px 35px 35px 35px;-moz-border-radius: 35px 35px 35px 35px;-webkit-border-radius: 35px 35px 35px 35px;border:0px solid #000000;color:#fff;font-size:14px;font-weight:bold;font-family:Arial, Helvetica, sans-serif;padding:7px;text-align:center;">Click here to view details</div></a></td>
+            <td colspan="2" align="center" style="padding:10px;"><a href="http://aadinathindia.com/projects-in-'.$projectDetail['citySlug'].'/'.$projectDetail['projectSlug'].'" style="text-decoration:none;"><div style="width:220px;background-color:#b7291d;border-radius: 35px 35px 35px 35px;-moz-border-radius: 35px 35px 35px 35px;-webkit-border-radius: 35px 35px 35px 35px;border:0px solid #000000;color:#fff;font-size:14px;font-weight:bold;font-family:Arial, Helvetica, sans-serif;padding:7px;text-align:center;">Click here to view details</div></a></td>
           </tr>
           <tr>
             <td colspan="2" align="center" style="font-family:Arial, Helvetica, sans-serif;font-size:12px;color:#333;line-height:16px;">For further information on projects, you can get in touch with us<br />
@@ -352,9 +352,8 @@ use Zend\Mime\Part as MimePart;
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
         $between='';
         if($minprice!='' && $maxprice!='')
-           $between = ' between '.$minprice.' and '.$maxprice.' ';
-		$sql="select concat(pfp.price,' ',pfp.price_unit) as maxPrice from project_floor_plan pfp where pfp.project_id=$project_id and pfp.search_price  $between order by pfp.search_price desc limit 1";
-        
+           $between = ' and pfp.search_price  between '.$minprice.' and '.$maxprice.' ';
+		$sql="select concat(pfp.price,' ',pfp.price_unit) as maxPrice from project_floor_plan pfp where pfp.project_id=$project_id $between order by pfp.search_price desc limit 1";
         
 //        echo $sql;exit;
 		$result =$db->query($sql)->execute()->current();
@@ -416,7 +415,7 @@ use Zend\Mime\Part as MimePart;
         $select = $sql->select()
         ->columns(array('banner_image','project_id'))
         ->from(array('bnl'=>'bannerlist'))
-        ->join(array('prj'=>'projects'), 'prj.id = bnl.project_id', array('project_title'))
+        ->join(array('prj'=>'projects'), 'prj.id = bnl.project_id', array('project_title','projectSlug'))
         ->where(array('banner_type'=>$banner_type,'bnl.is_active'=>1,'bnl.is_delete'=>0,'prj.is_delete'=> '0','prj.is_active'=> '1'));
         $result = $sql->prepareStatementForSqlObject($select)->execute();
         $projectArr = array();
@@ -432,7 +431,7 @@ use Zend\Mime\Part as MimePart;
     public function getBuilderList(){
         $table = new TableGateway('builders',$this->getAdapter());
         $selectData = $table->select(function($select){
-        $select->columns(array('id','builder_footer_image'))
+        $select->columns(array('id','builder_footer_image','builderSlug'))
             ->where(array('is_active'=>1,'is_delete'=>0));
         })->toArray();
         shuffle($selectData);
@@ -459,7 +458,7 @@ use Zend\Mime\Part as MimePart;
         $select= $sql->select()
         ->columns([])
 		->from(['prj'=>'projects'])
-        ->join(['ct'=>'cities'],'ct.id=prj.city',['id','city_name'])
+        ->join(['ct'=>'cities'],'ct.id=prj.city',['id','city_name','citySlug'])
         ->join(['st'=>'states'],'st.id=ct.state_id',[])
         ->join(['pptId'=>'property_type'], 'pptId.id=prj.property_type_id',[])
         ->join(['pptCatId'=>'property_category'], 'pptCatId.id=pptId.property_category_id',[])
@@ -475,8 +474,9 @@ use Zend\Mime\Part as MimePart;
         $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$sql = new Sql($db);
 		$select = $sql->select()
-        ->columns(array('id as prjId','project_title'))
+        ->columns(array('id as prjId','project_title','projectSlug'))
 		->from(array('prj'=>'projects'))
+        ->join(array('ct'=>'cities'), 'ct.id=prj.city',['city_name'])
         ->join(array('pptId'=>'property_type'), 'pptId.id=prj.property_type_id')
         ->join(array('pptCatId'=>'property_category'), 'pptCatId.id=pptId.property_category_id')
         ->where(array('prj.is_active'=>1,'prj.is_delete'=>0,'pptId.is_active'=>1,'pptId.is_delete'=>0,'pptId.property_category_id'=>$property_type))
@@ -498,7 +498,7 @@ use Zend\Mime\Part as MimePart;
         $where = new Where();
         $sql = new Sql($db);
         $select= $sql->select()
-        ->columns(['id as prjId','project_title'])
+        ->columns(['id as prjId','project_title','projectSlug'])
 		->from(['prj'=>'projects'])
         ->join(['ct'=>'cities'],'ct.id=prj.city',[])
         ->join(['st'=>'states'],'st.id=ct.state_id',[])
@@ -517,7 +517,7 @@ use Zend\Mime\Part as MimePart;
         $projectArr = [];
         foreach($prjList as $res){
             if(count($res))
-                $projectArr[] = ['prj_id'=>$res['prjId'],'project_title'=>trim($res['project_title'])];
+                $projectArr[] = ['prj_id'=>$res['prjId'],'projectSlug'=>$res['projectSlug'],'project_title'=>trim($res['project_title'])];
         }    
         
         $sql = new Sql($db);
@@ -529,17 +529,16 @@ use Zend\Mime\Part as MimePart;
         ->join(['st'=>'states'],'st.id=ct.state_id',[])
         ->join(['pptId'=>'property_type'], 'pptId.id=prj.property_type_id',[])
         ->join(['pptCatId'=>'property_category'], 'pptCatId.id=pptId.property_category_id',[])
-        ->join(['bld'=>'builders'],'prj.builder=bld.id',['id','builder_name'])        
-        ->where(['prj.is_active'=>1,'prj.is_delete'=>0,'ct.is_active'=>1,'ct.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0,'pptId.is_active'=>1,
-        'pptId.is_delete'=>0,'pptCatId.is_active'=>1,'bld.is_active'=>1,'bld.is_delete'=>0]);
+        ->join(['bld'=>'builders'],'prj.builder=bld.id',['id','builder_name','builderSlug']);
         $where->like('bld.builder_name','%'.$searchStr.'%');
-        $select->where($where) ->group('bld.id');
-        
+        $select->where($where);
+        $select->where(['prj.is_active'=>1,'prj.is_delete'=>0,'ct.is_active'=>1,'ct.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0,
+        'pptId.is_active'=>1,'pptId.is_delete'=>0,'pptCatId.is_active'=>1,'bld.is_active'=>1,'bld.is_delete'=>0])->group('bld.id');
         $bldList = $sql->prepareStatementForSqlObject($select)->execute();
         $builderArr = [];
         foreach($bldList as $res){
             if(count($res))
-                $builderArr[] = ['bld_id'=>$res['id'],'builder_name'=>$res['builder_name']];
+                $builderArr[] = ['bld_id'=>$res['id'],'builderSlug'=>$res['builderSlug'],'builder_name'=>$res['builder_name']];
         } 
         
         $sql = new Sql($db);
@@ -547,21 +546,21 @@ use Zend\Mime\Part as MimePart;
         $select= $sql->select()
         ->columns([])
 		->from(['prj'=>'projects'])
-        ->join(['ct'=>'cities'],'ct.id=prj.city',['id','city_name'])
+        ->join(['ct'=>'cities'],'ct.id=prj.city',['id','city_name','citySlug'])
         ->join(['st'=>'states'],'st.id=ct.state_id',[])
         ->join(['pptId'=>'property_type'], 'pptId.id=prj.property_type_id',[])
         ->join(['pptCatId'=>'property_category'], 'pptCatId.id=pptId.property_category_id',[])
-        ->join(['bld'=>'builders'],'prj.builder=bld.id',[])        
-        ->where(['prj.is_active'=>1,'prj.is_delete'=>0,'ct.is_active'=>1,'ct.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0,'pptId.is_active'=>1,
-        'pptId.is_delete'=>0,'pptCatId.is_active'=>1,'bld.is_active'=>1,'bld.is_delete'=>0]);
+        ->join(['bld'=>'builders'],'prj.builder=bld.id',[]);
         $where->like('ct.city_name','%'.$searchStr.'%');
-        $select->where($where) ->group('ct.id');
+        $select->where($where);
+        $select->where(['prj.is_active'=>1,'prj.is_delete'=>0,'ct.is_active'=>1,'ct.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0,
+        'pptId.is_active'=>1,'pptId.is_delete'=>0,'pptCatId.is_active'=>1,'bld.is_active'=>1,'bld.is_delete'=>0])->group('ct.id');
         $ctyList = $sql->prepareStatementForSqlObject($select)->execute();
         
         $cityArr = [];
         foreach($ctyList as $res){
             if(count($res))
-                $cityArr[] = ['city_id'=>$res['id'],'city_name'=>$res['city_name']];
+                $cityArr[] = ['city_id'=>$res['id'],'citySlug'=>$res['citySlug'],'city_name'=>$res['city_name']];
         } 
 		return ['projectarr'=>$projectArr,'builderarr'=>$builderArr,'cityarr'=>$cityArr];
     }
@@ -575,8 +574,19 @@ use Zend\Mime\Part as MimePart;
         })->toArray();
         shuffle($select);
 		return $select;
-	
 	}
+    
+    function getIdFromSlug($table,$field,$slug){
+        
+        
+       // echo $table.'==='.$field.'==='.$slug;exit;
+        
+		$artistTable = new TableGateway($table, $this->getAdapter());
+        $select = $artistTable->select(function($select) use ($field,$slug){
+            $select->where(array($field=>$slug));
+        })->toArray();
+		return $select[0]['id'];
+    }
 	
 	
     

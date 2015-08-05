@@ -68,12 +68,13 @@ class IndexController extends AbstractActionController
             $manager = new SessionManager($config);
             $container = new Container('searchSessionFields',$manager);
             $container->cities          = $this->params()->fromPost('cities');
+            $container->searchCityName  = $this->getModel()->getCityName($container->cities);
             $container->propcategory    = $this->params()->fromPost('propcategory');
             $container->minprice        = $this->params()->fromPost('minprice');
             $container->maxprice        = $this->params()->fromPost('maxprice');
             $container->viewType        = 'list';
             $container->projectBanner   = $this->getModel()->projectBanner(2);
-            return $this->redirect()->toUrl('project-list');
+            return $this->redirect()->toRoute('projects-in-'.strtolower($container->searchCityName));
         }
         return $view;
     }
@@ -86,12 +87,13 @@ class IndexController extends AbstractActionController
         $manager = new SessionManager($config);
         $container = new Container('searchSessionFields',$manager);
         $container->cities          = $this->params()->fromQuery('cityId');
+        $container->searchCityName  = ($container->cities !='' ) ? $this->getModel()->getCityName($container->cities) : '';
         $container->propcategory    = $this->params()->fromQuery('propCatId');
         $container->minprice        = '';
         $container->maxprice        = '';
         $container->viewType        = 'list';
         $container->projectBanner   = $this->getModel()->projectBanner(2);
-        return $this->redirect()->toUrl('project-list');
+        return $this->redirect()->toRoute('projects');
     }
     public function projectListAction()
     {
@@ -159,35 +161,26 @@ class IndexController extends AbstractActionController
     {
         $view = new ViewModel();
         $this->layout('layout/innerlayout');
-        $id = $this->params()->fromQuery('id');
+//        $id = $this->params()->fromQuery('id');
+        $slug = $this->params()->fromRoute('slug');
+        $id = $this->getModel()->getIdFromSlug('projects','projectSlug',$slug);
         $model = $this->getModel();
-        $projectDetail = $model->getProjectDetail($id);
+        $projectDetail = $model->getProjectDetail($id); 
         $view->setVariable('projectDetail', $projectDetail);
         $floor_plans = $model->getProjectFloorPlan($id);
         $view->setVariable('floor_plans', $floor_plans);
-        
-        
-        
-        
-//        echo '<pre>';print_r($projectDetail);exit;
-        
-        
         $max_floor_plan = $this->getModel()->max_floor_plan_price($projectDetail['project_id']);
         $min_floor_plan = $this->getModel()->min_floor_plan_price($projectDetail['project_id']);                
         $view->setVariable('max_floor_plan', $max_floor_plan);       
         $view->setVariable('min_floor_plan', $min_floor_plan);
-           
-        
         $similarProjects = $this->getModel()->searchProjects($projectDetail['city'],'','','','');                
-        $view->setVariable('similarProjects', $similarProjects); 
-        
+        $view->setVariable('similarProjects', $similarProjects);
         $amenitiesArr = $model->getProjectAmenities($projectDetail['amenities']);
         $view->setVariable('amenitiesArr', $amenitiesArr);
         $countProjects = $this->getModel()->countProjects($projectDetail['bldId']);
         $view->setVariable('totalProject', $countProjects['totalProject']);
         $view->setVariable('ongoingProject', $countProjects['ongoingProject']);
 //         echo '<pre>';print_r($floor_plans);exit;
-        
         $floorSizeArr = $floorPriceArr = array();
         foreach($floor_plans as $floor_plan){
             $floorSizeArr[] = $floor_plan['size'];
@@ -399,7 +392,8 @@ class IndexController extends AbstractActionController
     {
         $view = new ViewModel();
         $this->layout('layout/innersearchlayout');
-        $id=$this->params()->fromQuery('id');
+        $builderSlug = $this->params()->fromRoute('slug');
+        $id = $this->getModel()->getIdFromSlug('builders','builderSlug',$builderSlug);
         if(isset($id) && $id!=''){
             
             $table = new TableGateway('builders',$this->getAdapter());

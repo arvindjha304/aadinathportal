@@ -13,21 +13,23 @@ return array(
 		),
 
 		'router' => array(
-				'routes' => array(
-						'home' => array(
-							'type' => 'Zend\Mvc\Router\Http\Literal',
-							'options' => array(
-								'route'    => '/',
-								'defaults' => array(
-										'controller' => 'Application\Controller\Index',
-										'action'     => 'index',
-								),
-							),
-						),
-                        'login' => array(
-                            'type'    => 'Literal',
+            'routes' => array(
+                'home' => array(
+                    'type' => 'Zend\Mvc\Router\Http\Literal',
+                    'options' => array(
+                        'route'    => '/',
+                         'defaults' => array(
+                            '__NAMESPACE__' => 'Application\Controller',
+                            'controller'    => 'Index',
+                            'action'        => 'index',
+                        ),
+                    ),
+                    'may_terminate' => true,
+                    'child_routes' => array(
+                        'default' => array(
+                            'type'    => 'Segment',
                             'options' => array(
-                                'route'    => '/login',
+                                'route'    => '/home-page',
                                 'defaults' => array(
                                     '__NAMESPACE__' => 'Application\Controller',
                                     'controller'    => 'Index',
@@ -35,124 +37,163 @@ return array(
                                 ),
                             ),
                         ),
-                    
-                        'blog' => array(
-                           'type'    => 'Segment',
-                            'options' => array(
-                                'route'    => '/[:controller[/:action]]',
-                                'defaults' => array(
-                                        '__NAMESPACE__' => 'Application\Controller',
-                                        'controller'    => 'Index',
-                                        'action'        => 'index',
-                                ),
-                            ),
+                    ),
+                ),
+                'homepage' => array(
+                    'type' => 'Zend\Mvc\Router\Http\Literal',
+                    'options' => array(
+                        'route'    => '/homepage',
+                         'defaults' => array(
+                            '__NAMESPACE__' => 'Application\Controller',
+                            'controller'    => 'Index',
+                            'action'        => 'index',
                         ),
-                    
-						// The following is a route to simplify getting started creating
-						// new controllers and actions without needing to create a new
-						// module. Simply drop new controllers in, and you can access them
-						// using the path /application/:controller/:action
-						'any_cont_act' => array(			//use this route to redirect to any controller or action
-								'type'    => 'Segment',
-								'options' => array(
-									'route'    => '/[:controller[/:action]]',
-									'defaults' => array(
-											'__NAMESPACE__' => 'Application\Controller',
-											'controller'    => 'Index',
-											'action'        => 'index',
-									),
-								),
-								'may_terminate' => true,
-								'child_routes' => array(
-									'default' => array(
-										'type'    => 'Segment',
-										'options' => array(
-											'route'    => '/[:id1][/][:value1][/][:id2][/][:value2][/][:id3][/][:value3][/][:id4][/][:value4][/][:id5][/][:value5][/][:id6][/][:value6][/][:id7][/][:value7]',
-											// 'constraints' => array(
-											//'id' => '[a-zA-Z][a-zA-Z0-9_-]*',//defining rules for id, same can be done for others
-											//'more_id'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-											// ),
-											'defaults' => array(
-                                                'id1'   =>'',
-                                                'id2'   =>'',
-                                                'id3'   =>'',
-                                                'id4'   =>'',
-                                                'id5'   =>'',
-                                                'id6'   =>'',
-                                                'id7'   =>'',
-                                                'value1'=>'',
-                                                'value2'=>'',
-                                                'value3'=>'',
-                                                'value4'=>'',
-                                                'value5'=>'',
-                                                'value6'=>'',
-                                                'value7'=>'',
-											),	
-										),
-								),
-							),
-						),
-
-						'application' => array(
-								'type'    => 'Segment',
-								'options' => array(
-                                    'route'    => '/application[/:controller[/:action]]',
-                                    'defaults' => array(
-                                            '__NAMESPACE__' => 'Application\Controller',
-                                            'controller'    => 'Index',
-                                            'action'        => 'index',
-                                    ),
-								),
-								'may_terminate' => true,
-								'child_routes' => array(
-                                    'default' => array(
-                                        'type'    => 'Segment',
-                                        'options' => array(
-                                            'route'    => '[/:id][/:id_value]',
-                                            'constraints' => array(
-                                                'id'            => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                                'id_value'      => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                            ),
-                                            'defaults' => array(
-                                            ),
-                                        ),
-                                    ),
-								),
-						),
-
-						'pagination' => array(
+                    ),
+                ),
+                'backend' => array(
+                    'type'    => 'Literal',
+                    'options' => array(
+                        'route'    => '/backend',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Application\Controller',
+                            'controller'    => 'Admin',
+                            'action'        => 'index',
+                        ),
+                    ),
+                    'may_terminate' => true,
+                    'child_routes' => array(
+                        'default' => array(
                             'type'    => 'Segment',
                             'options' => array(
                                 'route'    => '/[:controller[/:action]]',
+                                'constraints' => array(
+                                    'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                    'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                ),
+                                'defaults' => array(
+                                    '__NAMESPACE__' => 'Application\Controller',
+                                    'controller'    => 'Admin',
+                                    'action'        => 'index',
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+                'front-end' => array(
+                    'type'    => 'Literal',
+                    'options' => array(
+                        'route'    => '/front-end',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Application\Controller',
+                            'controller'    => 'Index',
+                            'action'        => 'index',
+                        ),
+                    ),
+                    'may_terminate' => true,
+                    'child_routes' => array(
+                        'default' => array(
+                            'type'    => 'Segment',
+                            'options' => array(
+                                'route'    => '/[:controller[/:action]]',
+                                'constraints' => array(
+                                    'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                    'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                ),
                                 'defaults' => array(
                                     '__NAMESPACE__' => 'Application\Controller',
                                     'controller'    => 'Index',
                                     'action'        => 'index',
                                 ),
                             ),
-                            'may_terminate' => true,
-                            'child_routes' => array(
-                                'default' => array(
-                                    'type'    => 'Segment',
-                                    'options' => array(
-                                        'route'    => '/[:id1][/][:value1][/][:id2][/][:value2]',
-                                        'constraints' => array(
-                                            'id' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                            'id_value'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        ),
-                                        'defaults' => array(
-                                            'id1'   =>'',
-                                            'value1'   =>'',
-                                            'id2'   =>'',
-                                            'value2'   =>''
-                                        ),
-                                    ),
+                        ),
+                    ),
+                ),
+                'buy' => array(
+                    'type' => 'literal',
+                    'options' => array(
+                        'route'    => '/buy',
+                        'defaults' => array(
+                            'controller' => 'Application\Controller\Index',
+                            'action'     => 'buy',
+                        ),
+                    ),
+                ),
+                'projects' => array(
+                    'type' => 'literal',
+                    'options' => array(
+                        'route'    => '/projects',
+                        'defaults' => array(
+                            'controller' => 'Application\Controller\Index',
+                            'action'     => 'project-list',
+                        ),
+                    ),
+                    'may_terminate' => true,
+                    'child_routes'  => array(
+                        'detail' => array(
+                            'type' => 'segment',
+                            'options' => array(
+                                'route'    => '/:slug',
+                                'defaults' => array(
+                                    'action' => 'project-detail'
                                 ),
-                            ),
-						),
-
-
-				),
+                                'constraints' => array(
+                                    'slug' => '[a-zA-Z][a-zA-Z0-9_-]*'
+                                )
+                            )
+                        )
+                    )
+                ),
+                'projects-in-noida' => array(
+                    'type' => 'literal',
+                    'options' => array(
+                        'route'    => '/projects-in-noida',
+                        'defaults' => array(
+                            'controller' => 'Application\Controller\Index',
+                            'action'     => 'project-list',
+                        ),
+                    ),
+                    'may_terminate' => true,
+                    'child_routes'  => array(
+                        'detail' => array(
+                            'type' => 'segment',
+                            'options' => array(
+                                'route'    => '/:slug',
+                                'defaults' => array(
+                                    'action' => 'project-detail'
+                                ),
+                                'constraints' => array(
+                                    'slug' => '[a-zA-Z][a-zA-Z0-9_-]*'
+                                )
+                            )
+                        )
+                    )
+                ),
+                'builders' => array(
+                    'type' => 'literal',
+                    'options' => array(
+                        'route'    => '/builders',
+                        'defaults' => array(
+                            'controller' => 'Application\Controller\Index',
+                            'action'     => 'builders',
+                        ),
+                    ),
+                    'may_terminate' => true,
+                    'child_routes'  => array(
+                        'detail' => array(
+                            'type' => 'segment',
+                            'options' => array(
+                                'route'    => '/:slug',
+                                'defaults' => array(
+                                    'action' => 'builder-detail'
+                                ),
+                                'constraints' => array(
+                                    'slug' => '[a-zA-Z][a-zA-Z0-9_-]*'
+                                )
+                            )
+                        )
+                    )
+                ),
+            ),
 		),
 		'service_manager' => array(
 				'abstract_factories' => array(

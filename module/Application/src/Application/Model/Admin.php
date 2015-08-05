@@ -162,7 +162,7 @@ use Zend\Db\Sql\Expression;
 		from locations lc
 		join cities ct on ct.id=lc.city_id and ct.is_delete = '0' and ct.is_active=1
 		join states st on st.id=lc.state_id and st.is_delete = '0' and st.is_active=1 
-		where lc.is_delete = '0' and lc.is_active=1";
+		where lc.is_delete = '0' ";
 		$result =$db->query($sql)->execute();
 		return $result;
 	

@@ -97,7 +97,7 @@ class AdminController extends AbstractActionController
     		$state_name		=	$val1['state_name'];
     		$status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
     		$action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
-    		$delete 		=	'<a href="'.$baseUrl.'/admin/addeditstate?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+    		$delete 		=	'<a href="'.$baseUrl.'/backend/admin/addeditstate?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
     		$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$state_name,$status,$delete.$action));
     	}
     	$json = json_encode($dataArray);
@@ -164,14 +164,14 @@ class AdminController extends AbstractActionController
     	$msg = '';
     	$request = $this->getRequest();
     	if ($request->isPost()) {
-    
-    		$state = $this->params()->fromPost('state');
-    		$city  = $this->params()->fromPost('city');
+    		$state      = $this->params()->fromPost('state');
+    		$city       = $this->params()->fromPost('city');
+    		$citySlug   = $this->params()->fromPost('citySlug');
     		if(isset($id)){
-    			 
     			$data = array(
     					'city_name'	=> 	$city,
     					'state_id'	=> 	$state,
+    					'citySlug'	=> 	$citySlug,
     			);
     			$where = array(
     					'id'	=> 	$id,
@@ -179,15 +179,14 @@ class AdminController extends AbstractActionController
     			$adminModel->updateanywhere('cities',$data,$where);
     			$msg = 'City Edited Successfully.';
     		}else{
-    			 
     			$data = array(
     					'city_name'		=> 	$city,
     					'state_id'		=> 	$state,
+    					'citySlug'      => 	$citySlug,
     					'date_created'	=> 	date('Y-m-d H:i:s'),
     			);
     			$adminModel->insertanywhere('cities',$data);
     			$msg = 'City Added Successfully.';
-				
     		}
             $this->redirect()->toUrl('citylist');
     	}
@@ -223,7 +222,7 @@ class AdminController extends AbstractActionController
                 $state_name		=	$val1['state_name'];
                 $status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
                 $action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
-                $delete 		=	'<a href="'.$baseUrl.'/admin/addeditcity?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+                $delete 		=	'<a href="'.$baseUrl.'/backend/admin/addeditcity?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
                 $dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$city_name,$state_name,$status,$delete.$action));
             }
         }
@@ -369,7 +368,7 @@ class AdminController extends AbstractActionController
     		$state_name		=	$val1['state_name'];
     		$status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
     		$action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
-    		$delete 		=	'<a href="'.$baseUrl.'/admin/addeditlocation?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+    		$delete 		=	'<a href="'.$baseUrl.'/backend/admin/addeditlocation?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
     		$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$location_name,$city_name,$state_name,$status,$delete.$action));
     	}
     	
@@ -470,7 +469,7 @@ class AdminController extends AbstractActionController
     		$category_name		=	$val1['category_name'];
     		$status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
     		$action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
-    		$delete 		=	'<a href="'.$baseUrl.'/admin/addeditpropertytype?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+    		$delete 		=	'<a href="'.$baseUrl.'/backend/admin/addeditpropertytype?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
     		$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$property_type,$category_name,$status,$delete.$action));
     	}
     	$json = json_encode($dataArray);
@@ -583,7 +582,7 @@ class AdminController extends AbstractActionController
     		$amenity_type		=	$val1['amenity_type'];
     		$status				=	($val1['is_active']==1) ? 'Active' :	'Inactive';
     		$action				=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
-    		$delete 			=	'<a href="'.$baseUrl.'/admin/addeditamenties?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+    		$delete 			=	'<a href="'.$baseUrl.'/backend/admin/addeditamenties?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
     		$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$amenity_name,$amenity_type,$status,$delete.$action));
     	}
     	$json = json_encode($dataArray);
@@ -637,6 +636,7 @@ class AdminController extends AbstractActionController
 	
 			$data = array(
 				'builder_name'          => 	$this->params()->fromPost('builder_name'),
+				'builderSlug'           => 	$this->params()->fromPost('builderSlug'),
 				'about_builder'         => 	$this->params()->fromPost('about_builder'),
 				'builder_experience'    => 	$this->params()->fromPost('experience'),
 				'priority'              => 	$this->params()->fromPost('priority'),
@@ -680,7 +680,7 @@ class AdminController extends AbstractActionController
 		$artistTable = new TableGateway('builders', $adapter);
 		
 		$select = $artistTable->select(function($select){
-            $select->where(array('is_delete'=>'0','is_active'=>'1'));
+            $select->where(array('is_delete'=>'0'));
             $select->order('priority ASC');
 		})->toArray();
 		
@@ -693,7 +693,7 @@ class AdminController extends AbstractActionController
 			$priority		=	$val1['priority'];
 			$status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
 			$action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
-			$delete 		=	'<a href="'.$baseUrl.'/admin/addeditbuilders?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+			$delete 		=	'<a href="'.$baseUrl.'/backend/admin/addeditbuilders?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
 			$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$builder_name,$priority,$status,$delete.$action));
 		}
 		$json = json_encode($dataArray);
@@ -734,7 +734,6 @@ class AdminController extends AbstractActionController
 		
 		$id = $this->params()->fromQuery('id');
 		$view->setVariable('heading',(isset($id)) ? 'Edit Project' : 'Add Project');
-		
 		$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
 		$adapter =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
 		$property_types = $adminModel->getPropertyTypesForListing();
@@ -780,6 +779,7 @@ class AdminController extends AbstractActionController
 				'property_type_id'		=> 	$this->params()->fromPost('property_type_id'),
 				'transaction_type_id'	=> 	$this->params()->fromPost('transaction_type_id'),
 				'project_title'         => 	$this->params()->fromPost('project_title'),
+				'projectSlug'         => 	$this->params()->fromPost('projectSlug'),
 				'project_plan'          => 	$this->params()->fromPost('project_plan'),
 				'address'               => 	$this->params()->fromPost('address'),
 				'builtup_area'          => 	$this->params()->fromPost('builtup_area'),
@@ -879,7 +879,7 @@ public function projectslistdataAction()
 			$order		        =	 $val1['order'];
 			$status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
 			$action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
-			$delete 		=	'<a href="'.$baseUrl.'/admin/addeditprojects?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+			$delete 		=	'<a href="'.$baseUrl.'/backend/admin/addeditprojects?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
 			$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$project_title,$order,$plan_type,$builder_name,$status,$delete.$action));
 		}
 		$json = json_encode($dataArray);
@@ -1437,7 +1437,7 @@ public function projectslistdataAction()
             $name                       =	$val1['name'];
             $status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
             $action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
-            $delete 		=	'<a href="'.$baseUrl.'/admin/addedittestimonial?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+            $delete 		=	'<a href="'.$baseUrl.'/backend/admin/addedittestimonial?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
             $dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$name,$status,$delete.$action));
         }
         $json = json_encode($dataArray);
