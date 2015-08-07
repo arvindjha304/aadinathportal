@@ -8455,4 +8455,30 @@ ul.adsbanner-list {
 	z-index: 9001;
 }
 
-
+.hide-row-bg{
+	background-color: #eee;
+	cursor:pointer !important;
+}
+.hide-cell-pad{
+	padding-left: 20px !important;
+	background-color: #f9f9f9;
+	font-size:12px;
+}
+.view-more-tabl{
+	width:100%;
+	background-color: rgba(0,0,0, 0.6);
+	text-align:center;
+}
+.view-more-tabl a{
+	padding:0px 0px 0px 15px;
+	width:500px;
+	font-size:11px;
+	font-weight:bold;
+	color: #fff;
+}
+.view-more-tabl a:hover{
+	color: #fff;
+	}
+.view-more-tabl a:focus{
+	color: #fff;
+	}

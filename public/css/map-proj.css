@@ -1,0 +1,149 @@
+
+/*-------------------------------Show all Project ----------------------------*/
+
+.map-main{
+	width:100%;
+	height:100%;
+	position:absolute;	
+	background-color:#ccc;
+	margin:auto;	
+	bottom: 0;
+	margin-left: 0px !important;
+	margin-right: 0px !important;
+}
+.map-left{
+	height:100%;
+	overflow:hidden;
+	padding-top:100px;
+	padding-left:0px !important;
+	padding-right:0px !important;
+}
+.map-right{
+	height:100%;
+	overflow-y:scroll;
+	overflow-x:hidden;
+	padding-top:100px;
+	background-color: #e0e0e0;
+	-webkit-box-shadow: -1px 0px 5px 0px rgba(102,102,102,1);
+	-moz-box-shadow: -1px 0px 5px 0px rgba(102,102,102,1);
+	box-shadow: -1px 0px 5px 0px rgba(102,102,102,1);
+}
+.totalproj{
+	background-color: #fff;
+	padding: 15px;
+	line-height: 14px;
+}
+
+.map-right-img-box{
+	background-color:#ffff00;
+	padding: 0px !important;
+	margin:0px !important;
+}
+.map-right-img-box img{
+	width:120px;
+	height:100px;	
+}
+.map-right-detail-box{
+	background-color:#fff;
+}
+.map-right h5{
+ 	color: inherit;
+    font-family: inherit;
+    line-height: .8;
+	font-size:14px;
+	font-weight: 600;
+}
+.map-right em{
+	color: #333;
+    display: block;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: .6;
+}
+.grid_type1{
+	border-top-color: #428bca;
+    border-top-style: solid;
+    border-top-width: 1px;
+    color: #428bca;
+    font-size: 11px;
+    font-weight: bold;
+    height: 25px;
+    line-height: 20px;
+    padding-top: 4px;
+	margin-top:12px;
+    width: 100%;
+}
+.grid_button1 {
+    background-color: #fff;
+    height: 25px;
+    /*padding-bottom: 5px;
+    padding-top: 8px;*/
+    width: 100%;
+
+}
+.grid_button_left_smltxt1 {
+    font-size: 9px;
+    font-weight: normal;
+    line-height: 10px;
+    text-align: left;
+}
+.grid_button_left1 {
+    border-right-color: #d9534f;
+    border-right-style: dotted;
+    border-right-width: 1px;
+    color: #d9534f;
+    float: left;
+    font-size: 9px;
+    font-weight: bold;
+    height: 25px;
+    line-height: 18px;    
+    text-align: left;
+    width: 85%;
+}
+.grid_button_right1 {
+    float: left;
+    height: 25px;
+    padding-left: 5%;
+    padding-right: 1%;
+    width: 15%;
+}
+
+/*-------------------------------Project Detail----------------------------*/
+.map-proj-detail-main{
+	padding:0px !important;
+}
+.map-proj-detail-left{
+	width: 100%;
+	height: 548px;
+	position:relative;
+	z-index:100;
+	background-color:#fff;	
+	left:0;
+	top: 102px;
+	overflow-y:scroll;
+	overflow-x:hidden;
+	-webkit-box-shadow: 1px 0px 4px 0px rgba(102,102,102,1);
+	-moz-box-shadow: 1px 0px 4px 0px rgba(102,102,102,1);
+	box-shadow: 1px 0px 4px 0px rgba(102,102,102,1);
+}
+.map-close-button-right{
+	background-color: #000;
+	color:#fff;
+	top: 102px;
+	position:absolute;
+	z-index:100;
+	margin:0px;
+	right:0;
+	margin-right: -30px;
+	padding:0px !important;
+	-webkit-box-shadow: 1px 0px 4px 0px rgba(102,102,102,1);
+	-moz-box-shadow: 1px 0px 4px 0px rgba(102,102,102,1);
+	box-shadow: 1px 0px 4px 0px rgba(102,102,102,1);
+}
+.map-proj-detail-tbl{
+	font-size:12px;
+}
+.map-proj-detail-tbl td{
+	padding:4px !important;
+}

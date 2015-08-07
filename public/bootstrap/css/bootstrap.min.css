@@ -943,8 +943,8 @@ h1 small, .h1 small, h2 small, .h2 small, h3 small, .h3 small, h1 .small, .h1 .s
 	font-size:65%
 }
 h4, .h4, h5, .h5, h6, .h6 {
-	margin-top:10px;
-	margin-bottom:10px
+	margin-top:8px;
+	margin-bottom:8px
 }
 h4 small, .h4 small, h5 small, .h5 small, h6 small, .h6 small, h4 .small, .h4 .small, h5 .small, .h5 .small, h6 .small, .h6 .small {
 	font-size:75%
@@ -960,7 +960,8 @@ h3, .h3 {
 }
 h4, .h4 {
 	font-size:16px;
-	line-height: 26px;
+     //   line-height: 25px;
+	line-height: 30px;
 	font-weight: bold;
 }
 h5, .h5 {
@@ -1910,10 +1911,10 @@ th {
 .table {
 	width:100%;
 	max-width:100%;
-	margin-bottom:20px
+	margin-bottom:0px
 }
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
-	padding:8px;
+	padding:7px;
 	line-height:1.42857143;
 	vertical-align:top;
 	border-top:1px solid #ddd
