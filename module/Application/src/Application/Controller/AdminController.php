@@ -952,14 +952,14 @@ public function projectslistdataAction()
 			$data = array(
 				'project_id'		=> 	$this->params()->fromPost('prty_type_id'),
 				'plan_type'	        => 	$this->params()->fromPost('plan'),
+				'bhk_type'	        => 	$this->params()->fromPost('bhk_type'),
 				'size'              => 	$this->params()->fromPost('size'),
 				'price'             => 	$this->params()->fromPost('price'),
-				'price_unit'            => 	$this->params()->fromPost('price_unit'),
-				'search_price'         => 	$this->params()->fromPost('search_price'),
+				'price_unit'        => 	$this->params()->fromPost('price_unit'),
+				'search_price'      => 	$this->params()->fromPost('search_price'),
 				'unit'              => 	$this->params()->fromPost('flrsize'),
 				'floor_plan_image'  => 	$this->params()->fromPost('imagename_1'),
-				
-				);
+			);
 //	echo '<pre>';print_r($data);exit;		
 			if(isset($id)){
 				$where = array(

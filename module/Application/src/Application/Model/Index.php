@@ -118,7 +118,7 @@ use Zend\Mime\Part as MimePart;
             <td colspan="2" align="center" style="font-family:Arial, Helvetica, sans-serif;font-size:24px;font-weight:bold;padding:10px;color:#fff;background-color:#02753e;">For Booking, Call us on +91-9650 797 111</td>
           </tr>
           <tr>    
-            <td align="right" style="padding-right:20px;padding-top:20px;font-size:16px;color:#b7291d;text-shadow:1px 1px #999;line-height:22px;font-weight:bold;font-family:\'Times New Roman\', Times, serif;"><span style="font-size:24px;">Price</span><br /> '.$min_floor_plan.'/Sq Ft Onwards</td>
+            <td align="right" style="padding-right:20px;padding-top:20px;font-size:16px;color:#b7291d;text-shadow:1px 1px #999;line-height:22px;font-weight:bold;font-family:\'Times New Roman\', Times, serif;"><span style="font-size:24px;">Price</span><br /> '.$min_floor_plan.' Onwards</td>
           </tr>
           <tr>
             <td colspan="2" align="justify" style="font-family:Arial, Helvetica, sans-serif;font-size:12px;padding:10px 20px 10px 20px;color:#333;line-height:20px;font-weight:600">    
@@ -325,13 +325,50 @@ use Zend\Mime\Part as MimePart;
             $project_id = $search['project_id'];
             $floor_plans = $this->getProjectFloorPlan($project_id,$minprice,$maxprice);
             if(count($floor_plans)){
-                $search['floor_plans'] = $floor_plans;
+                $bhkListArr = [];
+                $floorPlanMainArr = [];
+                $floorPlanTempArr = [];
+                $kk =0;
+                foreach ($floor_plans as $floor_plan){
+                    $kk++;
+                    if(!in_array($floor_plan['bhk_type'],$bhkListArr)){
+                        if(count($floorPlanTempArr))
+                            $floorPlanMainArr[] = $floorPlanTempArr;
+                        $floorPlanTempArr = [];
+                        $floorPlanTempArr['BHK']        = $floor_plan['bhk_type'];
+                        $maxMinFloorSize = $this->maxMinFloorSize($project_id,$minprice,$maxprice,$floor_plan['bhk_type']);
+                        $floorPlanTempArr['max_size']   = $maxMinFloorSize['maxFloorSize'];
+                        $floorPlanTempArr['min_size']   = $maxMinFloorSize['minFloorSize'];
+                        $floorPlanTempArr['max_price']  = $this->max_floor_plan_price($project_id,$minprice,$maxprice,$floor_plan['bhk_type']);
+                        $floorPlanTempArr['min_price']  = $this->min_floor_plan_price($project_id,$minprice,$maxprice,$floor_plan['bhk_type']);
+                    }
+                    
+                    $tempArr = [];
+                    $tempArr['plan_type']   = $floor_plan['plan_type'];
+                    $tempArr['size']        = $floor_plan['size'];
+                    $tempArr['unit']        = $floor_plan['unit'];
+                    $tempArr['price']       = $floor_plan['price'];
+                    $tempArr['price_unit'] = $floor_plan['price_unit'];
+                    
+                    $floorPlanTempArr['floor_plan_list'][]   = $tempArr;
+                    if(count($floor_plans)==$kk){
+                        $floorPlanMainArr[] = $floorPlanTempArr;
+                    }
+                    $bhkListArr[]   =   $floor_plan['bhk_type'];
+                }
+//              echo '<pre>';print_r($floorPlanMainArr);exit; 
+                
+                $search['floor_plans'] = $floorPlanMainArr;
                 $search['max_floor_plan_price'] = $this->max_floor_plan_price($project_id,$minprice,$maxprice);
                 $search['min_floor_plan_price'] = $this->min_floor_plan_price($project_id,$minprice,$maxprice);
                 $searchResultArr[$count] = $search;
+                
+//                echo '<pre>';print_r($searchResultArr);exit; 
                 $count++;
             }
-        }  
+        }
+        
+//        	echo '<pre>';print_r($searchResultArr);exit;
         return $searchResultArr;
     }
     
@@ -342,28 +379,41 @@ use Zend\Mime\Part as MimePart;
         $data= $table->select(array('id'=>$city_id))->toArray();
         
         $cityName = (count($data)) ? $data[0]['city_name']:'';
-//        echo '<pre>';print_r($data);exit;
-        
-//        echo  $cityName;exit;
-	
 		return $cityName;
 	}
-    public function max_floor_plan_price($project_id,$minprice='',$maxprice=''){
+    public function maxMinFloorSize($project_id,$minprice='',$maxprice='',$bhk_type=''){
+        $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+        $between='';
+        if($minprice!='' && $maxprice!='')
+           $between .= ' and pfp.search_price  between '.$minprice.' and '.$maxprice.' ';
+        if($bhk_type!='')
+            $between .= ' and pfp.bhk_type='.$bhk_type.' ';    
+        $sql="select concat(max(pfp.size),' ',pfp.unit) as maxFloorSize,concat(min(pfp.size),' ',pfp.unit) as minFloorSize from project_floor_plan pfp where pfp.project_id=$project_id $between ";
+        //        echo $sql;exit;
+        $result =$db->query($sql)->execute()->current();
+        return array('maxFloorSize'=>$result['maxFloorSize'],'minFloorSize'=>$result['minFloorSize']);
+    }
+    
+    public function max_floor_plan_price($project_id,$minprice='',$maxprice='',$bhk_type=''){
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
         $between='';
         if($minprice!='' && $maxprice!='')
-           $between = ' and pfp.search_price  between '.$minprice.' and '.$maxprice.' ';
+           $between .= ' and pfp.search_price  between '.$minprice.' and '.$maxprice.' ';
+        if($bhk_type!='')
+            $between .= ' and pfp.bhk_type='.$bhk_type.' ';    
 		$sql="select concat(pfp.price,' ',pfp.price_unit) as maxPrice from project_floor_plan pfp where pfp.project_id=$project_id $between order by pfp.search_price desc limit 1";
         
 //        echo $sql;exit;
 		$result =$db->query($sql)->execute()->current();
 		return $result['maxPrice'];
 	}
-    public function min_floor_plan_price($project_id,$minprice='',$maxprice=''){
+    public function min_floor_plan_price($project_id,$minprice='',$maxprice='',$bhk_type=''){
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
         $between='';
         if($minprice!='' && $maxprice!='')
-           $between = ' between '.$minprice.' and '.$maxprice.' ';
+           $between .= ' between '.$minprice.' and '.$maxprice.' ';
+        if($bhk_type!='')
+           $between .= ' and pfp.bhk_type='.$bhk_type.' ';    
 		$sql="select concat(pfp.price,' ',pfp.price_unit) as minPrice from project_floor_plan pfp where pfp.project_id=$project_id and pfp.search_price $between order by pfp.search_price limit 1";
 		$result =$db->query($sql)->execute()->current();
 		return $result['minPrice'];
@@ -375,8 +425,9 @@ use Zend\Mime\Part as MimePart;
             $select->where(array('is_active'=>1,'is_delete'=>0));
             if($minprice!='' && $maxprice!='')
             $select->where->between('search_price',$minprice,$maxprice);
-            $select->order('size ASC');
+            $select->order(array('bhk_type ASC', 'size ASC'));
         })->toArray();
+//        echo '<pre>';print_r($floor_plans);exit;  
         return $floor_plans;
     }
     public function getProjectAmenities($amenities){
@@ -416,7 +467,14 @@ use Zend\Mime\Part as MimePart;
         ->columns(array('banner_image','project_id'))
         ->from(array('bnl'=>'bannerlist'))
         ->join(array('prj'=>'projects'), 'prj.id = bnl.project_id', array('project_title','projectSlug'))
-        ->where(array('banner_type'=>$banner_type,'bnl.is_active'=>1,'bnl.is_delete'=>0,'prj.is_delete'=> '0','prj.is_active'=> '1'));
+        ->join(array('ct'=>'cities'), 'ct.id=prj.city',['city_name'])
+        ->join(array('lt'=>'locations'), 'lt.id=prj.location',[])
+        ->join(array('st'=>'states'), 'st.id=ct.state_id',[])
+        ->join(array('bld'=>'builders'), 'prj.builder=bld.id',[])
+        ->join(array('pptId'=>'property_type'), 'pptId.id=prj.property_type_id')
+        ->join(array('pptCatId'=>'property_category'), 'pptCatId.id=pptId.property_category_id')   
+        ->where(array('banner_type'=>$banner_type,'bnl.is_active'=>1,'bnl.is_delete'=>0,'prj.is_delete'=> '0','prj.is_active'=> '1','pptId.is_active'=>1,
+        'pptId.is_delete'=>0,'lt.is_active'=>1,'lt.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0,'bld.is_active'=>1,'bld.is_delete'=>0));
         $result = $sql->prepareStatementForSqlObject($select)->execute();
         $projectArr = array();
         foreach($result as $res) $projectArr[] = $res;  
@@ -477,11 +535,16 @@ use Zend\Mime\Part as MimePart;
         ->columns(array('id as prjId','project_title','projectSlug'))
 		->from(array('prj'=>'projects'))
         ->join(array('ct'=>'cities'), 'ct.id=prj.city',['city_name'])
+        ->join(array('lt'=>'locations'), 'lt.id=prj.location',[])
+        ->join(array('st'=>'states'), 'st.id=ct.state_id',[])
+        ->join(array('bld'=>'builders'), 'prj.builder=bld.id',[])
         ->join(array('pptId'=>'property_type'), 'pptId.id=prj.property_type_id')
         ->join(array('pptCatId'=>'property_category'), 'pptCatId.id=pptId.property_category_id')
-        ->where(array('prj.is_active'=>1,'prj.is_delete'=>0,'pptId.is_active'=>1,'pptId.is_delete'=>0,'pptId.property_category_id'=>$property_type))
+        ->where(array('prj.is_active'=>1,'prj.is_delete'=>0,'pptId.is_active'=>1,'pptId.is_delete'=>0,
+        'lt.is_active'=>1,'lt.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0,'bld.is_active'=>1,'bld.is_delete'=>0,
+        'pptId.property_category_id'=>$property_type))
 //        ->where->notEqualTo('prj.order', 0);
-                ->where('prj.order!=0')
+        ->where('prj.order!=0')
         ->order('prj.order')
         ->limit(9);            
 		$result = $sql->prepareStatementForSqlObject($select)->execute();

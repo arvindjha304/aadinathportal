@@ -112,7 +112,7 @@ use Zend\Db\Sql\Expression;
 		$select = $sql->select()
 		->from(array('proj'=>'projects'))
 		->join(array('pfp'=>'project_floor_plan'),'pfp.project_id=proj.id')
-		->where('pfp.is_delete= 0');
+		->where('pfp.is_delete= 0')->order('proj.project_title ASC,pfp.bhk_type ASC');
 		$result = $sql->prepareStatementForSqlObject($select)->execute();
 		return $result;
 		

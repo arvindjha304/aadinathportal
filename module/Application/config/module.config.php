@@ -137,7 +137,7 @@ return array(
                                     'action' => 'project-detail'
                                 ),
                                 'constraints' => array(
-                                    'slug' => '[a-zA-Z][a-zA-Z0-9_-]*'
+                                    'slug' => '[a-zA-Z0-9_-][a-zA-Z0-9_-]*'
                                 )
                             )
                         )
