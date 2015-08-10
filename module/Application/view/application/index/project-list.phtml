@@ -147,7 +147,7 @@
                       foreach($searchResult['floor_plans'] as $floor_plan){?>
                         <tr onClick="showRow('subrow<?php echo $searchResult["project_id"].$pp;?>',this);" id='head<?php echo $searchResult["project_id"].$pp;?>' style="cursor:pointer;">
                             <td><?php echo $floor_plan['BHK'];?> Bedroom &nbsp;<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td>
-                            <td><?php echo $floor_plan['min_size']; if(count($floor_plan['floor_plan_list'])>1) echo ' - '.$floor_plan['max_size'];?></td>
+                            <td><?php echo $floor_plan['min_size']; if(count($floor_plan['floor_plan_list'])>1) { echo ' - '.$floor_plan['max_size'];}      echo ' '.$floor_plan['size_unit']; ?></td>
             <td><span class="rupee">`</span> <?php echo $floor_plan['min_price'];if(count($floor_plan['floor_plan_list'])>1) {?> - <span class="rupee">`</span> <?php echo $floor_plan['max_price']; }?></td>
                         </tr>
                         
@@ -179,9 +179,14 @@
 
               <div class="col-md-2 insidepg-proj-builder">
               <div class="row insidepg-proj-builder-img" align="center"><a href="<?php echo $baseUrl;?>/builders/<?php echo $searchResult['builderSlug']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $searchResult['builder_image']?>"  class="img-responsive"></a></div>
-            <div class="row insidepg-proj-builder text-center"><?php if(count($floor_plan['floor_plan_list'])){ ?><div class="proj-price-text"><span class="rupee">`</span>  <?php echo $searchResult['min_floor_plan_price'];?> - <span class="rupee">`</span> <?php echo $searchResult['max_floor_plan_price'];?></div><?php } ?>
+            <div class="row insidepg-proj-builder-price text-center"><div class="proj-price-text"><span class="rupee">`</span>  <?php echo $searchResult['min_floor_plan_price'];?> - <span class="rupee">`</span> <?php echo $searchResult['max_floor_plan_price'];?></div>
                   POSSESSION <?php echo date('M', strtotime($searchResult['possession']))?> `<?php echo date('Y', strtotime($searchResult['possession']))?></div>
-              <div class="row text-center"><button type="button" class="btn btn-danger" onclick="return getCallBAck('<?php echo $searchResult['project_id']?>','<?php echo $searchResult['project_title']?>')">GET CALL BACK</button></div>
+              
+              <div class="clearfix"></div>  
+              <div class="row projlistpg-compare-pad" align="center"><a href="#"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> Add to Compare</a></div>
+              
+              
+              <div class="row" align="center"><button type="button" class="btn btn-danger btn-sm" onclick="return getCallBAck('<?php echo $searchResult['project_id']?>','<?php echo $searchResult['project_title']?>')">GET CALL BACK</button></div>
               </div>
               </div>
               </div>  
@@ -239,21 +244,18 @@
         <div class="one_fourth_less <?php if($count % 4 == 0){ echo 'last';}?> "  >    
             <a href="<?php echo $baseUrl;?>/projects-in-<?php echo strtolower($searchResult['citySlug'])?>/<?php echo $searchResult['projectSlug']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $searchResult['project_image']?>" alt="" /></a>
             <h5><a href="<?php echo $baseUrl;?>/projects-in-<?php echo strtolower($searchResult['citySlug'])?>/<?php echo $searchResult['projectSlug']?>"><?php echo $searchResult['project_title']?></a> <em><?php echo $searchResult['city_name'].', '.$searchResult['state_name']?></em></h5>
-             <?php  $floorSizeArr = array();$floorPriceArr = array();
-             if(count($searchResult['floor_plans'])){
-                    foreach($searchResult['floor_plans'] as $floor_plan){
-                        $floorPriceArr[]= $floor_plan['price'];
-                        $floorSizeArr[]= $floor_plan['size'];
-             }}?>
+            
             <div class="grid_type">
-            <?php echo $bhkStr;?> BHK ( <?php if(count($floorSizeArr)) echo min($floorSizeArr)?> - <?php if(count($floorSizeArr)) echo max($floorSizeArr)?> sq ft )<br>
+            <?php echo $bhkStr;?> BHK ( <?php  echo $searchResult['min_floor_plan_size']?> - <?php  echo $searchResult['max_floor_plan_size']?> sq ft )<br>
             <span class="grid_type_left_smltxt">Possession Date: <?php echo date('M', strtotime($searchResult['possession']))?> `<?php echo date('Y', strtotime($searchResult['possession']))?></span>
             </div>
             <div class="grid_button">
-            <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> <?php if(count($floorPriceArr)) echo $searchResult['min_floor_plan_price']?></div>
+            <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> <?php  echo $searchResult['min_floor_plan_price']?></div>
             <div class="grid_button_right">
-            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" onclick="return getCallBAck('<?php echo $searchResult['project_id']?>','<?php echo $searchResult['project_title']?>')">GET CALL BACK</button></div>
+                <a href="#"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> Add to Compare</a>
             </div>
+            </div>
+            <div class="row projlistpg-compare-pad"><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" onclick="return getCallBAck('<?php echo $searchResult['project_id']?>','<?php echo $searchResult['project_title']?>')">GET CALL BACK</button></div>
         </div>
         
     <?php  

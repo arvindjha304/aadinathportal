@@ -135,11 +135,11 @@ function delDiv(id){
         <div class="content4-builder">
             <select id="bhk_type" name="bhk_type" style="width:250px; height:33px; border-radius:3px;border:1px solid #aaa; background-color:#f9f9f9;">
                 <option value="">Select BHK Type</option>
-                <option value="1">1 Bedroom</option>
-                <option value="2">2 Bedrooms</option>
-                <option value="3">3 Bedrooms</option>
-                <option value="4">4 Bedrooms</option>
-                <option value="5">5 Bedrooms</option>
+                <option <?php if($this->projectsDetail[0]['bhk_type']=='1')  { echo 'selected';}?> value="1">1 Bedroom</option>
+                <option <?php if($this->projectsDetail[0]['bhk_type']=='2')  { echo 'selected';}?> value="2">2 Bedrooms</option>
+                <option <?php if($this->projectsDetail[0]['bhk_type']=='3')  { echo 'selected';}?> value="3">3 Bedrooms</option>
+                <option <?php if($this->projectsDetail[0]['bhk_type']=='4')  { echo 'selected';}?> value="4">4 Bedrooms</option>
+                <option <?php if($this->projectsDetail[0]['bhk_type']=='5')  { echo 'selected';}?> value="5">5 Bedrooms</option>
             </select>
         </div>
     </div>  

@@ -329,6 +329,9 @@ use Zend\Mime\Part as MimePart;
                 $floorPlanMainArr = [];
                 $floorPlanTempArr = [];
                 $kk =0;
+                
+                $search['max_floor_plan_price'] = $this->max_floor_plan_price($project_id,$minprice,$maxprice);
+                $search['min_floor_plan_price'] = $this->min_floor_plan_price($project_id,$minprice,$maxprice);
                 foreach ($floor_plans as $floor_plan){
                     $kk++;
                     if(!in_array($floor_plan['bhk_type'],$bhkListArr)){
@@ -339,6 +342,7 @@ use Zend\Mime\Part as MimePart;
                         $maxMinFloorSize = $this->maxMinFloorSize($project_id,$minprice,$maxprice,$floor_plan['bhk_type']);
                         $floorPlanTempArr['max_size']   = $maxMinFloorSize['maxFloorSize'];
                         $floorPlanTempArr['min_size']   = $maxMinFloorSize['minFloorSize'];
+                        $floorPlanTempArr['size_unit']   = $maxMinFloorSize['unit'];
                         $floorPlanTempArr['max_price']  = $this->max_floor_plan_price($project_id,$minprice,$maxprice,$floor_plan['bhk_type']);
                         $floorPlanTempArr['min_price']  = $this->min_floor_plan_price($project_id,$minprice,$maxprice,$floor_plan['bhk_type']);
                     }
@@ -359,8 +363,9 @@ use Zend\Mime\Part as MimePart;
 //              echo '<pre>';print_r($floorPlanMainArr);exit; 
                 
                 $search['floor_plans'] = $floorPlanMainArr;
-                $search['max_floor_plan_price'] = $this->max_floor_plan_price($project_id,$minprice,$maxprice);
-                $search['min_floor_plan_price'] = $this->min_floor_plan_price($project_id,$minprice,$maxprice);
+                $maxMinFloorSize = $this->maxMinFloorSize($project_id,$minprice,$maxprice);
+                $search['max_floor_plan_size']   = $maxMinFloorSize['maxFloorSize'];
+                $search['min_floor_plan_size']   = $maxMinFloorSize['minFloorSize'];
                 $searchResultArr[$count] = $search;
                 
 //                echo '<pre>';print_r($searchResultArr);exit; 
@@ -388,10 +393,10 @@ use Zend\Mime\Part as MimePart;
            $between .= ' and pfp.search_price  between '.$minprice.' and '.$maxprice.' ';
         if($bhk_type!='')
             $between .= ' and pfp.bhk_type='.$bhk_type.' ';    
-        $sql="select concat(max(pfp.size),' ',pfp.unit) as maxFloorSize,concat(min(pfp.size),' ',pfp.unit) as minFloorSize from project_floor_plan pfp where pfp.project_id=$project_id $between ";
+        $sql="select concat(max(pfp.size)) as maxFloorSize,concat(min(pfp.size)) as minFloorSize,pfp.unit from project_floor_plan pfp where pfp.project_id=$project_id $between ";
         //        echo $sql;exit;
         $result =$db->query($sql)->execute()->current();
-        return array('maxFloorSize'=>$result['maxFloorSize'],'minFloorSize'=>$result['minFloorSize']);
+        return array('maxFloorSize'=>$result['maxFloorSize'],'minFloorSize'=>$result['minFloorSize'],'unit'=>$result['unit']);
     }
     
     public function max_floor_plan_price($project_id,$minprice='',$maxprice='',$bhk_type=''){
@@ -640,10 +645,6 @@ use Zend\Mime\Part as MimePart;
 	}
     
     function getIdFromSlug($table,$field,$slug){
-        
-        
-       // echo $table.'==='.$field.'==='.$slug;exit;
-        
 		$artistTable = new TableGateway($table, $this->getAdapter());
         $select = $artistTable->select(function($select) use ($field,$slug){
             $select->where(array($field=>$slug));
