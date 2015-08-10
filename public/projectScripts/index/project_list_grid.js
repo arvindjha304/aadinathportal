@@ -146,7 +146,7 @@ function changeView(viewType) {
                         pp++;  
                     });
                     
-                   str += '<div class="one_fourth_less '+last+'"> <a href="'+SITEROOT+'/projects-in-'+value.citySlug.toLowerCase()+'/'+value.projectSlug+'"><img src="'+SITEROOT+'/public/uploadfiles/'+value.project_image+'" alt="" /></a><h5><a href="'+SITEROOT+'/projects-in-'+value.citySlug.toLowerCase()+'/'+value.projectSlug+'">'+value.project_title+'</a> <em>'+value.city_name+', '+value.state_name+'</em></h5><div class="grid_type">'+bhkStr+' BHK ( '+Math.min.apply(null,floorSizeArr)+' - '+Math.max.apply(null,floorSizeArr)+' sq ft )<br><span class="grid_type_left_smltxt">Possession Date: '+monthNames[d.getMonth()]+' `'+d.getFullYear()+'</span></div><div class="grid_button"><div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> '+value.min_floor_plan_price+'</div><div class="grid_button_right"><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" onclick="return getCallBAck('+value.project_id+',\''+value.project_title+'\')">GET CALL BACK</button></div></div></div>';  
+                   str += '<div class="one_fourth_less '+last+'"> <a href="'+SITEROOT+'/projects-in-'+value.citySlug.toLowerCase()+'/'+value.projectSlug+'"><img src="'+SITEROOT+'/public/uploadfiles/'+value.project_image+'" alt="" /></a><h5><a href="'+SITEROOT+'/projects-in-'+value.citySlug.toLowerCase()+'/'+value.projectSlug+'">'+value.project_title+'</a> <em>'+value.city_name+', '+value.state_name+'</em></h5><div class="grid_type">'+bhkStr+' BHK ( '+value.min_floor_plan_size+' - '+value.max_floor_plan_size+' sq ft )<br><span class="grid_type_left_smltxt">Possession Date: '+monthNames[d.getMonth()]+' `'+d.getFullYear()+'</span></div><div class="grid_button"><div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> '+value.min_floor_plan_price+'</div><div class="grid_button_right"><a href="#"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> Add to Compare</a></div></div><div class="row projlistpg-compare-pad"><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" onclick="return getCallBAck('+value.project_id+',\''+value.project_title+'\')">GET CALL BACK</button></div></div>';  
                    
                     if(count % 4 == 0 && count != response.length){ 
                         str += '<div style="border-bottom: 4px double #ccc;">&nbsp;</div>';
@@ -161,21 +161,33 @@ function changeView(viewType) {
             }else{
                 var ii = 0;
                 $.each(response, function(id,value) {
-            
-                    str += '<div class="container insidepg-proj-row"><div class="row"><div class="col-md-3  insidepg-proj-img-box"><a href="'+SITEROOT+'/projects-in-'+value.citySlug.toLowerCase()+'/'+value.projectSlug+'"><img src="'+SITEROOT+'/public/uploadfiles/'+value.project_image+'" class="img-responsive"></a></div><div class="col-md-7 insidepg-proj-detail"><div class="bs-example" data-example-id="bordered-table"><h4 id="tables-bordered"><a href="'+SITEROOT+'/projects-in-'+value.citySlug.toLowerCase()+'/'+value.projectSlug+'">'+value.project_title+'</a></h4><p>'+value.address+'</p><table class="table table-bordered"><thead><tr><th>PROPERTY</th><th>SIZE</th><th>BUILDER PRICE</th></tr></thead><tbody>';
-                    var floorPriceArr = new Array();
+                    str += '<div class="container insidepg-proj-row"><div class="row"><div class="col-md-3  insidepg-proj-img-box"><a href="'+SITEROOT+'/projects-in-'+value.citySlug.toLowerCase()+'/'+value.projectSlug+'"><img src="'+SITEROOT+'/public/uploadfiles/'+value.project_image+'" class="img-responsive"></a></div><div class="col-md-7 insidepg-proj-detail"><div class="bs-example" data-example-id="bordered-table"><h4 id="tables-bordered"><a href="'+SITEROOT+'/projects-in-'+value.citySlug.toLowerCase()+'/'+value.projectSlug+'">'+value.project_title+'</a></h4><p>'+value.address+'</p>';
+                    str += '<table class="table table-bordered"><thead><tr><th>PROPERTY</th><th>SIZE</th><th>BUILDER PRICE</th></tr></thead><tbody>';
+                    var pp = 1111;  
+                    
+                   
+                    
                     $.each(value.floor_plans, function(id,floor_plan) {
-                        str += '<tr><td>'+floor_plan.plan_type+'</th><td>'+floor_plan.size+' '+floor_plan.unit+'</td><td><span class="rupee">`</span> '+floor_plan.price+' '+floor_plan.price_unit+'</td></tr>';
-                        floorPriceArr[id] = parseFloat(floor_plan.price); 
+                        var max_size = (floor_plan.floor_plan_list.length >1) ? ' - '+floor_plan.max_size : '';
+                        var max_price = (floor_plan.floor_plan_list.length >1) ? ' - <span class="rupee">`</span> '+floor_plan.max_price : '';
+                        str += '<tr onClick="showRow(\'subrow'+value.project_id+pp+'\',this);" id=\'head'+value.project_id+pp+'\' style="cursor:pointer;"><td>'+floor_plan.BHK+' Bedroom &nbsp;<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td><td>'+floor_plan.min_size+''+max_size+' '+floor_plan.size_unit+'</td><td><span class="rupee">`</span> '+floor_plan.min_price+''+max_price+'</td></tr>';
+                        if(floor_plan.floor_plan_list.length > 0){     
+                                str += '<tr class="subrow'+value.project_id+pp+' hide-row-bg" onClick="hideRow(\'subrow'+value.project_id+pp+'\',\'head'+value.project_id+pp+'\');" style="cursor:pointer;display:none;"><td>'+floor_plan.BHK+' Bedroom &nbsp;<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td><td>&nbsp;</td><td>&nbsp;</td></tr>';              
+                                $.each(floor_plan.floor_plan_list, function(id,floor_plan_list) { 
+                                str += '<tr class="subrow'+value.project_id+pp+'" style="display:none;"><td class="hide-cell-pad">'+floor_plan_list.plan_type+' </td><td class="hide-cell-pad">'+floor_plan_list.size+' '+floor_plan_list.unit+'</td><td class="hide-cell-pad"><span class="rupee">`</span> '+floor_plan_list.price+' '+floor_plan_list.price_unit+'</td></tr>';
+                            });
+                        }
+                        pp++;
                     });
+                    str += '</tbody></table>';
                     var d = new Date(value.possession);
-                    str += '  </tbody></table></div></div><div class="col-md-2 insidepg-proj-builder"><div class="row insidepg-proj-builder-img" align="center"><a href="'+SITEROOT+'/builders/'+value.builderSlug+'"><img src="'+SITEROOT+'/public/uploadfiles/'+value.builder_image+'"  class="img-responsive"></a></div><div class="row insidepg-proj-builder text-center"><div class="proj-price-text"><span class="rupee">`</span>&nbsp;'+value.min_floor_plan_price+'- <span class="rupee">`</span> '+value.max_floor_plan_price+'</div>POSSESSION '+monthNames[d.getMonth()]+' `'+d.getFullYear()+'</div><div class="row text-center"><button type="button" class="btn btn-danger" data-toggle="modal"  onclick="return getCallBAck('+value.project_id+',\''+value.project_title+'\')">GET CALL BACK</button></div></div></div></div> ';
+                    str += '</div></div><div class="col-md-2 insidepg-proj-builder"><div class="row insidepg-proj-builder-img" align="center"><a href="'+SITEROOT+'/builders/'+value.builderSlug+'"><img src="'+SITEROOT+'/public/uploadfiles/'+value.builder_image+'"  class="img-responsive"></a></div><div class="row insidepg-proj-builder-price text-center"><div class="proj-price-text"><span class="rupee">`</span>  '+value.min_floor_plan_price+' - <span class="rupee">`</span> '+value.max_floor_plan_price+'</div>POSSESSION '+monthNames[d.getMonth()]+' `'+d.getFullYear()+'</div><div class="clearfix"></div><div class="row projlistpg-compare-pad" align="center"><a href="#"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> Add to Compare</a></div><div class="row" align="center"><button type="button" class="btn btn-danger btn-sm" onclick="return getCallBAck('+value.project_id+',\''+value.project_title+'\')">GET CALL BACK</button></div></div></div></div>  ';
                     
                     ii++; 
                     if(ii % 4 == 0 && ii != response.length){
                         var returnArr = shuffleProjectBanner();
                         str += '<div class="container insidepg-proj-row"><div class="clearfix margin_top3"></div><div class="row"><a style="float:left" href="'+SITEROOT+'/projects/'+returnArr['projectSlug']+'"><img width="1160" height="100" src="'+SITEROOT+'/public/uploadfiles/'+returnArr['banner_image']+'"></a></div><div class="clearfix margin_top3"></div></div>';
-                   }  
+                    }  
                 });
             }
             $('#searchProjects').html(str);
