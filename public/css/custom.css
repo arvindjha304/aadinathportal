@@ -201,7 +201,10 @@
 	font-size: 16px;
 }
 .insidepg-proj-builder{
-	margin: 18px 0px !important;
+	margin: 20px 0px 0px 0px !important;
+}
+.insidepg-proj-builder-price{
+	margin: 8px 0px 10px 0px !important;
 }
 .clear{
     
@@ -210,7 +213,7 @@
 .insidepg-proj-builder img{
         padding-top:12px;
 	border-bottom: 1px dashed #ccc;
-	height: 112px !important;
+	height: 110px !important;
         padding-bottom: 18px;
         width: 160px !important;
 	
@@ -271,7 +274,7 @@
 }
 .grid_button{
 	width:100%;
-	height:50px;
+	height:65px;
 	padding-top:8px;
 	padding-bottom:5px;
 	background-color:#fff;
@@ -289,7 +292,7 @@
 	padding-left:5%;
 }
 .grid_button_left_smltxt{
-	font-size:px;
+	font-size:10px;
 	font-weight:normal;
 	line-height:10px;
 	text-align:left;
@@ -298,9 +301,11 @@
 	width:54%;
 	height:40px;
 	float:left;
-	padding-top: 2px;
+	padding-top: 5px;
 	padding-right: 1%;
-	padding-left: 5%;
+	padding-left: 1%;
+	font-weight: bold;
+	font-size: 13px;
 }
 .pritable .pacdetails .top{
 	float: left;
@@ -456,4 +461,29 @@ margin-bottom:30px; color:#333; font-family: "Raleway",sans-serif;
 .magicsearch-results-align{
   text-align: right;
   font-weight: bold;
+}
+.projlistpg-compare-pad{
+	margin: 0px 0px 16px 0px;
+	font-weight: bold;
+        font-size: 12px;
+        
+}
+.compare-dropdown-menu{
+ width:80%;
+ float:left;
+ font-size:14px;
+ padding:6px 15px;
+ border-bottom:1px solid #ddd;
+ font-family:Calibri;
+ background-color: #fff; 
+}
+.compare-dropdown-menu-remove{
+ width:20%;
+ float:left;
+ font-size:14px;
+ padding:6px 12px;
+ border-bottom:1px solid #ddd; 
+}
+.compare-dropdown-menu-remove-btn{
+ color: #d9534f;
 }
