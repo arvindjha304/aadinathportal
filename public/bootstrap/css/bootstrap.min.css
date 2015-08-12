@@ -2657,10 +2657,10 @@ transition:height .35s ease
 	z-index:1000;
 	display:none;
 	float:left;
-	min-width:160px;
-	padding:5px 0;
+	min-width:200px;
+	padding:0px 0;
 	margin:2px 0 0;
-	font-size:14px;
+	font-size:12px;
 	text-align:left;
 	list-style:none;
 	background-color:#fff;
@@ -2678,7 +2678,7 @@ transition:height .35s ease
 }
 .dropdown-menu .divider {
 	height:1px;
-	margin:9px 0;
+	margin:0px 0;
 	overflow:hidden;
 	background-color:#e5e5e5
 }
