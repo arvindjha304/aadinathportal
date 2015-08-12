@@ -651,6 +651,13 @@ use Zend\Mime\Part as MimePart;
         })->toArray();
 		return $select[0]['id'];
     }
+    function getProjectFromId($prjId){
+        $table = new TableGateway('projects',$this->getAdapter());
+        $select = $table->select(function($select) use($prjId){
+            $select->where(array('id'=>$prjId));    
+        })->toArray();
+        return $select;
+    }
 	
 	
     

@@ -101,12 +101,24 @@ class IndexController extends AbstractActionController
         $model = $this->getModel();
         $this->layout('layout/innersearchlayout');
         $container = new Container('searchSessionFields');
+        
+        if($container->offsetExists('cities')!=1){
+            $config = new StandardConfig();
+            $config->setOptions(array(
+                'remember_me_seconds' => 1800,
+                'name'                => 'zf2',
+            ));
+            $manager = new SessionManager($config);
+            $container = new Container('searchSessionFields',$manager);
+            $container->projectBanner   = $this->getModel()->projectBanner(2);
+        }
+        
         $city_id         = $container->cities;
         $propcategory_id = $container->propcategory;
         $minprice        = $container->minprice;
         $maxprice        = $container->maxprice;
         $refineSearchArr = $this->params()->fromQuery();
-//        print_r($refineSearchArr);exit;
+//        echo '<pre>';print_r($container);exit;
         $view->setVariable('cityName',$model->getCityName($city_id));
         $view->setVariable('viewType',$container->viewType);
         $view->setVariable('possession',(isset($refineSearchArr['possession'])) ? $refineSearchArr['possession'] : '');
@@ -121,23 +133,8 @@ class IndexController extends AbstractActionController
         $view->setVariable('searchResultArr', $searchResultArr);
 //       echo '<pre>';print_r($searchResultArr);exit;        
         return $view;
-    }
-//    public function projectGridAction()
-//    {
-//        $view = new ViewModel();
-//        $this->layout('layout/innersearchlayout');
-//        $container = new Container('searchSessionFields');
-//        $city_id         = $container->cities;
-//        $propcategory_id = $container->propcategory;
-//        $minprice        = $container->minprice;
-//        $maxprice        = $container->maxprice;
-//      
-//        $model = $this->getModel();
-//        $searchResultArr = $model->searchResultData($city_id,$propcategory_id,$minprice,$maxprice,'');
-//        $view->setVariable('searchResultArr', $searchResultArr);
-//        return $view;
-//    }
-    
+}
+
     public function changesearchviewAction(){
         
         $container = new Container('searchSessionFields');
@@ -190,160 +187,6 @@ class IndexController extends AbstractActionController
         $view->setVariable('floorPriceArr', $floorPriceArr);
         return $view;
     }
-    
-    
-    public function htmlmailAction(){
-        $to_email='arvindjha304@gmail.com';
-        $to_name='Arvind Jha';
-        $subject='Test mail 24 July';
-        $body='This id a dummy text.';
-        $htmltext = '<b>heii, <i>sorry</i>, i\'m going late</b>';
-        $this->getModel()->sendmail($to_email,$to_name,$subject,$body);
-        
-        
-//        exit;
-        
-        $this->getModel()->sendmailHTML($to_email,$to_name,$subject,$htmltext);
-        
-        exit;
-        
-    //    $_SERVER[HTTP_HOST] => localhost
-        
-        
-    //    echo '<PRE>';PRINT_R($_SERVER);exit;
-        
-//        $message = new \Zend\Mail\Message();
-//        $message->addTo('arvindjha304@gmail.com')
-//            ->addFrom('arvindjha304@gmail.com')
-//            ->setSubject('Test send mail using ZF2');
-//
-//        // Setup SMTP transport using LOGIN authentication
-//        $transport = new \Zend\Mail\Transport\Smtp();
-//        $options   = new \Zend\Mail\Transport\SmtpOptions(array(
-//            'host'              => 'smtp.gmail.com',
-//            'connection_class'  => 'login',
-//            'connection_config' => array(
-//                'ssl'       => 'tls',
-//                'username' => 'test00455@gmail.com',
-//                'password' => 'Test@1423'
-//            ),
-//            'port' => 587,
-//        ));
-//
-//        $html = new \Zend\Mime\Part('<b>heii, <i>sorry</i>, i\'m going late</b>');
-//        $html->type = "text/html";
-//
-//        $body = new \Zend\Mime\Message();
-//        $body->addPart($html);
-//
-//        $message->setBody($body);
-//
-//        $transport->setOptions($options);
-//        $transport->send($message);
-//
-//        exit;
-
-
-//        $message = new \Zend\Mail\Message();
-//
-//        $message->setBody('This is the body');
-//        $message->setFrom('enjoylife304@gmail.com');
-//        $message->addTo('arvindjha304@gmail.com');
-//        $message->setSubject('Test subject');
-//
-//        $smtpOptions = new \Zend\Mail\Transport\SmtpOptions();
-//
-//        $smtpOptions->setHost('smtp.gmail.com')
-//                    ->setConnectionClass('login')
-//                    ->setName('smtp.gmail.com')
-//                    ->setConnectionConfig(array(
-//                            'username' => 'test00455@gmail.com',
-//                            'password' => 'Test@1423',
-//                            'ssl' => 'tls',
-//                        )
-//                    );
-//
-//        $transport = new \Zend\Mail\Transport\Smtp($smtpOptions);
-//        $transport->send($message);
-//
-//
-//
-//
-//        exit;
-
-//        $mail = new \Zend\Mail\Message();
-//        $mail->setBody('This is the text of the email.');
-//        $mail->setFrom('admin@aadinathindia.com', 'Admin');
-//        $mail->addTo('arvindjha304@gmail.com', 'Arvind Jha');
-//        $mail->setSubject('TestSubject');
-//
-//        $transport = new \Zend\Mail\Transport\Sendmail();
-//        
-//        $transport->send($mail);
-//        
-//        exit;
-        
-//        $to = "arvindjha304@gmail.com";
-//        $subject = "My subject";
-//        $txt = "Hello world!";
-//        $headers = "From: webmaster@example.com" . "\r\n" .
-//        "CC: somebodyelse@example.com";
-//
-//        mail($to,$subject,$txt,$headers);
-//
-//        exit;
-        
-        
-//        $userid='1';
-//        $name='Arvind Jha';
-//        $create_date=date("Y-m-d H:i:s");
-//        $useremail='arvind@gmail.com';
-//        $contact='2314568970';
-//        $project='1';
-//        $mes='messagemessagemessage';
-//        $subject ="Amaatra Homes";
-//        $source = '9';
-//        $adminemail ="arvindjha304@gmail.com";
-//        $message = "<table width='50%' border='0' cellspacing='8' cellpadding='4' align='center' style='border:#00CCFF solid 3px; color:#333333;'>
-//         <tr>
-//           <td><div>
-//
-//               <div>&nbsp;</div>
-//
-//               <div><b>Name : ".$name."</b></div>
-//
-//               <div>&nbsp;</div>
-//         <div><b>Email : ".$useremail."</b></div>
-//         <div>&nbsp;</div>
-//         <div><b>Phone Number : ".$contact."</b></div>
-//         <div>&nbsp;</div>
-//         <div><b>Message : ".$mes."</b></div>
-//         <div>&nbsp;</div>
-//         <div><b>Subject : ".$subject."</b></div>
-//         <div>&nbsp;</div>
-//
-//
-//       </div></td>
-//         </tr>
-//       </table>";
-//          
-//            $headers  = 'MIME-Version: 1.0' . "\r\n";
-//         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-//         $headers  = 'MIME-Version: 1.0' . "\r\n";
-//         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-//         $headers .= 'From:Admin'. "\r";
-//         $headers .= 'otp@drproperty.in'. "\r\n";
-//
-//echo 'AAAABBBB';exit;
-//           if(mail($adminemail, $subject, $message, $headers)){
-//               echo 'Your mail has been sent successfully.';
-//           } else{
-//               echo 'Unable to send email. Please try again.';
-//           }
-//       exit;
-    }
-    
-    
     
     public function getcallbackAction(){
         if($this->getRequest()->isXmlHttpRequest()){
@@ -431,6 +274,20 @@ class IndexController extends AbstractActionController
         $result=$this->getModel()->projectSearchData($searchStr);
         $str = json_encode($result);
         exit($str);  
+    }
+    public function addcompareAction(){
+        if($this->getRequest()->isXmlHttpRequest()){
+            $projectId       = $this->params()->fromPost('project_id');
+            $container       = new Container('compareProjects');
+            $container->allCompareProjects   = $this->params()->fromPost('allCompareProjects');
+            
+            
+                       echo '<pre>';print_r($container->allCompareProjects);exit;
+            
+            $prjDetail      = $this->getModel()->getProjectFromId($projectId);
+            $returnArr      = ['id'=>$prjDetail[0]['id'],'project_title'=>$prjDetail[0]['project_title'],'projectSlug'=>$prjDetail[0]['projectSlug']];
+            exit(json_encode($returnArr)); 
+        }
     }
     
 }

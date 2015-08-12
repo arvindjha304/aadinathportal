@@ -388,10 +388,10 @@
         
     <div id="owl-demo7" class="owl-carousel">
         <?php foreach($this->similarProjects as $similarProjects){  //echo '<pre>';print_r($similarProjects);exit;?>            
-        <div class="item"><a href="<?php echo $baseUrl;?>/projects-in-<?php echo $similarProjects['citySlug'] ?>/<?php echo $similarProjects['projectSlug'] ?>" target="_blank"><img class="lazyOwl" src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $similarProjects['project_image'] ?>" alt="<?php echo $similarProjects['project_title'] ?>" /></a></div>       
-        <?php }?>    
-        
-
+        <div class="item"><a href="<?php echo $baseUrl;?>/projects-in-<?php echo $similarProjects['citySlug'] ?>/<?php echo $similarProjects['projectSlug'] ?>" target="_blank"><img class="lazyOwl" src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $similarProjects['project_image'] ?>" alt="<?php echo $similarProjects['project_title'] ?>" /></a>
+        <a href="<?php echo $baseUrl;?>/projects-in-<?php echo $similarProjects['citySlug'] ?>/<?php echo $similarProjects['projectSlug'] ?>" class="cbp-l-grid-masonry-projects-title"><?php echo $similarProjects['project_title'] ?></a>
+        <div class="cbp-l-grid-masonry-projects-desc"><?php echo $similarProjects['city_name'] ?></div></div>       
+        <?php }?> 
     </div><!-- end section -->
     <div class="clearfix margin_top4"></div>
         </div>
