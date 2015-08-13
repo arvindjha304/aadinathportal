@@ -102,7 +102,7 @@ class IndexController extends AbstractActionController
         $this->layout('layout/innersearchlayout');
         $container = new Container('searchSessionFields');
         
-        if($container->offsetExists('cities')!=1){
+        if(!is_numeric($container->cities)){
             $config = new StandardConfig();
             $config->setOptions(array(
                 'remember_me_seconds' => 1800,
@@ -113,10 +113,10 @@ class IndexController extends AbstractActionController
             $container->projectBanner   = $this->getModel()->projectBanner(2);
         }
         
-        $city_id         = $container->cities;
-        $propcategory_id = $container->propcategory;
-        $minprice        = $container->minprice;
-        $maxprice        = $container->maxprice;
+        $city_id         = (is_numeric($container->cities)) ? $container->cities : '';
+        $propcategory_id = (is_numeric($container->propcategory)) ? $container->propcategory : '';
+        $minprice        = (is_numeric($container->minprice)) ? $container->minprice : '';
+        $maxprice        = (is_numeric($container->maxprice)) ? $container->maxprice : '';
         $refineSearchArr = $this->params()->fromQuery();
 //        echo '<pre>';print_r($container);exit;
         $view->setVariable('cityName',$model->getCityName($city_id));
