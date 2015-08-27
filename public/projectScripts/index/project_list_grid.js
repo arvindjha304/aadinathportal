@@ -95,7 +95,8 @@ $('#resetFilter').click(function(){
     if(builderDetailId !== ''){
        var params = '?id='+builderDetailId; 
     }
-     window.location.href = baseUrl+'/index/'+pageName+params;
+//    window.location.href = baseUrl+'/index/'+pageName+params;
+    window.location.href = window.location.pathname+params;
 });
 
 function changeView(viewType) {
@@ -114,6 +115,13 @@ function changeView(viewType) {
                 $.each(response, function(id,value) {
                    count++;
                    var d = new Date(value.possession);
+                   if ($.inArray(parseInt(value.project_id), CompareProjectsArr) !== -1) {
+                       var chkboxClass = ' glyphicon-check';
+                       var addRemovetext = 'Remove from Compare';
+                    }else{
+                       var chkboxClass = ' glyphicon-unchecked'; 
+                       var addRemovetext = 'Add to Compare';
+                    }
                    var last = (count % 4 == 0) ? 'last' : '';
                    var floorPriceArr = new Array();
                    var floorSizeArr = new Array();
@@ -146,7 +154,7 @@ function changeView(viewType) {
                         pp++;  
                     });
                    
-                   str += '<div class="one_fourth_less '+last+'"> <a href="'+SITEROOT+'/projects-in-'+value.citySlug.toLowerCase()+'/'+value.projectSlug+'"><img src="'+SITEROOT+'/public/uploadfiles/'+value.project_image+'" alt="" /></a><h5><a href="'+SITEROOT+'/projects-in-'+value.citySlug.toLowerCase()+'/'+value.projectSlug+'">'+value.project_title+'</a> <em>'+value.city_name+', '+value.state_name+'</em></h5><div class="grid_type">'+bhkStr+' BHK ( '+value.min_floor_plan_size+' - '+value.max_floor_plan_size+' sq ft )<br><span class="grid_type_left_smltxt">Possession Date: '+monthNames[d.getMonth()]+' `'+d.getFullYear()+'</span></div><div class="grid_button"><div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> '+value.min_floor_plan_price+'</div><div class="grid_button_right cursor"><a onclick=\'addCompare('+value.project_id+')\'><span class="glyphicon '+chkboxClass+'" aria-hidden="true" id=\'compareCheckBox'+value.project_id+'\'></span> <span  id=\'compareText'+value.project_id+'\'>'+addRemovetext+'</span></a></div></div><div class="row projlistpg-compare-pad"><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" onclick="return getCallBAck('+value.project_id+',\''+value.project_title+'\')">GET CALL BACK</button></div></div>';  
+                   str += '<div class="one_fourth_less '+last+'"> <a href="'+SITEROOT+'/projects-in-'+value.citySlug.toLowerCase()+'/'+value.projectSlug+'"><img src="'+SITEROOT+'/public/uploadfiles/'+value.project_image+'" alt="" /></a><h5><a href="'+SITEROOT+'/projects-in-'+value.citySlug.toLowerCase()+'/'+value.projectSlug+'">'+value.project_title+'</a> <em>'+value.city_name+', '+value.state_name+'</em></h5><div class="grid_type">'+bhkStr+' BHK ( '+value.min_floor_plan_size+' - '+value.max_floor_plan_size+' sq ft )<br><span class="grid_type_left_smltxt">Possession Date: '+monthNames[d.getMonth()]+' `'+d.getFullYear()+'</span></div><div class="grid_button"><div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> '+value.min_floor_plan_price+'</div><div class="grid_button_right cursor"><a onclick=\'addRemoveCompare('+value.project_id+')\'><span class="glyphicon '+chkboxClass+'" aria-hidden="true" id=\'compareCheckBox'+value.project_id+'\'></span> <span  id=\'compareText'+value.project_id+'\'>'+addRemovetext+'</span></a></div></div><div class="row projlistpg-compare-pad"><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" onclick="return getCallBAck('+value.project_id+',\''+value.project_title+'\')">GET CALL BACK</button></div></div>';  
                    
                     if(count % 4 == 0 && count != response.length){ 
                         str += '<div style="border-bottom: 4px double #ccc;">&nbsp;</div>';
@@ -181,8 +189,7 @@ function changeView(viewType) {
                     });
                     str += '</tbody></table>';
                     var d = new Date(value.possession);
-                    
-                     if ($.inArray(parseInt(value.project_id), CompareProjectsArr) !== -1) {
+                    if ($.inArray(parseInt(value.project_id), CompareProjectsArr) !== -1) {
                        var chkboxClass = ' glyphicon-check';
                        var addRemovetext = 'Remove from Compare';
                     }else{
@@ -190,10 +197,7 @@ function changeView(viewType) {
                        var addRemovetext = 'Add to Compare';
                     }
     
-                    
-                    
-                    
-                    str += '</div></div><div class="col-md-2 insidepg-proj-builder"><div class="row insidepg-proj-builder-img" align="center"><a href="'+SITEROOT+'/builders/'+value.builderSlug+'"><img src="'+SITEROOT+'/public/uploadfiles/'+value.builder_image+'"  class="img-responsive"></a></div><div class="row insidepg-proj-builder-price text-center"><div class="proj-price-text"><span class="rupee">`</span>  '+value.min_floor_plan_price+' - <span class="rupee">`</span> '+value.max_floor_plan_price+'</div>POSSESSION '+monthNames[d.getMonth()]+' `'+d.getFullYear()+'</div><div class="clearfix"></div><div class="row projlistpg-compare-pad cursor" align="center"><a onclick=\'addCompare('+value.project_id+')\'><span class="glyphicon '+chkboxClass+'" aria-hidden="true" id=\'compareCheckBox'+value.project_id+'\'></span> <span  id=\'compareText'+value.project_id+'\'>'+addRemovetext+'</span></a></div><div class="row" align="center"><button type="button" class="btn btn-danger btn-sm" onclick="return getCallBAck('+value.project_id+',\''+value.project_title+'\')">GET CALL BACK</button></div></div></div></div>  ';
+                    str += '</div></div><div class="col-md-2 insidepg-proj-builder"><div class="row insidepg-proj-builder-img" align="center"><a href="'+SITEROOT+'/builders/'+value.builderSlug+'"><img src="'+SITEROOT+'/public/uploadfiles/'+value.builder_image+'"  class="img-responsive"></a></div><div class="row insidepg-proj-builder-price text-center"><div class="proj-price-text"><span class="rupee">`</span>  '+value.min_floor_plan_price+' - <span class="rupee">`</span> '+value.max_floor_plan_price+'</div>POSSESSION '+monthNames[d.getMonth()]+' `'+d.getFullYear()+'</div><div class="clearfix"></div><div class="row projlistpg-compare-pad cursor" align="center"><a onclick=\'addRemoveCompare('+value.project_id+')\'><span class="glyphicon '+chkboxClass+'" aria-hidden="true" id=\'compareCheckBox'+value.project_id+'\'></span> <span  id=\'compareText'+value.project_id+'\'>'+addRemovetext+'</span></a></div><div class="row" align="center"><button type="button" class="btn btn-danger btn-sm" onclick="return getCallBAck('+value.project_id+',\''+value.project_title+'\')">GET CALL BACK</button></div></div></div></div>  ';
                     
                     ii++; 
                     if(ii % 4 == 0 && ii != response.length){
@@ -226,7 +230,7 @@ function managePossession(value){
        allPossessionValues = strList;
    }
    $('#PossessionFilters').val(allPossessionValues);
-   return redirectUrl();
+   return redirectUrl(0);
 }
 function managePropertyType(value){
    var propertyTypeValues = $('#PropertyTypeFilters').val();
@@ -244,10 +248,10 @@ function managePropertyType(value){
         allPropertyTypeValues = strList;
     }
    $('#PropertyTypeFilters').val(allPropertyTypeValues);
-   return redirectUrl();
+   return redirectUrl(0);
 }
 function manageBudget(value){
-   var BudgetValues = $('#BudgetFilters').val();
+    var BudgetValues = $('#BudgetFilters').val();
     var allBudgetValues = '';
     if($('#budget_'+value).is(':checked')){
         allBudgetValues = (BudgetValues!='') ? BudgetValues+','+value : value;
@@ -261,8 +265,12 @@ function manageBudget(value){
         });
         allBudgetValues = strList;
     }
-   $('#BudgetFilters').val(allBudgetValues);
-   return redirectUrl();
+    
+//    
+//    alert(allBudgetValues);
+//    return false;
+    $('#BudgetFilters').val(allBudgetValues);
+    return redirectUrl(0);
 }
 function manageBedrooms(value){
    var BedroomValues = $('#BedroomFilters').val();
@@ -280,10 +288,10 @@ function manageBedrooms(value){
         allBedroomValues = strList;
     }
    $('#BedroomFilters').val(allBedroomValues);
-   return redirectUrl();
+   return redirectUrl(0);
 }
 
-function redirectUrl(){
+function redirectUrl(isMapview){
     var possessionValues        = $('#PossessionFilters').val();
     var propertyTypeValues      = $('#PropertyTypeFilters').val();
     var BudgetValues            = $('#BudgetFilters').val();
@@ -316,14 +324,20 @@ function redirectUrl(){
         paramStr += (paramCount==0)? '?bedroom='+BedroomValues : '&bedroom='+BedroomValues;
         paramCount++;
     }
-//    alert(baseUrl+'/index/project-list'+paramStr);    
+//    alert(paramStr);    
+//    return false;   
     var pageName = $('#pageName').val();
-    
-    window.location.href = window.location.pathname+paramStr;
-    
+    if(isMapview==1){
+        window.location.href = baseUrl+'/maps/projects'+paramStr;
+    }else{
+        if(isMapview==2)
+            window.location.href = projectListPage+paramStr;
+        else
+            window.location.href = window.location.pathname+paramStr;
+    }
     
 //    window.location.href = baseUrl+'/index/'+pageName+paramStr;
-    return false;
+    //return false;
 
 }
 
@@ -387,36 +401,4 @@ function redirectUrl(){
         $("."+ cl).hide();
         $("#" + t1).show();
     }
-    
-    function addCompare(project_id){
-        
-        if(project_id!==''){
-            
-            
-            
-            if ($.inArray(project_id, CompareProjectsArr) !== -1) {
-//        alert('found');
-//        return false;
-                $('#compareCheckBox'+project_id).removeClass('glyphicon-check').addClass('glyphicon-unchecked');
-                $('#compareText'+project_id).text('Add to Compare');
-                CompareProjectsArr.pop(project_id); 
-            }else{
-        
-//        alert('not found');
-//        return false;     
-                if(CompareProjectsArr.length > 2){
-                    alert('Maximum 3 projects can be compared');
-                    return false; 
-                }   
-                $('#compareCheckBox'+project_id).removeClass('glyphicon-unchecked').addClass('glyphicon-check');
-                $('#compareText'+project_id).text('Remove from Compare');
-                CompareProjectsArr.push(project_id);
-            }
-            
-            $.post(baseUrl + '/front-end/index/addcompare', {project_id: project_id,allCompareProjects:CompareProjectsArr}, function (response) {
-
-
-            },'json'); 
-            
-        }
-    }
+   

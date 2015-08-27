@@ -2657,7 +2657,7 @@ transition:height .35s ease
 	z-index:1000;
 	display:none;
 	float:left;
-	min-width:200px;
+	min-width: 240px;
 	padding:0px 0;
 	margin:2px 0 0;
 	font-size:12px;

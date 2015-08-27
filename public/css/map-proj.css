@@ -21,8 +21,7 @@
 .map-right{
 	height:100%;
 	overflow-y:scroll;
-	overflow-x:hidden;
-	padding-top:100px;
+	overflow-x:hidden;	
 	background-color: #e0e0e0;
 	-webkit-box-shadow: -1px 0px 5px 0px rgba(102,102,102,1);
 	-moz-box-shadow: -1px 0px 5px 0px rgba(102,102,102,1);
@@ -49,8 +48,8 @@
 .map-right h5{
  	color: inherit;
     font-family: inherit;
-    line-height: .8;
-	font-size:14px;
+    line-height: 1.2;
+	font-size:12px;
 	font-weight: 600;
 }
 .map-right em{
@@ -143,6 +142,11 @@
 }
 .map-proj-detail-tbl{
 	font-size:12px;
+	vertical-align:middle;
+}
+.map-proj-detail-tbl img{
+	width:20px;
+	height20px;
 }
 .map-proj-detail-tbl td{
 	padding:4px !important;

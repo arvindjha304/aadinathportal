@@ -472,8 +472,7 @@ margin-bottom:30px; color:#333; font-family: "Raleway",sans-serif;
  width:80%;
  float:left;
  font-size:14px;
- padding:6px 15px;
- border-bottom:1px solid #ddd;
+ padding:6px 15px; 
  font-family:Calibri;
  background-color: #fff; 
 }
@@ -482,8 +481,21 @@ margin-bottom:30px; color:#333; font-family: "Raleway",sans-serif;
  float:left;
  font-size:14px;
  padding:6px 12px;
- border-bottom:1px solid #ddd; 
 }
 .compare-dropdown-menu-remove-btn{
  color: #d9534f;
+}
+.compare-tbl-row {
+	width: 250px !important;
+	height: 150px !important;
+}
+.compare-tbl-row img{
+	width: 250px !important;
+	height: 135px !important;
+}
+.select-othr-proj{
+	border: 1px solid #ddd;
+	min-height:	620px !important;
+	background-color: #f9f9f9;
+	padding-top: 250px
 }
