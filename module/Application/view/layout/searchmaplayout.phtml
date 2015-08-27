@@ -1,4 +1,5 @@
-<?php $baseUrl = $this->basePath(); ?>
+<?php $baseUrl = $this->basePath();
+$projectToCompare = $this->routeHelper()->indexmodel()->getProjectToCompare(); ?>
 <!doctype html>
 <html lang="en-gb" class="no-js">
 <head>
@@ -80,13 +81,26 @@
     <div class="magicsearch-results" id="inputSearchResults"></div>
     </ul>
       <ul class="nav navbar-nav navbar-right">
-       <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-unchecked"></span> COMPARE <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">           
-            <li class="divider"></li>
-            <li><a href="#">1</a></li>
-            <li class="divider"></li>
-            <li><a href="#">2</a></li>
+       <li class="dropdown openCompare">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-unchecked"></span> COMPARE (<span id="countCompare"><?php echo count($projectToCompare)?></span>)<span class="caret"></span></a>
+          <ul class="dropdown-menu compareProjectsList" role="menu">
+            <?php if(count($projectToCompare)){ ?>
+            <?php foreach($projectToCompare as $projectCompare){ ?>
+            <li>
+                <div class="col-md-12" style="border-bottom: 1px solid #ddd;">
+                <div class="compare-dropdown-menu"><a href="<?php echo $baseUrl?>/projects/<?php echo $projectCompare['projectSlug']?>"><?php echo $projectCompare['project_title']; ?></a></div>
+                <div onclick="addRemoveCompare(<?php echo $projectCompare['id']?>,1)" class="cursor compare-dropdown-menu-remove"><a  class="compare-dropdown-menu-remove-btn"><span class="glyphicon glyphicon-remove-circle"></span></a></div>
+                </div>
+            </li>
+            <?php }?>
+            <li><button type="button" <?php if(count($projectToCompare)<2) echo 'disabled'; ?> class="btn btn-danger btn-xs" style="width:100%;" onclick="window.location.href='<?php echo $baseUrl?>/compare-projects'">Compare</button></li>
+            <?php }else{ ?>
+            <li>
+                <div class="col-md-12" style="border-bottom: 1px solid #ddd;">
+                <div class="compare-dropdown-menu">No Project Selected</div>
+                </div>
+            </li>
+            <?php }?>
           </ul>
         </li>       
         <li><a href="#" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-user"></span> LOG IN</a></li>             
@@ -103,3 +117,5 @@
   <?php echo $this->layout()->content; ?>
 </body>
 </html>
+
+<script src="<?php echo $baseUrl;?>/public/projectScripts/index/compareProjects.js" type="text/javascript"></script> 
