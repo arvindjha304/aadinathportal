@@ -11,6 +11,7 @@
    <div class="buy-form-inside">
    
    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+       
        <form action="" method="post" id="buyform">
       <ul class="nav navbar-nav">
         <li><div style="color:#777; padding-top:18px; margin-right:5px; margin-left:0px;">FIND YOUR PROPERTY :</div></li>  
@@ -58,8 +59,57 @@
         </li>   
         <li class="buy-box-last" style="padding-top:14px; padding-left:5px; margin-left:2%;"><input onclick="return buySubmit()" type="submit" class="btn btn-danger" value="Search"/></li> 
       </ul>
-     <!--right---> 
+     
       </form>
+<!--       <form action="" method="post" id="buyform">
+      <ul class="nav navbar-nav" style="width:100%;">        
+        <li class="buy-box-last" style="padding-top:14px; width:24%; margin-left:2%;">
+          <select name="cities" id="cities" class="form-control" style="padding-left:30%; background:url(<?php echo $baseUrl;?>/public/images/city.png) 5% 50% no-repeat;">
+            <option value="">Select City</option>
+                            <option>Noida</option>
+                            <option>Noida</option>
+                            <option>Noida</option>
+                            <option>Noida</option>
+                      </select>
+          
+        </li>   
+        <li class="dropdown buy-box-last" style="padding-top:14px; width:25%; margin-left:2%;">
+          <select name="propcategory" id="propcategory" class="form-control" style="padding-left:30%; background:url(<?php echo $baseUrl;?>/public/images/building.png) 5% 50% no-repeat;"> 
+                            <option value="1">Residential Properties</option>
+                            <option value="2">Commercial Properties</option>
+                            <option value="3">Plots Properties</option>
+                            <option value="4">Studio Apartments</option>
+                      </select>          
+        </li>   
+        
+        <li class="dropdown buy-box-last" style="padding-top:14px; width:14%; margin-left:2%;">
+          <select name="minprice" id="minprice" class="form-control" style="padding-left:35%; background:url(<?php echo $baseUrl;?>/public/images/rupees.png) 5% 50% no-repeat;">
+            <option>0</option>
+            <option value="2500000">25.0Lacs +</option>
+            <option value="5000000">50.0Lacs +</option> 
+            <option value="10000000">1.0Cr +</option> 
+            <option value="15000000">1.5Cr +</option> 
+            <option value="2000000">2.0Cr +</option> 
+            <option value="3000000">3.0Cr +</option> 
+          </select>
+          
+        </li>   
+        
+       
+        <li class="dropdown buy-box-last" style="padding-top:14px; width:14%; margin-left:2%;">
+          <select name="maxprice" id="maxprice" class="form-control" style="padding-left:35%; background:url(<?php echo $baseUrl;?>/public/images/rupees.png) 5% 50% no-repeat;">
+            <option value="35000000">3.5Cr +</option>
+            <option value="40000000">4.0Cr +</option> 
+            <option value="45000000">4.5Cr +</option> 
+            <option value="50000000">5.0Cr +</option> 
+            <option value="60000000">6.0Cr +</option> 
+            <option value="70000000">7.0Cr +</option> 
+        </select>
+          
+        </li>   
+        <li class="buy-box-last" style="padding-top:14px; padding-left:5px; margin-left:2%;"><input onClick="return buySubmit()" type="submit" class="btn btn-danger" value="Search"/></li> 
+      </ul>
+      </form> -->
     </div>
    </div>
    </div>

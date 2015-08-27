@@ -32,6 +32,7 @@
             <li><a style="cursor:default;"><input type="checkbox" onchange="managePossession('upto9month')" id="upto9month" value="upto9month" class="cursor"><span id="text_upto9month" > Upto 9 Months</span></a></li>                  
           </ul>
         </li>
+        <?php if(count($this->propertyTypeArr)){ ?>
         <li class="dropdown">
           <a class="dropdown-toggle cursor" data-toggle="dropdown" role="button" aria-expanded="false" id="propertyTypeFilter">Property Type <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
@@ -41,6 +42,8 @@
              <?php  }?>         
           </ul>
         </li>
+        <?php } ?>    
+        
         <li class="dropdown">
           <a class="dropdown-toggle cursor" data-toggle="dropdown" role="button" aria-expanded="false" id="budgetFilter">Budget <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
@@ -68,7 +71,7 @@
       <ul class="nav navbar-nav navbar-right"> 
         <li><a onclick="changeView('list')" class="cursor"><span class="glyphicon glyphicon-th-list"></span> LIST</a></li>       
         <li><a onclick="changeView('grid')" class="cursor"><span class="glyphicon glyphicon-th-large"></span> GRID</a></li>
-             
+        <li><a onclick="redirectUrl(1)" class="cursor"><span class="glyphicon glyphicon-map-marker"></span> MAP</a></li>    
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
@@ -157,7 +160,12 @@
             <div class="row insidepg-proj-builder-price text-center"><div class="proj-price-text"><span class="rupee">`</span>  <?php echo $searchResult['min_floor_plan_price'];?> - <span class="rupee">`</span> <?php echo $searchResult['max_floor_plan_price'];?></div> POSSESSION <?php echo date('M', strtotime($searchResult['possession']))?> `<?php echo date('Y', strtotime($searchResult['possession']))?></div>     
               <div class="clearfix"></div> 
               
-              <div class="row projlistpg-compare-pad cursor" align="center"><a onclick='addCompare(<?php echo $searchResult["project_id"];?>)'><span class="glyphicon<?php if(!in_array($searchResult['project_id'],$allCompareProjects)) {echo ' glyphicon-unchecked';} else {echo ' glyphicon-check';}?>" aria-hidden="true" id='compareCheckBox<?php echo $searchResult["project_id"];?>'></span> <span  id='compareText<?php echo $searchResult["project_id"];?>'><?php if(!in_array($searchResult['project_id'],$allCompareProjects)) {echo 'Add to Compare';} else {echo 'Remove from Compare';}?></span></a></div>
+              
+    <!--          <a href="#" data-toggle="tooltip" title="Maximum 3 Projects"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> Add to Compare</a>-->
+              
+              
+              
+              <div class="row projlistpg-compare-pad cursor" align="center"><a onclick='addRemoveCompare(<?php echo $searchResult["project_id"];?>)'><span class="glyphicon<?php if(!in_array($searchResult['project_id'],$allCompareProjects)) {echo ' glyphicon-unchecked';} else {echo ' glyphicon-check';}?>" aria-hidden="true" id='compareCheckBox<?php echo $searchResult["project_id"];?>'></span> <span  id='compareText<?php echo $searchResult["project_id"];?>'><?php if(!in_array($searchResult['project_id'],$allCompareProjects)) {echo 'Add to Compare';} else {echo 'Remove from Compare';}?></span></a></div>
               
               
             <!--<a href="#"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Remove from Compare</a>-->
@@ -228,7 +236,7 @@
             <div class="grid_button">
             <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> <?php  echo $searchResult['min_floor_plan_price']?></div>
             <div class="grid_button_right cursor">
-                <a onclick='addCompare(<?php echo $searchResult["project_id"];?>)'><span class="glyphicon<?php if(!in_array($searchResult['project_id'],$allCompareProjects)) {echo ' glyphicon-unchecked';} else {echo ' glyphicon-check';}?>" aria-hidden="true" id='compareCheckBox<?php echo $searchResult["project_id"];?>'></span> <span  id='compareText<?php echo $searchResult["project_id"];?>'><?php if(!in_array($searchResult['project_id'],$allCompareProjects)) {echo 'Add to Compare';} else {echo 'Remove from Compare';}?></span></a>
+                <a onclick='addRemoveCompare(<?php echo $searchResult["project_id"];?>)'><span class="glyphicon<?php if(!in_array($searchResult['project_id'],$allCompareProjects)) {echo ' glyphicon-unchecked';} else {echo ' glyphicon-check';}?>" aria-hidden="true" id='compareCheckBox<?php echo $searchResult["project_id"];?>'></span> <span  id='compareText<?php echo $searchResult["project_id"];?>'><?php if(!in_array($searchResult['project_id'],$allCompareProjects)) {echo 'Add to Compare';} else {echo 'Remove from Compare';}?></span></a>
             </div>
             </div>
             <div class="row projlistpg-compare-pad"><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" onclick="return getCallBAck('<?php echo $searchResult['project_id']?>','<?php echo $searchResult['project_title']?>')">GET CALL BACK</button></div>
@@ -262,6 +270,13 @@
   
 </div>
   <script>
+   $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+
+
+   var projectListPage = window.location.pathname;
    function shuffleProjectBanner(){
         
         <?php $container = new Zend\Session\Container('searchSessionFields');
@@ -279,7 +294,7 @@
             CompareProjectsArr.push(<?php echo $projects;?>);
     <?php }} ?>
   </script>
-<script src="<?php echo $baseUrl;?>/public/projectScripts/index/project_list_grid.js" type="text/javascript"></script>
+
 <script src="<?php echo $baseUrl;?>/public/js/jquery.mousewheel.js" type="text/javascript"></script>
 
 <script>
@@ -304,6 +319,6 @@ $(document).mousewheel(function(event, delta) {
 </script>
  
 
-
-  
+<script src="<?php echo $baseUrl;?>/public/projectScripts/index/project_list_grid.js" type="text/javascript"></script>
+<script src="<?php echo $baseUrl;?>/public/projectScripts/index/compareProjects.js" type="text/javascript"></script> 
   

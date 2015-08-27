@@ -1,0 +1,173 @@
+<?php $baseUrl = $this->basePath(); ?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script language="javascript" type="text/javascript" src="<?php echo $baseUrl;?>/public/zoom/js/jquery.lightbox-0.5.js"></script>
+<script src="<?php echo $baseUrl;?>/public/projectScripts/index/compareProjects.js" type="text/javascript"></script>
+<div class="content_fullwidth">
+<div class="container">
+	<div class="margin_top12"></div>
+    <div class="page-header row">
+  <div class="clearfix"></div>  
+  <h3>Compare Projects</h3></div>
+	
+	    
+    <div class="pritable ltp">
+	    <div class="row">
+        	<div class="col-md-3">
+                    <div class="bs-example" data-example-id="table-bordered">
+                        <table class="table table-bordered">                         
+                          <tbody>
+                          <tr>
+                          	<td class="compare-tbl-row text-center">
+                            <div class="bs-example bs-example-images" data-example-id="image-shapes">     
+    <span class="glyphicon glyphicon-check fa-3x" aria-hidden="true"></span><br>
+    <h3>Compare<br>Projects</h3>
+  </div>
+                            </td>
+                          </tr>
+                         	 <tr>                              
+                              <th><h4>PROJECT DETAIL</h4></th>                             
+                            </tr>
+                          	<tr>                             
+                              <th>Builder</th>                              
+                            </tr>
+                            <tr>                              
+                              <th>Project</th>                              
+                            </tr>
+                            <tr>                              
+                              <th>Location</th>                              
+                            </tr>
+                            <tr>                              
+                              <th>Project Status</th>                             
+                            </tr>
+                             <tr>                              
+                              <th>Possession Date</th>                             
+                            </tr>
+                            <tr>                              
+                              <th>&nbsp;</th>                             
+                            </tr>
+                            <tr>                              
+                              <th><h4>PROJECT UNIT DETAIL</h4></th>                             
+                            </tr>
+                            <tr>                              
+                              <th>Property Type</th>                             
+                            </tr>
+                             <tr>                              
+                              <th>Area</th>                             
+                            </tr>
+                            <tr>                              
+                              <th>Total Price</th>                             
+                            </tr>
+                            <tr>                              
+                              <th>Floor Plan</th>                             
+                            </tr>                           
+                          </tbody>
+                        </table>
+          			</div>
+            </div>
+            
+            
+            <?php $ii=1;
+            foreach($this->compPrjArr as $project){?>
+                <div class="col-md-3">
+            <div class="bs-example" data-example-id="table-bordered">
+                        <table class="table table-bordered">                         
+                          <tbody>
+                          <tr>
+                          	<td class="compare-tbl-row"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $project[0]['project_image']?>"></td>
+                          </tr>
+                          <tr>                              
+                              <td><h4>&nbsp;</h4></td>                             
+                            </tr>
+                          <tr>                             
+                              <td><?php echo $project[0]['builder_name']?></td>                              
+                            </tr>
+                            <tr>                              
+                              <td><?php echo $project[0]['project_title']?></td>                              
+                            </tr>
+                            <tr>                              
+                              <td><?php echo $project[0]['location_name']?>, <?php echo $project[0]['city_name']?></td>                              
+                            </tr>
+                            <tr>                              
+                              <td><?php if($project[0]['project_status']==1) echo 'Under Construction'; else echo 'Completed';?></td>  
+                            </tr>
+                             <tr>                              
+                              <td><?php echo date('M', strtotime($project[0]['possession']))?> `<?php echo date('Y', strtotime($project[0]['possession']))?></td>                             
+                            </tr>
+                            <tr>                              
+                              <td>&nbsp;</td>                             
+                            </tr>
+                            <tr>                              
+                              <td><h4>&nbsp;</h4></td>                             
+                            </tr>
+                            <tr>                              
+                              <td>
+                                  <select class="form-control" style="padding:0px; border:none; height:19px;" onchange="return floorPlanInfo(this.value,<?php echo $ii;?>,<?php echo $project[0]['project_id'];?>)">
+                                      <?php
+                                        $bhkArray = [];
+                                        if($project[0]['has_1BHK']==1)
+                                           $bhkArray[] = 1;
+                                        if($project[0]['has_2BHK']==1)
+                                           $bhkArray[] = 2;
+                                        if($project[0]['has_3BHK']==1)
+                                           $bhkArray[] = 3;
+                                        if($project[0]['has_4BHK']==1)
+                                           $bhkArray[] = 4;
+                                        if($project[0]['has_5BHK']==1)
+                                           $bhkArray[] = 5;
+                                      ?>
+                                      <option value=""><?php echo implode(',',$bhkArray)?> BHK</option>
+                                      <?php foreach($project['getProjectFloorPlan'] as $projectFloorPlan){?>
+                                      <option value='<?php echo $projectFloorPlan['id'];?>'><?php echo $projectFloorPlan['plan_type'];?> (<?php echo $projectFloorPlan['size'];?> sq ft)</option>
+                                      <?php }?>
+              					  </select>
+                              </td>                             
+                            </tr>
+                             <tr>                              
+                              <td id='area_<?php echo $ii?>'><?php echo $project['maxMinFloorSize']['minFloorSize']?> - <?php echo $project['maxMinFloorSize']['maxFloorSize']?> sq ft</td>                             
+                            </tr> 
+                            <tr>                              
+                              <td><span class="rupee">`</span> <span id='totalPrice_<?php echo $ii?>'><?php echo $project['min_floor_plan_price']?> - <?php echo $project['max_floor_plan_price']?></span> </td>                             
+                            </tr> 
+                            <tr>                              
+                              <td id='floorPlanCount_<?php echo $ii?>'><?php echo count($project['getProjectFloorPlan'])?> Floor Plan</td>
+                            </tr>                            
+                          </tbody>
+                        </table>
+          			</div>
+            </div>
+            <?php $ii++; }?>
+            <?php if(count($this->compPrjArr)==2){ ?>
+            <div class="col-md-3">            	
+            		<div class="col-md-12 text-center select-othr-proj">
+                        <div class="row margin_bottom2"><h4>Select<br>Other Project !!!</h4></div>
+                        <div class="row"><button type="button" class="btn btn-danger btn-sm" onclick="history.back();">Select Project</button></div>
+                    </div>           	                	 
+            </div>
+            <?php }?>
+        </div>
+    </div><!-- end section -->
+    
+</div>    
+
+<div class="clearfix"></div>
+</div>
+
+<!--	<script language="javascript" type="text/javascript" src="zoom/js/jquery.js"></script>	-->
+	<script type="text/javascript">
+//        $('.gallery a').lightBox();
+//		$('.gallery a.yo').lightBox();
+
+
+//        $(function() {
+	$(document).ready(function() {
+        $('.gallery a').lightBox();
+		//$('#gallery2 a').lightBox();
+		$('.gallery a.yo').lightBox();
+		//$('#gallery4 a.down').lightBox();
+		//$('#gallery5 a.me').lightBox();
+		
+    });
+//    });
+
+</script>

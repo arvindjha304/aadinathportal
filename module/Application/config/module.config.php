@@ -193,6 +193,26 @@ return array(
                         )
                     )
                 ),
+                'maps' => array(
+                    'type' => 'literal',
+                    'options' => array(
+                        'route'    => '/maps/projects',
+                        'defaults' => array(
+                            'controller' => 'Application\Controller\Index',
+                            'action'     => 'mapsearch',
+                        ),
+                    ),
+                ),
+                'compare-projects' => array(
+                    'type' => 'literal',
+                    'options' => array(
+                        'route'    => '/compare-projects',
+                        'defaults' => array(
+                            'controller' => 'Application\Controller\Index',
+                            'action'     => 'compare-project',
+                        ),
+                    ),
+                ),
             ),
 		),
 		'service_manager' => array(

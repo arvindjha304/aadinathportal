@@ -8,6 +8,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Where;
+use Zend\Session\Container;
 
 use Zend\Mail;
 use Zend\Mime\Message as MimeMessage;
@@ -236,6 +237,7 @@ use Zend\Mime\Part as MimePart;
             $possessionArr = explode(',',$possession);
 //            echo '<pre>';print_r($possessionArr);exit;
             $currntDate = date('Y-m-d');
+            $maxPossessionDate = '';
             if(in_array('upto9month', $possessionArr))
               $maxPossessionDate = date('Y-m-d', strtotime("+9 months", strtotime($currntDate))); 
             elseif(in_array('upto6month', $possessionArr))
@@ -244,7 +246,7 @@ use Zend\Mime\Part as MimePart;
               $maxPossessionDate = date('Y-m-d', strtotime("+3 months", strtotime($currntDate)));
             elseif(in_array('readyToMoveIn', $possessionArr))
               $maxPossessionDate = date('Y-m-d', strtotime("+2 months", strtotime($currntDate)));
-            
+            if($maxPossessionDate!='')
             $where .= "  and prj.possession between '$currntDate' and '$maxPossessionDate' ";
         }
         if($propertyType!=''){
@@ -658,7 +660,21 @@ use Zend\Mime\Part as MimePart;
         })->toArray();
         return $select;
     }
-	
+	function getProjectToCompare(){
+        
+        $container       = new Container('compareProjects');
+        $toCompareProjects = $container->allCompareProjects;
+        $select = [];
+        if(count($toCompareProjects)){
+            $table = new TableGateway('projects',$this->getAdapter());
+            $select = $table->select(function($select) use($toCompareProjects){
+                $select->columns(['id','project_title','projectSlug']);
+                $select->where->in('id',$toCompareProjects);   
+            })->toArray();
+        }
+//        echo '<pre>';print_r($select);exit;
+        return $select;
+    }
 	
     
 }

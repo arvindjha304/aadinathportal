@@ -126,11 +126,13 @@ class IndexController extends AbstractActionController
         $view->setVariable('budget',(isset($refineSearchArr['budget'])) ? $refineSearchArr['budget'] : '');
         $view->setVariable('bedroom',(isset($refineSearchArr['bedroom'])) ? $refineSearchArr['bedroom'] : '');
 //        echo '<pre>';print_r($refineSearchArr);exit;
+        
         $table = new TableGateway('property_type',$this->getAdapter());
         $propertyTypeArr = $table->select(array('property_category_id'=>$propcategory_id,'is_active'=>1))->toArray(); 
         $view->setVariable('propertyTypeArr', $propertyTypeArr);
         $searchResultArr = $model->searchResultData($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr);
         $view->setVariable('searchResultArr', $searchResultArr);
+//        echo '111';exit;
 //       echo '<pre>';print_r($searchResultArr);exit;        
         return $view;
 }
@@ -266,6 +268,32 @@ class IndexController extends AbstractActionController
     {
         $view = new ViewModel();
         $this->layout('layout/searchmaplayout');
+        $container = new Container('searchSessionFields');
+        
+        $city_id         = (is_numeric($container->cities)) ? $container->cities : '';
+        $propcategory_id = (is_numeric($container->propcategory)) ? $container->propcategory : '';
+        $minprice        = (is_numeric($container->minprice)) ? $container->minprice : '';
+        $maxprice        = (is_numeric($container->maxprice)) ? $container->maxprice : '';
+        $refineSearchArr = $this->params()->fromQuery();
+//        echo '<pre>';print_r($container);exit;
+        $view->setVariable('cityName',$this->getModel()->getCityName($city_id));
+        $view->setVariable('viewType',$container->viewType);
+        $view->setVariable('possession',(isset($refineSearchArr['possession'])) ? $refineSearchArr['possession'] : '');
+        $view->setVariable('propertyType',(isset($refineSearchArr['propertyType'])) ? $refineSearchArr['propertyType'] : '');
+        $view->setVariable('budget',(isset($refineSearchArr['budget'])) ? $refineSearchArr['budget'] : '');
+        $view->setVariable('bedroom',(isset($refineSearchArr['bedroom'])) ? $refineSearchArr['bedroom'] : '');
+//        echo '<pre>';print_r($refineSearchArr);exit;
+        $table = new TableGateway('property_type',$this->getAdapter());
+        $propertyTypeArr = $table->select(array('property_category_id'=>$propcategory_id,'is_active'=>1))->toArray(); 
+        $view->setVariable('propertyTypeArr', $propertyTypeArr);
+        $searchResultArr = $this->getModel()->searchResultData($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr);
+        
+        
+//        echo '<pre>';print_r($searchResultArr);exit;
+        
+        $view->setVariable('searchResultArr', $searchResultArr);
+        $view->setVariable('searchResultJsonArr', json_encode($searchResultArr));
+//       echo '<pre>';print_r($searchResultArr);exit;  
         return $view;
     }
     public function projectSearchAction()
@@ -280,14 +308,66 @@ class IndexController extends AbstractActionController
             $projectId       = $this->params()->fromPost('project_id');
             $container       = new Container('compareProjects');
             $container->allCompareProjects   = $this->params()->fromPost('allCompareProjects');
-            
-            
-                       echo '<pre>';print_r($container->allCompareProjects);exit;
-            
-            $prjDetail      = $this->getModel()->getProjectFromId($projectId);
-            $returnArr      = ['id'=>$prjDetail[0]['id'],'project_title'=>$prjDetail[0]['project_title'],'projectSlug'=>$prjDetail[0]['projectSlug']];
-            exit(json_encode($returnArr)); 
+            $prjArr = $this->getModel()->getProjectToCompare();
+            exit(json_encode($prjArr)); 
         }
     }
     
+    public function getprojectinfoAction(){
+        if($this->getRequest()->isXmlHttpRequest()){
+            $projectId      = $this->params()->fromPost('project_id');
+            $projectDetail  = $this->getModel()->getProjectDetail($projectId);
+            $amenitiesArr   = $this->getModel()->getProjectAmenities($projectDetail['amenities']);
+            $max_floor_plan = $this->getModel()->max_floor_plan_price($projectDetail['project_id']);
+            $min_floor_plan = $this->getModel()->min_floor_plan_price($projectDetail['project_id']); 
+            $min_floor_plan_price = $this->getModel()->min_floor_plan_price($projectId,'','');
+            exit(json_encode(['projectDetail'=>$projectDetail,'amenitiesArr'=>$amenitiesArr,'max_floor_plan'=>$max_floor_plan,'min_floor_plan'=>$min_floor_plan,'min_floor_plan_price'=>$min_floor_plan_price,]));
+        }
+        
+    }
+    public function compareProjectAction(){
+        
+        $container       = new Container('compareProjects');
+        $view = new ViewModel();
+        $this->layout('layout/innerlayout');
+        $toCompareProjects = $container->allCompareProjects;
+        $compPrjArr = [];
+        foreach($toCompareProjects as $project_id){
+            $tempArr = [];
+            $projectDetail = $this->getModel()->getProjectDetail($project_id);
+            $tempArr[] = $projectDetail;
+            $tempArr['maxMinFloorSize'] = $this->getModel()->maxMinFloorSize($project_id);
+            $tempArr['max_floor_plan_price'] = $this->getModel()->max_floor_plan_price($project_id);
+            $tempArr['min_floor_plan_price'] = $this->getModel()->min_floor_plan_price($project_id);
+            $tempArr['getProjectFloorPlan'] = $this->getModel()->getProjectFloorPlan($project_id);
+            $compPrjArr[] = $tempArr;
+            
+        }
+//         echo '<pre>';print_r($compPrjArr);exit;
+        $view->setVariable('compPrjArr', $compPrjArr);
+        return $view;
+    }
+    
+    public function getFloorPlanInfoAction(){
+        if($this->getRequest()->isXmlHttpRequest()){
+            $project_id  = $this->params()->fromPost('project_id');
+            $floorPlanId = $this->params()->fromPost('floorPlanId');
+            $tempArr = [];
+            if($floorPlanId==''){
+                $tempArr['maxMinFloorSize'] = $this->getModel()->maxMinFloorSize($project_id);
+                $tempArr['max_floor_plan_price'] = $this->getModel()->max_floor_plan_price($project_id);
+                $tempArr['min_floor_plan_price'] = $this->getModel()->min_floor_plan_price($project_id);
+                $allFloorPlan     = $this->getModel()->getProjectFloorPlan($project_id);
+                $tempArr['countFloorPlan']     = count($allFloorPlan);
+            }else{
+                $table = new TableGateway('project_floor_plan',$this->getAdapter());
+                
+                $floorPlanDetail = $table->select(array('id'=>$floorPlanId))->toArray();
+//                exit(json_encode($floorPlanDetail));
+                $tempArr['floorPlanDetail'] = $floorPlanDetail[0];
+                //echo '<pre>';print_r($tempArr['floorPlanDetail']);exit;
+            }
+            exit(json_encode($tempArr));
+        }
+    }
 }
