@@ -132,7 +132,6 @@
                             <td><?php echo $floor_plan['min_size']; if(count($floor_plan['floor_plan_list'])>1) { echo ' - '.$floor_plan['max_size'];}      echo ' '.$floor_plan['size_unit']; ?></td>
             <td><span class="rupee">`</span> <?php echo $floor_plan['min_price'];if(count($floor_plan['floor_plan_list'])>1) {?> - <span class="rupee">`</span> <?php echo $floor_plan['max_price']; }?></td>
                         </tr>
-                        
                         <?php if(count($floor_plan['floor_plan_list'])){?>
                             <tr class="subrow<?php echo $searchResult["project_id"].$pp;?> hide-row-bg" onClick="hideRow('subrow<?php echo $searchResult["project_id"].$pp;?>','head<?php echo $searchResult["project_id"].$pp;?>');" style="cursor:pointer;display:none;">
                                 <td><?php echo $floor_plan['BHK'];?> Bedroom &nbsp;<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td>
@@ -150,26 +149,22 @@
                     }?>  
                     </tbody>
                 </table>
-    <!--<div class="view-more-tabl">
-    <a href="#">Veiw 1 More <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>
-    </div>    -->   
               </div>
               </div>
               <div class="col-md-2 insidepg-proj-builder">
               <div class="row insidepg-proj-builder-img" align="center"><a href="<?php echo $baseUrl;?>/builders/<?php echo $searchResult['builderSlug']?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $searchResult['builder_image']?>"  class="img-responsive"></a></div>
             <div class="row insidepg-proj-builder-price text-center"><div class="proj-price-text"><span class="rupee">`</span>  <?php echo $searchResult['min_floor_plan_price'];?> - <span class="rupee">`</span> <?php echo $searchResult['max_floor_plan_price'];?></div> POSSESSION <?php echo date('M', strtotime($searchResult['possession']))?> `<?php echo date('Y', strtotime($searchResult['possession']))?></div>     
               <div class="clearfix"></div> 
+              <div class="row projlistpg-compare-pad cursor" align="center" id="addCompareDiv_<?php echo $searchResult['project_id'];?>">
+                <?php if(!in_array($searchResult['project_id'],$allCompareProjects)) { ?>
+                
+                  <a class="addToCompare" data-toggle="tooltip" title="Maximum 3 Projects" onclick='addRemoveCompare(<?php echo $searchResult["project_id"];?>)'><span class="glyphicon glyphicon-unchecked" aria-hidden="true" ></span> Add to Compare</a>
               
-              
-    <!--          <a href="#" data-toggle="tooltip" title="Maximum 3 Projects"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> Add to Compare</a>-->
-              
-              
-              
-              <div class="row projlistpg-compare-pad cursor" align="center"><a onclick='addRemoveCompare(<?php echo $searchResult["project_id"];?>)'><span class="glyphicon<?php if(!in_array($searchResult['project_id'],$allCompareProjects)) {echo ' glyphicon-unchecked';} else {echo ' glyphicon-check';}?>" aria-hidden="true" id='compareCheckBox<?php echo $searchResult["project_id"];?>'></span> <span  id='compareText<?php echo $searchResult["project_id"];?>'><?php if(!in_array($searchResult['project_id'],$allCompareProjects)) {echo 'Add to Compare';} else {echo 'Remove from Compare';}?></span></a></div>
-              
-              
-            <!--<a href="#"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Remove from Compare</a>-->
-              
+                <?php }else{?>  
+                  
+              <a onclick='addRemoveCompare(<?php echo $searchResult["project_id"];?>)'><span class="glyphicon glyphicon-check" aria-hidden="true" ></span> Remove from Compare</a>
+                <?php }?>
+              </div>
               <div class="row" align="center"><button type="button" class="btn btn-danger btn-sm" onclick="return getCallBAck('<?php echo $searchResult['project_id']?>','<?php echo $searchResult['project_title']?>')">GET CALL BACK</button></div>
               </div>
               </div>
@@ -235,8 +230,22 @@
             </div>
             <div class="grid_button">
             <div class="grid_button_left"> <span class="grid_button_left_smltxt">STARTING PRICE</span><br> <span class="rupee">`</span> <?php  echo $searchResult['min_floor_plan_price']?></div>
-            <div class="grid_button_right cursor">
-                <a onclick='addRemoveCompare(<?php echo $searchResult["project_id"];?>)'><span class="glyphicon<?php if(!in_array($searchResult['project_id'],$allCompareProjects)) {echo ' glyphicon-unchecked';} else {echo ' glyphicon-check';}?>" aria-hidden="true" id='compareCheckBox<?php echo $searchResult["project_id"];?>'></span> <span  id='compareText<?php echo $searchResult["project_id"];?>'><?php if(!in_array($searchResult['project_id'],$allCompareProjects)) {echo 'Add to Compare';} else {echo 'Remove from Compare';}?></span></a>
+            <div class="grid_button_right cursor" id="addCompareDiv_<?php echo $searchResult['project_id'];?>">
+                
+                <?php if(!in_array($searchResult['project_id'],$allCompareProjects)) { ?>
+                
+                  <a class="addToCompare" data-toggle="tooltip" title="Maximum 3 Projects" onclick='addRemoveCompare(<?php echo $searchResult["project_id"];?>)'><span class="glyphicon glyphicon-unchecked" aria-hidden="true" ></span> Add to Compare</a>
+              
+                <?php }else{?>  
+                  
+              <a onclick='addRemoveCompare(<?php echo $searchResult["project_id"];?>)'><span class="glyphicon glyphicon-check" aria-hidden="true" ></span> Remove from Compare</a>
+                <?php }?>
+                
+    <!--            <a onclick='addRemoveCompare(<?php echo $searchResult["project_id"];?>)'><span class="glyphicon<?php if(!in_array($searchResult['project_id'],$allCompareProjects)) {echo ' glyphicon-unchecked';} else {echo ' glyphicon-check';}?>" aria-hidden="true" id='compareCheckBox<?php echo $searchResult["project_id"];?>'></span> <span  id='compareText<?php echo $searchResult["project_id"];?>'><?php if(!in_array($searchResult['project_id'],$allCompareProjects)) {echo 'Add to Compare';} else {echo 'Remove from Compare';}?></span></a>-->
+                
+                
+                
+                
             </div>
             </div>
             <div class="row projlistpg-compare-pad"><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" onclick="return getCallBAck('<?php echo $searchResult['project_id']?>','<?php echo $searchResult['project_title']?>')">GET CALL BACK</button></div>
@@ -271,11 +280,8 @@
 </div>
   <script>
    $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
-
-
-
+    $('[data-toggle="tooltip"]').tooltip()
+   })
    var projectListPage = window.location.pathname;
    function shuffleProjectBanner(){
         
