@@ -168,6 +168,10 @@ class IndexController extends AbstractActionController
         $view->setVariable('projectDetail', $projectDetail);
         $floor_plans = $model->getProjectFloorPlan($id);
         $view->setVariable('floor_plans', $floor_plans);
+        
+        
+//        echo '<pre>';print_r($floor_plans);exit;
+        
         $max_floor_plan = $this->getModel()->max_floor_plan_price($projectDetail['project_id']);
         $min_floor_plan = $this->getModel()->min_floor_plan_price($projectDetail['project_id']);                
         $view->setVariable('max_floor_plan', $max_floor_plan);       
@@ -180,13 +184,14 @@ class IndexController extends AbstractActionController
         $view->setVariable('totalProject', $countProjects['totalProject']);
         $view->setVariable('ongoingProject', $countProjects['ongoingProject']);
 //         echo '<pre>';print_r($floor_plans);exit;
-        $floorSizeArr = $floorPriceArr = array();
-        foreach($floor_plans as $floor_plan){
-            $floorSizeArr[] = $floor_plan['size'];
-            $floorPriceArr[] = $floor_plan['price'];
-        }
-        $view->setVariable('floorSizeArr', $floorSizeArr);
-        $view->setVariable('floorPriceArr', $floorPriceArr);
+        $maxMinFloorSize = $this->getModel()->maxMinFloorSize($projectDetail['project_id'],'','');
+//        $floorSizeArr = $floorPriceArr = array();
+//        foreach($floor_plans as $floor_plan){
+//            $floorSizeArr[] = $floor_plan['size'];
+//            $floorPriceArr[] = $floor_plan['price'];
+//        }
+//        $view->setVariable('floorSizeArr', $floorSizeArr);
+        $view->setVariable('maxMinFloorSize', $maxMinFloorSize);
         return $view;
     }
     

@@ -120,9 +120,7 @@
   <span class="proj-price-text"><span class="rupee">`</span> <?php echo $this->min_floor_plan;?> - <span class="rupee">`</span> <?php echo $this->max_floor_plan;?></span><br>
 	<?php echo $bhkStr;?> BHK
   </div>
-  <div class="col-md-3 proj-detail-right1">
-  <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span></button>
-  </div>  
+  <div class="col-md-3 proj-detail-right1"></div>  
   </div>
   <div class="row">
   <div class="col-md-12  proj-detail-right1">  
@@ -205,7 +203,7 @@
             </div>            
             <div class="flips4_back flipscont4 white-text">
             	<h5><strong>SUPER BUILTUP AREA</strong></h5>
-               <p><?php echo min($this->floorSizeArr)?> - <?php echo max($this->floorSizeArr)?> sq.ft.</p>
+               <p><?php echo $this->maxMinFloorSize['minFloorSize']?> - <?php echo $this->maxMinFloorSize['maxFloorSize']?> sq.ft.</p>
             </div>
             
         </div>
@@ -421,19 +419,19 @@
                     <?php 
                     $pp = 1111;  
                     foreach($this->floor_plans as $floor_plan){?>
-                        <tr onClick="showRow('subrow<?php echo $searchResult["project_id"].$pp;?>',this);" id='head<?php echo $searchResult["project_id"].$pp;?>' style="cursor:pointer;">
+                        <tr onClick="showRow('subrow<?php echo $this->projectDetail["project_id"].$pp;?>',this);" id='head<?php echo $this->projectDetail["project_id"].$pp;?>' style="cursor:pointer;">
                             <td><?php echo $floor_plan['BHK'];?> Bedroom &nbsp;<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td>
                             <td><?php echo $floor_plan['min_size']; if(count($floor_plan['floor_plan_list'])>1) { echo ' - '.$floor_plan['max_size'];}      echo ' '.$floor_plan['size_unit']; ?></td>
             <td><span class="rupee">`</span> <?php echo $floor_plan['min_price'];if(count($floor_plan['floor_plan_list'])>1) {?> - <span class="rupee">`</span> <?php echo $floor_plan['max_price']; }?></td>
                         </tr>
                         <?php if(count($floor_plan['floor_plan_list'])){?>
-                            <tr class="subrow<?php echo $searchResult["project_id"].$pp;?> hide-row-bg" onClick="hideRow('subrow<?php echo $searchResult["project_id"].$pp;?>','head<?php echo $searchResult["project_id"].$pp;?>');" style="cursor:pointer;display:none;">
+                            <tr class="subrow<?php echo $this->projectDetail["project_id"].$pp;?> hide-row-bg" onClick="hideRow('subrow<?php echo $this->projectDetail["project_id"].$pp;?>','head<?php echo $this->projectDetail["project_id"].$pp;?>');" style="cursor:pointer;display:none;">
                                 <td><?php echo $floor_plan['BHK'];?> Bedroom &nbsp;<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                             </tr>
                             <?php foreach($floor_plan['floor_plan_list'] as $floor_plan_list){?>
-                            <tr class="subrow<?php echo $searchResult["project_id"].$pp;?>" style="display:none;">
+                            <tr class="subrow<?php echo $this->projectDetail["project_id"].$pp;?>" style="display:none;">
                                 <td class="hide-cell-pad"><?php echo $floor_plan_list['plan_type'];?> </th>
                                 <td class="hide-cell-pad"><?php echo $floor_plan_list['size'];?> <?php echo $floor_plan_list['unit'];?></td>
                                 <td class="hide-cell-pad"><span class="rupee">`</span> <?php echo $floor_plan_list['price'];?> <?php echo $floor_plan_list['price_unit'];?></td>
@@ -739,10 +737,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
     </script>
     
     <script type="text/javascript">
- $(".subrow1").hide();
- $(".subrow2").hide();
- $(".subrow3").hide();
- $(".subrow4").hide();
+ 
  function showRow(cl,t1){
  $("."+ cl).show(300);
  $(t1).hide();
@@ -753,4 +748,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
  $("#" + t1).show();
  
  }
+
+ 
+ 
  </script>
