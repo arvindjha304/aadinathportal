@@ -436,7 +436,7 @@ margin-bottom:30px; color:#333; font-family: "Raleway",sans-serif;
 	margin-top: 30px;	
 	font-size: 12px;
 }
-<!---------Search Magic Results CSS---------->
+/*---------Search Magic Results CSS---------*/
 
 .magicsearch-results{
   width:100%;
@@ -498,4 +498,20 @@ margin-bottom:30px; color:#333; font-family: "Raleway",sans-serif;
 	min-height:	620px !important;
 	background-color: #f9f9f9;
 	padding-top: 250px
+}
+.login-main-add{
+    background-color:#eee; margin:20px 0px 5px 0px; padding:0px;
+}
+.login-fb-bttn{
+    padding: 6px 15px; font-weight:bold; font-size:12px; border-right:4px double #ddd;
+}
+.login-gplus-bttn{
+    padding: 6px 15px; font-weight:bold; font-size:12px;
+}
+.login-username{
+    color: #fff !important;
+}
+.login-username a{
+    color:#fff !important;
+    text-decoration: none !important;
 }
