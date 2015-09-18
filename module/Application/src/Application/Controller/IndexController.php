@@ -15,7 +15,7 @@ use Zend\Db\TableGateway\TableGateway;
 use Zend\Session\Container;
 use Zend\Session\Config\StandardConfig;
 use Zend\Session\SessionManager;
-use Zend\Mail;
+use Zend\Authentication\AuthenticationService;
 
 
 
@@ -169,6 +169,7 @@ class IndexController extends AbstractActionController
         $floor_plans = $model->getProjectFloorPlan($id);
         $view->setVariable('floor_plans', $floor_plans);
         
+        $this->getModel()->recently_viewed($id);
         
 //        echo '<pre>';print_r($floor_plans);exit;
         
@@ -206,13 +207,7 @@ class IndexController extends AbstractActionController
             if($data['mobile']!=''){
                 $this->getModel()->insertanywhere('callback_interested_users', $data);
                 $this->getModel()->sendNewsLetter($data);
-//               $htmlBody = '<b>Hello World</b>';
-//               $textBody = 'mail';
-//               $subject = 'Test Mail';
-//               $from = 'arvind@idi.com';
-//               $to  = 'arvindjha304@gmail.com';
-//                
-//                $this->getModel()->sendMail($htmlBody, $textBody, $subject, $from, $to);
+                $this->getModel()->enquired_properties($data['project_id']);
             } 
             exit(1);
         }

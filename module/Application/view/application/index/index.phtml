@@ -4,6 +4,28 @@
 //echo $this->url('home'); exit;
  
  ?>
+<style>
+    
+    .username-login{
+        color:#fff;
+    }
+    .username-login a{
+        color:#fff;
+        text-decoration: none;
+    }
+    .nav .caret {
+    border-bottom-color: #fff;
+    border-top-color: #fff;
+    }
+    .nav a:hover .caret{
+        border-bottom-color:#fff;
+        border-top-color: #fff;        
+    }
+    .nav .open > a .caret, .nav .open > a:hover .caret, .nav .open > a:focus .caret {
+    border-bottom-color: #fff;
+    border-top-color: #fff;
+}
+</style>
 
 		 <div id="navbar-collapse-1" class="navbar-collapse collapse">
             <nav>
@@ -87,7 +109,43 @@
         </div>
       </div>
       <!-- end Navigation Menu -->
-      <div class="menu_rlinks"> <a href="#" class="mrbut cart-tab" data-toggle="modal" data-target="#myModal">LOGIN</a> </div>
+      <?php 
+
+       $auth = new \Zend\Authentication\AuthenticationService();
+       if(!$auth->hasIdentity()){
+           ?>
+      <div class="menu_rlinks"> <a href="#" class="mrbut cart-tab" data-toggle="modal" data-target="#loginForm">LOGIN</a> </div>
+      <?php }else{
+          $identity = $auth->getIdentity();
+          $nameArr = explode(' ',$identity->username);
+          $userName = (count($nameArr)) ? $nameArr[0] : $identity->username;
+            
+           // $auth->clearIdentity();
+//            echo '<pre>';
+//            print_r($identity);
+//            exit('Login Successfull');
+          
+          
+          ?>
+      <div class="menu_rlinks"> 
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li class="dropdown username-login">
+            <a href="#" class="dropdown-toggle login-username" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <?php echo $userName?> <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">           
+            <li class="divider"></li>
+            <li><a href="<?php echo $baseUrl;?>/front-end/user/portfolio"><span class="glyphicon glyphicon-user"></span> My Portfolio</a></li>
+            <li class="divider"></li>
+            <li><a href="<?php echo $baseUrl;?>/front-end/user/recently-viewed"><span class="glyphicon glyphicon-circle-arrow-right"></span> Enquired Properties</a></li>
+            <li class="divider"></li>
+            <li><a href="<?php echo $baseUrl;?>/front-end/user/account-settings"><span class="glyphicon glyphicon-cog"></span> Account Settings</a></li>
+            <li class="divider"></li>
+            <li><a href="javascript:void(0)"onclick="return userLogout();"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+          </ul>
+        </li>                     
+      </ul>
+      </div> 
+      <?php }?>
       <!-- end menu right links -->
     </div>
   </header>

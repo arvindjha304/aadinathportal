@@ -1,0 +1,135 @@
+ <?php $baseUrl = $this->basePath(); ?>
+
+
+<div class="container">
+	<div class="margin_top12"></div>
+	<div class="page-header">
+  <div class="clearfix"></div>  
+  <h3>Account Settings</h3></div>
+	
+   
+<div class="container margin_top2">
+<div class="content_left">
+<div class="one_half margin_top2">
+<h4>Change Password:</h4><br> 
+<div class="cforms">       
+        <div id="form_status"></div>
+    	<form type="" id="" onSubmit="">
+	        <label class="label">Old Password <em>*</em></label>
+	        <label class="input">
+	            <input type="password" name="oldPswdVal" id="oldPswdVal">
+	        </label>
+	        <div class="clearfix"></div>
+	        <label class="label">New Password <em>*</em></label>
+	         <label class="input">
+	            <input type="password" name="pswdVal" id="pswdVal">
+	        </label>
+	        <div class="clearfix"></div>
+	        <label class="label">Confirm Password <em>*</em></label>
+	         <label class="input">
+	            <input type="password" name="confPswdVal" id="confPswdVal">
+	        </label>	
+	        <div class="clearfix"></div> <br>         
+            
+            
+            <div class="clearfix"></div><br>
+             <button type="button" class="btn btn-danger submitResetPswd">Submit</button>
+    	</form>       
+        </div>        
+ </div>          
+</div><!-- end content left side -->
+
+
+<!-- right sidebar starts -->
+<div class="right_sidebar">
+	<div class="sidebar_widget">    
+    	<div class="sidebar_title">
+        <div class="last stcode_title5"><h3><span class="line2"></span><span class="line"></span><span class="text">My Account</span></h3></div>
+        </div>        
+		<ul class="arrows_list1">        
+             <li><a href="login-portfolio.html"><i class="fa fa-angle-right"></i> My Portfolio</a></li>
+            <li><a href="login-my-favorites.html"><i class="fa fa-angle-right"></i> My Favorites</a></li>
+            <li><a href="login-recently-viewed.html"><i class="fa fa-angle-right"></i> Recently Viewed</a></li>
+            <li><a href="login-enquired-properties.html"><i class="fa fa-angle-right"></i> Enquired Properties</a></li>
+            <li><a href="login-account-settings.html"><i class="fa fa-angle-right"></i> Account Settings</a></li>            
+		</ul>              
+	</div><!-- end section -->
+    <div class="margin_top5"></div>
+    <div class="sidebar_widget">    
+    	<div class="sidebar_title">
+        <div class="last stcode_title5"><h3><span class="line2"></span><span class="line"></span><span class="text">Quick Links</span></h3></div>
+        </div>        
+		<ul class="arrows_list1">        
+             <li><a href="property-buying-step.html"><i class="fa fa-angle-right"></i> Property Buying Steps</a></li>
+            <li><a href="home-loan.html"><i class="fa fa-angle-right"></i> Home Loan</a></li>
+            <li><a href="vaastu-tips.html"><i class="fa fa-angle-right"></i> Vaastu Tips</a></li>
+            <li><a href="emi.html"><i class="fa fa-angle-right"></i> EMI Calculator</a></li>
+            <li><a href="nri.html"><i class="fa fa-angle-right"></i> NRI services</a></li>
+            <li><a href="#"><i class="fa fa-angle-right"></i> Real Estate News</a></li> 
+		</ul>              
+	</div>
+    
+</div><!-- end right sidebar -->
+
+</div>
+    
+    <!-- end section -->
+    
+</div>
+    
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        $('#pageTitle').text('Aadinath | Account Settings');
+    });
+    $('.submitResetPswd').click(function(){
+        var oldPswdVal  = $('#oldPswdVal').val();
+        var pswdVal     = $('#pswdVal').val();
+        var confPswdVal = $('#confPswdVal').val();
+        var error = 0;
+        if(oldPswdVal==''){
+            $('#oldPswdVal').css('border-color','red');
+            error++;
+        }else{
+            $('#oldPswdVal').css('border-color','#ccc');
+        }
+        if(pswdVal==''){
+            $('#pswdVal').css('border-color','red');
+            error++;
+        }else{
+            $('#pswdVal').css('border-color','#ccc');
+        }
+        if(confPswdVal==''){
+            $('#confPswdVal').css('border-color','red');
+            error++;
+        }else{
+            $('#confPswdVal').css('border-color','#ccc');
+        }
+        if(pswdVal!='' && confPswdVal!='' && confPswdVal!=pswdVal){
+            $('#pswdVal,#confPswdVal').css('border-color','red');
+            $("#oldPswdVal").after( "<p style='color:red'>Password don't match<p>"); 
+            error++; 
+            return false;
+        }
+        if(error==0 && pswdVal==confPswdVal){
+          $.post('<?php echo $baseUrl?>/front-end/user/account-settings', {oldPswdVal:oldPswdVal,pswdVal:pswdVal,confPswdVal:confPswdVal}, function (response) {
+            if(response=='wrongpassword'){
+                 $("#oldPswdVal" ).after( "<p style='color:red'> Invalid Old Password<p>");  
+                 return false;
+            }else{
+                 $("#form_status" ).before( "<p style='color:red'> Password Changed Successfully<p>");  
+                 return false;
+            }
+          });
+        }
+        
+    });
+    </script>
+
+
+<!---End of Builder--->
+
+
+
+  
+  

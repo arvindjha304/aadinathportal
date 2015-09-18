@@ -104,7 +104,40 @@ $projectToCompare = $this->routeHelper()->indexmodel()->getProjectToCompare();
             <?php }?>
           </ul>
         </li>       
-        <li><a href="#" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-user"></span> LOG IN</a></li>             
+        <?php 
+       $auth = new \Zend\Authentication\AuthenticationService();
+       if(!$auth->hasIdentity()){ ?>
+        <li><a href="#" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-user"></span> LOG IN</a></li>
+      <?php }else{
+          $identity = $auth->getIdentity();
+          $nameArr = explode(' ',$identity->username);
+          $userName = (count($nameArr)) ? $nameArr[0] : $identity->username;
+            
+           // $auth->clearIdentity();
+//            echo '<pre>';
+//            print_r($identity);
+//            exit('Login Successfull');
+          
+          
+          ?>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown username-login">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <?php echo $userName?> <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">           
+            <li class="divider"></li>
+            <li><a href="#"><span class="glyphicon glyphicon-user"></span> My Portfolio</a></li>
+            <li class="divider"></li>
+            <li><a href="#"><span class="glyphicon glyphicon-heart"></span> My Favorites</a></li>
+             <li class="divider"></li>
+            <li><a href="#"><span class="glyphicon glyphicon-circle-arrow-right"></span> Enquired Properties</a></li>
+             <li class="divider"></li>
+            <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Account Settings</a></li>
+             <li class="divider"></li>
+            <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+          </ul>
+        </li>                     
+      </ul>
+      <?php }?>             
       </ul>
     </div><!-- /.navbar-collapse -->
   <!-- /.container-fluid -->

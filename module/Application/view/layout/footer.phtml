@@ -153,56 +153,23 @@ $citieList = $this->routeHelper()->indexmodel()->getCityList();
   
  </script>
 
- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">ACCOUNT LOGIN</h4>
-      </div>
-      <div class="modal-body">
-        <form>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter your Email Address">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter your Password">
-  </div>
-  
-  <div class="checkbox">
-    <label>
-      <input type="checkbox"> Remember Me      
-    </label>
-    <p class="help-block"><a href="#">Forgot Password?</a></p>
-  </div>  
-</form>
-
-     </div>
-      <div class="modal-footer">
-      	<button type="button" class="btn btn-danger">LOGIN NOW!</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">SIGN UP</button>       
-      </div>
-    </div>
-  </div>
-</div>
+ 
 
 <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Interested in <span id='callBackPrjName'>Parsvnath Paramount</span>?</h4>
+        <h4 class="modal-title" >Interested in <span id='callBackPrjName'>Parsvnath Paramount</span>?</h4>
       </div>
       <div class="modal-body">
         <form>
   <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
+    <label >Email address</label>
     <input type="email" class="form-control" id="callBackInputEmail" placeholder="Enter email">
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">Mobile No.</label>
+    <label >Mobile No.</label>
     <input type="text" class="form-control" id="callBackInputMobile" placeholder="Mobile No.">
   </div>
   <input type="hidden"  id="callBackProjectId" >
@@ -217,48 +184,115 @@ $citieList = $this->routeHelper()->indexmodel()->getCityList();
     </div>
   </div>
 </div>
-<!----SIGN UP FORM---->
-<!---
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ <!----LOGIN FORM---->
+ <div class="modal fade" id="loginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">ACCOUNT SIGN UP</h4>
+        <h4 class="modal-title" id="myModalLabel">ACCOUNT LOGIN</h4>
       </div>
       <div class="modal-body">
-        <form>
-         <div class="form-group">
-    <label for="exampleInputEmail1">Name</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter your Full Name">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter your Email Address">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter your Password">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Mobile No.</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter your Mobile No.">
-  </div>  
-    
-</form>
+        <form action="" method="post">
+        <div class="form-group">
+          <label for="">Email address</label>
+          <input type="email" class="form-control userLoginEmail" placeholder="Enter your Email Address" value="<?php if(isset($_COOKIE['cookieEmail'])) echo $_COOKIE['cookieEmail'];?>">
+        </div>        
+        <div class="form-group">
+          <label for="">Password</label>
+          <input type="password" class="form-control userLoginPassword" placeholder="Enter your Password" value="<?php if(isset($_COOKIE['cookiePswd'])) echo $_COOKIE['cookiePswd'];?>">
+        </div>
+        <div class="checkbox">
+          <label>
+              <input type="checkbox" id="remember_me" <?php if(isset($_COOKIE['cookieEmail'])) echo 'checked="checked"';?>> Remember Me      
+          </label> | <a onclick="return forgotPassword();" class="cursor">Forgot Password?</a>
+        </div>  
+      </form>
 
      </div>
       <div class="modal-footer">
-      	<button type="button" class="btn btn-danger">SIGN UP</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
-        
+       <div class="col-md-12">
+        <button type="button" class="btn btn-danger userLogin">LOGIN NOW!</button>
+        <button type="button" class="btn btn-default" onclick="return openSignUp()">SIGN UP</button>
+       </div>
+       <div class="clearfix"></div>
+       <div class="col-md-12 login-main-add">
+       <a href="#"><div class="col-md-6 text-center text-primary login-fb-bttn"><i class="fa fa-facebook"></i> Login with Facebook</div></a>
+       <a id="gp_login" href="javascript:void(0)" onclick="javascript:googleAuth()"><div class="col-md-6 text-center text-danger login-gplus-bttn"><i class="fa fa-google-plus"></i> Login with Google+</div></a>
+       <!--<a href="#"><div class="col-md-6 text-center text-danger login-gplus-bttn"><i class="fa fa-google-plus"></i> Login with Google+</div></a>
+       <a id="gp_login" href="javascript:void(0)" onclick="javascript:googleAuth()"><div class="col-md-6 text-center text-danger "><i class="fa fa-google-plus"></i> Login with Google+ new</div></a>
+        <pre id="userdata">
+
+        </pre>-->
+       </div>
       </div>
     </div>
   </div>
 </div>
--->
+<!----SIGN UP FORM---->
+<div class="modal fade" id="signUpForm" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" >ACCOUNT SIGN UP</h4>
+      </div>
+    <div class="modal-body">
+    <form action="" method="post">
+        <div class="form-group">
+            <label >Name</label>
+            <input type="text" class="form-control userName" value="" placeholder="Enter your Full Name">
+        </div>
+        <div class="form-group">
+            <label >Password</label>
+            <input type="password" class="form-control userPassword" value=""  placeholder="Enter your Password">
+        </div>
+        <div class="form-group">
+            <label for="">Email address</label>
+            <input type="email" class="form-control userEmail" placeholder="Enter your Email Address">
+        </div>           
+        <div class="form-group">
+            <label for="">Mobile No.</label>
+            <input type="text" class="form-control userMobile" placeholder="Enter your Mobile No.">
+        </div>
+    </form>
+    </div>
+      <div class="modal-footer">
+        <img id="signUpLoader" style="display:none;margin-right:20px;" src="<?php echo $baseUrl;?>/public/images/lightbox-ico-loading.gif">  
+        <button type="button" class="btn btn-danger signUpButton">SIGN UP</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-
+<!----FORGOT PASSWORD FORM---->
+<div class="modal fade" id="forgotPwswd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">RESET PASSWORD</h4>
+      </div>
+        <div class="modal-body messageBody">
+        <div class="modal-body">
+        <p>Please enter the email address you signed up with and we'll send you a password reset link.</p>
+        <!--<p>We have sent the password reset instructions on satish@discoverysolutions.in. Kindly follow the instructions in the mail for resetting your password.</p>-->
+        <form>         
+        <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" class="form-control" id="forgotEmail" placeholder="Enter your Email Address">
+        </div>   
+        </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger forgotPswd">RESET PASSWORD</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">CANCEL</button>
+        </div>
+        </div>
+    </div>
+  </div>
+</div>
 <script src="<?php echo $baseUrl;?>/public/js/masterslider/masterslider.min.js"></script>
 <script type="text/javascript">
 (function($) {

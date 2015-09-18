@@ -9,7 +9,7 @@
 
 return array(
 		'modules'=>array(
-				'Application',
+			'Application',
 		),
 
 		'router' => array(
@@ -193,6 +193,62 @@ return array(
                         )
                     )
                 ),
+                
+                
+                'user' => array(
+                    'type' => 'literal',
+                    'options' => array(
+                        'route'    => '/user',
+                        'defaults' => array(
+                            'controller' => 'Application\Controller\User',
+                            'action'     => 'portfolio',
+                        ),
+                    ),
+                    'may_terminate' => true,
+                    'child_routes'  => array(
+                        'recently-viewed' => array(
+                            'type' => 'literal',
+                            'options' => array(
+                                'route' => '/recently-viewed',
+                                'defaults' => array(
+                                    'action' => 'recently-viewed',
+                                ),
+                            ),
+                            'may_terminate' => true,
+                        ),
+                        'account-settings' => array(
+                            'type' => 'literal',
+                            'options' => array(
+                                'route' => '/account-settings',
+                                'defaults' => array(
+                                    'action' => 'account-settings',
+                                ),
+                            ),
+                            'may_terminate' => true,
+                        ),
+                        'portfolio' => array(
+                            'type' => 'literal',
+                            'options' => array(
+                                'route' => '/portfolio',
+                                'defaults' => array(
+                                    'action' => 'portfolio',
+                                ),
+                            ),
+                            'may_terminate' => true,
+                        ),
+                        'enquired-properties' => array(
+                            'type' => 'literal',
+                            'options' => array(
+                                'route' => '/enquired-properties',
+                                'defaults' => array(
+                                    'action' => 'enquired-properties',
+                                ),
+                            ),
+                            'may_terminate' => true,
+                        ),
+                    )
+                ),
+                
                 'maps' => array(
                     'type' => 'literal',
                     'options' => array(
@@ -238,6 +294,7 @@ return array(
 				'invokables' => array(
 					'Application\Controller\Index' 			=> 'Application\Controller\IndexController',
 					'Application\Controller\Admin' 			=> 'Application\Controller\AdminController',
+					'Application\Controller\User' 			=> 'Application\Controller\UserController',
 				),
 		),
 

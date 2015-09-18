@@ -53,10 +53,15 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Vi
     					return $table;
     				},
     				'Application\Model\Admin' =>  function($sm) {
-    				$tableGateway = $sm->get('GetTableGateway');
-    				$table = new Model\Admin($tableGateway);
-    				return $table;
+                        $tableGateway = $sm->get('GetTableGateway');
+                        $table = new Model\Admin($tableGateway);
+                        return $table;
     				},
+                    'Application\Model\User' =>  function($sm) {
+                        $tableGateway = $sm->get('GetTableGateway');
+                        $table = new Model\User($tableGateway);
+                        return $table;
+    				},        
     				'GetTableGateway' => function($sm){
 	    				 $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
 	    				 return new TableGateway('about_us', $dbAdapter, null);
