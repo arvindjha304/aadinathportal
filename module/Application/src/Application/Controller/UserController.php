@@ -69,11 +69,11 @@ class UserController extends AbstractActionController
             $auth->getStorage()->write($data);
             $identity = $auth->getIdentity();
             
-            print_r($identity);
-            exit('Login Successfull');
+//            print_r($identity);
+            exit('LoginSuccessfull');
             return true;	
         }else{
-            echo 'Login Failed';exit;
+            exit('LoginFailed');
         }
     }
 
@@ -84,8 +84,14 @@ class UserController extends AbstractActionController
             $userEmail      = $this->params()->fromPost('userEmail');
             $userMobile     = $this->params()->fromPost('userMobile');
             if($userName!='' && $userPassword!='' && $userEmail!=''){
-                $this->addUser($userName,$userPassword,$userEmail,$userMobile);
-                exit();
+                $userData = $this->getModel()->checkIfEmailExist($userEmail);
+//              echo '<pre>';print_r($userData);exit; 
+                if(count($userData)){
+                    exit('userexist');
+                }else{
+                    $this->addUser($userName,$userPassword,$userEmail,$userMobile);
+                    exit('11');    
+                }
             }   
         }
     }
