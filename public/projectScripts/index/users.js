@@ -3,10 +3,17 @@ var baseUrl = $('#projectBaseUrl').val();
 
 //alert(baseUrl);
 function openSignUp(){
+   $('.userName,.userPassword,.userEmail,.userMobile').val('');
+   $('#userExistMsg').html('');
    $('#loginForm').modal('hide');
    $('#signUpForm').modal('show');
 }
+function openLoginForm(){
+   //$('.userLoginEmail,.userLoginPassword').val('');
+   $('#loginForm').modal('show');
+}
 function forgotPassword(){
+   $('.forgotEmail').val('');
     $('#loginForm').modal('hide');
     $('#forgotPwswd').modal('show');
 }
@@ -33,8 +40,11 @@ $('.userLogin').click(function(){
     }
     if(error==0){
         $.post(baseUrl + '/front-end/user/user-login', {userLoginEmail: userLoginEmail,userLoginPassword:userLoginPassword,remember_me:remember_me}, function (response) {
-            
-        },'json');
+            if(response=='LoginFailed'){
+                $('#userLoginMsg').html('<p style="color:red">Username or Password didn\'t match.</p>').show();
+            }else
+                location.reload();
+        });
     }else{
         return false;
     }
@@ -74,9 +84,14 @@ $('.signUpButton').click(function(){
         $('.signUpButton').hide();
         $('#signUpLoader').show();
         $.post(baseUrl + '/front-end/user/user-register', {userName: userName,userPassword:userPassword,userEmail:userEmail,userMobile:userMobile}, function (response) {
-            $('#signUpForm').modal('hide');
-            $('#loginForm').modal('show'); 
-            $('.userName,.userPassword,.userEmail,.userMobile').val('');
+            if(response=='userexist'){
+                $('#userExistMsg').html('<p style="color:red">User with email <i>'+userEmail+'</i> already exists.</p>').show();
+            }else{
+                $('#signUpForm').modal('hide');
+                $('#loginForm').modal('show'); 
+                $('.userName,.userPassword,.userEmail,.userMobile').val(''); 
+            }
+            return false;
         });
     }else{
         return false;
@@ -271,6 +286,8 @@ function getProfile() {
 
 function userLogout(){
     $.post(baseUrl + '/front-end/user/logout', function (response) {
+//        alert(location);
+//        return false;
         location.reload();
     });
 }
