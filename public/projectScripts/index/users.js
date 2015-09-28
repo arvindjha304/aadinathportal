@@ -7,6 +7,8 @@ function openSignUp(){
    $('#userExistMsg').html('');
    $('#loginForm').modal('hide');
    $('#signUpForm').modal('show');
+   $('.signUpButton').show();
+   $('#signUpLoader').hide();
 }
 function openLoginForm(){
    //$('.userLoginEmail,.userLoginPassword').val('');
@@ -41,7 +43,7 @@ $('.userLogin').click(function(){
     if(error==0){
         $.post(baseUrl + '/front-end/user/user-login', {userLoginEmail: userLoginEmail,userLoginPassword:userLoginPassword,remember_me:remember_me}, function (response) {
             if(response=='LoginFailed'){
-                $('#userLoginMsg').html('<p style="color:red">Username or Password didn\'t match.</p>').show();
+                $('#userLoginMsg').html('<p style="color:red">Something went wrong.Please try again.</p>').show();
             }else
                 location.reload();
         });
@@ -85,10 +87,11 @@ $('.signUpButton').click(function(){
         $('#signUpLoader').show();
         $.post(baseUrl + '/front-end/user/user-register', {userName: userName,userPassword:userPassword,userEmail:userEmail,userMobile:userMobile}, function (response) {
             if(response=='userexist'){
-                $('#userExistMsg').html('<p style="color:red">User with email <i>'+userEmail+'</i> already exists.</p>').show();
+                $('#userExistMsg').html('<p style="color:red">This email is already registered. Click forgot password to reset your password.</p>').show();
             }else{
-                $('#signUpForm').modal('hide');
-                $('#loginForm').modal('show'); 
+                $('#userExistMsg').html('<p style="color:red">Thank you for Signing up! You will receive an email from Aadinath India shortly which will allow you to verify your email.</p>').show();
+                $('.signUpButton').show();
+                $('#signUpLoader').hide();
                 $('.userName,.userPassword,.userEmail,.userMobile').val(''); 
             }
             return false;

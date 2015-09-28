@@ -7,8 +7,8 @@ var baseUrl = $('#baseUrl').val();
 
 function getCallBAck(project_id,project_title){
     $('#callBackPrjName').text(project_title);
-    $('#callBackInputEmail').val('');
-    $('#callBackInputMobile').val('');
+    //$('#callBackInputEmail').val('');
+    //$('#callBackInputMobile').val('');
     $('#callBackProjectId').val(project_id);
     $('#callBackInputEmail').css('border-color','#ccc');
     $('#callBackInputMobile').css('border-color','#ccc');
@@ -40,6 +40,8 @@ function submitCallBack(){
         $('#callBackSubmit').show();
         $('#callBackLoader').hide();
         $('#myModal1').modal('hide');
+        $('#callBackInputName').val('');
+        $('#callBackInputCity').val('');
         $('#callBackInputEmail').val('');
         $('#callBackInputMobile').val('');
         $('#callBackInputEmail').css('border-color','#ccc');
@@ -105,10 +107,13 @@ function changeView(viewType) {
     var PropertyTypeFilters = $('#PropertyTypeFilters').val();
     var BudgetFilters = $('#BudgetFilters').val();
     var BedroomFilters = $('#BedroomFilters').val();
+    $('#searchProjects').addClass('opacity3');
     $.post(SITEROOT + '/front-end/index/changesearchview', {viewType: viewType,PossessionFilters: PossessionFilters,PropertyTypeFilters: PropertyTypeFilters,BudgetFilters: BudgetFilters,BedroomFilters: BedroomFilters}, function (response) {
+        $('#searchProjects').removeClass('opacity3');
         if (response.length > 0) {
             var monthNames = ["Jan","Feb","Mar","Apr", "May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
             var str = '';
+            
             if(viewType=='grid'){
                 str = '<div class="content_fullwidth"><div class="featured_section102"><div class="container insidepg-proj-grid-row">';
                 var count =0;
@@ -171,9 +176,6 @@ function changeView(viewType) {
                     str += '<div class="container insidepg-proj-row"><div class="row"><div class="col-md-3  insidepg-proj-img-box"><a href="'+SITEROOT+'/projects-in-'+value.citySlug.toLowerCase()+'/'+value.projectSlug+'"><img src="'+SITEROOT+'/public/uploadfiles/'+value.project_image+'" class="img-responsive"></a></div><div class="col-md-7 insidepg-proj-detail"><div class="bs-example" data-example-id="bordered-table"><h4 id="tables-bordered"><a href="'+SITEROOT+'/projects-in-'+value.citySlug.toLowerCase()+'/'+value.projectSlug+'">'+value.project_title+'</a></h4><p>'+value.address+'</p>';
                     str += '<table class="table table-bordered"><thead><tr><th>PROPERTY</th><th>SIZE</th><th>BUILDER PRICE</th></tr></thead><tbody>';
                     var pp = 1111;  
-                    
-                   
-                    
                     $.each(value.floor_plans, function(id,floor_plan) {
                         var max_size = (floor_plan.floor_plan_list.length >1) ? ' - '+floor_plan.max_size : '';
                         var max_price = (floor_plan.floor_plan_list.length >1) ? ' - <span class="rupee">`</span> '+floor_plan.max_price : '';
