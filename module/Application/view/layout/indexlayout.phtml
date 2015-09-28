@@ -1,9 +1,14 @@
-<?php $baseUrl = $this->basePath(); ?>
+<?php $baseUrl      = $this->basePath(); 
+$hotdealbanner      = $this->routeHelper()->indexmodel()->projectBanner(1);
+$residentialPrjcts  = $this->routeHelper()->indexmodel()->projectByCategory(1);
+$commercialPrjcts   = $this->routeHelper()->indexmodel()->projectByCategory(2);
+
+?>
 
 <!doctype html>
 <html lang="en-gb" class="no-js">
 <head>
-<title>Aadinath | One Stop Real State Portal</title>
+<title id="pageTitle">Aadinath | One Stop Real State Portal</title>
 <link rel="shortcut icon" type="image/png" href="<?php echo $baseUrl;?>/public/images/logo/favicon.png"/>
 <link rel="shortcut icon" href="<?php echo $baseUrl;?>/public/images/favicon.html">
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
@@ -75,17 +80,151 @@
               <button type="button" > <i class="fa fa-bars"></i></button>
             </div>
           </div>
-		  
-		  
-    <?php echo $this->layout()->content;?>     
   
 
- <?php echo $this->partial("footer"); ?>
+<style>
+    
+    .username-login{
+        color:#fff;
+    }
+    .username-login a{
+        color:#fff;
+        text-decoration: none;
+    }
+    .nav .caret {
+    border-bottom-color: #fff;
+    border-top-color: #fff;
+    }
+    .nav a:hover .caret{
+        border-bottom-color:#fff;
+        border-top-color: #fff;        
+    }
+    .nav .open > a .caret, .nav .open > a:hover .caret, .nav .open > a:focus .caret {
+    border-bottom-color: #fff;
+    border-top-color: #fff;
+}
+</style>
 
+		 <div id="navbar-collapse-1" class="navbar-collapse collapse">
+            <nav>
+              <ul class="nav navbar-nav">
+                <!--Home-->
+                <li class="dropdown yamm-fw"> <a href="<?php echo $baseUrl;?>/homepage" class="homeMenu active">Home</a></li>
+                <!--About us-->
+                <li class="dropdown"><a href="<?php echo $baseUrl;?>/about-us" class="AboutUsMenu">About us</a>
+                </li>
+                <!--Project-->
+                <li class="dropdown yamm-fw"> <a class="dropdown-toggle cursor">Projects</a>
 
+                  <ul class="dropdown-menu">
+                    <li>
+                      <!-- Content container to add padding -->
+                      <div class="yamm-content">
+                        <div class="row">
+                          <ul class="col-sm-6 col-md-3 list-unstyled">
+                            <li>
+                              <p>Residential Projects</p>
+                            </li>
+                            <?php foreach($residentialPrjcts as $res){?>
+                            <li><a href="<?php echo $baseUrl;?>/projects/<?php echo $res['projectSlug']?>"><i class="fa fa-caret-right"></i><?php echo $res['project_title']?></a></li>
+                            <?php }?>
+                            <li><a href="<?php echo $baseUrl;?>/front-end/index/projectbycity?propCatId=1"><i class="fa fa-caret-right"></i> For More Projects <em>Click</em></a></li>
+                          </ul>
+                          <ul class="col-sm-6 col-md-3 list-unstyled">
+                            <li>
+                              <p>Commercial Projects</p>
+                            </li>
+                            <?php foreach($commercialPrjcts as $res){?>
+                            <li><a href="<?php echo $baseUrl;?>/projects/<?php echo $res['projectSlug']?>"><i class="fa fa-caret-right"></i><?php echo $res['project_title']?></a></li>
+                            <?php }?>
+                            <li><a href="<?php echo $baseUrl;?>/front-end/index/projectbycity?propCatId=2"><i class="fa fa-caret-right"></i> For More Projects <em>Click</em></a></li>
+                          </ul>
+                          <ul class="col-sm-6 col-md-3 last list-unstyled nav-project-img-ul-bordr">
+                            <li>
+                              <p>Hot Deals</p>
+                            </li>
+                            <li class="nav-project-img-bg"><a href="<?php echo $baseUrl;?>/projects/<?php echo $hotdealbanner[0]['projectSlug']?>"><img width="194" height="184" src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $hotdealbanner[0]['banner_image']?>" class="nav-project-img-border"></a></li>
+                            <li class="nav-project-img-bg"><a href="<?php echo $baseUrl;?>/projects/<?php echo $hotdealbanner[1]['projectSlug']?>"><img width="194" height="184" src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $hotdealbanner[1]['banner_image']?>" class="nav-project-img-border"></a></li>
+                          </ul>
+                          <ul class="col-sm-6 col-md-3 last list-unstyled ">
+                            <li><p></p></li>
+                            <li class="nav-project-img-bg"><a href="<?php echo $baseUrl;?>/projects/<?php echo $hotdealbanner[2]['projectSlug']?>"><img width="194" height="184" src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $hotdealbanner[2]['banner_image']?>" class="nav-project-img-border"></a></li>
+                            <li class="nav-project-img-bg"><a href="<?php echo $baseUrl;?>/projects/<?php echo $hotdealbanner[3]['projectSlug']?>"><img width="194" height="184" src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $hotdealbanner[3]['banner_image']?>" class="nav-project-img-border"></a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                
+                <!--Builders-->
+                <li class="dropdown"> <a href="<?php echo $baseUrl;?>/builders" class="dropdown-toggle">Builders </a></li>
+                <!--Media-->
+                <li class="dropdown"><a href="#" class="dropdown-toggle">Media</a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Press Coverage</a></li>
+                    <li><a href="#">Press Releases</a></li>
+                    <li><a href="#">Events</a></li>
+                  </ul>
+                </li>
+               
+                
+                <!--Careers-->
+                <li class="dropdown"> <a href="<?php echo $baseUrl;?>/careers" class="CareersMenu">Careers </a></li>
+                <!--Contact us-->
+                <li class="dropdown"><a href="<?php echo $baseUrl;?>/contact-us" class="ContactUsMenu">Contact us</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <!-- end Navigation Menu -->
+      <?php 
 
-
-
+       $auth = new \Zend\Authentication\AuthenticationService();
+       if(!$auth->hasIdentity()){
+           ?>
+      <div class="menu_rlinks"> <a href="#" class="mrbut cart-tab" data-toggle="modal"  onclick="return openLoginForm()">LOGIN</a> </div>
+      <?php }else{
+          $identity = $auth->getIdentity();
+          $nameArr = explode(' ',$identity->username);
+          $userName = (count($nameArr)) ? $nameArr[0] : $identity->username;
+            
+           // $auth->clearIdentity();
+//            echo '<pre>';
+//            print_r($identity);
+//            exit('Login Successfull');
+          
+          
+          ?>
+      <div class="menu_rlinks"> 
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown username-login">
+            <a href="#" class="dropdown-toggle login-username" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <?php echo $userName?> <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">           
+            <li class="divider"></li>
+            <li><a href="<?php echo $baseUrl;?>/user/portfolio"><span class="glyphicon glyphicon-user"></span> My Portfolio</a></li>
+            <li class="divider"></li>
+            <li><a href="<?php echo $baseUrl;?>/user/enquired-properties"><span class="glyphicon glyphicon-circle-arrow-right"></span> Enquired Properties</a></li>
+            <li class="divider"></li>
+            <li><a href="<?php echo $baseUrl;?>/user/account-settings"><span class="glyphicon glyphicon-cog"></span> Account Settings</a></li>
+            <li class="divider"></li>
+            <li><a href="javascript:void(0)"onclick="return userLogout();"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+          </ul>
+        </li>                     
+      </ul>
+      </div> 
+      <?php }?>
+      <!-- end menu right links -->
+    </div>
+  </header>
+  <div class="clearfix"></div>          
+            
+            
+            
+            
+    <?php echo $this->layout()->content;?>     
+	<?php echo $this->partial("footer"); ?>
 <div id='backgroundImage' style="height:4000px; margin:0; padding:0; position:fixed; margin-top:-800px;">
  
  <div id="style-selector" style="left:-225px;">
@@ -96,11 +235,11 @@
 
 <span class="title-sub2"><strong>Aadinath Guide <br>(Complete Property Guide)</strong></span>
 <ul class="styles" style="border-bottom: none;">
-    <li><a href="property-buying-step.html" class="demolinks">- FAQs</a></li>
-    <li><a href="home-loan.html" class="demolinks">- Home Loan</a></li>
-    <li><a href="vaastu-tips.html" class="demolinks">- Vaastu Tips</a></li>
-    <li><a href="emi.html" class="demolinks">- EMI Calculator</a></li>
-	<li><a href="nri.html" class="demolinks">- NRI Services</a></li>
+    <li><a href="<?php echo $baseUrl?>/faq" class="demolinks">- FAQs</a></li>
+    <li><a href="<?php echo $baseUrl?>/home-loan" class="demolinks">- Home Loan</a></li>
+    <li><a href="<?php echo $baseUrl?>/vaastu-tips" class="demolinks">- Vaastu Tips</a></li>
+    <li><a href="<?php echo $baseUrl?>/emi-calculator" class="demolinks">- EMI Calculator</a></li>
+	<li><a href="<?php echo $baseUrl?>/nri-services" class="demolinks">- NRI Services</a></li>
     <li><a href="#" class="demolinks">- Blog</a></li>
 </ul>
 <span class="title-sub2">Need Any Help? <br><b>Call us: +91-9650 797 111</b></span>

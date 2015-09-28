@@ -295,19 +295,16 @@ use Zend\Mime\Part as MimePart;
     }
     
     public function getProjectDetail($id){
-        
         $db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
-        
 		$sql="select prj.*,lt.*,ct.*,pt.*,pc.*,bld.*,prj.id as project_id,bld.id as bldId,prj.last_updated as prj_last_updated
-            from projects prj
+        from projects prj
         join locations lt on lt.id=prj.location and lt.is_active=1 and lt.is_delete=0 
         join cities ct on ct.id=prj.city and ct.is_active=1
         join property_type pt on pt.id=prj.property_type_id and pt.is_active=1
         join property_category pc on pc.id=pt.property_category_id and pc.is_active=1
         join builders bld on prj.builder=bld.id and bld.is_active=1
         where prj.is_active=1 and prj.is_delete=0 and prj.id=$id";
-        
-//     echo $sql;exit;
+//      echo $sql;exit;
 		$result =$db->query($sql)->execute()->current();
 		return $result;
         
@@ -398,6 +395,9 @@ use Zend\Mime\Part as MimePart;
             $select->where->between('search_price',$minprice,$maxprice);
             $select->order(array('bhk_type ASC', 'size ASC'));
         })->toArray();
+        
+//        echo '<pre>';print_r($floor_plans);exit;  
+        
         $bhkListArr = [];
         $floorPlanMainArr = [];
         $floorPlanTempArr = [];
@@ -409,21 +409,23 @@ use Zend\Mime\Part as MimePart;
                     if(count($floorPlanTempArr))
                         $floorPlanMainArr[] = $floorPlanTempArr;
                     $floorPlanTempArr = [];
-                    $floorPlanTempArr['BHK']        = $floor_plan['bhk_type'];
+                    $floorPlanTempArr['BHK']                = $floor_plan['bhk_type'];
                     $maxMinFloorSize = $this->maxMinFloorSize($project_id,$minprice,$maxprice,$floor_plan['bhk_type']);
-                    $floorPlanTempArr['max_size']   = $maxMinFloorSize['maxFloorSize'];
-                    $floorPlanTempArr['min_size']   = $maxMinFloorSize['minFloorSize'];
-                    $floorPlanTempArr['size_unit']   = $maxMinFloorSize['unit'];
-                    $floorPlanTempArr['max_price']  = $this->max_floor_plan_price($project_id,$minprice,$maxprice,$floor_plan['bhk_type']);
-                    $floorPlanTempArr['min_price']  = $this->min_floor_plan_price($project_id,$minprice,$maxprice,$floor_plan['bhk_type']);
+                    $floorPlanTempArr['max_size']           = $maxMinFloorSize['maxFloorSize'];
+                    $floorPlanTempArr['min_size']           = $maxMinFloorSize['minFloorSize'];
+                    $floorPlanTempArr['size_unit']          = $maxMinFloorSize['unit'];
+                    $floorPlanTempArr['max_price']          = $this->max_floor_plan_price($project_id,$minprice,$maxprice,$floor_plan['bhk_type']);
+                    $floorPlanTempArr['min_price']          = $this->min_floor_plan_price($project_id,$minprice,$maxprice,$floor_plan['bhk_type']);
                 }
 
                 $tempArr = [];
-                $tempArr['plan_type']   = $floor_plan['plan_type'];
-                $tempArr['size']        = $floor_plan['size'];
-                $tempArr['unit']        = $floor_plan['unit'];
-                $tempArr['price']       = $floor_plan['price'];
-                $tempArr['price_unit'] = $floor_plan['price_unit'];
+                $tempArr['id']                  = $floor_plan['id'];
+                $tempArr['plan_type']           = $floor_plan['plan_type'];
+                $tempArr['size']                = $floor_plan['size'];
+                $tempArr['unit']                = $floor_plan['unit'];
+                $tempArr['price']               = $floor_plan['price'];
+                $tempArr['floor_plan_image']    = $floor_plan['floor_plan_image'];
+                $tempArr['price_unit']          = $floor_plan['price_unit'];
 
                 $floorPlanTempArr['floor_plan_list'][]   = $tempArr;
                 if(count($floor_plans)==$kk){

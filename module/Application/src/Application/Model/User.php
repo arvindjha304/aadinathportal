@@ -53,7 +53,13 @@ use Zend\Session\Container;
 		$table = new TableGateway($mytable, $db);
 		$results = $table->insert($data);
 	}
-	
+	public function lastInsertId($mytable, array $data) {
+		$db = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$table = new TableGateway($mytable, $db);
+		$table->insert($data);
+        $id = $table->lastInsertValue;
+        return $id;
+	}
     public function forgotPasswordMail($userId,$user_email){
         $baseUrl = $this->serviceLocator->get('Zend\View\Renderer\RendererInterface')->basePath();
         $indexModel = $this->getServiceLocator()->get('Application\Model\Index');
@@ -75,7 +81,30 @@ use Zend\Session\Container;
        $indexModel->sendmailHTML($user_email,'',$subject,$html);
        return 1;
     }
-    
+    public function verifyMailLink($userId,$user_email){	
+		$baseUrl = $this->serviceLocator->get('Zend\View\Renderer\RendererInterface')->basePath();
+        $indexModel = $this->getServiceLocator()->get('Application\Model\Index');
+        $html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Reset Password</title>
+        </head>
+        <body style="margin:0; padding:0;">
+        <pre>
+        Hello User
+        
+        Welocme to Aadinath India. To activate your account and verify your email, please click <a href="'.$baseUrl.'/front-end/user/email-verification?user='.base64_encode($userId).'">this</a> link.
+           
+        Thanks
+        Aadinath India Team
+        </pre>
+        </body>
+        </html>'; 
+        $subject = 'Aadinath India Email Verification';
+       $indexModel->sendmailHTML($user_email,'',$subject,$html);
+       return 1;
+	}
     public function checkIfEmailExist($email){
         $table = new TableGateway('userlist',$this->getAdapter());
         $userData = $table->select(['useremail'=>$email,'is_active'=>1,'is_delete'=>0])->toArray();

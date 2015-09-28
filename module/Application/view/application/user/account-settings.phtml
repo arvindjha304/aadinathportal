@@ -13,29 +13,36 @@
 <div class="one_half margin_top2">
 <h4>Change Password:</h4><br> 
 <div class="cforms">       
-        <div id="form_status"></div>
-    	<form type="" id="" onSubmit="">
-	        <label class="label">Old Password <em>*</em></label>
-	        <label class="input">
-	            <input type="password" name="oldPswdVal" id="oldPswdVal">
-	        </label>
-	        <div class="clearfix"></div>
-	        <label class="label">New Password <em>*</em></label>
-	         <label class="input">
-	            <input type="password" name="pswdVal" id="pswdVal">
-	        </label>
-	        <div class="clearfix"></div>
-	        <label class="label">Confirm Password <em>*</em></label>
-	         <label class="input">
-	            <input type="password" name="confPswdVal" id="confPswdVal">
-	        </label>	
-	        <div class="clearfix"></div> <br>         
-            
-            
-            <div class="clearfix"></div><br>
-             <button type="button" class="btn btn-danger submitResetPswd">Submit</button>
-    	</form>       
-        </div>        
+    <div id="form_status"></div>
+    <form type="" id="" onSubmit="">
+        <!--<label class="label">Old Password <em>*</em></label>
+        <label class="input">
+            <input type="password" name="oldPswdVal" id="oldPswdVal">
+        </label>
+        <div class="clearfix"></div>-->
+        <label class="label">New Password <em>*</em></label>
+         <label class="input">
+            <input type="password" name="pswdVal" id="pswdVal">
+        </label>
+        <div class="clearfix"></div>
+        <label class="label">Confirm Password <em>*</em></label>
+         <label class="input">
+            <input type="password" name="confPswdVal" id="confPswdVal">
+        </label>	
+         <button type="button" class="btn btn-danger submitResetPswd">Submit</button>
+    </form>  
+</div></br></br>     
+<h4>Add Phone Number:</h4><br> 
+<div class="cforms ">       
+    <div id="addPhoneForm"></div>
+    <form type="" id="" onSubmit="">
+        <label class="label">Phone Number <em>*</em></label>
+         <label class="input">
+            <input type="text" name="phoneNo" id="phoneNo">
+        </label>
+        <button type="button" class="btn btn-danger addPhoneNo">Submit</button>
+    </form>
+</div> 
  </div>          
 </div><!-- end content left side -->
 
@@ -79,17 +86,28 @@
     $(document).ready(function(){
         $('#pageTitle').text('Aadinath | Account Settings');
     });
+    $('.addPhoneNo').click(function(){
+        var phoneNo     = $('#phoneNo').val();
+        var error = 0;
+        if(phoneNo=='' || phoneNo.length !=10){
+            $('#phoneNo').css('border-color','red');
+            error++;
+        }else{
+            $('#phoneNo').css('border-color','#ccc');
+        }
+        
+        if(phoneNo!='' && phoneNo.length ==10){
+            $.post('<?php echo $baseUrl?>/front-end/user/account-settings', {phoneNo:phoneNo}, function (response) {
+                $("#addPhoneForm" ).before( "<p style='color:red'> Phone Number added Successfully<p>");  
+                return false;
+            });
+        }
+    });
+    
     $('.submitResetPswd').click(function(){
-        var oldPswdVal  = $('#oldPswdVal').val();
         var pswdVal     = $('#pswdVal').val();
         var confPswdVal = $('#confPswdVal').val();
         var error = 0;
-        if(oldPswdVal==''){
-            $('#oldPswdVal').css('border-color','red');
-            error++;
-        }else{
-            $('#oldPswdVal').css('border-color','#ccc');
-        }
         if(pswdVal==''){
             $('#pswdVal').css('border-color','red');
             error++;
@@ -109,7 +127,7 @@
             return false;
         }
         if(error==0 && pswdVal==confPswdVal){
-          $.post('<?php echo $baseUrl?>/front-end/user/account-settings', {oldPswdVal:oldPswdVal,pswdVal:pswdVal,confPswdVal:confPswdVal}, function (response) {
+          $.post('<?php echo $baseUrl?>/front-end/user/account-settings', {pswdVal:pswdVal,confPswdVal:confPswdVal}, function (response) {
             if(response=='wrongpassword'){
                  $("#oldPswdVal" ).after( "<p style='color:red'> Invalid Old Password<p>");  
                  return false;

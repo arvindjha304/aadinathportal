@@ -269,6 +269,86 @@ return array(
                         ),
                     ),
                 ),
+                'vaastu-tips' => array(
+                    'type' => 'literal',
+                    'options' => array(
+                        'route'    => '/vaastu-tips',
+                        'defaults' => array(
+                            'controller' => 'Application\Controller\Index',
+                            'action'     => 'vaastu-tips',
+                        ),
+                    ),
+                ),
+                'emi' => array(
+                    'type' => 'literal',
+                    'options' => array(
+                        'route'    => '/emi-calculator',
+                        'defaults' => array(
+                            'controller' => 'Application\Controller\Index',
+                            'action'     => 'emi',
+                        ),
+                    ),
+                ),
+                'faq' => array(
+                    'type' => 'literal',
+                    'options' => array(
+                        'route'    => '/faq',
+                        'defaults' => array(
+                            'controller' => 'Application\Controller\Index',
+                            'action'     => 'faq',
+                        ),
+                    ),
+                ),
+                'home-loan' => array(
+                    'type' => 'literal',
+                    'options' => array(
+                        'route'    => '/home-loan',
+                        'defaults' => array(
+                            'controller' => 'Application\Controller\Index',
+                            'action'     => 'home-loan',
+                        ),
+                    ),
+                ),
+                'nri' => array(
+                    'type' => 'literal',
+                    'options' => array(
+                        'route'    => '/nri-services',
+                        'defaults' => array(
+                            'controller' => 'Application\Controller\Index',
+                            'action'     => 'nri',
+                        ),
+                    ),
+                ),
+                'about-us' => array(
+                    'type' => 'literal',
+                    'options' => array(
+                        'route'    => '/about-us',
+                        'defaults' => array(
+                            'controller' => 'Application\Controller\Index',
+                            'action'     => 'about-us',
+                        ),
+                    ),
+                ),
+                'careers' => array(
+                    'type' => 'literal',
+                    'options' => array(
+                        'route'    => '/careers',
+                        'defaults' => array(
+                            'controller' => 'Application\Controller\Index',
+                            'action'     => 'careers',
+                        ),
+                    ),
+                ),
+                'contact-us' => array(
+                    'type' => 'literal',
+                    'options' => array(
+                        'route'    => '/contact-us',
+                        'defaults' => array(
+                            'controller' => 'Application\Controller\Index',
+                            'action'     => 'contact-us',
+                        ),
+                    ),
+                ),
             ),
 		),
 		'service_manager' => array(

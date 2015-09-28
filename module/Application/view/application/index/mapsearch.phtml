@@ -3,6 +3,9 @@
 
         $container = new \Zend\Session\Container('searchSessionFields');
         $projectListPage         = (is_numeric($container->cities)) ? $baseUrl.'/projects-in-noida' : $baseUrl.'/projects';
+        
+        $compareProjects       = new Zend\Session\Container('compareProjects');
+        $allCompareProjects    = (count($compareProjects->allCompareProjects)) ? $compareProjects->allCompareProjects : [];
 
 ?>
 
@@ -323,4 +326,9 @@ $(document).ready(function(){
     $('#pageTitle').text('Aadinath | <?php if($container->searchCityName!='') echo 'Projects in '.$container->searchCityName; else echo 'Projects'; ?> ');
     return updateValues();
 });
+var CompareProjectsArr = [];
+<?php if(count($allCompareProjects)){ 
+    foreach($allCompareProjects as $projects){  ?>
+        CompareProjectsArr.push(<?php echo $projects;?>);
+<?php }} ?>
 </script>

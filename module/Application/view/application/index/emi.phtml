@@ -1,0 +1,176 @@
+<?php $baseUrl = $this->basePath(); ?>
+
+<div class="container">
+	<div class="margin_top12"></div>
+	<div class="page-header">
+  <div class="clearfix"></div>  
+  <h3>Home Loan Emi Calculator</h3></div>
+	
+   
+<div class="container margin_top2">
+<div class="content_left">    	
+        
+      <div class="starter-template col-sm-12 margin_top7">
+
+<form class="form-horizontal" role="form">
+  <div class="form-group">
+    <label for="intrate" class="col-sm-4 control-label">Interest Rate</label>
+	<div class="col-sm-8">
+		<input type="text" class="form-control" id="intrate" placeholder="Enter Interest Rate" value="10.5">
+	</div>
+  </div>
+  <div class="form-group">
+    <label for="remAmount" class="col-sm-4 control-label">Remaining Loan Amount</label>
+	<div class="col-sm-8">
+		<input type="text" class="form-control" id="remAmount" placeholder="Enter Remaing Loan Amount" value="1,000,000">
+	</div>
+  </div>
+  <div class="form-group">
+    <label for="emiAmount" class="col-sm-4 control-label">Emi Amount</label>
+	<div class="col-sm-8">
+		<input type="text" class="form-control" id="emiAmount" placeholder="Enter Emi Amount" value="20,000">
+	</div>
+  </div>
+  <div class="form-group">
+    <label for="dayOfEmi" class="col-sm-4 control-label">day of month on which emi is paid</label>
+	<div class="col-sm-8">
+		<input type="text" class="form-control" id="dayOfEmi" placeholder="Enter day of month on which emi is paid" value="10">
+	</div>
+  </div>
+  <div class="margin_top2"></div>
+  <div class="form-group">
+    <div class="col-sm-offset-10 col-sm-2">
+      <button onClick="javascript:generateTable();return false;" class="btn btn-danger btn-sm">Generate Table</button>
+    </div>
+  </div>
+</form>
+<div id="content">
+</div>
+<script>
+function generateTable(){
+document.getElementById("content").innerHTML = "";
+var date = new Date();
+var dateofEmi = document.getElementById('dayOfEmi').value;
+var dayOfEmi = dateofEmi - 1;
+var curMonth = date.getMonth() + 1;
+var curYear = date.getFullYear();
+var ydate = new Date(curYear,0,0);
+var ydate1 = new Date(curYear+1,0,0);
+var no_of_day_in_year = (ydate1-ydate)/(60*60*24*1000);
+var interest_rate = parseFloat(document.getElementById('intrate').value);
+var starting_amount = parseInt(document.getElementById('remAmount').value.replace(/,/g, ""));
+var emiAmount = parseInt(document.getElementById('emiAmount').value.replace(/,/g, ""));
+var total_interest_paid = 0;
+var content = "";
+var content1 = "";
+content += "<table class='table'>";
+content += "<tr>";
+content += "<td>Remaining Loan Amount<td/> <td>Interest till emi date<td/> <td>Interest from emi date to End of Month<td/> <td>Total Interest<td/> <td>Amount at end of month include total Interest - Emi<td/> <td>Month<td/> <td>Year<td/>";
+content += "<tr/>";
+while(starting_amount > 0){
+	var lastDayOfMonth = (new Date(curYear, curMonth ,0)).getDate();
+	var int_before_emi = (dayOfEmi*starting_amount*interest_rate)/(no_of_day_in_year*100);
+	var int_after_emi = 0;
+	if( (int_before_emi+starting_amount) > emiAmount ){
+		int_after_emi = ((lastDayOfMonth-dayOfEmi)*(starting_amount-emiAmount)*interest_rate)/(no_of_day_in_year*100);
+	}
+	content += "<tr>";
+	content += "<td>"+Math.round(starting_amount)+"<td/>";
+	content += "<td>"+Math.round(int_before_emi)+"<td/>";
+	content += "<td>"+Math.round(int_after_emi)+"<td/>";
+	content += "<td>"+Math.round(int_before_emi+int_after_emi)+"<td/>";
+	if(starting_amount > emiAmount ){
+		starting_amount = starting_amount - emiAmount + int_before_emi + int_after_emi;
+	}else{
+		starting_amount = 0;
+	}
+	content += "<td>"+Math.round(starting_amount)+"<td/>";
+	content += "<td>"+ (curMonth) +"<td/>";
+	content += "<td>"+ (curYear) +"<td/>";
+	content += "<tr/>";
+	curMonth = curMonth + 1;
+	if(curMonth == 13){
+		curMonth = 1;
+		curYear = curYear + 1;
+		ydate = new Date(curYear,0,0);
+		ydate1 = new Date(curYear+1,0,0);
+		no_of_day_in_year = (ydate1-ydate)/(60*60*24*1000);
+	}
+	total_interest_paid = total_interest_paid + Math.round(int_before_emi + int_after_emi);
+}
+content += "<table\>";
+content1 += "<table>";
+	content1 += "<tr>";
+	content1 += "<td> Total interest : "+total_interest_paid+"<td/>";
+	content1 += "<tr\>";
+content1 += "<table\><br/>";
+var div = document.createElement('div');
+div.innerHTML = content1 + content;
+document.getElementById('content').appendChild(div);
+return false;
+}
+document.getElementById("remAmount").onblur = function (){
+    this.value = parseFloat(this.value.replace(/,/g, ""))
+                    .toFixed(2)
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+document.getElementById("emiAmount").onblur = function (){
+    this.value = parseFloat(this.value.replace(/,/g, ""))
+                    .toFixed(2)
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+</script>
+      </div>
+
+        
+       
+    
+    
+</div><!-- end content left side -->
+
+
+<!-- right sidebar starts -->
+<div class="right_sidebar">
+	<div class="sidebar_widget">    
+    	<div class="sidebar_title">
+        <div class="last stcode_title5"><h3><span class="line2"></span><span class="line"></span><span class="text">Quick Links</span></h3></div>
+        </div>        
+		<ul class="arrows_list1">        
+            <li><a href="<?php echo $baseUrl?>/faq"><i class="fa fa-angle-right"></i> Property Buying Steps</a></li>
+            <li><a href="<?php echo $baseUrl?>/home-loan"><i class="fa fa-angle-right"></i> Home Loan</a></li>
+            <li><a href="<?php echo $baseUrl?>/vaastu-tips"><i class="fa fa-angle-right"></i> Vaastu Tips</a></li>
+            <li><a href="<?php echo $baseUrl?>/emi-calculator"><i class="fa fa-angle-right"></i> EMI Calculator</a></li>
+            <li><a href="<?php echo $baseUrl?>/nri-services"><i class="fa fa-angle-right"></i> NRI services</a></li>
+            <li><a href="#"><i class="fa fa-angle-right"></i> Real Estate News</a></li>
+		</ul>	
+       <div class="margin_top8"></div>    
+    	<ul class="arrows_list1">        
+            <li><a href="#"><img src="<?php echo $baseUrl?>/public/images/latest-Project/lp3.jpg"></a></li>
+            
+		</ul>	
+	</div><!-- end section -->
+
+</div><!-- end right sidebar -->
+
+</div>
+    
+    <!-- end section -->
+    
+</div>
+    
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        $('#pageTitle').text('Aadinath | Emi Calculator');
+    });
+    </script>
+
+
+<!---End of Builder--->
+
+
+
+  
+  

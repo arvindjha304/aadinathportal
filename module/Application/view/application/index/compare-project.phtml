@@ -117,9 +117,14 @@
                                            $bhkArray[] = 5;
                                       ?>
                                       <option value=""><?php echo implode(',',$bhkArray)?> BHK</option>
-                                      <?php foreach($project['getProjectFloorPlan'] as $projectFloorPlan){?>
-                                      <option value='<?php echo $projectFloorPlan['id'];?>'><?php echo $projectFloorPlan['plan_type'];?> (<?php echo $projectFloorPlan['size'];?> sq ft)</option>
-                                      <?php }?>
+                                      <?php foreach($project['getProjectFloorPlan'] as $projectFloorPlan){
+                                          
+                                          
+                                          foreach($projectFloorPlan['floor_plan_list'] as $floorPlan){
+                                        
+//                                          echo '<pre>';print_r($floorPlan);exit;  ?>
+                                      <option value='<?php echo $floorPlan['id'];?>'><?php echo $floorPlan['plan_type'];?> (<?php echo $floorPlan['size'];?> sq ft)</option>
+                                          <?php }}?>
               					  </select>
                               </td>                             
                             </tr>
@@ -160,14 +165,14 @@
 
 
 //        $(function() {
-	$(document).ready(function() {
+	//$(document).ready(function() {
         $('.gallery a').lightBox();
 		//$('#gallery2 a').lightBox();
 		$('.gallery a.yo').lightBox();
 		//$('#gallery4 a.down').lightBox();
 		//$('#gallery5 a.me').lightBox();
 		
-    });
+    //});
 //    });
 
 </script>

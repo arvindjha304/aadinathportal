@@ -51,7 +51,7 @@ class UserController extends AbstractActionController
         }
     }
     public function userLogin($useremail,$password,$remember_me=0){
-        $authAdapter 	= new AuthAdapter($this->getAdapter(), 'userlist','useremail', 'password', 'CONCAT(?,salt_key) and is_active=1 and is_delete=0');
+        $authAdapter 	= new AuthAdapter($this->getAdapter(), 'userlist','useremail', 'password', 'CONCAT(?,salt_key) and is_active=1 and is_delete=0  and is_verified=1');
         $authAdapter->setIdentity(trim($useremail));
         $authAdapter->setCredential(base64_encode(trim($password)));
        // $authAdapter->setCredentialTreatment('CONCAT(?,salt_key)');
@@ -68,7 +68,6 @@ class UserController extends AbstractActionController
             $data = $authAdapter->getResultRowObject();
             $auth->getStorage()->write($data);
             $identity = $auth->getIdentity();
-            
 //            print_r($identity);
             exit('LoginSuccessfull');
             return true;	
@@ -89,14 +88,27 @@ class UserController extends AbstractActionController
                 if(count($userData)){
                     exit('userexist');
                 }else{
-                    $this->addUser($userName,$userPassword,$userEmail,$userMobile);
+                    $id = $this->addUser($userName,$userPassword,$userEmail,$userMobile,0);
+                    $this->getModel()->verifyMailLink($id,$userEmail);
+//                    echo $id.'===';
                     exit('11');    
                 }
             }   
         }
     }
     
-    public function addUser($userName,$userPassword,$userEmail,$userMobile,$fb_login=0,$gmail_login=0){
+    public function emailVerificationAction(){
+        $view = new ViewModel();
+        $this->layout('layout/innerlayout');
+        $user = $this->params()->fromQuery('user');
+        if($user!=''){
+            $userId = base64_decode($user);
+            $id = $this->getModel()->updateanywhere('userlist',['is_verified'=>1],['id'=>$userId]);
+        }
+        return $view;
+    }
+
+    public function addUser($userName,$userPassword,$userEmail,$userMobile,$is_verified,$fb_login=0,$gmail_login=0){
         $salt = $this->create_salt();
         $data = [];
         $data['username']       =   trim($userName);
@@ -108,10 +120,11 @@ class UserController extends AbstractActionController
         $data['gmail_login']    =   $gmail_login;
         $data['is_active']      =   1;
         $data['is_delete']      =   0;
+        $data['is_verified']    =   $is_verified;
         $data['date_created']   =   date('Y-m-d H:i:s');
 //          echo '<pre>';print_r($data);exit;    
-        $this->getModel()->insertanywhere('userlist',$data);
-        return 1;
+        $id = $this->getModel()->lastInsertId('userlist',$data);
+        return $id;
     }
     
     
@@ -171,7 +184,7 @@ class UserController extends AbstractActionController
                 $this->getModel()->updateanywhere('userlist',['gmail_login'=>1],['id'=>$userData[0]['id']]);
                 $this->userLogin($userData[0]['useremail'],  base64_decode($password));
             }else{
-                $this->addUser($name,'password',$email,'',0,1);
+                $this->addUser($name,'password',$email,'',1,0,1);
                 $this->userLogin($email,'password');
             }
         }
@@ -193,7 +206,7 @@ class UserController extends AbstractActionController
                 $this->userLogin($userData[0]['useremail'],  base64_decode($password));
             }else{
 //                    echo '222';exit;
-                $this->addUser($name,'password',$email,'',1,0);
+                $this->addUser($name,'password',$email,'',1,1,0);
                 $this->userLogin($email,'password');
             }
             
@@ -214,13 +227,14 @@ class UserController extends AbstractActionController
 //        echo base64_decode($password);exit;
 //        echo '<pre>'; print_r($userDetails);exit;
         if($this->getRequest()->isXmlHttpRequest()){
-            $oldPswdVal     = $this->params()->fromPost('oldPswdVal');
+            $phoneNo        = $this->params()->fromPost('phoneNo');
             $pswdVal        = $this->params()->fromPost('pswdVal');
             $confPswdVal    = $this->params()->fromPost('confPswdVal');
-            if($oldPswdVal  !=  base64_decode($password)){
-                exit('wrongpassword');
+            if($phoneNo!=''){
+                $this->getModel()->updateanywhere('userlist',['mobile'=>$phoneNo],['id'=>$userDetails->id]);
+                exit();
             }
-            if($pswdVal==$confPswdVal){
+            if($pswdVal!='' && $confPswdVal!='' && $pswdVal==$confPswdVal){
                 $salt = $this->create_salt();
                 $data = [];
                 $data['password']       =   base64_encode(trim($pswdVal)).$salt;

@@ -1,4 +1,7 @@
 <?php $baseUrl = $this->basePath(); 
+$container             = new Zend\Session\Container('compareProjects');
+$allCompareProjects    = (count($container->allCompareProjects)) ? $container->allCompareProjects : [];
+$auth = new \Zend\Authentication\AuthenticationService();
 //echo '<pre>';print_r($this->floor_plans);exit;
 
 ?>
@@ -139,10 +142,12 @@
             <form role="form"> 
                 <input type='hidden' id='callBackProjectId' value='<?php echo $this->projectDetail['project_id'] ?>'>
                 <label>Name <em>*</em></label>
-                <input type="text" id="callBackInputName">
+                <input type="text" id="callBackInputName" value="<?php 
+       if($auth->hasIdentity()){$identity = $auth->getIdentity(); echo $identity->username;}?>">
                 
                 <label>Email <em>*</em></label>
-                <input type="text" id="callBackInputEmail">
+                <input type="text" id="callBackInputEmail" value="<?php 
+       if($auth->hasIdentity()){$identity = $auth->getIdentity(); echo $identity->useremail;}?>">
                 
                 <div class="one_half">
                     <label>City <em>*</em></label>
@@ -150,7 +155,8 @@
                 </div>
                  <div class="one_half last">
                     <label>Mobile No. <em>*</em></label>
-                    <input type="text" id="callBackInputMobile">
+                    <input type="text" id="callBackInputMobile" value="<?php 
+       if($auth->hasIdentity()){$identity = $auth->getIdentity(); if($identity->mobile!=0) echo $identity->mobile;}?>">
                 </div>                                
                 <button id="callBackSubmit" onclick="return submitCallBack()" type="button" class="fbut">GET CALL BACK</button>  <img id="callBackLoader" style="margin-left:10px;margin-top:10px;display:none;" src="<?php echo $baseUrl;?>/public/images/lightbox-ico-loading.gif">                  
             </form>        
@@ -413,6 +419,7 @@
                         <th>PROPERTY</th>
                         <th>SIZE</th>
                         <th>BUILDER PRICE</th>
+                        <th>FLOOR PLAN</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -423,10 +430,12 @@
                             <td><?php echo $floor_plan['BHK'];?> Bedroom &nbsp;<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td>
                             <td><?php echo $floor_plan['min_size']; if(count($floor_plan['floor_plan_list'])>1) { echo ' - '.$floor_plan['max_size'];}      echo ' '.$floor_plan['size_unit']; ?></td>
             <td><span class="rupee">`</span> <?php echo $floor_plan['min_price'];if(count($floor_plan['floor_plan_list'])>1) {?> - <span class="rupee">`</span> <?php echo $floor_plan['max_price']; }?></td>
+                            <td>&nbsp;</td>
                         </tr>
                         <?php if(count($floor_plan['floor_plan_list'])){?>
                             <tr class="subrow<?php echo $this->projectDetail["project_id"].$pp;?> hide-row-bg" onClick="hideRow('subrow<?php echo $this->projectDetail["project_id"].$pp;?>','head<?php echo $this->projectDetail["project_id"].$pp;?>');" style="cursor:pointer;display:none;">
                                 <td><?php echo $floor_plan['BHK'];?> Bedroom &nbsp;<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td>
+                                <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                             </tr>
@@ -435,6 +444,7 @@
                                 <td class="hide-cell-pad"><?php echo $floor_plan_list['plan_type'];?> </th>
                                 <td class="hide-cell-pad"><?php echo $floor_plan_list['size'];?> <?php echo $floor_plan_list['unit'];?></td>
                                 <td class="hide-cell-pad"><span class="rupee">`</span> <?php echo $floor_plan_list['price'];?> <?php echo $floor_plan_list['price_unit'];?></td>
+                                <td class="hide-cell-pad gallery"><a class="yo" href="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $floor_plan_list['floor_plan_image'] ?>" title="<?php echo $this->projectDetail['project_title']?> - FLOOR PLAN (<?php echo $floor_plan_list['plan_type'] ?> / <?php echo $floor_plan_list['size'] ?> <?php echo $floor_plan_list['unit'] ?>)">View Floor Plan</a></td>
                             </tr>
                       <?php }}
                       $pp++;

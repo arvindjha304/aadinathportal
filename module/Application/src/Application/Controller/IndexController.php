@@ -37,11 +37,10 @@ class IndexController extends AbstractActionController
         $view->setVariable('homeBannerArr', $homeBannerArr);
         $hotdealbanner = $indexModel->projectBanner(1);
         $view->setVariable('hotdealbanner', $hotdealbanner);
-        $residentialPrjcts = $indexModel->projectByCategory(1);
-        $view->setVariable('residentialPrjcts', $residentialPrjcts);
-        $commercialPrjcts = $indexModel->projectByCategory(2);
-        $view->setVariable('commercialPrjcts', $commercialPrjcts);
-        
+//        $residentialPrjcts = $indexModel->projectByCategory(1);
+//        $view->setVariable('residentialPrjcts', $residentialPrjcts);
+//        $commercialPrjcts = $indexModel->projectByCategory(2);
+//        $view->setVariable('commercialPrjcts', $commercialPrjcts);
         
         $allTestimonials = $indexModel->allTestimonials();
         $view->setVariable('allTestimonials', $allTestimonials);
@@ -341,7 +340,6 @@ class IndexController extends AbstractActionController
             $tempArr['min_floor_plan_price'] = $this->getModel()->min_floor_plan_price($project_id);
             $tempArr['getProjectFloorPlan'] = $this->getModel()->getProjectFloorPlan($project_id);
             $compPrjArr[] = $tempArr;
-            
         }
 //         echo '<pre>';print_r($compPrjArr);exit;
         $view->setVariable('compPrjArr', $compPrjArr);
@@ -361,7 +359,6 @@ class IndexController extends AbstractActionController
                 $tempArr['countFloorPlan']     = count($allFloorPlan);
             }else{
                 $table = new TableGateway('project_floor_plan',$this->getAdapter());
-                
                 $floorPlanDetail = $table->select(array('id'=>$floorPlanId))->toArray();
 //                exit(json_encode($floorPlanDetail));
                 $tempArr['floorPlanDetail'] = $floorPlanDetail[0];
@@ -369,5 +366,46 @@ class IndexController extends AbstractActionController
             }
             exit(json_encode($tempArr));
         }
+    }
+    
+    public function vaastuTipsAction(){
+        $view = new ViewModel();
+        $this->layout('layout/innerlayout');
+        return $view;
+    } 
+    public function emiAction(){
+        $view = new ViewModel();
+        $this->layout('layout/innerlayout');
+        return $view;
+    } 
+    public function faqAction(){
+        $view = new ViewModel();
+        $this->layout('layout/innerlayout');
+        return $view;
+    } 
+    public function homeLoanAction(){
+        $view = new ViewModel();
+        $this->layout('layout/innerlayout');
+        return $view;
+    } 
+    public function nriAction(){
+        $view = new ViewModel();
+        $this->layout('layout/innerlayout');
+        return $view;
+    }
+    public function aboutUsAction(){
+        $view = new ViewModel();
+        $this->layout('layout/indexlayout');
+        return $view;
+    }
+    public function contactUsAction(){
+        $view = new ViewModel();
+        $this->layout('layout/indexlayout');
+        return $view;
+    }
+    public function careersAction(){
+        $view = new ViewModel();
+        $this->layout('layout/indexlayout');
+        return $view;
     }
 }
