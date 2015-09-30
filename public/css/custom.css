@@ -441,19 +441,47 @@ margin-bottom:30px; color:#333; font-family: "Raleway",sans-serif;
 .magicsearch-results{
   width:100%;
    height:auto;    
-     padding-left:3%;      
+     /*padding-left:3%;      */
+     z-index:1000;
+     position: relative;
 }
 .magicsearch-results ul{ 
-  border-bottom:1px solid #ddd;
-  padding:10px 0px;
-  background:#f8f8f8;
+  border-bottom:1px solid #ddd;  
+  background-color:#f8f8f8;  
 }
 .magicsearch-results ul li{  
   padding-right:3%;
   color: #333;
   font-family: "openSans",Arial,Helvetica,sans-serif;
   font-size:13px; 
-  line-height: 22px;
+  line-height: 28px;
+  background-color:#f8f8f8;
+}
+.magicsearch-results ul li:hover{
+ background-color:#ccc;
+}
+/*----add------*/
+.add-portfolio{
+  width:92.5%;
+   height:auto;    
+     /*padding-left:3%;      */
+     z-index:1000;
+     position: relative;
+}
+.add-portfolio ul{ 
+  border-bottom:1px solid #ddd;  
+  background-color:#f8f8f8;  
+}
+.add-portfolio ul li{  
+  padding-right:3%;
+  color: #333;
+  font-family: "openSans",Arial,Helvetica,sans-serif;
+  font-size:13px; 
+  line-height: 28px;
+  background-color:#f8f8f8;
+}
+.add-portfolio ul li:hover{
+ background-color:#ccc;
 }
 .magicsearch-results-leftpad{
   padding-left:4%;

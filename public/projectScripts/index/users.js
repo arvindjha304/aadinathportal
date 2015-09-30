@@ -13,11 +13,13 @@ function openSignUp(){
 function openLoginForm(){
    //$('.userLoginEmail,.userLoginPassword').val('');
    $('#loginForm').modal('show');
+//   $(window).disablescroll();
+//   $(window).disablescroll("undo");
 }
 function forgotPassword(){
    $('.forgotEmail').val('');
-    $('#loginForm').modal('hide');
-    $('#forgotPwswd').modal('show');
+   $('#loginForm').modal('hide');
+   $('#forgotPwswd').modal('show');
 }
 $('.userLogin').click(function(){
     var userLoginEmail = $('.userLoginEmail').val();

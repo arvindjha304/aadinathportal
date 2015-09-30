@@ -3981,7 +3981,7 @@
 	float: left;
 	width: 100%;
 	padding: 115px 0px 140px 0px;
-	background: #f3f3f3;
+	background: #fff;
 }
 .featured_section91 .one_fourth {
 	background: #575757;
@@ -3994,15 +3994,15 @@
 	border-top-right-radius: 3px;
 }
 .featured_section91 .one_fourth span {
-	float: left;
-	color: #393939;
-	width: 100%;
-	padding: 12px 0px;
-	background: rgba(255,255,255,0.80);
-	text-align: center;
-	position: absolute;
-	bottom: 0;
-	left: 0;
+	background: rgba(255, 255, 255, 0.8) none repeat scroll 0 0;
+        color: #393939;
+        float: left;
+        left: 0;
+        padding: 12px 0;
+        position: absolute;
+        text-align: center;
+        top: 212px;
+        width: 100%;
 }
 .featured_section91 .one_fourth span strong {
 	font-size: 16px;
@@ -7137,7 +7137,7 @@ ul.footer_social_links5 {
 	background: #999 url(../images/careers-bg.jpg) no-repeat center top;
 }
 .page_title1.sty8 {
-	background: #999 url(../images/page-title-bg9.jpg) no-repeat center top;
+	background: #999 url(../images/about-bg.jpg) no-repeat center top;
 }
 .page_title1.sty9 {
 	background: #999 url(../images/page-title-bg10.jpg) no-repeat center top;

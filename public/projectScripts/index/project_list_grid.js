@@ -107,8 +107,10 @@ function changeView(viewType) {
     var PropertyTypeFilters = $('#PropertyTypeFilters').val();
     var BudgetFilters = $('#BudgetFilters').val();
     var BedroomFilters = $('#BedroomFilters').val();
+    $('#loaderDiv').show();
     $('#searchProjects').addClass('opacity3');
     $.post(SITEROOT + '/front-end/index/changesearchview', {viewType: viewType,PossessionFilters: PossessionFilters,PropertyTypeFilters: PropertyTypeFilters,BudgetFilters: BudgetFilters,BedroomFilters: BedroomFilters}, function (response) {
+        $('#loaderDiv').hide();
         $('#searchProjects').removeClass('opacity3');
         if (response.length > 0) {
             var monthNames = ["Jan","Feb","Mar","Apr", "May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
