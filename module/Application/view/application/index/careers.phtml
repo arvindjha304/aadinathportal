@@ -53,9 +53,11 @@ At Aadinath, we recruit skilled individuals who are perfectionists and passionat
 	        <label class="input">
 	            <input type="text" name="phone" id="phone">
 	        </label>	
-	        <div class="clearfix"></div> <br>         
+	        <div class="clearfix"></div> 
+            <label class="label">Resume <em>*</em></label>
+            <label class="input">
             <input type="file" style="width:200px;background:none; border:none; box-shadow:none; -webkit-box-shadow: none; padding:0;">
-            
+            </label>
             <div class="clearfix"></div><br>
              <button type="button" class="btn btn-danger">Send Message</button>
 	        
@@ -77,6 +79,8 @@ At Aadinath, we recruit skilled individuals who are perfectionists and passionat
     <script>
     $(document).ready(function(){
         $('#pageTitle').text('Aadinath | Careers');
+        $('.homeMenu,.AboutUsMenu,.ContactUsMenu').removeClass('active');
+        $('.CareersMenu').addClass('active')
     });
     </script>
 

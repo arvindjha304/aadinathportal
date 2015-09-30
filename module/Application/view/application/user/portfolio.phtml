@@ -5,14 +5,38 @@
 	<div class="margin_top12"></div>
 	<div class="page-header">
   <div class="clearfix"></div>  
-  <h3>My Portfolio</h3></div>
+  <h3>My Properties</h3></div>
 	
    
 <div class="container margin_top2">
-<div class="content_left">        
-    <p style="text-align:justify;">ppp</p>     
-</div><!-- end content left side -->
+<div class="content_left"> 
 
+
+        <h4 class="margin_top3">Things that you can do with My Portfolio:</h4>
+        
+        <div class="margin_top1"></div>
+        <ul class="arrows_list1">
+        <li>- Add and track any property that you own.</li>
+        <li>- Track the goal amount of your property.</li>
+        <li>- Track the price movement of your project vis-a-vis market.</li>
+		<li>- Follow the project and locality related discussions and reviews.</li>
+		<li>- Get the latest update on construction status of your project.</li>
+        <li>- Inform us if you want to sell your property, or avail a home loan against it.</li>
+        </ul>
+        
+        <div class="page-header">&nbsp;</div>
+        <h4 class="margin_top3">More to come:</h4>
+        
+        <div class="margin_top1"></div>
+        <ul class="arrows_list1">        
+            <li>- Upload and manage documents.</li>
+            <li>- Manage your payment plan.</li>
+            <li>- Project Update Notifications through email.</li>                     
+		</ul> 
+        <div class="page-header">&nbsp;</div>
+        <div class="margin_top3"></div>
+        <button type="button" class="btn btn-danger btn-sm pull-right" href="#" data-toggle="modal" data-target="#add-property-step1Modal"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ADD PROPERTY</button>       
+</div><!-- end content left side -->
 
 <!-- right sidebar starts -->
 <div class="right_sidebar">
@@ -24,7 +48,7 @@
             <li><a href="<?php echo $baseUrl;?>/user/portfolio"><i class="fa fa-angle-right"></i> My Portfolio</a></li>
             <li><a href="<?php echo $baseUrl;?>/user/recently-viewed"><i class="fa fa-angle-right"></i> Recently Viewed</a></li>
             <li><a href="<?php echo $baseUrl;?>/user/enquired-properties"><i class="fa fa-angle-right"></i> Enquired Properties</a></li>
-            <li><a href="<?php echo $baseUrl;?>/user/account-settings"><i class="fa fa-angle-right"></i> Account Settings</a></li>          
+            <li><a href="<?php echo $baseUrl;?>/user/account-settings"><i class="fa fa-angle-right"></i> Account Settings</a></li>            
 		</ul>              
 	</div><!-- end section -->
     <div class="margin_top5"></div>
@@ -33,23 +57,197 @@
         <div class="last stcode_title5"><h3><span class="line2"></span><span class="line"></span><span class="text">Quick Links</span></h3></div>
         </div>        
 		<ul class="arrows_list1">        
-             <li><a href="property-buying-step.html"><i class="fa fa-angle-right"></i> Property Buying Steps</a></li>
-            <li><a href="home-loan.html"><i class="fa fa-angle-right"></i> Home Loan</a></li>
-            <li><a href="vaastu-tips.html"><i class="fa fa-angle-right"></i> Vaastu Tips</a></li>
-            <li><a href="emi.html"><i class="fa fa-angle-right"></i> EMI Calculator</a></li>
-            <li><a href="nri.html"><i class="fa fa-angle-right"></i> NRI services</a></li>
-            <li><a href="#"><i class="fa fa-angle-right"></i> Real Estate News</a></li> 
+            <li><a href="<?php echo $baseUrl;?>/faq"><i class="fa fa-angle-right"></i> Property Buying Steps</a></li>
+            <li><a href="<?php echo $baseUrl;?>/home-loan"><i class="fa fa-angle-right"></i> Home Loan</a></li>
+            <li><a href="<?php echo $baseUrl;?>/vaastu-tips"><i class="fa fa-angle-right"></i> Vaastu Tips</a></li>
+            <li><a href="<?php echo $baseUrl;?>/emi-calculator"><i class="fa fa-angle-right"></i> EMI Calculator</a></li>
+            <li><a href="<?php echo $baseUrl;?>/nri-services"><i class="fa fa-angle-right"></i> NRI services</a></li>
+            <li><a href="#"><i class="fa fa-angle-right"></i> Real Estate News</a></li>  
 		</ul>              
 	</div>
     
 </div><!-- end right sidebar -->
+</div>    
+    <!-- end section -->    
+</div>
+    
 
+<!-----Hide/show e Add Property 1 step modal------>
+<div class="modal fade" id="add-property-step1Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">ADD PROPERTY - Step 1</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+  <div class="form-group">
+    <label for="exampleInputEmail1">City*</label>
+    <input type="text" class="form-control" id="exampleInputName1" placeholder="Enter your city">
+    <div class="add-portfolio" style="position: absolute;">
+  <ul>  
+  <a href="#"><li class="magicsearch-results-leftpad"><span style="padding-left:2%;">Noida</span></li></a>
+  <a href="#"><li class="magicsearch-results-leftpad"><span style="padding-left:2%;">Delhi</span></li></a>
+  <a href="#"><li class="magicsearch-results-leftpad"><span style="padding-left:2%;">Greater Noida</span></li></a>
+  </ul> 
+  </div>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Project*</label>
+    <input type="text" class="form-control" id="exampleInputName2" placeholder="Select a Project">
+  </div>   
+</form>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-danger" href="#" data-toggle="modal" data-target="#add-property-step2Modal">NEXT</button>        
+      </div>
+    </div>
+  </div>
 </div>
-    
-    <!-- end section -->
-    
+
+<!-----Hide/show Add Property 2 step modal------>
+<div class="modal fade" id="add-property-step2Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">ADD PROPERTY - Step 2</h4>
+      </div>
+      <div class="modal-body">
+      <h5><strong><span class="text-primary"><span class="text-uppercase">Supertech</span> CapeTown</span></strong> <small>Sector 74, Noida</small></h5><br>
+          <form class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-5 control-label">Configuration*</label>
+            <div class="col-sm-7">
+              <select class="form-control">
+                  <option>---Select Configuration---</option>
+                  <option>2BHK+2T (930 sq ft) (930 sq ft)</option>
+                  <option>2BHK+2T (930 sq ft) (930 sq ft)</option>
+                  <option>2BHK+2T (930 sq ft) (930 sq ft)</option>
+                  <option>2BHK+2T (930 sq ft) (930 sq ft)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-5 control-label">Purchased for</label>
+            <div class="col-sm-7">
+              <select class="form-control">
+                  <option>Self Use</option>
+                  <option>Investment</option>                  
+              </select>
+            </div>
+          </div>  
+           <div class="form-group">
+            <label class="col-sm-5 control-label">Property Name*</label>
+            <div class="col-sm-7">
+            <input type="text" class="form-control" id="exampleInputName1" Value="Supertech CapeTown-1">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-5 control-label">Date of Purchase</label>            
+                <div class="col-sm-7"> 
+                	<div class="input-group">        
+                       <input class="form-control form-control-inline input-medium default-date-picker" type="text" value="" />
+                       <div class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></div>               
+                	</div>
+        		</div>       
+          </div>
+           <div class="form-group">
+            <label class="col-sm-5 control-label">Unit</label>
+            <div class="col-sm-7">
+            <input type="text" class="form-control" id="exampleInputName1" placeholder="">
+            </div>
+          </div> 
+          <div class="form-group">
+            <label class="col-sm-5 control-label">Floor</label>
+            <div class="col-sm-7">
+            <input type="text" class="form-control" id="exampleInputName1" placeholder="">
+            </div>
+          </div> 
+          <div class="form-group">
+            <label class="col-sm-5 control-label">Tower</label>
+            <div class="col-sm-7">
+            <input type="text" class="form-control" id="exampleInputName1" placeholder="">
+            </div>
+          </div>     
+        </form>  
+      </div>
+      <div class="modal-footer clearfix">
+      	<button type="button" class="btn btn-sm btn-danger" href="#" data-toggle="modal" data-target="#add-property-step2Modal">BACK</button>
+      	<button type="button" class="btn btn-sm btn-danger" href="#" data-toggle="modal" data-target="#add-property-step3Modal">NEXT</button>        
+      </div>
+    </div>
+  </div>
 </div>
-    
+
+<!-----Hide/show Add Property 3 step modal------>
+<div class="modal fade" id="add-property-step3Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">ADD PROPERTY - Step 3</h4>
+      </div>
+      <div class="modal-body">
+      <h5><strong><span class="text-primary"><span class="text-uppercase">Supertech</span> CapeTown</span></strong> <small>Sector 74, Noida</small></h5><br>
+          <form class="form-horizontal">         
+           <div class="form-group">
+            <label class="col-sm-5 control-label">Basic Sale Price*</label>
+            <div class="col-sm-6">
+            <input type="text" class="form-control" id="exampleInputName1" placeholder="e.g. 9500000">
+            </div>
+            <div class="col-sm-offset-1"></div>            
+          </div> 
+          <div class="form-group">
+            <label class="col-sm-5 control-label">Other Expenses</label>
+            <div class="col-sm-6">
+            <div class="input-group">              
+              <input type="text" class="form-control" id="exampleInputName1" placeholder="">  
+              <div class="input-group-addon"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></div>
+            </div>                                  
+            </div> 
+            <div class="col-sm-offset-1"></div>            
+          </div> 
+          <div class="form-group">
+            <label class="col-sm-5 control-label">Total Price</label>
+            <div class="col-sm-6">
+            <input type="text" class="form-control" id="exampleInputName1" value="0">
+            </div> 
+            <div class="col-sm-offset-1"></div>            
+          </div>
+          <div class="form-group">
+            <label class="col-sm-5 control-label">Goal Amount</label>
+            <div class="col-sm-6">
+            <div class="input-group">              
+              <input type="text" class="form-control" id="exampleInputName1" placeholder="e.g. 9500000">
+              <div class="input-group-addon"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></div>
+            </div>            
+            </div>
+            <div class="col-sm-offset-1"></div>            
+          </div>
+          <div class="form-group">
+            <label class="col-sm-5 control-label">Loan Status</label>
+            <div class="col-sm-6">
+              <select class="form-control">
+                  <option>---Select Status---</option>
+                  <option>Availed</option>
+                  <option>Not Availed</option>
+                  <option>Paid</option>                  
+              </select>
+            </div>
+            <div class="col-sm-offset-1"></div>             
+          </div>     
+        </form>  
+      </div>
+      <div class="modal-footer clearfix">
+      	<button type="button" class="btn btn-sm btn-danger">BACK</button>
+      	<button type="button" class="btn btn-sm btn-danger">NEXT</button>        
+      </div>
+    </div>
+  </div>
+</div>
+
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script>
     $(document).ready(function(){

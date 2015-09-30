@@ -369,7 +369,7 @@ use Zend\Mime\Part as MimePart;
            $between .= ' and pfp.search_price  between '.$minprice.' and '.$maxprice.' ';
         if($bhk_type!='')
             $between .= ' and pfp.bhk_type='.$bhk_type.' ';    
-		$sql="select concat(pfp.price,' ',pfp.price_unit) as maxPrice from project_floor_plan pfp where pfp.project_id=$project_id $between order by pfp.search_price desc limit 1";
+		$sql="select concat(pfp.price,' ',pfp.price_unit) as maxPrice from project_floor_plan pfp where pfp.is_active=1 and pfp.is_delete=0 and pfp.project_id=$project_id $between order by pfp.search_price desc limit 1";
         
 //        echo $sql;exit;
 		$result =$db->query($sql)->execute()->current();
@@ -382,7 +382,7 @@ use Zend\Mime\Part as MimePart;
            $between .= ' between '.$minprice.' and '.$maxprice.' ';
         if($bhk_type!='')
            $between .= ' and pfp.bhk_type='.$bhk_type.' ';    
-		$sql="select concat(pfp.price,' ',pfp.price_unit) as minPrice from project_floor_plan pfp where pfp.project_id=$project_id and pfp.search_price $between order by pfp.search_price limit 1";
+		$sql="select concat(pfp.price,' ',pfp.price_unit) as minPrice from project_floor_plan pfp where pfp.is_active=1 and pfp.is_delete=0 and pfp.project_id=$project_id and pfp.search_price $between order by pfp.search_price limit 1";
 		$result =$db->query($sql)->execute()->current();
 		return $result['minPrice'];
 	}

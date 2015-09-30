@@ -72,7 +72,7 @@ use Zend\Session\Container;
         <body style="margin:0; padding:0;">
         <table width="640" border="0" cellpadding="0" cellspacing="0"  bgcolor="#fff" style="margin:auto; border:3px solid #02753e;">
         <tr>
-        <td colspan="2" align="center" style="font-family:Arial, Helvetica, sans-serif;font-size:24px;font-weight:bold;padding:10px;color:#fff;background-color:#02753e;"><a href="localhost'.$baseUrl.'/front-end/user/reset-password?user='.base64_encode($userId).'">Click</a> this to reset your password.</td>
+        <td colspan="2" align="center" style="font-family:Arial, Helvetica, sans-serif;font-size:24px;font-weight:bold;padding:10px;color:#fff;background-color:#02753e;"><a href="http://aadinathindia.com/front-end/user/reset-password?user='.base64_encode($userId).'">Click</a> this to reset your password.</td>
         </tr>
         </table>
         </body>
@@ -94,7 +94,7 @@ use Zend\Session\Container;
         <pre>
         Hello User
         
-        Welocme to Aadinath India. To activate your account and verify your email, please click <a href="'.$baseUrl.'/front-end/user/email-verification?user='.base64_encode($userId).'">this</a> link.
+        Welocme to Aadinath India. To activate your account and verify your email, please click <a href="http://aadinathindia.com/front-end/user/email-verification?user='.base64_encode($userId).'">this</a> link.
            
         Thanks
         Aadinath India Team

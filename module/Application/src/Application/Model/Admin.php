@@ -167,6 +167,13 @@ use Zend\Db\Sql\Expression;
 		return $result;
 	
 	}
+    public function getAllUser(){
+		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$sql="select * from userlist where is_delete=0 ";
+		$result =$db->query($sql)->execute();
+		return $result;
+	
+	}
 
 	public function getPropertyTypes(){
 	

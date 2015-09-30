@@ -258,7 +258,7 @@ $auth = new \Zend\Authentication\AuthenticationService();
             </div>            
             <div class="flips4_back flipscont4 white-text">
             	<h5><strong>BUILDINGS</strong></h5>
-                <p><?php echo $this->buildings;?></p>
+                <p><?php echo $this->projectDetail['buildings'];?></p>
             </div>
         </div>
     
@@ -300,157 +300,45 @@ $auth = new \Zend\Authentication\AuthenticationService();
    <div class="clearfix margin_top2"></div>
    <div class="divider_line1"></div>
    <div class="container">
-      <div class="last stcode_title5"><h3><span class="line2"></span><span class="line"></span><span class="text"><strong>FLOOR PLANS</strong></span></h3></div>
-	<!--	<table class="table table-bordered gallery text-center">
-      <thead>
-        <tr class="active">
-          <td><b>TYPE</b></td>
-          <td><b>SIZE</b></td>
-          <td><b>PRICE</b></td>       
-          <td><b>FLOOR PLAN</b></td>
-        </tr>
-      </thead>
-      <tbody>
-        <?php foreach($this->floor_plans as $floor_plan){ ?>
-        <tr>
-          <td><?php echo $floor_plan['plan_type'] ?></th>
-          <td><?php echo $floor_plan['size'] ?> <?php echo $floor_plan['unit'] ?></td>
-          <td><?php echo $floor_plan['price'].' '.$floor_plan['price_unit'] ?></td>
-          <td><a class="yo" href="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $floor_plan['floor_plan_image'] ?>" title="<?php echo $this->projectDetail['project_title']?> - FLOOR PLAN (<?php echo $floor_plan['plan_type'] ?> / <?php echo $floor_plan['size'] ?> <?php echo $floor_plan['unit'] ?>)">View Floor Plan</a></td>
-        </tr>
-        <?php } ?>
-                     
-      </tbody>
+    <div class="last stcode_title5"><h3><span class="line2"></span><span class="line"></span><span class="text"><strong>FLOOR PLANS</strong></span></h3></div>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>PROPERTY</th>
+            <th>SIZE</th>
+            <th>BUILDER PRICE</th>
+            <th>FLOOR PLAN</th>
+          </tr>
+        </thead>
+        <tbody>
+        <?php 
+        $pp = 1111;  
+        foreach($this->floor_plans as $floor_plan){?>
+            <tr onClick="showRow('subrow<?php echo $this->projectDetail["project_id"].$pp;?>',this);" id='head<?php echo $this->projectDetail["project_id"].$pp;?>' style="cursor:pointer;">
+                <td><?php echo $floor_plan['BHK'];?> Bedroom &nbsp;<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td>
+                <td><?php echo $floor_plan['min_size']; if(count($floor_plan['floor_plan_list'])>1) { echo ' - '.$floor_plan['max_size'];}      echo ' '.$floor_plan['size_unit']; ?></td>
+<td><span class="rupee">`</span> <?php echo $floor_plan['min_price'];if(count($floor_plan['floor_plan_list'])>1) {?> - <span class="rupee">`</span> <?php echo $floor_plan['max_price']; }?></td>
+                <td>View Floor Plan</td>
+            </tr>
+            <?php if(count($floor_plan['floor_plan_list'])){?>
+                <tr class="subrow<?php echo $this->projectDetail["project_id"].$pp;?> hide-row-bg" onClick="hideRow('subrow<?php echo $this->projectDetail["project_id"].$pp;?>','head<?php echo $this->projectDetail["project_id"].$pp;?>');" style="cursor:pointer;display:none;">
+                    <td><?php echo $floor_plan['BHK'];?> Bedroom &nbsp;<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <?php foreach($floor_plan['floor_plan_list'] as $floor_plan_list){?>
+                <tr class="subrow<?php echo $this->projectDetail["project_id"].$pp;?>" style="display:none;">
+                    <td class="hide-cell-pad"><?php echo $floor_plan_list['plan_type'];?> </th>
+                    <td class="hide-cell-pad"><?php echo $floor_plan_list['size'];?> <?php echo $floor_plan_list['unit'];?></td>
+                    <td class="hide-cell-pad"><span class="rupee">`</span> <?php echo $floor_plan_list['price'];?> <?php echo $floor_plan_list['price_unit'];?></td>
+                    <td class="hide-cell-pad gallery"><a class="yo" href="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $floor_plan_list['floor_plan_image'] ?>" title="<?php echo $this->projectDetail['project_title']?> - FLOOR PLAN (<?php echo $floor_plan_list['plan_type'] ?> / <?php echo $floor_plan_list['size'] ?> <?php echo $floor_plan_list['unit'] ?>)">View Floor Plan</a></td>
+                </tr>
+          <?php }}
+          $pp++;
+        }?>  
+        </tbody>
     </table>
-      <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>TYPE</th>
-          <th>SIZE</th>
-          <th>BUILDER PRICE</th>
-          <th>FLOOR PLAN</th>
-        </tr>
-      </thead>
-      <tbody>
-        
-        <tr onClick="showRow('subrow1',this);" id="head1" style="cursor:pointer;">
-          <td>3 BHK &nbsp;<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td>
-          <td>1690 - 1942 sq ft</td>
-          <td><span class="rupee">`</span> 3.04 - <span class="rupee">`</span> 3.5 Cr</td>
-          <td>---</td>
-        </tr>
-        
-        
-        <tr class="subrow1 hide-row-bg" onClick="hideRow('subrow1','head1');" style="cursor:pointer;">
-          <td>3 BHK &nbsp;<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-        </tr>
-        
-        <tr class="subrow1">
-          <td class="hide-cell-pad">3 Bedroom </th>
-          <td class="hide-cell-pad">1690 - 1942 sq ft</td>
-          <td class="hide-cell-pad"><span class="rupee">`</span> 3.04 - <span class="rupee">`</span> 3.5 Cr</td>
-          <td class="hide-cell-pad"><a class="yo" href="images/project/parsvnath-paramount/fp-3-1690.jpg" title="PARSVNATH PARAMOUNT - FLOOR PLAN (3BHK / 1690 sq. ft.)">View Floor Plan</a></td>
-        </tr>
-        
-        <tr class="subrow1">
-          <td class="hide-cell-pad">3 Bedroom</th>
-          <td class="hide-cell-pad">1690 - 1942 sq ft</td>
-          <td class="hide-cell-pad"><span class="rupee">`</span> 3.04 - <span class="rupee">`</span> 3.5 Cr</td>
-          <td class="hide-cell-pad"><a class="yo" href="images/project/parsvnath-paramount/fp-3-1690.jpg" title="PARSVNATH PARAMOUNT - FLOOR PLAN (3BHK / 1690 sq. ft.)">View Floor Plan</a></td>
-        </tr>
-        
-        <tr onClick="showRow('subrow2',this);" id="head2" style="cursor:pointer;">
-          <td>4 BHK &nbsp;<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td>
-          <td>2500 - 3025 sq ft</td>
-          <td><span class="rupee">`</span> 4.5 - <span class="rupee">`</span> 5.45 Cr</td>
-          <td>---</td>
-        </tr>
-        <tr class="subrow2 hide-row-bg" onClick="hideRow('subrow2','head2');" style="cursor:pointer;">
-          <td>4 BHK &nbsp;<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-        </tr>
-        
-        <tr class="subrow2">
-          <td class="hide-cell-pad">4 Bedroom </th>
-          <td class="hide-cell-pad">2500 - 3025 sq ft</td>
-          <td class="hide-cell-pad"><span class="rupee">`</span> 4.5 - <span class="rupee">`</span> 5.45 Cr</td>
-          <td class="hide-cell-pad"><a class="yo" href="images/project/parsvnath-paramount/fp-3-1690.jpg" title="PARSVNATH PARAMOUNT - FLOOR PLAN (3BHK / 1690 sq. ft.)">View Floor Plan</a></td>
-        </tr>
-        
-        <tr class="subrow2">
-          <td class="hide-cell-pad">4 Bedroom</th>
-          <td class="hide-cell-pad">2500 - 3025 sq ft</td>
-          <td class="hide-cell-pad"><span class="rupee">`</span> 4.5 - <span class="rupee">`</span> 5.45 Cr</td>
-          <td class="hide-cell-pad"><a class="yo" href="images/project/parsvnath-paramount/fp-3-1690.jpg" title="PARSVNATH PARAMOUNT - FLOOR PLAN (3BHK / 1690 sq. ft.)">View Floor Plan</a></td>
-        </tr>
-        <tr onClick="showRow('subrow3',this);" id="head3" style="cursor:pointer;">
-          <td>5 BHK  &nbsp;<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td>
-          <td>2800 - 3225 sq ft</td>
-          <td><span class="rupee">`</span> 5.5 - <span class="rupee">`</span> 6.45 Cr</td>
-          <td>---</td>
-        </tr>
-        <tr class="subrow3 hide-row-bg" onClick="hideRow('subrow3','head3');" style="cursor:pointer;">
-          <td>5 BHK &nbsp;<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-        </tr>
-        
-        <tr class="subrow3">
-          <td class="hide-cell-pad">5 Bedroom </th>
-          <td class="hide-cell-pad">2800 - 3225 sq ft</td>
-          <td class="hide-cell-pad"><span class="rupee">`</span> 5.5 - <span class="rupee">`</span> 6.45 Cr</td>
-          <td class="hide-cell-pad"><a class="yo" href="images/project/parsvnath-paramount/fp-3-1690.jpg" title="PARSVNATH PARAMOUNT - FLOOR PLAN (3BHK / 1690 sq. ft.)">View Floor Plan</a></td>
-        </tr>
-        
-        <tr class="subrow3">
-          <td class="hide-cell-pad">5 Bedroom</th>
-          <td class="hide-cell-pad">2850 - 3150 sq ft</td>
-          <td class="hide-cell-pad"><span class="rupee">`</span> 5.5 - <span class="rupee">`</span> 6.45 Cr</td>
-          <td class="hide-cell-pad"><a class="yo" href="images/project/parsvnath-paramount/fp-3-1690.jpg" title="PARSVNATH PARAMOUNT - FLOOR PLAN (3BHK / 1690 sq. ft.)">View Floor Plan</a></td>
-        </tr>                 
-      </tbody>
-    </table>-->
-      <table class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th>PROPERTY</th>
-                        <th>SIZE</th>
-                        <th>BUILDER PRICE</th>
-                        <th>FLOOR PLAN</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    <?php 
-                    $pp = 1111;  
-                    foreach($this->floor_plans as $floor_plan){?>
-                        <tr onClick="showRow('subrow<?php echo $this->projectDetail["project_id"].$pp;?>',this);" id='head<?php echo $this->projectDetail["project_id"].$pp;?>' style="cursor:pointer;">
-                            <td><?php echo $floor_plan['BHK'];?> Bedroom &nbsp;<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></td>
-                            <td><?php echo $floor_plan['min_size']; if(count($floor_plan['floor_plan_list'])>1) { echo ' - '.$floor_plan['max_size'];}      echo ' '.$floor_plan['size_unit']; ?></td>
-            <td><span class="rupee">`</span> <?php echo $floor_plan['min_price'];if(count($floor_plan['floor_plan_list'])>1) {?> - <span class="rupee">`</span> <?php echo $floor_plan['max_price']; }?></td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <?php if(count($floor_plan['floor_plan_list'])){?>
-                            <tr class="subrow<?php echo $this->projectDetail["project_id"].$pp;?> hide-row-bg" onClick="hideRow('subrow<?php echo $this->projectDetail["project_id"].$pp;?>','head<?php echo $this->projectDetail["project_id"].$pp;?>');" style="cursor:pointer;display:none;">
-                                <td><?php echo $floor_plan['BHK'];?> Bedroom &nbsp;<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                            </tr>
-                            <?php foreach($floor_plan['floor_plan_list'] as $floor_plan_list){?>
-                            <tr class="subrow<?php echo $this->projectDetail["project_id"].$pp;?>" style="display:none;">
-                                <td class="hide-cell-pad"><?php echo $floor_plan_list['plan_type'];?> </th>
-                                <td class="hide-cell-pad"><?php echo $floor_plan_list['size'];?> <?php echo $floor_plan_list['unit'];?></td>
-                                <td class="hide-cell-pad"><span class="rupee">`</span> <?php echo $floor_plan_list['price'];?> <?php echo $floor_plan_list['price_unit'];?></td>
-                                <td class="hide-cell-pad gallery"><a class="yo" href="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $floor_plan_list['floor_plan_image'] ?>" title="<?php echo $this->projectDetail['project_title']?> - FLOOR PLAN (<?php echo $floor_plan_list['plan_type'] ?> / <?php echo $floor_plan_list['size'] ?> <?php echo $floor_plan_list['unit'] ?>)">View Floor Plan</a></td>
-                            </tr>
-                      <?php }}
-                      $pp++;
-                    }?>  
-                    </tbody>
-                </table>
   </div>
 
 <!---GOOGLEMAP/LOCATIONMAP/SITEPLAN--->

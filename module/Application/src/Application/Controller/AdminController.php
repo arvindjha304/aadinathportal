@@ -793,14 +793,14 @@ class AdminController extends AbstractActionController
 				'city'                  => 	$this->params()->fromPost('city'),
 				'location'              => 	$this->params()->fromPost('location'),
 				'contact'               => 	$this->params()->fromPost('contact'),
-				'display_size'          => 	$this->params()->fromPost('starting_price'),
+				'display_size'          => 	$this->params()->fromPost('display_size'),
 				'display_price'         => 	$this->params()->fromPost('display_price'),
 				'has_1BHK'         		=> 	$has_1BHK,
 				'has_2BHK'         		=> 	$has_2BHK,
 				'has_3BHK'         		=> 	$has_3BHK,
 				'has_4BHK'         		=> 	$has_4BHK,
 				'has_5BHK'         		=> 	$has_5BHK,
-				'project_status'         => $this->params()->fromPost('project_status'),
+				'project_status'        => $this->params()->fromPost('project_status'),
 				'completion_date'		=> 	$completiondate,
 				'search_min_price'		=> 	$this->params()->fromPost('search_min_price'),
 				'search_max_price'		=> 	$this->params()->fromPost('search_max_price'),
@@ -827,7 +827,7 @@ class AdminController extends AbstractActionController
 				'longitude'             => 	$this->params()->fromPost('longitude'),
 				'location_advantages'	=> 	$this->params()->fromPost('location_advantages'),
 			);
-	//echo '<pre>';print_r($data);exit;		
+//	echo '<pre>';print_r($data);exit;		
 			if(isset($id)){
 				$where = array(
 					'id'	=> 	$id,
@@ -844,6 +844,7 @@ class AdminController extends AbstractActionController
 		if(isset($id)){
 			$stateTable = new TableGateway('projects', $adapter);
 			$projectsDetail = $stateTable->select(array('id' => $id))->toArray();
+//            echo '<pre>';print_r($projectsDetail);exit;
 			$loc_id 	= $projectsDetail[0]['location'];
 			$locaTable = new TableGateway('locations', $adapter);
     		$locaOptions = $locaTable->select(array('id' => $loc_id))->toArray();
@@ -1460,4 +1461,36 @@ public function projectslistdataAction()
 		}
 		exit('1');
 	}
+    
+    public function userlistAction(){
+        $view = new ViewModel();
+		$this->layout('layout/layoutadmin');
+		return $view;
+        
+    }
+    
+    public function userlistdataAction()
+    {
+    	
+    	$adminModel = $this->getServiceLocator()->get('Application\Model\Admin');
+    	//     	echo '<pre>';print_r($rowset);exit;
+    	$locationList = $adminModel->getAllUser();
+    	$dataArray = array();
+//    	$baseUrl = $this->getRequest()->getbaseUrl();
+    	foreach($locationList as $val1)
+    	{
+    		//$temp_arr = array();
+    		$username       =	$val1['username'];
+    		$useremail		=	$val1['useremail'];
+    		$mobile         =	($val1['mobile']!=0)? $val1['mobile'] : '';
+    		$status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
+    		$action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
+    		$delete 		=	'<button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+    		$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$username,$useremail,$mobile,$status,$delete.$action));
+    	}
+    	
+    	$json = json_encode($dataArray);
+    	//$jsonData = '{rows:'.$json.'}';
+    	exit('{rows:'.$json.'}');
+    }
 }
