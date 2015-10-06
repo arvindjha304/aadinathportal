@@ -104,7 +104,6 @@ use Zend\Db\Sql\Expression;
         ->where(array('ct.is_delete'=> '0','st.is_delete'=> '0'));
 		$result = $sql->prepareStatementForSqlObject($select)->execute();
 		return $result;
-		
 	}
 	public function getAllProjects(){
 		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');

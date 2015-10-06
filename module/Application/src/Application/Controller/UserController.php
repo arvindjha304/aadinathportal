@@ -266,9 +266,81 @@ class UserController extends AbstractActionController
     }
     
     public function logoutAction(){
-        
         $auth = new AuthenticationService();
         $auth->clearIdentity();
         exit('Logged Out');
+    }
+    
+    public function getCitiesAction(){
+        if($this->request->isXmlHttpRequest()){
+            $searchStr = $this->params()->fromPost('searchStr');
+            $allCities = $this->getModel()->getCities($searchStr);
+            $cityArr = array();
+            foreach ($allCities as $cities){
+                $tempArr = [];
+                $tempArr['id'] = $cities['id'];
+                $tempArr['city_name'] = $cities['city_name'];
+                $cityArr[] = $tempArr;
+               // $cityArr[$cities['id']] = $cities['city_name'];
+
+            }
+            exit(json_encode($cityArr));
+        }
+    }
+    
+    public function getProjectByCityAction(){
+        if($this->request->isXmlHttpRequest()){
+            $searchStr = $this->params()->fromPost('searchStr');
+            $cityId = $this->params()->fromPost('cityId');
+            $prjArr = $this->getModel()->searchProject($searchStr,$cityId);
+            
+            exit(json_encode($prjArr));
+        } 
+    }
+    
+    public function getProjectDetailAction() {
+        if($this->request->isXmlHttpRequest()){
+            $prjId = $this->params()->fromPost('prjId');
+            $floor_plans = $this->getModel()->getFloorPlans($prjId);
+            $projectDetail  = $this->getModel()->getProjectDetails($prjId);
+            exit(json_encode(['projectDetail'=>$projectDetail,'floor_plans'=>$floor_plans]));
+        }
+        
+    } 
+    public function addResaleProjectAction() {
+        if($this->request->isXmlHttpRequest()){
+            
+            $userDetails = $this->getUserDetails();
+            $userId = $userDetails->id;
+            
+//          echo '<pre>';print_r($this->params()->fromPost());exit; 
+            $data = [];
+            $data['project_id']             = $this->params()->fromPost('prjId');
+            $data['user_id']                = $userId;
+            $data['floor_plan_id']          = $this->params()->fromPost('form2FlrPlnId');
+            $data['pruchased_for']          = $this->params()->fromPost('form2Purchasedfor');
+            $form2DateofPurchase            = $this->params()->fromPost('form2DateofPurchase');
+            $data['purchase_date']          = ($form2DateofPurchase!='') ? date('Y-m-d',  strtotime($form2DateofPurchase)) : '';
+            $data['unit']                   = $this->params()->fromPost('form2Unit');
+            $data['floor']                  = $this->params()->fromPost('form2Floor');
+            $data['tower']                  = $this->params()->fromPost('form2Tower');
+            $data['basic_price']            = $this->params()->fromPost('form3BasicSalePrice');
+            $data['other_expenses']         = $this->params()->fromPost('form3OtherExpenses');
+            $data['total_price']            = $this->params()->fromPost('form3TotalPrice');
+            $data['goal_amount']            = $this->params()->fromPost('form3GoalAmount');
+            $data['loan_status']            = $this->params()->fromPost('form3LoanStatus');
+            $data['is_active']              = 1;
+            $data['is_approved']            = 0;
+            $data['is_delete']              = 0;
+            $data['date_created']           = date('Y-m-d');
+            
+//            echo '<pre>';print_r($data);exit; 
+            
+            
+            $this->getModel()->insertanywhere('resale_property_list',$data);
+            
+            exit('111'); 
+        }
+        
     }
 }

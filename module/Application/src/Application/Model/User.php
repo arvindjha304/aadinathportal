@@ -162,5 +162,80 @@ use Zend\Session\Container;
         return $prjArr;
     }
 	
+    public function getCities($searchStr){
+		$db =$this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+		$sql = new Sql($db);
+        $where = new Where();
+		$select = $sql->select()
+        ->columns(array('id','city_name','is_active'))
+		->from(array('ct'=>'cities'))
+		->join(array('st'=>'states'),'ct.state_id=st.id',array('state_name'));
+        $where->like('ct.city_name','%'.$searchStr.'%');
+        $select->where($where);
+        $select->where(array('ct.is_delete'=> '0','st.is_delete'=> '0','ct.is_active'=> '1','st.is_active'=> '1'));
+		$result = $sql->prepareStatementForSqlObject($select)->execute();
+		return $result;
+	}
+    
+    public function searchProject($searchStr,$cityId){
+        //echo $cityId;exit;
+        $db = $this->getAdapter(); 
+        $where = new Where();
+        $sql = new Sql($db);
+        $select= $sql->select()
+        ->columns(['id as prjId','project_title','projectSlug','city'])
+		->from(['prj'=>'projects'])
+        ->join(['ct'=>'cities'],'ct.id=prj.city',[])
+        ->join(['st'=>'states'],'st.id=ct.state_id',[])
+        ->join(['pptId'=>'property_type'], 'pptId.id=prj.property_type_id',[])
+        ->join(['pptCatId'=>'property_category'], 'pptCatId.id=pptId.property_category_id',[])
+        ->join(['bld'=>'builders'],'prj.builder=bld.id',[]); 
+        $where->like('prj.project_title','%'.$searchStr.'%');
+        $select->where($where);
+        $select->where(array('prj.is_active'=>1,'prj.is_delete'=>0,'ct.is_active'=>1,'ct.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0,'pptId.is_active'=>1,'pptId.is_delete'=>0,'pptCatId.is_active'=>1,'bld.is_active'=>1,'bld.is_delete'=>0,'prj.city'=>$cityId));
+        $prjList = $sql->prepareStatementForSqlObject($select)->execute();
+        $projectArr = [];
+        foreach($prjList as $res){
+            if(count($res))
+                $projectArr[] = ['prj_id'=>$res['prjId'],'city_id'=>$res['city'],'project_title'=>trim($res['project_title'])];
+        }  
+//      echo '<pre>';print_r($projectArr);exit;
+        return $projectArr;
+    }
+    
+    public function getFloorPlans($project_id,$floor_plan_id=''){
+        $table = new TableGateway('project_floor_plan',$this->getAdapter());
+        $floor_plans = $table->select(function($select) use ($project_id,$floor_plan_id){
+            $select->where->equalTo('project_id',$project_id);
+            $select->where(array('is_active'=>1,'is_delete'=>0));
+//            if($minprice!='' && $maxprice!='')
+//            $select->where->between('search_price',$minprice,$maxprice);
+            $select->order(array('bhk_type ASC', 'size ASC'));
+        })->toArray();
+        return $floor_plans;
+    }
+    
+    public function getProjectDetails($prjId){
+        $db = $this->getAdapter(); 
+        $where = new Where();
+        $sql = new Sql($db);
+        $select= $sql->select()
+        ->columns(['id as prjId','project_title','projectSlug','city'])
+		->from(['prj'=>'projects'])
+        ->join(['ct'=>'cities'],'ct.id=prj.city',['city_name']) 
+        ->join(['lc'=>'locations'],'lc.id=prj.location',['location_name'])
+        ->where(array('prj.is_active'=>1,'prj.is_delete'=>0,'ct.is_active'=>1,'ct.is_delete'=>0,'lc.is_active'=>1,'lc.is_delete'=>0,'prj.id'=>$prjId));
+        $prjList = $sql->prepareStatementForSqlObject($select)->execute();
+        $projectArr = [];
+        foreach($prjList as $res){
+            if(count($res))
+                $projectArr[] = ['prj_id'=>$res['prjId'],'project_title'=>trim($res['project_title']),'city_name'=>$res['city_name'],'location'=>$res['location_name']];
+        }  
+        //echo '<pre>';print_r($projectArr);exit;
+      return $projectArr;
+    }
+    
+    
+    
     
 }

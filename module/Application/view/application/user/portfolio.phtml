@@ -1,5 +1,12 @@
 <?php $baseUrl = $this->basePath(); ?>
-
+<!--datepicker--->
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl;?>/public/date-picker/css/datepicker-custom.css" />
+<style>
+.datepicker.dropdown-menu {
+    z-index: 1060;
+    padding: 5px;
+}
+</style>
 
 <div class="container">
 	<div class="margin_top12"></div>
@@ -81,26 +88,23 @@
         <h4 class="modal-title" id="myModalLabel">ADD PROPERTY - Step 1</h4>
       </div>
       <div class="modal-body">
-        <form>
-  <div class="form-group">
-    <label for="exampleInputEmail1">City*</label>
-    <input type="text" class="form-control" id="exampleInputName1" placeholder="Enter your city">
-    <div class="add-portfolio" style="position: absolute;">
-  <ul>  
-  <a href="#"><li class="magicsearch-results-leftpad"><span style="padding-left:2%;">Noida</span></li></a>
-  <a href="#"><li class="magicsearch-results-leftpad"><span style="padding-left:2%;">Delhi</span></li></a>
-  <a href="#"><li class="magicsearch-results-leftpad"><span style="padding-left:2%;">Greater Noida</span></li></a>
-  </ul> 
-  </div>
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Project*</label>
-    <input type="text" class="form-control" id="exampleInputName2" placeholder="Select a Project">
-  </div>   
-</form>
+       <form>
+        <div class="form-group">
+          <label for="exampleInputEmail1">City*</label>
+          <input type="hidden" id="addPropertyCityId">
+          <input type="text" class="form-control" id="addPropertyCity" placeholder="Enter your city">
+          <div class="add-portfolio allCities" style="position: absolute;"></div>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Project*</label>
+          <input type="hidden" id="addPropertyPrjId">
+          <input type="text" class="form-control" id="addPropertyProject" placeholder="Select a Project" disabled="disabled">
+          <div class="add-portfolio allProjects" style="position: absolute;"></div>
+        </div>   
+      </form>
       </div>
       <div class="modal-footer">
-      	<button type="button" class="btn btn-danger" href="#" data-toggle="modal" data-target="#add-property-step2Modal">NEXT</button>        
+          <button type="button" class="btn btn-danger" href="#" data-toggle="modal" onclick="return getPropertyDetail();">NEXT</button>        
       </div>
     </div>
   </div>
@@ -115,40 +119,41 @@
         <h4 class="modal-title" id="myModalLabel">ADD PROPERTY - Step 2</h4>
       </div>
       <div class="modal-body">
-      <h5><strong><span class="text-primary"><span class="text-uppercase">Supertech</span> CapeTown</span></strong> <small>Sector 74, Noida</small></h5><br>
+          <h5><strong><span class="text-primary text-uppercase prjName"></span></strong> <small class="location"></small></h5><br>
           <form class="form-horizontal">
+           <input type="hidden" id="form2FlrPlnId">   
           <div class="form-group">
             <label class="col-sm-5 control-label">Configuration*</label>
             <div class="col-sm-7">
-              <select class="form-control">
-                  <option>---Select Configuration---</option>
-                  <option>2BHK+2T (930 sq ft) (930 sq ft)</option>
-                  <option>2BHK+2T (930 sq ft) (930 sq ft)</option>
-                  <option>2BHK+2T (930 sq ft) (930 sq ft)</option>
-                  <option>2BHK+2T (930 sq ft) (930 sq ft)</option>
-              </select>
+              <select class="form-control flrPlanList"></select>
+            </div>
+          </div>
+           <div class="form-group flrPlanSizeDiv" style="display:none;">
+            <label class="col-sm-5 control-label">Size*</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="flrPlanSize" >
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-5 control-label">Purchased for</label>
             <div class="col-sm-7">
-              <select class="form-control">
-                  <option>Self Use</option>
-                  <option>Investment</option>                  
+              <select class="form-control" id="form2Purchasedfor" >
+                  <option value="1">Self Use</option>
+                  <option value="2">Investment</option>                  
               </select>
             </div>
           </div>  
            <div class="form-group">
             <label class="col-sm-5 control-label">Property Name*</label>
             <div class="col-sm-7">
-            <input type="text" class="form-control" id="exampleInputName1" Value="Supertech CapeTown-1">
+            <input type="text" class="form-control" id="form2prjName" Value="Supertech CapeTown-1">
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-5 control-label">Date of Purchase</label>            
                 <div class="col-sm-7"> 
                 	<div class="input-group">        
-                       <input class="form-control form-control-inline input-medium default-date-picker" type="text" value="" />
+                       <input class="form-control form-control-inline input-medium default-date-picker" type="text"  id="form2DateofPurchase"  />
                        <div class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></div>               
                 	</div>
         		</div>       
@@ -156,26 +161,26 @@
            <div class="form-group">
             <label class="col-sm-5 control-label">Unit</label>
             <div class="col-sm-7">
-            <input type="text" class="form-control" id="exampleInputName1" placeholder="">
+            <input type="text" class="form-control" id="form2Unit" placeholder="">
             </div>
           </div> 
           <div class="form-group">
             <label class="col-sm-5 control-label">Floor</label>
             <div class="col-sm-7">
-            <input type="text" class="form-control" id="exampleInputName1" placeholder="">
+            <input type="text" class="form-control" id="form2Floor" placeholder="">
             </div>
           </div> 
           <div class="form-group">
             <label class="col-sm-5 control-label">Tower</label>
             <div class="col-sm-7">
-            <input type="text" class="form-control" id="exampleInputName1" placeholder="">
+            <input type="text" class="form-control" id="form2Tower" placeholder="">
             </div>
           </div>     
         </form>  
       </div>
       <div class="modal-footer clearfix">
-      	<button type="button" class="btn btn-sm btn-danger" href="#" data-toggle="modal" data-target="#add-property-step2Modal">BACK</button>
-      	<button type="button" class="btn btn-sm btn-danger" href="#" data-toggle="modal" data-target="#add-property-step3Modal">NEXT</button>        
+      	<button type="button" class="btn btn-sm btn-danger" href="#" data-toggle="modal" id="backToForm1">BACK</button>
+      	<button type="button" class="btn btn-sm btn-danger" href="#" data-toggle="modal" id="goToForm3">NEXT</button>        
       </div>
     </div>
   </div>
@@ -190,12 +195,12 @@
         <h4 class="modal-title" id="myModalLabel">ADD PROPERTY - Step 3</h4>
       </div>
       <div class="modal-body">
-      <h5><strong><span class="text-primary"><span class="text-uppercase">Supertech</span> CapeTown</span></strong> <small>Sector 74, Noida</small></h5><br>
+      <h5><strong><span class="text-primary text-uppercase prjName"></span></strong> <small class="location"></small></h5><br>
           <form class="form-horizontal">         
            <div class="form-group">
             <label class="col-sm-5 control-label">Basic Sale Price*</label>
             <div class="col-sm-6">
-            <input type="text" class="form-control" id="exampleInputName1" placeholder="e.g. 9500000">
+            <input type="text" class="form-control" id="form3BasicSalePrice" placeholder="e.g. 9500000">
             </div>
             <div class="col-sm-offset-1"></div>            
           </div> 
@@ -203,8 +208,8 @@
             <label class="col-sm-5 control-label">Other Expenses</label>
             <div class="col-sm-6">
             <div class="input-group">              
-              <input type="text" class="form-control" id="exampleInputName1" placeholder="">  
-              <div class="input-group-addon"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></div>
+              <input type="text" class="form-control" id="form3OtherExpenses" placeholder="">  
+              <div class="input-group-addon"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" data-toggle="tooltip" data-original-title="Add all other expenses e.g. PLC, Car Parking, Registration etc."></span></div>
             </div>                                  
             </div> 
             <div class="col-sm-offset-1"></div>            
@@ -212,37 +217,34 @@
           <div class="form-group">
             <label class="col-sm-5 control-label">Total Price</label>
             <div class="col-sm-6">
-            <input type="text" class="form-control" id="exampleInputName1" value="0">
+            <input type="text" class="form-control" id="form3TotalPrice" value="0">
             </div> 
             <div class="col-sm-offset-1"></div>            
           </div>
           <div class="form-group">
             <label class="col-sm-5 control-label">Goal Amount</label>
             <div class="col-sm-6">
-            <div class="input-group">              
-              <input type="text" class="form-control" id="exampleInputName1" placeholder="e.g. 9500000">
-              <div class="input-group-addon"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></div>
-            </div>            
-            </div>
+            <input type="text" class="form-control" id="form3GoalAmount" value="0">
+            </div> 
             <div class="col-sm-offset-1"></div>            
           </div>
           <div class="form-group">
             <label class="col-sm-5 control-label">Loan Status</label>
             <div class="col-sm-6">
-              <select class="form-control">
-                  <option>---Select Status---</option>
-                  <option>Availed</option>
-                  <option>Not Availed</option>
-                  <option>Paid</option>                  
-              </select>
+                <select class="form-control" id="form3LoanStatus">
+                  <option value="">---Select Status---</option>
+                  <option value="1">Availed</option>
+                  <option value="2">Not Availed</option>
+                  <option value="3">Paid</option>                  
+                </select>
             </div>
             <div class="col-sm-offset-1"></div>             
           </div>     
         </form>  
       </div>
       <div class="modal-footer clearfix">
-      	<button type="button" class="btn btn-sm btn-danger">BACK</button>
-      	<button type="button" class="btn btn-sm btn-danger">NEXT</button>        
+      	<button type="button" class="btn btn-sm btn-danger" id="backToForm2">BACK</button>
+      	<button type="button" class="btn btn-sm btn-danger" id="saveAddPrpty">SAVE</button>        
       </div>
     </div>
   </div>
@@ -252,8 +254,11 @@
     <script>
     $(document).ready(function(){
         $('#pageTitle').text('Aadinath | My Portfolio');
+        $('[data-toggle="tooltip"]').tooltip()
     });
+    
     </script>
+
 
 
 <!---End of Builder--->

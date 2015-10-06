@@ -132,7 +132,7 @@ class IndexController extends AbstractActionController
         $searchResultArr = $model->searchResultData($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr);
         $view->setVariable('searchResultArr', $searchResultArr);
 //        echo '111';exit;
-//       echo '<pre>';print_r($searchResultArr);exit;        
+//       echo '<pre>';print_r($searchResultArr);exit;  
         return $view;
 }
 

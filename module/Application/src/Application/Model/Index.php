@@ -386,7 +386,8 @@ use Zend\Mime\Part as MimePart;
 		$result =$db->query($sql)->execute()->current();
 		return $result['minPrice'];
 	}
-    public function getProjectFloorPlan($project_id,$minprice='',$maxprice=''){
+    
+    public function getAllFloorPlan($project_id,$minprice,$maxprice){
         $table = new TableGateway('project_floor_plan',$this->getAdapter());
         $floor_plans = $table->select(function($select) use ($project_id,$minprice,$maxprice){
             $select->where->equalTo('project_id',$project_id);
@@ -395,7 +396,12 @@ use Zend\Mime\Part as MimePart;
             $select->where->between('search_price',$minprice,$maxprice);
             $select->order(array('bhk_type ASC', 'size ASC'));
         })->toArray();
-        
+        return $floor_plans;
+    }   
+     
+    
+    public function getProjectFloorPlan($project_id,$minprice='',$maxprice=''){
+        $floor_plans = $this->getAllFloorPlan($project_id,$minprice,$maxprice);
 //        echo '<pre>';print_r($floor_plans);exit;  
         
         $bhkListArr = [];
