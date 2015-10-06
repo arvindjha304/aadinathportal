@@ -297,4 +297,142 @@ function userLogout(){
     });
 }
 
+    $('#addPropertyCity').keyup(function(){
+        var searchStr = $(this).val();
+        if(searchStr.length > 0){
+            $.post(baseUrl + '/front-end/user/get-cities', {searchStr: searchStr}, function (response) {
+                var htmlStr = '';
+                if(response.length >0){
+                    htmlStr += '<ul id="cityList">';
+                    $.each(response, function(id,value) {
+                       htmlStr += '<li class="magicsearch-results-leftpad" onclick="return selectCity('+value.id+',\''+value.city_name+'\')"><span style="padding-left:2%;" >'+value.city_name+'</span></li>';
+                    });
+                    htmlStr += '</ul>';
+                    $('.allCities').html(htmlStr);
+                }else{ $('.allCities').html('');}
+            },'json');
+        }else{
+            $('.allCities').html('');
+        }   
+        return false;
+    });
 
+
+    function selectCity(id,city_name){
+        $('#addPropertyCityId').val(id);
+        $('#addPropertyCity').val(city_name);
+        $('.allCities').html('');
+        $('#addPropertyProject').removeAttr('disabled');
+        return false;
+    }
+    
+    $('#addPropertyProject').keyup(function(){
+        var searchStr = $(this).val();
+        var cityId = $('#addPropertyCityId').val();
+        if(searchStr.length > 0){
+            $.post(baseUrl + '/front-end/user/get-project-by-city', {searchStr: searchStr,cityId: cityId}, function (response) {
+                var htmlStr = '';
+                if(response.length >0){
+                    htmlStr += '<ul id="prjList">';
+                    $.each(response, function(id,value) {
+//                     alert(value.prj_id+'==='+value.project_title);
+                       htmlStr += '<li class="magicsearch-results-leftpad" onclick="return selectProject('+value.prj_id+',\''+value.project_title+'\')"><span style="padding-left:2%;" >'+value.project_title+'</span></li>';
+                    });
+                    htmlStr += '</ul>';
+                    $('.allProjects').html(htmlStr);
+                }else{ $('.allProjects').html('');}
+            },'json');
+        }else{
+            $('.allProjects').html('');
+        }   
+        return false;
+    });
+    
+    function selectProject(id,project_title){
+        $('#addPropertyPrjId').val(id);
+        $('#addPropertyProject').val(project_title);
+        $('.allProjects').html('');
+        return false;
+    }
+    
+    function getPropertyDetail(){
+        
+        var prjId = $('#addPropertyPrjId').val();
+        if(prjId.length > 0){
+            $.post(baseUrl + '/front-end/user/get-project-detail', {prjId: prjId}, function (response) {
+                $('#add-property-step1Modal').modal('hide');
+                $('#add-property-step2Modal').modal('show');
+                $.each(response.projectDetail, function(id,value) {
+                    $('.prjName').text(value.project_title);
+                    $('#form2prjName').val(value.project_title);
+                    $('.location').text(value.location+', '+value.city_name);
+                });
+                var htmlStr = '';
+                htmlStr += '<option value="">---Select Configuration---</option>';
+                $.each(response.floor_plans, function(id,value) {
+//                     alert(value.prj_id+'==='+value.project_title);
+                   htmlStr += '<option value="'+value.id+'##'+value.size+'">'+value.plan_type+' ('+value.size+' sq ft)</option>';
+                });
+                $('.flrPlanList').html(htmlStr);
+            },'json');
+        }else{
+            $('.flrPlanList').html('');
+        }   
+        return false;
+    }
+    
+ 
+    $(".flrPlanList").change(function(){
+        var configVal = $(this).val().split("##");
+        if(configVal==""){
+            $('#form2FlrPlnId').val('');
+            $('#flrPlanSize').val('');
+            $('.flrPlanSizeDiv').hide();
+        }else{
+            $('#form2FlrPlnId').val(configVal[0]);
+            $('#flrPlanSize').val(configVal[1]);
+            $('.flrPlanSizeDiv').show();
+        }
+        return false;
+    });
+    
+    $('#backToForm1').click(function (){
+        $('#add-property-step1Modal').modal('show');
+        $('#add-property-step2Modal').modal('hide');
+    });
+    
+    $('#goToForm3').click(function (){
+        $('#add-property-step3Modal').modal('show');
+        $('#add-property-step2Modal').modal('hide');
+    });
+    
+    $('#backToForm2').click(function (){
+        $('#add-property-step2Modal').modal('show');
+        $('#add-property-step3Modal').modal('hide');
+    });
+ 
+    $('#saveAddPrpty').click(function (){
+        var prjId               = $('#addPropertyPrjId').val();
+        var form2FlrPlnId       = $('#form2FlrPlnId').val();
+        var form2Purchasedfor   = $('#form2Purchasedfor').val();
+        var form2DateofPurchase = $('#form2DateofPurchase').val();
+        var form2Unit           = $('#form2Unit').val();
+        var form2Floor          = $('#form2Floor').val();
+        var form2Tower          = $('#form2Tower').val();
+        var form3BasicSalePrice = $('#form3BasicSalePrice').val();
+        var form3OtherExpenses  = $('#form3OtherExpenses').val();
+        var form3TotalPrice     = $('#form3TotalPrice').val();
+        var form3GoalAmount     = $('#form3GoalAmount').val();
+        var form3LoanStatus     = $('#form3LoanStatus').val();
+        $.post(baseUrl + '/front-end/user/add-resale-project', {prjId:prjId,form2FlrPlnId: form2FlrPlnId,form2Purchasedfor: form2Purchasedfor,form2DateofPurchase: form2DateofPurchase,form2Unit: form2Unit,form2Floor: form2Floor,form2Tower: form2Tower,form3BasicSalePrice: form3BasicSalePrice,form3OtherExpenses: form3OtherExpenses,form3TotalPrice: form3TotalPrice,form3GoalAmount: form3GoalAmount,form3LoanStatus: form3LoanStatus}, function (response) {
+            $('#addPropertyProject,#addPropertyCity,#addPropertyPrjId,#form2FlrPlnId,#form2Purchasedfor,#form2DateofPurchase,#form2Unit,#form2Floor,#form2Tower,#form3BasicSalePrice,#form3OtherExpenses,#form3TotalPrice,#form3GoalAmount,#form3LoanStatus').val('');
+            $('.allCities,.allProjects').html('');
+            location.reload();
+        });
+       
+//        $('#add-property-step3Modal').modal('show');
+//        $('#add-property-step2Modal').modal('hide');
+    });
+
+
+    
