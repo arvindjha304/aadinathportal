@@ -18,9 +18,9 @@ if (defined('RUNNING_FROM_ROOT')) {
 <div class="header">
 <div class="welcom">
 <div class="welcom-left" style="padding-top:7px;"><span style="padding-left:50px;"><a href="<?php echo $baseUrl;?>/homepage"><img src="<?php echo $baseUrl;?>/public/adminpanel/img/aadinath_logo.png" width="35%" /></a></span></div>
-<div class="welcom-right"><span style="padding-right:50px; line-height:50px;"><a href="<?php echo $baseUrl;?>/index">Launch Website</a> &nbsp; | &nbsp;
-<a href="">Change Password</a>&nbsp; | &nbsp;
-<a href="">Log Out</a></span>
+<div class="welcom-right"><span style="padding-right:50px; line-height:50px;"><a href="<?php echo $baseUrl;?>/homepage">Launch Website</a> &nbsp; | &nbsp;
+<a href="<?php echo $baseUrl;?>/user/account-settings">Change Password</a>&nbsp; | &nbsp;
+<span onclick="return userLogout();" style="cursor:pointer">Log Out</span></span>
 </div>
 </div>
 </div>
@@ -101,3 +101,14 @@ if (defined('RUNNING_FROM_ROOT')) {
 </div>
 </body>
 </html>
+<script>
+    var baseUrl = '<?php echo $baseUrl;?>';
+    function userLogout(){
+//        alert('eeeeeeee');
+//        return false;
+        $.post(baseUrl + '/front-end/user/logout', function (response) {
+            window.location.href = "<?php echo $baseUrl;?>/homepage";
+            //location.reload();
+        });
+    }
+</script>

@@ -131,8 +131,12 @@
                               <td><span class="rupee">`</span> <span id='totalPrice_<?php echo $ii?>'><?php echo $project['min_floor_plan_price']?> - <?php echo $project['max_floor_plan_price']?></span> </td>                             
                             </tr> 
                             <tr>                              
-                              <td id='floorPlanCount_<?php echo $ii?>' class="gallery"><?php echo count($project['getProjectFloorPlan'])?> Floor Plan
-                              <a style="display:none" id="testPopup" class="yo" title="" href="/aadinathportal/trunk/public/uploadfiles/214_f1.jpg">View Floor Plan</a>
+                                <td class="gallery"><span id='floorPlanCount_<?php echo $ii?>'><?php echo count($project['getProjectFloorPlan'])?> Floor Plan</span>
+                             <!-- <a style="display:none" id="floorPlanPopup_<?php echo $ii?>'>" class="yo" title="" href="">View Floor Plan</a>-->
+                              
+                              <a style="display:none" id="floorPlanPopup_<?php echo $ii?>" class="yo"  title=""><span class="glyphicon glyphicon-open" aria-hidden="true"></span>Click to view Floor Plan</a>
+                              
+                              
                               </td>
                               
                             </tr>                            

@@ -7,12 +7,20 @@ function floorPlanInfo(floorPlanId,divId,project_id){
             $('#area_'+divId).text(response.maxMinFloorSize.minFloorSize+' - '+response.maxMinFloorSize.maxFloorSize);
             $('#totalPrice_'+divId).text(response.min_floor_plan_price+' - '+response.max_floor_plan_price);
             $('#floorPlanCount_'+divId).text(response.countFloorPlan+' Floor Plan');
+            $('#floorPlanPopup_'+divId).hide();
          }else{
             $('#area_'+divId).text(response.floorPlanDetail.size+' '+response.floorPlanDetail.unit);
             $('#totalPrice_'+divId).text(response.floorPlanDetail.price+' '+response.floorPlanDetail.price_unit);
-            $('#floorPlanCount_'+divId).html('<a class="yo" href="'+baseUrl+'/public/uploadfiles/'+response.floorPlanDetail.floor_plan_image+'" title=""><span class="glyphicon glyphicon-open" aria-hidden="true"></span>Click to view Floor Plan</a>');
+           // $('#floorPlanCount_'+divId).html('<a class="yo" href="'+baseUrl+'/public/uploadfiles/'+response.floorPlanDetail.floor_plan_image+'" title=""><span class="glyphicon glyphicon-open" aria-hidden="true"></span>Click to view Floor Plan</a>');
+             $('#floorPlanCount_'+divId).hide();
+             $('#floorPlanPopup_'+divId).show();
+             $('#floorPlanPopup_'+divId).attr('href',baseUrl+'/public/uploadfiles/'+response.floorPlanDetail.floor_plan_image);
+             
+             
+             //alert(baseUrl+'/public/uploadfiles/'+response.floorPlanDetail.floor_plan_image);
              
          }
+      
      },'json');
 //    alert(floorPlanId+'==='+divId);
 //    return false;
