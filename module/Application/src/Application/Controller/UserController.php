@@ -68,7 +68,14 @@ class UserController extends AbstractActionController
             $data = $authAdapter->getResultRowObject();
             $auth->getStorage()->write($data);
             $identity = $auth->getIdentity();
+//            echo '<pre>';
 //            print_r($identity);
+//            exit;
+            if($identity->is_admin==1){
+                exit('AdminLogin');
+//                $this->redirect()->toRoute('backend');
+            }
+
             exit('LoginSuccessfull');
             return true;	
         }else{
@@ -216,7 +223,12 @@ class UserController extends AbstractActionController
     public function portfolioAction(){
         $view = new ViewModel();
         $this->layout('layout/innerlayout');
+        $adminModel = $this->serviceLocator->get('Application/Model/Admin');
+        $cityList = $adminModel->getAllCities();
+        $userDetails = $this->getUserDetails();
+//        echo '<pre>'; print_r($userDetails);exit;
         
+        $view->setVariable('cityList', $cityList);
         return $view;
     }
     public function accountSettingsAction(){
@@ -290,7 +302,7 @@ class UserController extends AbstractActionController
     
     public function getProjectByCityAction(){
         if($this->request->isXmlHttpRequest()){
-            $searchStr = $this->params()->fromPost('searchStr');
+            $searchStr = $this->params()->fromPost('searchStr','');
             $cityId = $this->params()->fromPost('cityId');
             $prjArr = $this->getModel()->searchProject($searchStr,$cityId);
             
@@ -334,11 +346,10 @@ class UserController extends AbstractActionController
             $data['is_delete']              = 0;
             $data['date_created']           = date('Y-m-d');
             
-//            echo '<pre>';print_r($data);exit; 
+           // echo '<pre>';print_r($data);//exit; 
             
             
             $this->getModel()->insertanywhere('resale_property_list',$data);
-            
             exit('111'); 
         }
         

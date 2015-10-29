@@ -167,11 +167,18 @@
             <div class="row insidepg-proj-builder-price text-center"><div class="proj-price-text"><span class="rupee">`</span>  <?php echo $searchResult['min_floor_plan_price'];?> - <span class="rupee">`</span> <?php echo $searchResult['max_floor_plan_price'];?></div> POSSESSION <?php echo date('M', strtotime($searchResult['possession']))?> `<?php echo date('Y', strtotime($searchResult['possession']))?></div>     
               <div class="clearfix"></div> 
               <div class="row projlistpg-compare-pad cursor" align="center" id="addCompareDiv_<?php echo $searchResult['project_id'];?>">
+                
+                  
+                  
                 <?php if(!in_array($searchResult['project_id'],$allCompareProjects)) { ?>
-                  <a class="addToCompare" data-toggle="tooltip" title="Maximum 3 Projects" onclick='addRemoveCompare(<?php echo $searchResult["project_id"];?>)'><span class="glyphicon glyphicon-unchecked" aria-hidden="true" ></span> Add to Compare</a>
+                    <a class="addToCompare" data-toggle="tooltip" title="Maximum 3 Projects" onclick='addRemoveCompare(<?php echo $searchResult["project_id"];?>)'><span class="glyphicon glyphicon-unchecked" aria-hidden="true" ></span> Add to Compare</a>
                 <?php }else{?>  
-              <a onclick='addRemoveCompare(<?php echo $searchResult["project_id"];?>,0)'><span class="glyphicon glyphicon-check" aria-hidden="true" ></span> Remove from Compare</a>
-                <?php }?>
+                    <a onclick='addRemoveCompare(<?php echo $searchResult["project_id"];?>,0)'><span class="glyphicon glyphicon-check" aria-hidden="true" ></span> Remove from Compare</a>
+               <?php }?>
+              
+              
+              
+              
               </div>
               <div class="row" align="center"><button type="button" class="btn btn-danger btn-sm" onclick="return getCallBAck('<?php echo $searchResult['project_id']?>','<?php echo $searchResult['project_title']?>')">GET CALL BACK</button></div>
               </div>

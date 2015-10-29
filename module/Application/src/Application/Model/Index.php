@@ -147,8 +147,22 @@ use Zend\Mime\Part as MimePart;
     //   $user_email = 'arvindjha304@gmail.com';
        
        $this->sendmailHTML($user_email,'',$subject,$html);
+       
+       $subjectCallBack = 'CallBack Request';
+        
+       $bodyCallBack = "<p>Hi </p>
+        <p>User Requested Callback for ".$projectDetail['project_title'].". Following are the details:-</p>
+        <table>
+        <tr><td>Email : </td><td>".$data['email']."</td></tr>     
+        <tr><td>Mobile : </td><td>".$data['mobile']."</td></tr>  
+        </table>";
+        
+        $this->sendmailHTML('crm@aadinathindia.com','',$subjectCallBack,$bodyCallBack);
+       
+       
+       
     }
-    
+          
     public function sendmail($to_email,$to_name,$subject,$body){
         $message = new \Zend\Mail\Message();
         $message->addTo($to_email, $to_name)

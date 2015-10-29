@@ -55,7 +55,7 @@ $("#stateName").change(function(){
 	$('#locationName').val('');
 	if(stateId!='')
 	{
-		$.post(SITEROOT+'/admin/getcities', {stateId:stateId},function(response){
+		$.post(SITEROOT+'/backend/admin/getcities', {stateId:stateId},function(response){
 			if(response!=''){
 				$('#cityName').html(response);
 				return false;

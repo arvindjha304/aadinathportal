@@ -46,8 +46,11 @@ $('.userLogin').click(function(){
         $.post(baseUrl + '/front-end/user/user-login', {userLoginEmail: userLoginEmail,userLoginPassword:userLoginPassword,remember_me:remember_me}, function (response) {
             if(response=='LoginFailed'){
                 $('#userLoginMsg').html('<p style="color:red">Something went wrong.Please try again.</p>').show();
-            }else
+            }else if(response=='AdminLogin'){
+                return adminLoginPage();
+            }else{
                 location.reload();
+            }
         });
     }else{
         return false;
@@ -92,10 +95,10 @@ $('.signUpButton').click(function(){
                 $('#userExistMsg').html('<p style="color:red">This email is already registered. Click forgot password to reset your password.</p>').show();
             }else{
                 $('#userExistMsg').html('<p style="color:red">Thank you for Signing up! You will receive an email from Aadinath India shortly which will allow you to verify your email.</p>').show();
-                $('.signUpButton').show();
-                $('#signUpLoader').hide();
                 $('.userName,.userPassword,.userEmail,.userMobile').val(''); 
             }
+            $('.signUpButton').show();
+            $('#signUpLoader').hide();
             return false;
         });
     }else{
@@ -191,6 +194,9 @@ window.fbAsyncInit = function() {
   function showDetails() {
     FB.api('/me', {fields: fields}, function(details) {
         $.post(baseUrl + '/front-end/user/login-with-fb',{name: details.name,email: details.email}, function (response) {
+            if(response=='AdminLogin'){
+                return adminLoginPage();
+            }
             $('#loginForm').modal('hide');
             location.reload();
         });
@@ -268,6 +274,10 @@ function getProfile() {
                  return v.type === 'account'; // Filter out the primary email
             })[0].value;
             $.post(baseUrl + '/front-end/user/login-with-gmail',{name: e.displayName,email: email}, function (response) {
+                //alert(response);
+                if(response=='AdminLogin'){
+                    return adminLoginPage();
+                }
                 $('#loginForm').modal('hide');
                 location.reload();
             });
@@ -288,76 +298,115 @@ function getProfile() {
 
 /* google + login script end */
 
+function adminLoginPage(){
+ //   alert('admin logged in');
+//    return false;
+    window.location.href=baseUrl + '/backend';
+}
 
 function userLogout(){
     $.post(baseUrl + '/front-end/user/logout', function (response) {
 //        alert(location);
 //        return false;
         location.reload();
+         // window.location.href = baseUrl+'/homepage';
     });
 }
 
-    $('#addPropertyCity').keyup(function(){
-        var searchStr = $(this).val();
-        if(searchStr.length > 0){
-            $.post(baseUrl + '/front-end/user/get-cities', {searchStr: searchStr}, function (response) {
-                var htmlStr = '';
-                if(response.length >0){
-                    htmlStr += '<ul id="cityList">';
-                    $.each(response, function(id,value) {
-                       htmlStr += '<li class="magicsearch-results-leftpad" onclick="return selectCity('+value.id+',\''+value.city_name+'\')"><span style="padding-left:2%;" >'+value.city_name+'</span></li>';
-                    });
-                    htmlStr += '</ul>';
-                    $('.allCities').html(htmlStr);
-                }else{ $('.allCities').html('');}
-            },'json');
-        }else{
-            $('.allCities').html('');
-        }   
-        return false;
-    });
+//    $('#addPropertyCity').keyup(function(){
+//        var searchStr = $(this).val();
+//        if(searchStr.length > 0){
+//            $.post(baseUrl + '/front-end/user/get-cities', {searchStr: searchStr}, function (response) {
+//                var htmlStr = '';
+//                if(response.length >0){
+//                    htmlStr += '<ul id="cityList">';
+//                    $.each(response, function(id,value) {
+//                       htmlStr += '<li class="magicsearch-results-leftpad" onclick="return selectCity('+value.id+',\''+value.city_name+'\')"><span style="padding-left:2%;" >'+value.city_name+'</span></li>';
+//                    });
+//                    htmlStr += '</ul>';
+//                    $('.allCities').html(htmlStr);
+//                }else{ $('.allCities').html('');}
+//            },'json');
+//        }else{
+//            $('.allCities').html('');
+//        }   
+//        return false;
+//    });
 
 
-    function selectCity(id,city_name){
-        $('#addPropertyCityId').val(id);
-        $('#addPropertyCity').val(city_name);
-        $('.allCities').html('');
-        $('#addPropertyProject').removeAttr('disabled');
+//    function selectCity(id,city_name){
+//        $('#addPropertyCityId').val(id);
+//        $('#addPropertyCity').val(city_name);
+//        $('.allCities').html('');
+//        $('#addPropertyProject').removeAttr('disabled');
+//        return false;
+//    }
+//    
+//    $('#addPropertyProject').keyup(function(){
+//        var searchStr = $(this).val();
+//        var cityId = $('#addPropertyCityId').val();
+//        if(searchStr.length > 0){
+//            $.post(baseUrl + '/front-end/user/get-project-by-city', {searchStr: searchStr,cityId: cityId}, function (response) {
+//                var htmlStr = '';
+//                if(response.length >0){
+//                    htmlStr += '<ul id="prjList">';
+//                    $.each(response, function(id,value) {
+////                     alert(value.prj_id+'==='+value.project_title);
+//                       htmlStr += '<li class="magicsearch-results-leftpad" onclick="return selectProject('+value.prj_id+',\''+value.project_title+'\')"><span style="padding-left:2%;" >'+value.project_title+'</span></li>';
+//                    });
+//                    htmlStr += '</ul>';
+//                    $('.allProjects').html(htmlStr);
+//                }else{ $('.allProjects').html('');}
+//            },'json');
+//        }else{
+//            $('.allProjects').html('');
+//        }   
+//        return false;
+//    });
+    
+    function selectProject(){
+       // alert($('#prjListAddProject').val()+'========='+$("#prjListAddProject option:selected").text(););
+//        alert('AAAAAAA');
+//        return false;
+
+
+        $('#addPropertyPrjId').val($('#prjListAddProject').val());
+        $('#addPropertyProject').val($("#prjListAddProject option:selected").text());
+       // $('.allProjects').html('');
         return false;
     }
+
     
-    $('#addPropertyProject').keyup(function(){
-        var searchStr = $(this).val();
-        var cityId = $('#addPropertyCityId').val();
-        if(searchStr.length > 0){
-            $.post(baseUrl + '/front-end/user/get-project-by-city', {searchStr: searchStr,cityId: cityId}, function (response) {
+//    $('#prjListAddProject').change(function(){
+//        alert('AAAAAAA');
+//        return false;
+//        //alert($(this).val()+'========='+$(this).text());
+//        
+//    });
+    
+     $('#addPropertyCityId').change(function(){
+        var cityId = $(this).val();
+        if(cityId !=''){
+            $.post(baseUrl + '/front-end/user/get-project-by-city', {cityId: cityId}, function (response) {
                 var htmlStr = '';
-                if(response.length >0){
-                    htmlStr += '<ul id="prjList">';
-                    $.each(response, function(id,value) {
-//                     alert(value.prj_id+'==='+value.project_title);
-                       htmlStr += '<li class="magicsearch-results-leftpad" onclick="return selectProject('+value.prj_id+',\''+value.project_title+'\')"><span style="padding-left:2%;" >'+value.project_title+'</span></li>';
-                    });
-                    htmlStr += '</ul>';
-                    $('.allProjects').html(htmlStr);
-                }else{ $('.allProjects').html('');}
+                htmlStr += '<select onchange="return selectProject()" id="prjListAddProject" class="form-control" ><option value="">Select Project</option>';
+                $.each(response, function(id,value) {
+//                 alert(value.prj_id+'==='+value.project_title);
+                   htmlStr += '<option value="'+value.prj_id+'"><span style="padding-left:2%;" >'+value.project_title+'</span></option>';
+                });
+                htmlStr += '</select>';
+                $('#projectListOPtions').html(htmlStr);
             },'json');
         }else{
-            $('.allProjects').html('');
-        }   
-        return false;
+            $('#projectListOPtions').html('<select class="form-control" disabled="disabled"><option value="">Select Project</option></select>');
+        }
     });
     
-    function selectProject(id,project_title){
-        $('#addPropertyPrjId').val(id);
-        $('#addPropertyProject').val(project_title);
-        $('.allProjects').html('');
-        return false;
-    }
+    
     
     function getPropertyDetail(){
         
-        var prjId = $('#addPropertyPrjId').val();
+        var prjId = $('#prjListAddProject').val();
         if(prjId.length > 0){
             $.post(baseUrl + '/front-end/user/get-project-detail', {prjId: prjId}, function (response) {
                 $('#add-property-step1Modal').modal('hide');
@@ -381,6 +430,8 @@ function userLogout(){
         return false;
     }
     
+ 
+   
  
     $(".flrPlanList").change(function(){
         var configVal = $(this).val().split("##");

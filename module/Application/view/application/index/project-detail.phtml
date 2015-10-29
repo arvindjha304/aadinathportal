@@ -20,8 +20,14 @@ $auth = new \Zend\Authentication\AuthenticationService();
    <div class="page-header1 clearfix">
   <div class="col-md-10"><h3><?php echo strtoupper($this->projectDetail['project_title'])?><br> <small><?php echo $this->projectDetail['address']?></small></h3></div>
   <?php if($this->projectDetail['brochure']!=''){ ?>
-  <a target="_blank" href="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $this->projectDetail['brochure'];?>"><div class="col-md-1 project-download-btnn1"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span><br>BROUCHER </div></a>  
-  <?php } if($this->projectDetail['application_form']!='') { ?>
+  <a target="_blank" href="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $this->projectDetail['brochure'];?>"><div class="col-md-1 project-download-btnn1 <?php if($this->projectDetail['brochure']!='' && $this->projectDetail['application_form']!=''){echo 'project-download-divider';}?> <?php if($this->projectDetail['application_form']==''){echo 'col-md-offset-1';}?>"><span class="glyphicon glyphicon-download-alt " aria-hidden="true"></span><br>BROUCHER </div></a>  
+  
+ 
+  <?php } 
+  
+  
+  
+  if($this->projectDetail['application_form']!='') { ?>
   <a target="_blank" href="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $this->projectDetail['application_form'];?>"><div class="col-md-1 project-download-btnn2"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span><br>APP-FORM</div></a><?php } ?>
   </div>
   </div>  
@@ -283,9 +289,7 @@ $auth = new \Zend\Authentication\AuthenticationService();
     
     <div class="one_fourth last">
     <div class="last stcode_title5">
-            
         <h3><span class="line2"></span><span class="line"></span><span class="text"><strong>AMENITIES</strong></span></h3>
-        
         <ul>
         <?php
             foreach($this->amenitiesArr as $amenities){ ?>

@@ -1,4 +1,7 @@
- <?php $baseUrl = $this->basePath(); ?>
+ <?php $baseUrl = $this->basePath();
+ $container             = new Zend\Session\Container('compareProjects');
+ $allCompareProjects    = (count($container->allCompareProjects)) ? $container->allCompareProjects : [];
+ ?>
 
 <!---------Filteration bar----------->
 <div class="filteration">
@@ -189,7 +192,19 @@
                   POSSESSION <?php echo date('M', strtotime($searchResult['possession']))?> `<?php echo date('Y', strtotime($searchResult['possession']))?></div>
               
               <div class="clearfix"></div>  
-              <div class="row projlistpg-compare-pad" align="center"><a href="#"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> Add to Compare</a></div>
+              
+              <div class="row projlistpg-compare-pad cursor" align="center" id="addCompareDiv_<?php echo $searchResult['project_id'];?>">
+                <?php if(!in_array($searchResult['project_id'],$allCompareProjects)) { ?>
+                    <a class="addToCompare" data-toggle="tooltip" title="Maximum 3 Projects" onclick='addRemoveCompare(<?php echo $searchResult["project_id"];?>)'><span class="glyphicon glyphicon-unchecked" aria-hidden="true" ></span> Add to Compare</a>
+                <?php }else{?>  
+                    <a onclick='addRemoveCompare(<?php echo $searchResult["project_id"];?>,0)'><span class="glyphicon glyphicon-check" aria-hidden="true" ></span> Remove from Compare</a>
+               <?php }?>
+              </div>
+              
+              
+              <!--<div class="row projlistpg-compare-pad" align="center"><a href="#"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> Add to Compare</a></div>-->
+              
+              
               
               
               <div class="row" align="center"><button type="button" class="btn btn-danger btn-sm" onclick="return getCallBAck('<?php echo $searchResult['project_id']?>','<?php echo $searchResult['project_title']?>')">GET CALL BACK</button></div>

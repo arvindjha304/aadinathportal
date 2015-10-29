@@ -190,8 +190,8 @@ use Zend\Session\Container;
         ->join(['pptId'=>'property_type'], 'pptId.id=prj.property_type_id',[])
         ->join(['pptCatId'=>'property_category'], 'pptCatId.id=pptId.property_category_id',[])
         ->join(['bld'=>'builders'],'prj.builder=bld.id',[]); 
-        $where->like('prj.project_title','%'.$searchStr.'%');
-        $select->where($where);
+//        $where->like('prj.project_title','%'.$searchStr.'%');
+//        $select->where($where);
         $select->where(array('prj.is_active'=>1,'prj.is_delete'=>0,'ct.is_active'=>1,'ct.is_delete'=>0,'st.is_active'=>1,'st.is_delete'=>0,'pptId.is_active'=>1,'pptId.is_delete'=>0,'pptCatId.is_active'=>1,'bld.is_active'=>1,'bld.is_delete'=>0,'prj.city'=>$cityId));
         $prjList = $sql->prepareStatementForSqlObject($select)->execute();
         $projectArr = [];

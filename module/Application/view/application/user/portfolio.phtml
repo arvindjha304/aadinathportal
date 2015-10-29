@@ -91,15 +91,30 @@
        <form>
         <div class="form-group">
           <label for="exampleInputEmail1">City*</label>
-          <input type="hidden" id="addPropertyCityId">
+          <select class="form-control" id="addPropertyCityId">
+              <option value="">Select City</option>
+              <?php if(count($this->cityList)){
+                  foreach($this->cityList as $cities){?>
+              <option value="<?php echo $cities['id']?>"><?php echo $cities['city_name']?></option>
+              <?php }
+              }?>
+          </select>
+          
+          
+        <!--  <input type="hidden" id="addPropertyCityId">
           <input type="text" class="form-control" id="addPropertyCity" placeholder="Enter your city">
-          <div class="add-portfolio allCities" style="position: absolute;"></div>
+          <div class="add-portfolio allCities" style="position: absolute;"></div>-->
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">Project*</label>
-          <input type="hidden" id="addPropertyPrjId">
-          <input type="text" class="form-control" id="addPropertyProject" placeholder="Select a Project" disabled="disabled">
-          <div class="add-portfolio allProjects" style="position: absolute;"></div>
+        <!--  <input type="hidden" id="addPropertyPrjId">
+          <input type="text" class="form-control" id="addPropertyProject" placeholder="Select a Project" disabled="disabled">-->
+          <div id="projectListOPtions">
+          <select class="form-control" disabled="disabled">
+              <option value="">Select Project</option>
+          </select>
+          </div>
+          <!--<div class="add-portfolio allProjects" style="position: absolute;"></div> -->
         </div>   
       </form>
       </div>
@@ -131,7 +146,7 @@
            <div class="form-group flrPlanSizeDiv" style="display:none;">
             <label class="col-sm-5 control-label">Size*</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" id="flrPlanSize" >
+              <input type="text" class="form-control" id="flrPlanSize" disabled="disabled">
             </div>
           </div>
           <div class="form-group">
@@ -146,15 +161,14 @@
            <div class="form-group">
             <label class="col-sm-5 control-label">Property Name*</label>
             <div class="col-sm-7">
-            <input type="text" class="form-control" id="form2prjName" Value="Supertech CapeTown-1">
+                <input type="text" class="form-control" id="form2prjName" Value="Supertech CapeTown-1" disabled="disabled">
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-5 control-label">Date of Purchase</label>            
                 <div class="col-sm-7"> 
-                	<div class="input-group">        
-                       <input class="form-control form-control-inline input-medium default-date-picker" type="text"  id="form2DateofPurchase"  />
-                       <div class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></div>               
+                	<div class="">        
+                       <input class="form-control form-control-inline input-medium default-date-picker" type="text"  id="form2DateofPurchase"  />     
                 	</div>
         		</div>       
           </div>
@@ -217,14 +231,14 @@
           <div class="form-group">
             <label class="col-sm-5 control-label">Total Price</label>
             <div class="col-sm-6">
-            <input type="text" class="form-control" id="form3TotalPrice" value="0">
+            <input type="text" class="form-control" id="form3TotalPrice" placeholder="0">
             </div> 
             <div class="col-sm-offset-1"></div>            
           </div>
           <div class="form-group">
             <label class="col-sm-5 control-label">Goal Amount</label>
             <div class="col-sm-6">
-            <input type="text" class="form-control" id="form3GoalAmount" value="0">
+            <input type="text" class="form-control" id="form3GoalAmount" placeholder="0">
             </div> 
             <div class="col-sm-offset-1"></div>            
           </div>

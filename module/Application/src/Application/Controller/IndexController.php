@@ -127,7 +127,7 @@ class IndexController extends AbstractActionController
 //        echo '<pre>';print_r($refineSearchArr);exit;
         
         $table = new TableGateway('property_type',$this->getAdapter());
-        $propertyTypeArr = $table->select(array('property_category_id'=>$propcategory_id,'is_active'=>1))->toArray(); 
+        $propertyTypeArr = $table->select(array('property_category_id'=>$propcategory_id,'is_active'=>1,'is_delete'=>0))->toArray(); 
         $view->setVariable('propertyTypeArr', $propertyTypeArr);
         $searchResultArr = $model->searchResultData($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr);
         $view->setVariable('searchResultArr', $searchResultArr);
@@ -206,6 +206,7 @@ class IndexController extends AbstractActionController
             if($data['mobile']!=''){
                 $this->getModel()->insertanywhere('callback_interested_users', $data);
                 $this->getModel()->sendNewsLetter($data);
+                $this->getModel()->callBackInfoAdmin($data);
                 $this->getModel()->enquired_properties($data['project_id']);
             } 
             exit(1);
@@ -331,15 +332,23 @@ class IndexController extends AbstractActionController
         $this->layout('layout/innerlayout');
         $toCompareProjects = $container->allCompareProjects;
         $compPrjArr = [];
-        foreach($toCompareProjects as $project_id){
-            $tempArr = [];
-            $projectDetail = $this->getModel()->getProjectDetail($project_id);
-            $tempArr[] = $projectDetail;
-            $tempArr['maxMinFloorSize'] = $this->getModel()->maxMinFloorSize($project_id);
-            $tempArr['max_floor_plan_price'] = $this->getModel()->max_floor_plan_price($project_id);
-            $tempArr['min_floor_plan_price'] = $this->getModel()->min_floor_plan_price($project_id);
-            $tempArr['getProjectFloorPlan'] = $this->getModel()->getProjectFloorPlan($project_id);
-            $compPrjArr[] = $tempArr;
+        if(count($toCompareProjects)>1){
+            foreach($toCompareProjects as $project_id){
+                $tempArr = [];
+                $projectDetail = $this->getModel()->getProjectDetail($project_id);
+                
+//        echo '<pre>';print_r($projectDetail);exit;        
+                
+                
+                $tempArr[] = $projectDetail;
+                $tempArr['maxMinFloorSize'] = $this->getModel()->maxMinFloorSize($project_id);
+                $tempArr['max_floor_plan_price'] = $this->getModel()->max_floor_plan_price($project_id);
+                $tempArr['min_floor_plan_price'] = $this->getModel()->min_floor_plan_price($project_id);
+                $tempArr['getProjectFloorPlan'] = $this->getModel()->getProjectFloorPlan($project_id);
+                $compPrjArr[] = $tempArr;
+            }
+        }else{
+            $this->redirect()->toRoute('projects');
         }
 //         echo '<pre>';print_r($compPrjArr);exit;
         $view->setVariable('compPrjArr', $compPrjArr);

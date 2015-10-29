@@ -426,9 +426,11 @@ margin-bottom:30px; color:#333; font-family: "Raleway",sans-serif;
 	font-weight:bold;	
 	text-align: center;	
 	color : #d9534f !important;
-	font-size: 12px;
-	border-right: 1px solid #ccc;	
+	font-size: 12px;		
 	}
+.project-download-divider{
+       border-right: 1px solid #ccc;           
+        }
 
 .project-download-btnn2{	
 	text-align:center;

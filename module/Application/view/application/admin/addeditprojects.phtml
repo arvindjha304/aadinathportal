@@ -528,10 +528,12 @@ $('#project_status').change(function(){
                 <button id=" " class="" onclick="return delBanner('4')" style="width:69px;height:28px;margin-left:10px; background-color:#cc0000; color:#fff; border">Delete</button>
                 <?php }?>
                     <div class="am2" >
-                        <div class="" id="files_4" > </div>
-                        <?php if ($this->projectsDetail[0]['slide_image_4']!='') { ?>
+                        <div class="" id="files_4" >
+                         <?php if ($this->projectsDetail[0]['slide_image_4']!='') { ?>
                             <img height="50" width="50" style="border:1px solid #ccc;"  src="<?php echo $baseUrl; ?>/public/uploadfiles/<?php echo $this->projectsDetail[0]['slide_image_4']; ?>"/> 
                         <?php } ?>
+                        </div>
+                       
                     </div>
                 </div>  
             </div>

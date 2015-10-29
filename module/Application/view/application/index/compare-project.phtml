@@ -1,8 +1,6 @@
 <?php $baseUrl = $this->basePath(); ?>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
-<script language="javascript" type="text/javascript" src="<?php echo $baseUrl;?>/public/zoom/js/jquery.lightbox-0.5.js"></script>
-<script src="<?php echo $baseUrl;?>/public/projectScripts/index/compareProjects.js" type="text/javascript"></script>
+<link href="<?php echo $baseUrl;?>/public/zoom/css/jquery.lightbox-0.5.css" rel="stylesheet" type="text/css" />
 <div class="content_fullwidth">
 <div class="container">
 	<div class="margin_top12"></div>
@@ -74,16 +72,16 @@
                         <table class="table table-bordered">                         
                           <tbody>
                           <tr>
-                          	<td class="compare-tbl-row"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $project[0]['project_image']?>"></td>
+                              <td class="compare-tbl-row"><a href="<?php echo $baseUrl;?>/projects/<?php echo $project[0]['projectSlug'];?>"><img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $project[0]['project_image']?>"></a></td>
                           </tr>
                           <tr>                              
                               <td><h4>&nbsp;</h4></td>                             
                             </tr>
                           <tr>                             
-                              <td><?php echo $project[0]['builder_name']?></td>                              
+                              <td><a href="<?php echo $baseUrl;?>/builders/<?php echo $project[0]['builderSlug'];?>"><?php echo $project[0]['builder_name']?></a></td>                              
                             </tr>
                             <tr>                              
-                              <td><?php echo $project[0]['project_title']?></td>                              
+                                <td><a href="<?php echo $baseUrl;?>/projects/<?php echo $project[0]['projectSlug'];?>"><?php echo $project[0]['project_title']?></a></td>                              
                             </tr>
                             <tr>                              
                               <td><?php echo $project[0]['location_name']?>, <?php echo $project[0]['city_name']?></td>                              
@@ -118,8 +116,6 @@
                                       ?>
                                       <option value=""><?php echo implode(',',$bhkArray)?> BHK</option>
                                       <?php foreach($project['getProjectFloorPlan'] as $projectFloorPlan){
-                                          
-                                          
                                           foreach($projectFloorPlan['floor_plan_list'] as $floorPlan){
                                         
 //                                          echo '<pre>';print_r($floorPlan);exit;  ?>
@@ -135,7 +131,10 @@
                               <td><span class="rupee">`</span> <span id='totalPrice_<?php echo $ii?>'><?php echo $project['min_floor_plan_price']?> - <?php echo $project['max_floor_plan_price']?></span> </td>                             
                             </tr> 
                             <tr>                              
-                              <td id='floorPlanCount_<?php echo $ii?>'><?php echo count($project['getProjectFloorPlan'])?> Floor Plan</td>
+                              <td id='floorPlanCount_<?php echo $ii?>' class="gallery"><?php echo count($project['getProjectFloorPlan'])?> Floor Plan
+                              <a style="display:none" id="testPopup" class="yo" title="" href="/aadinathportal/trunk/public/uploadfiles/214_f1.jpg">View Floor Plan</a>
+                              </td>
+                              
                             </tr>                            
                           </tbody>
                         </table>
@@ -157,8 +156,10 @@
 
 <div class="clearfix"></div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $baseUrl;?>/public/zoom/js/jquery.lightbox-0.5.js"></script>
 
-<!--	<script language="javascript" type="text/javascript" src="zoom/js/jquery.js"></script>	-->
+<script src="<?php echo $baseUrl;?>/public/projectScripts/index/compareProjects.js" type="text/javascript"></script>
 	<script type="text/javascript">
 //        $('.gallery a').lightBox();
 //		$('.gallery a.yo').lightBox();
