@@ -12,9 +12,20 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Db\TableGateway\TableGateway;
+use Zend\Authentication\AuthenticationService;
 
 class AdminController extends AbstractActionController
 {
+    private $loggedInUserDetails;
+    public function onDispatch(\Zend\Mvc\MvcEvent $e) 
+    {
+        $auth = new AuthenticationService();
+        if($auth->hasIdentity())
+            $this->loggedInUserDetails = $auth->getIdentity(); 
+        else
+            return $this->redirect()->toRoute('homepage');
+        return parent::onDispatch($e);
+    }
 	public function getbaseUrl(){
 		$baseUrl = $this->getRequest()->getbaseUrl();
 	}
@@ -1334,7 +1345,7 @@ public function projectslistdataAction()
 			$banner_type	=	$val1['banner_type'];
 			$status			=	($val1['is_active']==1) ? 'Active' :	'Inactive';
 			$action			=	($val1['is_active']==1) ? '<button onclick=inActiveStatus('.$val1["id"].')>Inactive</button>' :'<button onclick=activeStatus('.$val1["id"].')>Active</button>';
-			$delete 		=	'<a href="'.$baseUrl.'/admin/addeditbanner?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
+			$delete 		=	'<a href="'.$baseUrl.'/backend/admin/addeditbanner?id='.$val1['id'].'" ><button >Edit</button></a><button onclick=deleteRow('.$val1["id"].') >Delete</button>';
 			$dataArray[] = array("id"=>$val1['id'],"data"=>array(0,$project_title,$banner_type,$status,$delete.$action));
 		}
 		$json = json_encode($dataArray);

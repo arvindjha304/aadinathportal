@@ -306,10 +306,7 @@ function adminLoginPage(){
 
 function userLogout(){
     $.post(baseUrl + '/front-end/user/logout', function (response) {
-//        alert(location);
-//        return false;
         location.reload();
-         // window.location.href = baseUrl+'/homepage';
     });
 }
 

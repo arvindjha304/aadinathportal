@@ -507,10 +507,7 @@ use Zend\Mime\Part as MimePart;
         $projectArr = array();
         foreach($result as $res) $projectArr[] = $res;  
         shuffle($projectArr);
-        
-        
 //        echo '<pre>';print_r($projectArr);exit;
-        
         return $projectArr;
     }
     
