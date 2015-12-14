@@ -369,12 +369,13 @@
 
 
 
-
 .top_section {
 	float: left;
 	width: 100%;
 	height: 133px;
-	background: #000;
+	background: #f3f3f3;
+	/*position:absolute;*/
+	position:relative;
 }
 .top_section .left {
 	float: left;
@@ -385,8 +386,9 @@
 	width: 87%;
 	margin-top: 27px;
 	text-align: right;
-	color: #fff;
-	font-size: 13px;
+	color: #333;
+	font-size: 16px;
+	font-weight:700;
 }
 .top_section .right a {
 	color: #fff;
@@ -397,7 +399,7 @@
 	color: #ccc;
 }
 .top_section .right i {
-	color: #999;
+	color: #333;
 	margin-left: 22px;
 }
 .top_section ul.topsocial {

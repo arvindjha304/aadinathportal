@@ -32,6 +32,13 @@ class IndexController extends AbstractActionController
         $view = new ViewModel();
         $this->layout('layout/indexlayout');
         $indexModel = $this->getModel();
+        
+        $view->setVariable('cities', $this->getModel()->getCityList());
+        $table= new TableGateway('property_category',$this->getAdapter());
+        $result = $table->select(array('is_active'=>1))->toArray();
+        $view->setVariable('propertyCategory', $result);
+        
+        
         $homeBannerArr = $indexModel->homepagebanners();
         $view->setVariable('randomhomeBanner', array_rand($homeBannerArr));
         $view->setVariable('homeBannerArr', $homeBannerArr);
@@ -52,11 +59,10 @@ class IndexController extends AbstractActionController
         $this->layout('layout/innerlayout');
 //        $table= new TableGateway('cities',$this->getAdapter());
 //        $result = $table->select(array('is_active'=>1,'is_delete'=>0))->toArray();
-        $view->setVariable('cities', $this->getModel()->getCityList());
-        $table= new TableGateway('property_category',$this->getAdapter());
-        $result = $table->select(array('is_active'=>1))->toArray();
-        $view->setVariable('propertyCategory', $result);
+       
         $request = $this->getRequest();
+        
+        
         if($request->isPost()){
 //           echo '<pre>';print_r($this->params()->fromPost());exit;
             $config = new StandardConfig();
@@ -75,6 +81,8 @@ class IndexController extends AbstractActionController
             $container->projectBanner   = $this->getModel()->projectBanner(2);
             return $this->redirect()->toRoute('projects-in-'.strtolower($container->searchCityName));
         }
+        
+        
         return $view;
     }
     public function projectbycityAction(){
@@ -152,6 +160,10 @@ class IndexController extends AbstractActionController
         );
         $model = $this->getModel();
         $searchResultArr = $model->searchResultData($city_id,$propcategory_id,$minprice,$maxprice,$refineSearchArr);
+        
+//        echo '<pre>';print_r($searchResultArr);exit;
+        
+        
         exit(json_encode($searchResultArr));
     }
     

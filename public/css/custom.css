@@ -346,7 +346,7 @@ margin-bottom:30px; color:#333; font-family: "Raleway",sans-serif;
 	-webkit-border-radius: 10px 10px 10px 10px;
 	border: 0px solid #000000;	
 	margin: auto;
-	margin-top:300px;
+	margin-top:230px;
 }
 .buy-form-inside{
 	width: 98%;
@@ -361,11 +361,10 @@ margin-bottom:30px; color:#333; font-family: "Raleway",sans-serif;
 }
 .buy-bg-img16{
 	width:100%;
-	height:600px;
-	background-image:url(../images/sliders/master/16.jpg);
+	height:500px;
 	background-repeat:no-repeat;
 	background-size:100%;
-	margin-top: 55px;
+	
 }
 .buy-bg-img17{
 	width:100%;

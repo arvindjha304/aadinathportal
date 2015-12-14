@@ -191,9 +191,9 @@ padding: 8px 0;
 	border-radius: 0;
 }
 .navbar-nav>li>a {
-/*	padding-top: 18px !important;
-	padding-bottom: 16px;
-	text-transform: uppercase;*/
+	padding-top: 14px !important;
+	/*padding-bottom: 16px;*/
+	text-transform: uppercase;
 }
 .navbar-nav>li>a i {
 	display: block;
@@ -425,7 +425,8 @@ background:rgba(210, 210, 210, .4)
 	background-color: transparent;
 	height:53px;
 	padding-top: 0px;
-	background: #3f3f3f;
+	/*background: #3f3f3f;*/
+	background: #982a29;
 }
 .compact .header {
 	display:block;

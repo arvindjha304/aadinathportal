@@ -12,100 +12,111 @@
 
   <!-- Slider
 ======================================================================================= -->
-  <!-- masterslider --->
-  <div class="slidermar9">
-    <div class="master-slider ms-skin-default" id="masterslider">
-      <div class="ms-slide slide-1" data-delay="9">       
-       
-       <img src="<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $this->homeBannerArr[$this->randomhomeBanner]?>">  
-       
-       
-       
-        <h3 class="ms-layer text7 center"
-        	style="top: 150px;"
-            data-type="text"
-            data-effect="top(45)"
-            data-duration="2000"
-            data-delay="500"
-            data-ease="easeOutExpo"> We have the best offers </h3>
-        <h4 class="ms-layer text8 caps"
-        	style="top: 210px;"
-            data-type="text"
-            data-effect="top(45)"
-            data-duration="2000"
-            data-delay="1000"
-            data-ease="easeOutExpo"
-            data-effect="scale(1.5,1.6)">FIND YOUR DREAM HOME.</h4>
-        <div class="ms-layer sbox1"
-        	style="left: 115px; top: 300px;"
-            data-delay="1600"
-			data-ease="easeOutExpo"
-			data-duration="1200"
-			data-effect="scale(1.2,1.3)"> <a href="<?php echo $baseUrl;?>/buy" ><img src="<?php echo $baseUrl;?>/public/images/icon/buy-icon.png"><br>
-          <strong>BUY</strong></a> </div>
-        <!-- end box -->
-        <div class="ms-layer sbox2"
-        	style="left: 505px; top: 300px;"
-            data-delay="1700"
-			data-ease="easeOutExpo"
-			data-duration="1200"
-			data-effect="scale(1.2,1.3)"> <a href="#"><img src="<?php echo $baseUrl;?>/public/images/icon/sell-icon.png"><br>
-          <strong>SELL</strong></a> </div>
-        <!-- end box -->
-        <div class="ms-layer sbox3"
-        	style="left: 895px; top: 300px;"
-            data-delay="1800"
-			data-ease="easeOutExpo"
-			data-duration="1200"
-			data-effect="scale(1.2,1.3)"> <a href="#"><img src="<?php echo $baseUrl;?>/public/images/icon/new-proj-icon.png"><br>
-          <strong>NEW PROJECTS</strong></a> </div>
-        <!-- end box -->
-       
-      <!-- end slide -->
+  <div class="buy-bg-img16" style="margin-top:0px; height:500px;background-image:url(<?php echo $baseUrl;?>/public/uploadfiles/<?php echo $this->homeBannerArr[$this->randomhomeBanner]?>);">
+   <div class="container">
+   <div class="buy-form-bg">
+   <div class="buy-form-inside">
+   
+   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <form action="<?php echo $baseUrl;?>/buy" method="post" id="buyform">
+      <ul class="nav navbar-nav" style="width:100%;">        
+        <li class="buy-box-last" style="padding-top:14px; width:24%; margin-left:2%;">
+          <select name="cities" id="cities" class="form-control" style="padding-left:30%; background:url(<?php echo $baseUrl;?>/public/images/city.png) 5% 50% no-repeat;">
+            <option value="">Select City</option>
+            <?php foreach($this->cities as $city){?>
+                <option value="<?php echo $city['id'] ?>"><?php echo $city['city_name'] ?></option>
+            <?php } ?>
+            </select>
+          
+        </li>   
+        <li class="dropdown buy-box-last" style="padding-top:14px; width:25%; margin-left:2%;">
+			<select name="propcategory" id="propcategory" class="form-control" style="padding-left:30%; background:url(<?php echo $baseUrl;?>/public/images/building.png) 5% 50% no-repeat;"> 
+            <?php foreach($this->propertyCategory as $propertyCategory){?>
+                <option value="<?php echo $propertyCategory['id'] ?>"><?php echo $propertyCategory['category_name'] ?></option>
+            <?php } ?>
+            </select>          
+        </li>     
+        
+        <li class="dropdown buy-box-last" style="padding-top:14px; width:14%; margin-left:2%;">
+          <select name="minprice" id="minprice" class="form-control" style="padding-left:35%; background:url(<?php echo $baseUrl;?>/public/images/rupees.png) 5% 50% no-repeat;">
+            <option value="0">Min Price</option>
+            <option value="2500000">25.0Lacs +</option>
+            <option value="5000000">50.0Lacs +</option> 
+            <option value="10000000">1.0Cr +</option> 
+            <option value="15000000">1.5Cr +</option> 
+            <option value="2000000">2.0Cr +</option> 
+            <option value="3000000">3.0Cr +</option> 
+          </select>
+        </li>   
+        
+        <li class="dropdown buy-box-last" style="padding-top:14px; width:14%; margin-left:2%;">
+          <select name="maxprice" id="maxprice" class="form-control" style="padding-left:35%; background:url(<?php echo $baseUrl;?>/public/images/rupees.png) 5% 50% no-repeat;">
+            <option value="35000000">Max Price</option>
+            <option value="35000000">3.5Cr +</option>
+            <option value="40000000">4.0Cr +</option> 
+            <option value="45000000">4.5Cr +</option> 
+            <option value="50000000">5.0Cr +</option> 
+            <option value="60000000">6.0Cr +</option> 
+            <option value="70000000">7.0Cr +</option> 
+        </select>
+        </li>   
+        <li class="buy-box-last" style="padding-top:14px; padding-left:5px; margin-left:2%;"><input onClick="return buySubmit()" type="submit" class="btn btn-danger" value="Search"/></li> 
+      </ul>
+      </form>
+      
     </div>
-  </div>
-  <!-- end of masterslider --->
+   </div>
+   </div>
+   </div>
+   </div>
   
   
-  <!-- Company Profile======================================================================================= -->
-  <!-- featured section 40 Intro -->
-  <div class="featured_section40">
-    <div class="container">
-      <div class="onecol_forty animate" data-anim-type="fadeInLeft" data-anim-delay="300"> <img src="<?php echo $baseUrl;?>/public/images/logo/intro-logo.jpg" alt="" class="rimg" /> </div>
-      <div class="onecol_sixty last">
-        <h2 class="roboto">About Aadinath ( your homes india )</h2>
-        <h4 class="gray">Lorem Ipsum as their default model text, and a search for ipsum will cover
-          many web sites still in infancy versions have over the years.</h4>
-        <div class="clearfix margin_top1"></div>
-        <div class="one_half"> <a href="#"><i class="fa"><img src="<?php echo $baseUrl;?>/public/images/icon/overview-icon.png"></i>
-          <h4 class="roboto">Overview</h4>
-          </a>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown...</p>
-        </div>
-        <!-- end section -->
-        <div class="one_half last"> <a href="#"><i class="fa"><img src="<?php echo $baseUrl;?>/public/images/icon/core-value-icon.png"></i>
-          <h4 class="roboto">Core Values</h4>
-          </a>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown...</p>
-        </div>
-        <!-- end section -->
-        <div class="clearfix margin_top1"></div>
-        <div class="one_half"> <a href="#"><i class="fa"><img src="<?php echo $baseUrl;?>/public/images/icon/vision-icon.png"></i>
-          <h4 class="roboto">Mission & Vision</h4>
-          </a>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown...</p>
-        </div>
-        <!-- end section -->
-        <div class="one_half last"> <a href="#"><i class="fa"><img src="<?php echo $baseUrl;?>/public/images/icon/leadership.png"></i>
-          <h4 class="roboto">Leadership</h4>
-          </a>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown...</p>
-        </div>
-        <!-- end section -->
-      </div>
-    </div>
-  </div>
-  <!-- end featured section 40 Intro -->
+  <div class="featured_section1">
+<div class="container">
+
+	<div class="one_third animate" data-anim-type="fadeInLeft">
+    
+    	<h3>About Aadinath<br>
+		<small>(your homes india)</small></h3>
+        
+        <p class="aliright">Lorem Ipsum as their default model text
+andasearchfor lorem ipsum will uncover many
+web sites versions have over the years</p>
+    	
+        <a href="#" class="btn btn-danger btn-sm pull-right" style="margin-right:33px;">Read More...</a>
+        
+    </div><!-- end section -->
+    
+    <div class="two_third last">
+    
+    	<div class="one_third animate" data-anim-type="fadeIn" data-anim-delay="300">
+        
+        	<a href="#"><i class="fa fa-bullhorn"></i></a>
+			<h4><a href="#">Why Aadinath</a></h4>
+            <p class="smtfont">Lorem Ipsum as their default model text andasearchfor lorem ipsum will uncover many web sites</p>
+        
+        </div><!-- end section -->
+        
+        <div class="one_third animate" data-anim-type="fadeIn" data-anim-delay="400">
+        
+        	<a href="#"><i class="fa fa-lightbulb-o"></i></a>
+			<h4><a href="#">Mission & Vision</a></h4>
+            <p class="smtfont">Lorem Ipsum as their default model text andasearchfor lorem ipsum will uncover many web sites</p>
+        
+        </div><!-- end section -->
+        
+        <div class="one_third last animate" data-anim-type="fadeIn" data-anim-delay="500">
+        
+        	<a href="#"><i class="fa fa-star-o"></i></a>
+			<h4><a href="#">Our Goal</a></h4>
+            <p class="smtfont">Lorem Ipsum as their default model text andasearchfor lorem ipsum will uncover many web sites</p>
+        
+        </div><!-- end section -->
+        
+	</div>
+    
+</div>
+</div>
   
   
   <!-- Projects ============================================================================================= -->
@@ -138,26 +149,34 @@
       
     </div>
     <div class="right">
-      <h1 class="roboto"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. <strong>LOREM IPSUM HAS INDUSTRY’S !</strong></h1>
-      <p>standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+      <h1 class="roboto">
+      <i class="fa fa-hand-o-right"></i> Buyers trust us<br>
+      <p>many user visit us every month for their buying needs</p><br>
+      <i class="fa fa-users"></i> Expert Guidance<br>
+      <p>Advice from the largest panel of industry experts</p><br>
+      <i class="fa fa-thumbs-up"></i> Sellers Prefer us<br>
+      <p>making us the biggest platform to buy & sell properties</p>
+      </h1>      
     </div>
   </div>
   <!-- end featured section 42 Project -->
   
   
   <!-- Flow Chart============================================================================================ -->
-  <div class="clearfix margin_top5"></div>
+  <!-- Flow Chart --->
+  <div class="clearfix margin_top8"></div>
   <div class="featured_section39">
-    <div class="container">
-
-    
-     <div class="one_half"> <figure><object width="550" height="420" data="<?php echo $baseUrl;?>/public/video/aadinath-animation-left.swf"></object></figure> </div>
-      <!-- end section --->
-      <div class="one_half last"> <figure><object width="550" height="420" data="<?php echo $baseUrl;?>/public/video/aadinath-animation-right.swf"></object></figure> </div>
-      <!-- end section -->
- 
-     
-    </div>
+  	<div class="row">
+            <h2 class="title27 roboto">Trending Projects<br>
+             <small>Nothing specific in mind ?
+Browse through the most popular deals and finds.
+ </small>
+        	<div class="line"></div>           
+        	</h2>  		
+  	</div> 
+  	<div class="row">     
+     	<img src="<?php echo $baseUrl;?>/public/images/aadinath-banner.jpg" class="img-responsive" alt="Responsive image">
+     </div>       
   </div>
   <!-- end featured section 39 Flow Chart -->
   
